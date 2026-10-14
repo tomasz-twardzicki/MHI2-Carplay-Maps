@@ -41,5 +41,9 @@ script
     label   "Collect diagnostics to SD (Log/cpmap-diag-*)"
 
 script
+    value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_navrecon.sh"
+    label   "Collect navigation research data to SD (Log/cpmap-navrecon-*)"
+
+script
     value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_restore.sh"
     label   "Restore factory files"
