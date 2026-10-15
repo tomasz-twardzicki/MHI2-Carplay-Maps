@@ -2,7 +2,7 @@
 
 **Goal:** show Apple Maps guidance in the 791 cockpit's native navigation graphics: VW maneuver arrows, distance bar, street names and ETA. The current turn card is part of the CarPlay video drawn by the iPhone ([`../791_AID12.3/tuning/`](../791_AID12.3/tuning/)); this would replace or complement it with the cluster's own graphics.
 
-Status: **Phase A (on-unit recon)**. Nothing in this directory changes the car yet.
+Status: **Phase A (on-unit recon)**, first run done (see [Phase A results](#phase-a-results)). Nothing in this directory changes the car yet.
 
 ## Offline findings (factory package `MHI2_ER_VWG11_K3342_MU1427`)
 
@@ -78,3 +78,36 @@ Phase A answers:
 2. Which config file does it really load, and is it writable (`efs-system` versus the read-only image)?
 3. Is the driver on the unit byte-identical to the one carved from the factory `app.img` (offset `124347392`, `0xb4a55` bytes)?
 4. What does it publish to PPS during CarPlay?
+
+## Phase A results
+
+### Run 1 (2026-10-15, MU1427/791, iPhone over USB, CarPlay active)
+
+1. **`ipod-drvr-iap2.so` is the CarPlay iAP2 stack.**
+   - It is loaded by `mm-ipod` (pid 3330128): `mm-ipod -d iap2,config=/etc/mm/iap2.cfg,probe,ppsdir=/ramdisk/pps/iap2 -a i2c,addr=0x11,path=/dev/i2c8,speed=50000 -t usbdevice,path=/dev/io-usb/otg_dev -l /dev/shmem/iap2.log -vvvvvv`.
+   - USB runs in device mode through `io-usb-dcd -d devu-iap2ncm-tegra3-ci.so` (the CarPlay network link).
+   - `dio_manager.real` loads `libiap2client.so.1`, so CarPlay is a client of this driver.
+2. **The config is `/etc/mm/iap2.cfg`.** Its text matches the factory copy in `efs-system.img`.
+   - `/etc` belongs to `/mnt/system`, which the stock scripts `activate_ipod_logging.sh` / `deactivate_ipod_logging.sh` remount read-write (`mount -uw /mnt/system`).
+   - So the config can probably be edited in place, with a backup.
+3. **The driver on the unit is byte-identical** to the copy carved from the factory `app.img`.
+   - Path: `/mnt/app/armle/lib/dll/ipod-drvr-iap2.so`, on the writable app partition, like `mm-ipod` (`/mnt/app/armle/usr/sbin/mm-ipod`).
+   - Offline disassembly of the carved file therefore applies to the car.
+4. **PPS and the driver log weren't collected in run 1,** because the script looked under `/pps/services`, which doesn't exist on MMX.
+   - The driver publishes to `/ramdisk/pps/iap2` and logs at maximum verbosity to `/dev/shmem/iap2.log`.
+   - The script now collects both, plus the `/mnt/system` layout and whichever startup script launches `mm-ipod` (run 2).
+
+Also found on the unit:
+- `iap2cli` and `ipodcli` in `/mnt/app/armle/usr/bin`: stock iAP2 command-line clients, possibly useful for raw-message experiments.
+- `libiap2client.so.1`: the client API that `dio_manager` uses.
+
+### Run 2: to collect
+
+Same steps as run 1, with the updated script and a route active in Apple Maps. Key new files:
+
+| File | Contents |
+| --- | --- |
+| `iap2.log` | the driver's verbose log: the identification exchange, message IDs, and how unknown messages are handled |
+| `pps/…ramdisk_pps_iap2…`, `ramdisk-pps-ls.txt` | the driver's PPS objects |
+| `mnt-system-ls.txt` | `/mnt/system/etc` layout, and whether `/etc/ipodlogging_enabled` is set |
+| `mm-ipod-launchers.txt`, `files/` | the script(s) that start `mm-ipod`, with copies |

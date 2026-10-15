@@ -95,6 +95,30 @@ for d in "$M"/pps/services/*; do
     esac
 done
 
+# 3b. The live iAP2 data: mm-ipod runs with ppsdir=/ramdisk/pps/iap2 and
+#     -l /dev/shmem/iap2.log -vvvvvv (first Phase A run, 2026-10-15).
+ls -lnR "$M/ramdisk/pps" > "$OUT/ramdisk-pps-ls.txt" 2>&1
+find "$M/ramdisk/pps/iap2" "$M/ramdisk/pps/multimedia" -type f 2>/dev/null | while read f; do
+    grab "$f" pps
+done
+ls -ln "$M/dev/shmem" > "$OUT/dev-shmem-ls.txt" 2>&1
+cat "$M/dev/shmem/iap2.log" > "$OUT/iap2.log" 2>&1
+
+# 3c. /etc lives on the writable /mnt/system; which script starts mm-ipod and with what.
+{
+    echo "=== /etc/ipodlogging_enabled"; ls -ln "$M/etc/ipodlogging_enabled" "$M/mnt/system/etc/ipodlogging_enabled"
+    echo "=== /mnt/system";              ls -ln "$M/mnt/system" "$M/mnt/system/etc" "$M/mnt/system/etc/mm"
+} > "$OUT/mnt-system-ls.txt" 2>&1
+for r in /etc /mnt/system/etc /mnt/app/eso/bin /mnt/app/eso/etc /mnt/app/eso/scripts /mnt/app/etc; do
+    [ -d "$M$r" ] || continue
+    find "$M$r" -type f -size -400 2>/dev/null | while read f; do
+        grep -l -e 'mm-ipod' -e 'iap2.cfg' "$f" 2>/dev/null
+    done
+done | sort -u > "$OUT/mm-ipod-launchers.txt"
+while read f; do
+    grab "$f" files
+done < "$OUT/mm-ipod-launchers.txt"
+
 # 4. System log, full and filtered.
 sloginfo > "$OUT/sloginfo.txt" 2>&1
 grep -i -E 'iap|ipod|ident|carplay|routeguid|maneuver|eap' "$OUT/sloginfo.txt" > "$OUT/sloginfo-iap2.txt" 2>&1
