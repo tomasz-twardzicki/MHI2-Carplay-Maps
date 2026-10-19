@@ -1,5 +1,7 @@
 # D2: first live native arrow/distance test
 
+> Historical test procedure. Use [INSTALL.md](./INSTALL.md) for the released package. Obsolete test tools are retained in [Git history](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/tree/838dd535c23cb8214b170216066e60f8690d2074/MU1427/route-guidance).
+
 **Completed:** native arrows on AID/HUD and clearing accepted; distances
 need a conversion fix. See [D2-RESULTS.md](./D2-RESULTS.md) and the next
 [D3 test](./TEST-D3.md). This page retains the completed D2 procedure.

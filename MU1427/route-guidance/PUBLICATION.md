@@ -1,5 +1,7 @@
 # B3/B4 bounded driver publication
 
+> Development reference. Some sections describe retired manual test tools. Use [INSTALL.md](./INSTALL.md) for the release and [README.md](./README.md) for maintained sources. Historical tooling is available in [Git history](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/tree/838dd535c23cb8214b170216066e60f8690d2074/MU1427/route-guidance).
+
 **B4 bounded publication validated on-unit.** Four snapshots show enabled,
 advancing events, stop clearing and a new allocation on a later connection,
 with no producer fault. See [B4-RESULTS.md](./B4-RESULTS.md), the earlier

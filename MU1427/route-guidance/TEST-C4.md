@@ -1,5 +1,7 @@
 # C4 continuous-reader test with the validated B4 driver
 
+> Historical test procedure. Use [INSTALL.md](./INSTALL.md) for the released package. Obsolete test tools are retained in [Git history](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/tree/838dd535c23cb8214b170216066e60f8690d2074/MU1427/route-guidance).
+
 **Experimental; C4-2 passes the continuous-reader/progression test, retaining
 240/240 events with normal outdoor guidance and reconnect confirmed.** See
 [C4-2-RESULTS.md](./C4-2-RESULTS.md). The first garage run and its coverage

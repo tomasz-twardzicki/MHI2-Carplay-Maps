@@ -12,7 +12,12 @@ import zipfile
 
 HERE=Path(__file__).resolve().parent
 BASE=HERE.parent.parent/'releases/CarPlay_Maps_VC_Full_Toolboxes/VW_SKODA_ALL_CarPlay_Maps_VC_FULL_MQB_Toolbox_V4'
-B4_SHA='4e42651f0b8d26cb340ddfab299c6b8def45030ef0730cc548c390aefdeeb6a8'
+DRIVER_FILES = {
+    'driver/ipod-drvr-iap2.so': '3760797aed4886a6c4480e3a8de79be427a3d8587450a56c424721306ca15d8b',
+    'driver/iap2.cfg': '67b867db8eb05e0dd20645727d3216ff18b86be75d21c9fb89a92dffbcafc9f7',
+    'driver/VERSION': '72ffb5f4414cd48c6abb849708dd9cd84bd1c1ba9a7eb2801dc76d886be31a1f',
+    'driver-control.sh': 'a250bee902c84a8d0050bcf52d58a8b0947a141d3f43ccff2bfa1f3ac7d6fcdc',
+}
 
 
 def sha(b):return hashlib.sha256(b).hexdigest()
@@ -24,11 +29,14 @@ def main():
     p.add_argument('--hmi',type=Path,default=HERE/'build-release-hmi')
     p.add_argument('--native',type=Path,default=HERE/'build-release-native')
     p.add_argument('--output',type=Path,default=HERE/'build-release')
+    p.add_argument('--controls-result',type=Path,default=HERE/'build-release-controls.json')
+    p.add_argument('--reader-result',type=Path,default=HERE/'build-release-reader-tests.json')
+    p.add_argument('--no-sync',action='store_true',help='Build in the output directory without updating the repository toolbox')
     a=p.parse_args()
     hmi=read(a.hmi/'manifest.json');runtime=read(a.hmi/'runtime-verification.json')
     native=read(a.native/'manifest.json');qnx=read(HERE/'build-release-qnx/result.json')
     qnx_reader=read(HERE/'build-release-reader-qnx/result.json')
-    controls=read(HERE/'build-release-controls.json');reader_tests=read(HERE/'build-release-reader-tests.json')
+    controls=read(a.controls_result);reader_tests=read(a.reader_result)
     jar=(a.hmi/'CarPlayRouteGuidanceD1.jar').read_bytes();reader=(a.native/'rgi-observer').read_bytes()
     assert hmi['revision']=='release' and native['revision']=='release'
     assert sha(jar)==hmi['jar_sha256']==runtime['jar_sha256']==qnx['jar_sha256']==controls['jar_sha256']==reader_tests['jar_sha256']
@@ -44,7 +52,9 @@ def main():
         assert sha((HERE/path).read_bytes())==digest,path
     with zipfile.ZipFile(a.hmi/'CarPlayRouteGuidanceD1.jar') as classes:
         assert all(struct.unpack_from('>H',classes.read(n),6)[0]==46 for n in classes.namelist() if n.endswith('.class'))
-    b4=HERE/'build-B4/MU1427-route-guidance-B4-toolbox.zip';assert sha(b4.read_bytes())==B4_SHA
+    driver_seed=BASE/'Custom/carplay_native_guidance'
+    for name,digest in DRIVER_FILES.items():
+        assert sha((driver_seed/name).read_bytes())==digest,name
     out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
     stage=out/'sd-card'
     shutil.copytree(BASE,stage,ignore=shutil.ignore_patterns('.DS_Store','cpmap_navrecon.sh','carplay_native_guidance'))
@@ -54,10 +64,8 @@ def main():
     (payload/'CarPlayRouteGuidanceD1.jar').write_bytes(jar)
     (payload/'rgi-observer').write_bytes(reader);(payload/'rgi-observer').chmod(0o755)
     driver=payload/'driver';driver.mkdir()
-    with zipfile.ZipFile(b4) as seed:
-        for n in ('ipod-drvr-iap2.so','iap2.cfg','VERSION'):
-            (driver/n).write_bytes(seed.read('Custom/route_guidance_b1/'+n))
-        (payload/'driver-control.sh').write_bytes(seed.read('Toolbox/scripts/cpmap_rgi_b1.sh'))
+    for name in DRIVER_FILES:
+        shutil.copy2(driver_seed/name,payload/name)
     assert sha((driver/'ipod-drvr-iap2.so').read_bytes())=='3760797aed4886a6c4480e3a8de79be427a3d8587450a56c424721306ca15d8b'
     assert sha((driver/'iap2.cfg').read_bytes())=='67b867db8eb05e0dd20645727d3216ff18b86be75d21c9fb89a92dffbcafc9f7'
     scripts=stage/'Toolbox/scripts'
@@ -83,15 +91,15 @@ exit 1
         script=scripts/('cpmap_guidance_'+action+'.sh');script.write_text(text);script.chmod(0o755)
     source=payload/'source';source.mkdir()
     for file in HERE.glob('*.py'):shutil.copy2(file,source/file.name)
+    for file in HERE.glob('*.S'):shutil.copy2(file,source/file.name)
     for directory,pattern in [('bridge','*.java'),('release','*')]:
         dest=source/directory;dest.mkdir()
         for file in (HERE/directory).glob(pattern):
             if file.is_file():shutil.copy2(file,dest/file.name)
-    # Test fixtures and the legacy native reader remain available as source,
-    # but no research menu/installer/capture payload is deployed.
+    # Retain the native regression fixtures, without obsolete manual controls.
     shutil.copytree(HERE/'observer',source/'observer',ignore=shutil.ignore_patterns('__pycache__'))
     shutil.copy2(HERE.parent.parent/'LICENSE',source/'LICENSE')
-    (source/'README.md').write_text('Source snapshot for MU1427 native guidance. Place these files in MU1427/route-guidance of the repository to rebuild with the documented firmware, Java and pinned QNX toolchain. See INSTALL.md and the repository LIVE-BRIDGE.md for architecture/provenance. Baseline project: omonob; MU1427/native guidance: tomasz-twardzicki. Protocol/maneuver adaptations retain LuKa attribution in source. GPL-3.0-or-later. Firmware-derived binaries are inputs/outputs, not source replacements.\n')
+    (source/'README.md').write_text('Source snapshot for MU1427 native guidance. Place these files in MU1427/route-guidance of the repository to rebuild with the documented firmware, Java and pinned QNX toolchain. See INSTALL.md and the repository route-guidance README for maintained build/regression instructions. Obsolete manual tools remain in Git history and the original published archive. Baseline project: omonob; MU1427/native guidance: tomasz-twardzicki. Protocol/maneuver adaptations retain LuKa attribution in source. GPL-3.0-or-later. Firmware-derived binaries are inputs/outputs, not source replacements.\n')
     instructions=(HERE/'INSTALL.md').read_text()
     package_line=next(line for line in instructions.splitlines() if line.startswith('Package: '))
     instructions=instructions.replace(package_line,'Full MQB Toolbox bundle with automatic MU1427 native guidance, version 1.0.0.')
@@ -117,9 +125,10 @@ exit 1
     (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     (out/'SHA256SUMS.txt').write_text(manifest['archive_sha256']+'  '+archive.name+'\n')
     # Keep the repository's full toolbox tree deployable as well as the ZIP.
-    shutil.copytree(payload,BASE/'Custom/carplay_native_guidance',dirs_exist_ok=True)
-    for file in scripts.glob('cpmap_guidance*.sh'): shutil.copy2(file,BASE/'Toolbox/scripts'/file.name)
-    for name in ('NATIVE_GUIDANCE_INSTALL.md','CARPLAY_MAPS_VC_README.md'): shutil.copy2(stage/name,BASE/name)
+    if not a.no_sync:
+        shutil.copytree(payload,BASE/'Custom/carplay_native_guidance',dirs_exist_ok=True)
+        for file in scripts.glob('cpmap_guidance*.sh'): shutil.copy2(file,BASE/'Toolbox/scripts'/file.name)
+        for name in ('NATIVE_GUIDANCE_INSTALL.md','CARPLAY_MAPS_VC_README.md'): shutil.copy2(stage/name,BASE/name)
     print(json.dumps({'archive':str(archive),'sha256':manifest['archive_sha256'],'build_id':build_id}))
 
 

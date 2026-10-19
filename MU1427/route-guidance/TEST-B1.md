@@ -1,5 +1,7 @@
 # MU1427 route-guidance B1 test
 
+> Historical test procedure. Use [INSTALL.md](./INSTALL.md) for the released package. Obsolete test tools are retained in [Git history](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/tree/838dd535c23cb8214b170216066e60f8690d2074/MU1427/route-guidance).
+
 **Historical test instructions.** The first in-car B1 run later lost CarPlay;
 rollback and reboot restored normal operation. Do not repeat B1 yet. Use the
 recovered C1 findings in [B1-RESULTS.md](./B1-RESULTS.md) and the corrected

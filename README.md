@@ -62,9 +62,16 @@ The package still contains the original project's profiles for other firmware ([
 
 ## Download
 
-**Full MU1427 bundle with automatic native guidance, version 1.0.0:** prepared on the `mu1427-route-guidance` branch. Its [full toolbox files](./releases/CarPlay_Maps_VC_Full_Toolboxes/VW_SKODA_ALL_CarPlay_Maps_VC_FULL_MQB_Toolbox_V4/) and [installation guide](./MU1427/route-guidance/INSTALL.md) are in this repository.
+**Full MU1427 bundle with automatic native guidance, version 1.0.0:**
+[Release `mu1427-native-guidance`](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/mu1427-native-guidance) ·
+[Download the full ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/mu1427-native-guidance/CarPlay_Maps_VC_MU1427_Native_Guidance_v1.0.0.zip) ·
+[SHA-256 checksums](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/mu1427-native-guidance/SHA256SUMS.txt).
 
-The prepared local archive is `MU1427/route-guidance/build-release/CarPlay_Maps_VC_MU1427_Native_Guidance_v1.0.0.zip`. Generated ZIPs are excluded from Git; this bundle has **not yet been published as a GitHub Release**. The older release below contains the video patch only.
+Use this bundle for the native arrows, route totals and lowered turn cards.
+Verify the archive against `SHA256SUMS.txt`, then follow the
+[installation guide](./MU1427/route-guidance/INSTALL.md).
+The [full toolbox files](./releases/CarPlay_Maps_VC_Full_Toolboxes/VW_SKODA_ALL_CarPlay_Maps_VC_FULL_MQB_Toolbox_V4/) are also kept in this repository.
+The older release below contains the video patch only.
 
 **MQB Toolbox V4.2A with CarPlay Maps VC:** release [`toolbox-plaintext-v1.3.0`](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/toolbox-plaintext-v1.3.0). Direct download: [CarPlay_Maps_VC_FULL_MQB_Toolbox_V4.2A.zip](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/toolbox-plaintext-v1.3.0/CarPlay_Maps_VC_FULL_MQB_Toolbox_V4.2A.zip)
 

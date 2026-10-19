@@ -1,5 +1,7 @@
 # MU1427 B4 publication activation test
 
+> Historical test procedure. Use [INSTALL.md](./INSTALL.md) for the released package. Obsolete test tools are retained in [Git history](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/tree/838dd535c23cb8214b170216066e60f8690d2074/MU1427/route-guidance).
+
 **Experimental; publication validated in four on-unit captures.** See
 [B4-RESULTS.md](./B4-RESULTS.md) for progression, stop clearing, a later
 connection and the text-log interleaving limitation. The procedure below

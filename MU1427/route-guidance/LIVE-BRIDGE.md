@@ -1,5 +1,7 @@
 # D1 live runtime and HMI adapter
 
+> Development reference. Some sections describe retired manual test tools. Use [INSTALL.md](./INSTALL.md) for the release and [README.md](./README.md) for maintained sources. Historical tooling is available in [Git history](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/tree/838dd535c23cb8214b170216066e60f8690d2074/MU1427/route-guidance).
+
 Implemented after the C4-2 replay and host mapping contract. See
 [INSTALL.md](./INSTALL.md) for the full automatic package;
 [TEST-D3.md](./TEST-D3.md) retains the accepted manual-test procedure.

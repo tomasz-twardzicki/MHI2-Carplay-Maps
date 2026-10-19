@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Final ZIP menus, core patch bounds, and rendered installation/recovery."""
 import argparse
+from contextlib import nullcontext
 import hashlib
 import importlib.util
 import json
@@ -13,6 +14,7 @@ from types import SimpleNamespace
 import zipfile
 
 HERE=Path(__file__).resolve().parent
+BASE=HERE.parent.parent/'releases/CarPlay_Maps_VC_Full_Toolboxes/VW_SKODA_ALL_CarPlay_Maps_VC_FULL_MQB_Toolbox_V4'
 
 
 def sha(b):return hashlib.sha256(b).hexdigest()
@@ -24,10 +26,11 @@ def immediate(b,at):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('archive',type=Path)
+    p.add_argument('--baseline',type=Path,help='Optional earlier ZIP; defaults to the committed toolbox files')
     p.add_argument('--output',type=Path,required=True);a=p.parse_args()
     spec=importlib.util.spec_from_file_location('controls',HERE/'test-release-control.py')
     c=importlib.util.module_from_spec(spec);spec.loader.exec_module(c)
-    c.ARGS=SimpleNamespace(hmi=HERE/'build-release-hmi',native=HERE/'build-release-native')
+    c.ARGS=SimpleNamespace(hmi=c.PAYLOAD,native=c.PAYLOAD)
     with zipfile.ZipFile(a.archive) as z:
         assert z.testzip() is None
         menu=z.read('Toolbox/GEM/carplay-maps-vc.esd').decode()
@@ -38,27 +41,30 @@ def main():
         for menu_name in ('carplay-maps-vc.esd','carplay-maps-vc-tuning.esd'):
             text=z.read('Toolbox/GEM/'+menu_name).decode()
             for name in re.findall(r'/mqb/([^"/]+\.sh)',text):assert 'Toolbox/scripts/'+name in z.namelist(),name
-        with zipfile.ZipFile(HERE/'build-D3/MU1427-route-guidance-D3-toolbox.zip') as old:
+        with zipfile.ZipFile(a.baseline) if a.baseline else nullcontext() as old:
+            def baseline(name):
+                return old.read(name) if old else (BASE/name).read_bytes()
             for name in ('cpmap_install_791.sh','cpmap_install_790.sh','cpmap_tune.sh'):
-                assert z.read('Toolbox/scripts/'+name)==old.read('Toolbox/scripts/'+name)
+                assert z.read('Toolbox/scripts/'+name)==baseline('Toolbox/scripts/'+name)
             # Existing AUTO MU entry blocks and shared installer remain exact.
             for cluster in ('791','790'):
                 pattern=r'script\s+value[^\n]+/cpmap_install_'+cluster+r'\.sh"\s+label[^\n]+'
-                assert re.search(pattern,menu).group()==re.search(pattern,old.read('Toolbox/GEM/carplay-maps-vc.esd').decode()).group()
+                assert re.search(pattern,menu).group()==re.search(pattern,baseline('Toolbox/GEM/carplay-maps-vc.esd').decode()).group()
             common='Custom/carplay_maps_vc/payload/common/install-carplay-maps.sh'
-            assert z.read(common)==old.read(common)
+            assert z.read(common)==baseline(common)
             prefix='Custom/carplay_maps_vc/'
             for variant,x,y,w,h in [('default',200,96,400,364),('wide-card',160,96,480,364),('no-card',200,80,400,380)]:
-                name=prefix+'tuning/MU1427/791/'+variant+'/core.so';b=z.read(name);before=old.read(name)
+                name=prefix+'tuning/MU1427/791/'+variant+'/core.so';b=z.read(name);before=baseline(name)
                 assert len(b)==len(before)
                 assert [immediate(b,k) for k in (0x2ba4,0x2b94,0x2b98,0x2b9c)]==[x,y,w,h]
                 assert immediate(b,0x2a70)==30
                 allowed=set(range(0x2b94,0x2b98))|set(range(0x2b9c,0x2ba0))
                 assert all(i in allowed for i,(a0,b0) in enumerate(zip(before,b)) if a0!=b0)
                 if variant=='no-card':assert b==before
-            for name in old.namelist():
+            names=old.namelist() if old else (p.relative_to(BASE).as_posix() for p in (BASE/prefix/'payload/profiles').rglob('*') if p.is_file())
+            for name in names:
                 if name.startswith(prefix+'payload/profiles/') and '/MU1427/' not in name and not name.endswith('/'):
-                    assert z.read(name)==old.read(name)
+                    assert z.read(name)==baseline(name)
         controller=z.read('Toolbox/scripts/cpmap_guidance.sh')
         manifest=json.loads(z.read('Custom/carplay_native_guidance/manifest.json'))
         assert sha(controller)==manifest['controller_sha256']

@@ -1,5 +1,7 @@
 # D1-r2: corrected class format, startup/shadow retest
 
+> Historical test procedure. Use [INSTALL.md](./INSTALL.md) for the released package. Obsolete test tools are retained in [Git history](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/tree/838dd535c23cb8214b170216066e60f8690d2074/MU1427/route-guidance).
+
 **Accepted on the unit:** see [D1-r2-RESULTS.md](./D1-r2-RESULTS.md).
 The next test is [D2](./TEST-D2.md), reusing this exact Java JAR. This page
 retains the completed shadow-only procedure.

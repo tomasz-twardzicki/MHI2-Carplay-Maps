@@ -1,5 +1,7 @@
 # MU1427 route-guidance B2 test
 
+> Historical test procedure. Use [INSTALL.md](./INSTALL.md) for the released package. Obsolete test tools are retained in [Git history](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/tree/838dd535c23cb8214b170216066e60f8690d2074/MU1427/route-guidance).
+
 **Experimental; passed the initial on-unit test on 2026-10-17.** Both C2
 captures completed, with 135 route updates and 32 maneuver updates in the
 cumulative log, no B1 receive errors, and a clean route-stop transition. The

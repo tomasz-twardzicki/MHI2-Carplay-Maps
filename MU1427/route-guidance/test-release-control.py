@@ -12,6 +12,7 @@ import tempfile
 import unittest
 
 HERE = Path(__file__).resolve().parent
+PAYLOAD = HERE.parent.parent/'releases/CarPlay_Maps_VC_Full_Toolboxes/VW_SKODA_ALL_CarPlay_Maps_VC_FULL_MQB_Toolbox_V4/Custom/carplay_native_guidance'
 
 
 class ReleaseControls(unittest.TestCase):
@@ -43,9 +44,8 @@ class ReleaseControls(unittest.TestCase):
         (self.payload/'CarPlayRouteGuidanceD1.jar').write_bytes(jar)
         (self.payload/'rgi-observer').write_bytes(reader)
         (self.payload/'VERSION').write_text('release-test\n')
-        seed=HERE/'build-B4/sd-card'
-        shutil.copytree(seed/'Custom/route_guidance_b1',self.payload/'driver')
-        shutil.copy2(seed/'Toolbox/scripts/cpmap_rgi_b1.sh',self.payload/'driver-control.sh')
+        shutil.copytree(PAYLOAD/'driver',self.payload/'driver')
+        shutil.copy2(PAYLOAD/'driver-control.sh',self.payload/'driver-control.sh')
         self.script=self.work/'control.sh'
         self.script.write_text((HERE/'release/control.sh').read_text().replace('@BUILD_ID@','release-test')
                               .replace('@JAR_SIZE@',str(len(jar))).replace('@READER_SIZE@',str(len(reader))))
@@ -139,7 +139,7 @@ class ReleaseControls(unittest.TestCase):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('hmi',type=Path);p.add_argument('native',type=Path)
+    p=argparse.ArgumentParser();p.add_argument('hmi',type=Path,nargs='?',default=PAYLOAD);p.add_argument('native',type=Path,nargs='?',default=PAYLOAD)
     p.add_argument('--output',type=Path,required=True);ARGS=p.parse_args()
     result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(ReleaseControls))
     proof={'passed':result.wasSuccessful(),'tests':result.testsRun,

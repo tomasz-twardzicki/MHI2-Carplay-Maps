@@ -1,5 +1,7 @@
 # Offline guidance decoder and state cache
 
+> Development reference. Some sections describe retired manual test tools. Use [INSTALL.md](./INSTALL.md) for the release and [README.md](./README.md) for maintained sources. Historical tooling is available in [Git history](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/tree/838dd535c23cb8214b170216066e60f8690d2074/MU1427/route-guidance).
+
 Implemented on 2026-10-17 in [rgi_decode.py](./rgi_decode.py). It runs on the
 computer with Python 3.10+ and the standard library. It reads B2's existing
 captures; no new installation, phone test, QNX utility or driver patch is
