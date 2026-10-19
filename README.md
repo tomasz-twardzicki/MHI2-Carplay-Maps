@@ -9,7 +9,9 @@
 ![Firmware](https://img.shields.io/badge/firmware-MU1427-green?style=flat-square)
 ![Cluster](https://img.shields.io/badge/cluster-791%20AID%2012.3-green?style=flat-square)
 
-[Download](#download) · [Install](#installation) · [Display options](#display-options) · [Origin](#origin-and-upstream-project)
+[Download](#download) · [Install](#installation) · [Display options](#display-options) · [Support](#support-this-project) · [Origin](#origin-and-upstream-project)
+
+[![Support via PayPal](https://img.shields.io/badge/Support-PayPal-0070BA?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/ttomcio)
 
 **MU1427 development: [tomasz-twardzicki](https://github.com/tomasz-twardzicki)** · Based on [CarPlay Maps VC](https://github.com/omonob/MHI2-Carplay-Maps) by **[omonob (汽车大玩家)](https://github.com/omonob)**
 
@@ -27,6 +29,10 @@ This fork carries the CarPlay Maps VC project to MHI2 units on firmware **MU1427
 It combines the phone-rendered CarPlay map and turn card with the cockpit's own navigation graphics: native maneuver arrows, distance to the next turn, remaining route distance and travel time. The original map-video installation and the new **MU1427-only native guidance add-on** are separate options in the same full MQB Toolbox bundle.
 
 The baseline project is by **omonob (QCDWJ)**. **tomasz-twardzicki** developed the MU1427 adaptation and native guidance additions.
+
+![MU1427 CarPlay map, native maneuver guidance and route totals on AID, with guidance projected on the HUD](./assets/mu1427-native-guidance-collage.png)
+
+*AID and HUD navigation — edited photo collage.*
 
 ## Features (MU1427 / 791)
 
@@ -145,6 +151,12 @@ The original release supports these firmware and cluster combinations:
 | MU1440 Škoda | 55,840,933 bytes | ❌ | ✅ |
 
 Those profiles ([`MU1102/`](./MU1102/), [`MU1367/`](./MU1367/), [`MU1440_SKODA/`](./MU1440_SKODA/)) are kept here unchanged from upstream. For them, use the original project and its releases.
+
+## Support this project
+
+If this project is useful to you and you'd like to support the MU1427 development, you can make an optional contribution via [PayPal](https://paypal.me/ttomcio). Contributions help support the time spent developing, testing and documenting these features. The project remains free and open source; support is entirely optional.
+
+[![Support via PayPal](https://img.shields.io/badge/Support-PayPal-0070BA?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/ttomcio)
 
 ## Open-source notice
 
