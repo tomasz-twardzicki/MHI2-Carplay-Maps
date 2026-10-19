@@ -12,7 +12,7 @@ TMP=$(mktemp -d "${TMPDIR:-/tmp}/mu1427-cores.XXXXXX")
 trap 'rm -rf "$TMP"' EXIT
 
 # Base install: 30 fps, forced keyframe every 20 frames, map + narrow turn card.
-BASE="--max-fps 30 --cluster-content map-card --safe-area 200,80,400,380"
+BASE="--max-fps 30 --cluster-content map-card --safe-area 200,96,400,364"
 
 cp "$REPO/MU1367/791_AID12.3/payload/profiles/MU1367/791/core.so" "$TMP/aes.so"
 python3 "$REPO/MU1427/791_AID12.3/patch-core-mu1427.py" "$TMP/aes.so" >/dev/null
@@ -23,7 +23,7 @@ build() {   # $1 = output name, rest = patch-core-tuning.py options
 }
 build default $BASE
 build no-card --max-fps 30 --cluster-content map --safe-area 200,80,400,380
-build wide-card --max-fps 30 --cluster-content map-card --safe-area 160,80,480,380
+build wide-card --max-fps 30 --cluster-content map-card --safe-area 160,96,480,364
 
 place() {   # $1 = built name, $2 = destination
     if [ -n "$CHECK" ]; then

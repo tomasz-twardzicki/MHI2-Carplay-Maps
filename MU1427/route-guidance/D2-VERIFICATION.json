@@ -1,0 +1,174 @@
+{
+  "archive_sha256": "e6f22131d91d72d56e202b075e0b61fecbadd0abe76087ebd1e7ffffe63bff55",
+  "jar_sha256": "cbdd13d9cddd63d1e93973ccd7aa21e9bd8017ec73d3fa95d7db156bb7b090a3",
+  "all_class_major": 46,
+  "jar_identical_to_unit_accepted_d1_r2": true,
+  "driver_change": false,
+  "c4_seed_files_preserved": true,
+  "reader_sha256": "603b9a148ca6ff15fdc332d89b2b97c7987489b8ca5c60dbabcebd9005860fb8",
+  "default_enabled": false,
+  "live_start_allowed": true,
+  "requires_fresh_same_build_boot_shadow_proof": true,
+  "control_tests": 20,
+  "actual_packaged_install_idempotence_passed": true,
+  "actual_packaged_no_sd_disable_removal_passed": true,
+  "actual_packaged_boot_script_mode_and_other_jars_preserved": true,
+  "packaged_live_gate_rejected_without_proof": true,
+  "zip_crc_and_shell_syntax_passed": true,
+  "qnx_j9": {
+    "passed": true,
+    "jar_sha256": "cbdd13d9cddd63d1e93973ccd7aa21e9bd8017ec73d3fa95d7db156bb7b090a3",
+    "negative_control_sha256": "b8f0d3599f43419c8cbf3cf748cba4ce16ac4038263d082802359e8fdf47b774",
+    "all_class_major": 46,
+    "qnx_actual_firmware_j9": true,
+    "sections": {
+      "STOCK": {
+        "passed": 4,
+        "failed": 0
+      },
+      "FAILED-D1": {
+        "passed": 4,
+        "failed": 5
+      },
+      "FIXED": {
+        "passed": 9,
+        "failed": 0
+      },
+      "VERIFIED": {
+        "passed": 9,
+        "failed": 0
+      }
+    },
+    "qemu_log_sha256": "f17e569d37621ff610b60ce9b9a274556ba21dec7629e490f867d4c4e779571f",
+    "ifs_sha256": "b0d0af28862512941603f2682d6901a76ba643b8eb878851a10caec964272950",
+    "test_sha256": "3993ebb816ee46bfe799eeb05bdb8a336f545c19245000d7207250b61ef157fb",
+    "probe_sha256": "ee69a1bb91d25e788f939b208c90075761bde8316e8e278869f2602808761a9e"
+  },
+  "controller_sha256": "a51ff82be20d5935251df59180b5a41fe00c7f8a99544020291cb0d24649c6ca",
+  "source_controller_sha256": "3d341bbc95a3e63980c5d2f7ddd3cbdc7606ad1572726bcef63ea58bb223e5a9",
+  "source_id": "8a25954d4812cdf0",
+  "build_id": "MU1427-RGI-D2-cbdd13d9",
+  "unit_startup_shadow_baseline": "D1-r2-VERIFICATION.json",
+  "native_output_unit_test_pending": false,
+  "procedure": "TEST-D2.md",
+  "native_arrows_aid_hud_user_confirmed": true,
+  "oem_reconnection_and_disconnect_clearing_user_confirmed": true,
+  "unit_results": "D2-RESULTS.md",
+  "known_maneuver_distance_scale_error": true,
+  "unit_captures": {
+    "cpmap-rgi-D1-4034635": {
+      "journal_sha256": "d6d4b6848753f42f041446a152bc0709a607e850bbc2db49067d9218fde6513e",
+      "summary": {
+        "kind": "summary",
+        "poll_interval_ms": 100,
+        "elapsed_ms": 117365,
+        "snapshots": 95,
+        "publishing_snapshots": 94,
+        "producer_fault_snapshots": 0,
+        "active_snapshots": 90,
+        "resolved_maneuver_snapshots": 79,
+        "stopped_snapshots": 2,
+        "max_sequence": 162,
+        "invalidations": 0,
+        "stale_deadlines": 2,
+        "heartbeats": 110,
+        "missing_before_windows": 0,
+        "coverage": {
+          "publications": 1,
+          "published_events": 162,
+          "recorded_events": 162,
+          "unrecorded_events": 0,
+          "gap_windows": 0,
+          "recorded_by_id": {
+            "0x5201": 124,
+            "0x5202": 38
+          }
+        },
+        "message_selection_states": {
+          "inactive": 47,
+          "order_empty": 9,
+          "head_cached": 95,
+          "order_absent": 11
+        },
+        "messages": {
+          "applied": 162,
+          "unapplied": 0
+        },
+        "end_reason": 1
+      },
+      "field_counts": {
+        "remaining_meters": 108,
+        "remaining_seconds": 109,
+        "eta_seconds": 109
+      },
+      "maximum_update_interval_ms": {
+        "remaining_meters": 1073,
+        "remaining_seconds": 1073,
+        "eta_seconds": 1073
+      }
+    },
+    "cpmap-rgi-D1-7831680": {
+      "journal_sha256": "fc7f446b27dc9b8f38e0284e7dd492d438673e5b4238af05bbd49078da7c2dba",
+      "summary": {
+        "kind": "summary",
+        "poll_interval_ms": 100,
+        "elapsed_ms": 300013,
+        "snapshots": 286,
+        "publishing_snapshots": 285,
+        "producer_fault_snapshots": 0,
+        "active_snapshots": 277,
+        "resolved_maneuver_snapshots": 241,
+        "stopped_snapshots": 2,
+        "max_sequence": 522,
+        "invalidations": 1,
+        "stale_deadlines": 3,
+        "heartbeats": 282,
+        "missing_before_windows": 721,
+        "coverage": {
+          "publications": 2,
+          "published_events": 621,
+          "recorded_events": 475,
+          "unrecorded_events": 146,
+          "gap_windows": 1,
+          "recorded_by_id": {
+            "0x5201": 406,
+            "0x5202": 69
+          }
+        },
+        "message_selection_states": {
+          "head_not_cached": 21,
+          "inactive": 87,
+          "order_empty": 29,
+          "head_cached": 312,
+          "order_absent": 41
+        },
+        "messages": {
+          "applied": 489,
+          "unapplied": 1
+        },
+        "end_reason": 0
+      },
+      "field_counts": {
+        "remaining_meters": 379,
+        "remaining_seconds": 382,
+        "eta_seconds": 382
+      },
+      "maximum_update_interval_ms": {
+        "remaining_meters": 15748,
+        "remaining_seconds": 15748,
+        "eta_seconds": 15748
+      }
+    }
+  },
+  "unit_active_live_status": {
+    "mode": 2,
+    "context": 0,
+    "ticks": 1730,
+    "proposals": 168,
+    "writes": 1896,
+    "releases": 2,
+    "failures": 0,
+    "records": 335,
+    "error": 0
+  }
+}

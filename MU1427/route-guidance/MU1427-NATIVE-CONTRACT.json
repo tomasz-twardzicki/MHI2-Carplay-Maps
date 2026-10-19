@@ -1,0 +1,1104 @@
+{
+  "classes": {
+    "de/vw/mib/bap/mqbab2/common/api/APIFactory": {
+      "access": 49,
+      "fields": {
+        "navigationService": {
+          "access": 10,
+          "descriptor": "Lde/vw/mib/bap/mqbab2/common/api/navigation/NavigationService;"
+        }
+      },
+      "methods": {
+        "getNavigationService()Lde/vw/mib/bap/mqbab2/common/api/navigation/NavigationService;": {
+          "access": 1,
+          "rom_code_sha256": "c5ab354c054dafc7d342eda623b79685f8d34369ad515770127a1efe47499f03"
+        },
+        "getSmartphoneIntegrationService()Lde/vw/mib/bap/mqbab2/common/api/smartphoneintegration/SmartphoneIntegrationService;": {
+          "access": 1,
+          "rom_code_sha256": "f63d9942ee0bddf46ec9cc99767707d95aeaa65a17035d1ab4b94b7e4be78760"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "de/vw/mib/bap/mqbab2/common/api/APIFactoryInterface": {
+      "access": 1537,
+      "fields": {},
+      "methods": {
+        "getNavigationService()Lde/vw/mib/bap/mqbab2/common/api/navigation/NavigationService;": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getSmartphoneIntegrationService()Lde/vw/mib/bap/mqbab2/common/api/smartphoneintegration/SmartphoneIntegrationService;": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "de/vw/mib/bap/mqbab2/common/api/navigation/NavigationASLDataAdapter": {
+      "access": 33,
+      "fields": {},
+      "methods": {
+        "addNavigationServiceListener(Lde/vw/mib/bap/mqbab2/common/api/navigation/NavigationServiceListener;[I)V": {
+          "access": 1,
+          "rom_code_sha256": "927160b86dc65edfc8d16596610687e605f274bc6078f4eaae611b3e59dc171a"
+        },
+        "getCurrentPositionInfo()Ljava/lang/String;": {
+          "access": 17,
+          "rom_code_sha256": "89d34d8442c0902654da737ae70f3eefb96c9d0409b6e06c33ea8828e199daa4"
+        },
+        "getDistanceToDestination()Lde/vw/mib/bap/mqbab2/common/api/navigation/datatypes/NavigationDistanceToDestination;": {
+          "access": 1,
+          "rom_code_sha256": "f88030d4b418b432d189aa8b85559b1ecf096ec24fa8669ad9fec057d3d00076"
+        },
+        "getDistanceToNextManeuver()Lde/vw/mib/bap/mqbab2/common/api/navigation/datatypes/NavigationDistanceToNextManeuver;": {
+          "access": 1,
+          "rom_code_sha256": "f88030d4b418b432d189aa8b85559b1ecf096ec24fa8669ad9fec057d3d00076"
+        },
+        "getKombiMapStatus()I": {
+          "access": 1,
+          "rom_code_sha256": "63812871ee711f6de1c9627f5eea595a109a1aeabec79ba7fb74303e792ab4af"
+        },
+        "getManeuverDescriptor()Ljava/util/Iterator;": {
+          "access": 1,
+          "rom_code_sha256": "a4a04a9da2b18d74191f0acc864e4b742a3f19ecc28f48bccf7abef3d50f2363"
+        },
+        "getNavigationStatus()I": {
+          "access": 17,
+          "rom_code_sha256": "93817f4ac1a9349e0ea6379c0e0fece59ab7eaa5ae93d2f44ee9fee8c9352d9f"
+        },
+        "getRouteGuidanceState()I": {
+          "access": 17,
+          "rom_code_sha256": "b59883f56fe7ca61e5dbf9b072fde2f67a098ef16349536c42940b91c51842e1"
+        },
+        "getTimeToDestination()Lde/vw/mib/bap/mqbab2/common/api/navigation/datatypes/NavigationTimeToDestination;": {
+          "access": 1,
+          "rom_code_sha256": "f88030d4b418b432d189aa8b85559b1ecf096ec24fa8669ad9fec057d3d00076"
+        },
+        "getTurnToInfo()Lde/vw/mib/bap/mqbab2/common/api/navigation/datatypes/NavigationTurnToInfo;": {
+          "access": 1,
+          "rom_code_sha256": "f88030d4b418b432d189aa8b85559b1ecf096ec24fa8669ad9fec057d3d00076"
+        },
+        "removeNavigationServiceListener(Lde/vw/mib/bap/mqbab2/common/api/navigation/NavigationServiceListener;[I)V": {
+          "access": 1,
+          "rom_code_sha256": "e4ecb653e7b212a122ae536275278fe84a94e4c9bcd61663e543803ebf332fb8"
+        }
+      },
+      "superclass": "de/vw/mib/bap/mqbab2/common/api/asl/HMIRelevantASLDataPoolAdapter"
+    },
+    "de/vw/mib/bap/mqbab2/common/api/navigation/NavigationService": {
+      "access": 1537,
+      "fields": {},
+      "methods": {
+        "addNavigationServiceListener(Lde/vw/mib/bap/mqbab2/common/api/navigation/NavigationServiceListener;[I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getCurrentPositionInfo()Ljava/lang/String;": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getDistanceToDestination()Lde/vw/mib/bap/mqbab2/common/api/navigation/datatypes/NavigationDistanceToDestination;": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getDistanceToNextManeuver()Lde/vw/mib/bap/mqbab2/common/api/navigation/datatypes/NavigationDistanceToNextManeuver;": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getKombiMapStatus()I": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getManeuverDescriptor()Ljava/util/Iterator;": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getNavigationStatus()I": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getRouteGuidanceState()I": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getTimeToDestination()Lde/vw/mib/bap/mqbab2/common/api/navigation/datatypes/NavigationTimeToDestination;": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getTurnToInfo()Lde/vw/mib/bap/mqbab2/common/api/navigation/datatypes/NavigationTurnToInfo;": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "removeNavigationServiceListener(Lde/vw/mib/bap/mqbab2/common/api/navigation/NavigationServiceListener;[I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "de/vw/mib/bap/mqbab2/common/api/navigation/datatypes/NavigationDistanceToNextManeuver": {
+      "access": 1537,
+      "fields": {},
+      "methods": {
+        "getDistanceToNextManeuverBargraph()I": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getDistanceToNextManeuverBargraphOnOff()I": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getDistanceToNextManeuverDistance()I": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getDistanceToNextManeuverDistanceUnit()I": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "de/vw/mib/bap/mqbab2/common/api/navigation/datatypes/iterator/elements/NavigationManeuverDescriptorElement": {
+      "access": 1537,
+      "fields": {},
+      "methods": {
+        "getDirection()I": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getMainelement()I": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getSideStreets()Ljava/lang/String;": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "getZLevelGuidance()I": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "de/vw/mib/bap/mqbab2/common/api/smartphoneintegration/SmartphoneIntegrationASLDataAdapter": {
+      "access": 33,
+      "fields": {},
+      "methods": {
+        "getSmarphoneIntegrationActiveConnectionType()I": {
+          "access": 1,
+          "rom_code_sha256": "25bfe89a38d94e4c24b2ba40e84d9883100643dfee004c13fb9dc45fccaa40af"
+        }
+      },
+      "superclass": "de/vw/mib/bap/mqbab2/common/api/asl/ASLDataPoolAdapter"
+    },
+    "de/vw/mib/bap/mqbab2/common/api/smartphoneintegration/SmartphoneIntegrationService": {
+      "access": 1537,
+      "fields": {},
+      "methods": {
+        "getSmarphoneIntegrationActiveConnectionType()I": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "de/vw/mib/bap/mqbab2/generated/navsd/serializer/DistanceToNextManeuver_Status$DistanceToNextManeuver": {
+      "access": 49,
+      "fields": {
+        "UNIT_FEET": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 3
+        },
+        "UNIT_KILOMETER": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 1
+        },
+        "UNIT_METER": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        },
+        "UNIT_MILE_UK_AND_US_STATUTE_MILE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 4
+        },
+        "UNIT_NOT_SUPPORTED": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 255
+        },
+        "UNIT_QUARTER_MILES_N_1_4MILE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 5
+        },
+        "UNIT_YARD": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 2
+        },
+        "distance": {
+          "access": 1,
+          "descriptor": "I"
+        },
+        "unit": {
+          "access": 1,
+          "descriptor": "I"
+        }
+      },
+      "methods": {
+        "<init>()V": {
+          "access": 1,
+          "rom_code_sha256": "e2f930e9309ef80f49a57bb74113e5273ecc21a1e466f218bc504047696d7658"
+        },
+        "<init>(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "046daa1428ed36ea1fe35d791432b076df1fb906ab0a63012eaeb48d595c809d"
+        },
+        "bitSize()I": {
+          "access": 1,
+          "rom_code_sha256": "89fb0813603b6d834451e4bc2de419160a7db92415de4bb9ae07ec6e5fa87d2d"
+        },
+        "serialize(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "e146bfa777c739f071454814922a0f699453965784dacd4943df1df434e7fb16"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "de/vw/mib/bap/mqbab2/generated/navsd/serializer/DistanceToNextManeuver_Status$ValidityInformation": {
+      "access": 49,
+      "fields": {
+        "RESERVED_BIT_1__7_BITSIZE": {
+          "access": 26,
+          "descriptor": "I",
+          "value": 7
+        },
+        "distanceToNextManeuverValid": {
+          "access": 1,
+          "descriptor": "Z"
+        }
+      },
+      "methods": {
+        "<init>()V": {
+          "access": 1,
+          "rom_code_sha256": "53a555ab3c5ef5fa5790a364976e63a0ad40b4dfa625470225b969d6ed7d84a0"
+        },
+        "<init>(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "47d9e82399fe75053622062be7c7036fd4ef1f45b6a82fe3520eb085086df435"
+        },
+        "bitSize()I": {
+          "access": 1,
+          "rom_code_sha256": "89fb0813603b6d834451e4bc2de419160a7db92415de4bb9ae07ec6e5fa87d2d"
+        },
+        "serialize(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "fdf3a3333e5f45d1ceeb5e688068f21df42667fd8d9b62a5ecb7a4af8d8b0534"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "de/vw/mib/bap/mqbab2/generated/navsd/serializer/ManeuverDescriptor_Status": {
+      "access": 49,
+      "fields": {
+        "maneuver_1": {
+          "access": 17,
+          "descriptor": "Lde/vw/mib/bap/mqbab2/generated/navsd/serializer/ManeuverDescriptor_Status$Maneuver_1;"
+        },
+        "maneuver_2": {
+          "access": 17,
+          "descriptor": "Lde/vw/mib/bap/mqbab2/generated/navsd/serializer/ManeuverDescriptor_Status$Maneuver_2;"
+        },
+        "maneuver_3": {
+          "access": 17,
+          "descriptor": "Lde/vw/mib/bap/mqbab2/generated/navsd/serializer/ManeuverDescriptor_Status$Maneuver_3;"
+        }
+      },
+      "methods": {
+        "<init>()V": {
+          "access": 1,
+          "rom_code_sha256": "0cd39e75a58e012eb0fc4e4089f176067044e951be7e6f040514f42d9e682211"
+        },
+        "<init>(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "204f19eefc8f471254d0d586f40d43c3f445795d12f762441ce85c30f1a91c79"
+        },
+        "bitSize()I": {
+          "access": 1,
+          "rom_code_sha256": "89fb0813603b6d834451e4bc2de419160a7db92415de4bb9ae07ec6e5fa87d2d"
+        },
+        "functionId()I": {
+          "access": 9,
+          "rom_code_sha256": "2f7bc01041984b0ce9e261ab43f8dfa69ddf78dd8a1d8ccbdc70e708482db1e1"
+        },
+        "getFunctionId()I": {
+          "access": 1,
+          "rom_code_sha256": "a63334fd68ce17a4d56df9bbe96c2e185a3745bb978a99168fdc29775a313c0a"
+        },
+        "serialize(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "0ded79a870ba1d728929145bf82f217541b9a39cdbc94443265aa0c5f95c9a5d"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "de/vw/mib/bap/mqbab2/generated/navsd/serializer/ManeuverDescriptor_Status$Maneuver_1": {
+      "access": 49,
+      "fields": {
+        "MAIN_ELEMENT_ARRIVED": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 3
+        },
+        "MAIN_ELEMENT_ARRIVED_DESTINATION_OFFMAP": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 5
+        },
+        "MAIN_ELEMENT_CALC_ROUTE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 9
+        },
+        "MAIN_ELEMENT_CHANGE_LANE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 12
+        },
+        "MAIN_ELEMENT_DIRECTION_TO_DESTINATION": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 2
+        },
+        "MAIN_ELEMENT_DIRECTION_TO_WAYPOINT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 38
+        },
+        "MAIN_ELEMENT_DOUBLE_TURN": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 35
+        },
+        "MAIN_ELEMENT_EXIT_LEFT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 16
+        },
+        "MAIN_ELEMENT_EXIT_RIGHT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 15
+        },
+        "MAIN_ELEMENT_EXIT_ROUNDABOUT_TRS_LEFT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 27
+        },
+        "MAIN_ELEMENT_EXIT_ROUNDABOUT_TRS_RIGHT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 26
+        },
+        "MAIN_ELEMENT_FOLLOW_STREET": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 11
+        },
+        "MAIN_ELEMENT_FORK_2": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 19
+        },
+        "MAIN_ELEMENT_FORK_3": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 20
+        },
+        "MAIN_ELEMENT_MICHIGANG_TURN": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 34
+        },
+        "MAIN_ELEMENT_NEAR_DESTINATION": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 4
+        },
+        "MAIN_ELEMENT_NO_INFO": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 1
+        },
+        "MAIN_ELEMENT_NO_ROUTE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 8
+        },
+        "MAIN_ELEMENT_NO_SYMBOL": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        },
+        "MAIN_ELEMENT_OFF_MAP": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 7
+        },
+        "MAIN_ELEMENT_OFF_ROAD": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 6
+        },
+        "MAIN_ELEMENT_PREPARE_ROUNDABOUT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 29
+        },
+        "MAIN_ELEMENT_PREPARE_SQUARE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 30
+        },
+        "MAIN_ELEMENT_PREPARE_TURN": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 28
+        },
+        "MAIN_ELEMENT_PREPARE_U_TURN": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 31
+        },
+        "MAIN_ELEMENT_RECALC_ROUTE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 10
+        },
+        "MAIN_ELEMENT_ROUNDABOUT_TRS_LEFT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 22
+        },
+        "MAIN_ELEMENT_ROUNDABOUT_TRS_RIGHT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 21
+        },
+        "MAIN_ELEMENT_SERVICE_ROAD_LEFT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 18
+        },
+        "MAIN_ELEMENT_SERVICE_ROAD_RIGHT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 17
+        },
+        "MAIN_ELEMENT_SQUARE_TRS_LEFT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 24
+        },
+        "MAIN_ELEMENT_SQUARE_TRS_RIGHT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 23
+        },
+        "MAIN_ELEMENT_TURN": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 13
+        },
+        "MAIN_ELEMENT_TURN_ON_MAINROAD": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 14
+        },
+        "MAIN_ELEMENT_UTURN": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 25
+        },
+        "MAX_SIDESTREETS_LENGTH": {
+          "access": 26,
+          "descriptor": "I",
+          "value": 17
+        },
+        "Z_LEVEL_GUIDANCE_DOWN": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 2
+        },
+        "Z_LEVEL_GUIDANCE_NOT_SUPPORTED": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 255
+        },
+        "Z_LEVEL_GUIDANCE_NO_Z_LEVEL_GUIDANCE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        },
+        "Z_LEVEL_GUIDANCE_UP": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 1
+        },
+        "direction": {
+          "access": 1,
+          "descriptor": "I"
+        },
+        "mainElement": {
+          "access": 1,
+          "descriptor": "I"
+        },
+        "sidestreets": {
+          "access": 17,
+          "descriptor": "Lde/vw/mib/bap/datatypes/BAPString;"
+        },
+        "zLevelGuidance": {
+          "access": 1,
+          "descriptor": "I"
+        }
+      },
+      "methods": {
+        "<init>()V": {
+          "access": 1,
+          "rom_code_sha256": "88406558e3810f79d71cd2edd2a172a0991a2ca38585e164b86d280a616eb866"
+        },
+        "<init>(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "f260425abaec69ba9a4a59552a2719c31b2e4d1d999c6e39a64991e966079c93"
+        },
+        "bitSize()I": {
+          "access": 1,
+          "rom_code_sha256": "89fb0813603b6d834451e4bc2de419160a7db92415de4bb9ae07ec6e5fa87d2d"
+        },
+        "serialize(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "ea9babb78974ce6cb3ab7e274749b4ddddb19c53ef1ced2a98213c886c013664"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "de/vw/mib/bap/mqbab2/generated/navsd/serializer/ManeuverState_Status": {
+      "access": 49,
+      "fields": {
+        "STATE_CALL_FOR_ACTION": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 4
+        },
+        "STATE_DISTANCE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 3
+        },
+        "STATE_FOLLOW": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 1
+        },
+        "STATE_INIT_UNKNOWN": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        },
+        "STATE_PREPARE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 2
+        },
+        "dummy1": {
+          "access": 1,
+          "descriptor": "I"
+        },
+        "dummy2": {
+          "access": 1,
+          "descriptor": "I"
+        },
+        "dummy3": {
+          "access": 1,
+          "descriptor": "I"
+        },
+        "state": {
+          "access": 1,
+          "descriptor": "I"
+        }
+      },
+      "methods": {
+        "<init>()V": {
+          "access": 1,
+          "rom_code_sha256": "e4749a8257af6edb9caaf652d3db9af029d9fb0e23897e9cac237d10d07ee881"
+        },
+        "<init>(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "9125cf3533790c56c0d6cc80d0baa5762817b988462848aadccbdd6bee6ca591"
+        },
+        "bitSize()I": {
+          "access": 1,
+          "rom_code_sha256": "89fb0813603b6d834451e4bc2de419160a7db92415de4bb9ae07ec6e5fa87d2d"
+        },
+        "functionId()I": {
+          "access": 9,
+          "rom_code_sha256": "0c0f624a08e1c203bd3fc398b5ca74cf524449a59600d78a74405818b673be9b"
+        },
+        "getFunctionId()I": {
+          "access": 1,
+          "rom_code_sha256": "034e0408da36995b8fec56c10b29bdf41ad7526dddbb015665c69a079283b15b"
+        },
+        "serialize(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "31348726b179b0cb47a26c150a6b880c61f69d8ebb2b43ec973eb25600b6c80c"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "de/vw/mib/bap/mqbab2/generated/navsd/serializer/RG_Status_Status": {
+      "access": 49,
+      "fields": {
+        "RG_STATUS_NOT_SUPPORTED": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 255
+        },
+        "RG_STATUS_RG_ACTIVE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 1
+        },
+        "RG_STATUS_RG_NOT_ACTIVE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        },
+        "RG_STATUS_RG_SUSPENDED_DF4_1": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 2
+        },
+        "rg_Status": {
+          "access": 1,
+          "descriptor": "I"
+        }
+      },
+      "methods": {
+        "<init>()V": {
+          "access": 1,
+          "rom_code_sha256": "e2f930e9309ef80f49a57bb74113e5273ecc21a1e466f218bc504047696d7658"
+        },
+        "<init>(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "dbdd05958baafb0fdd3f6a2c5bce9f5d29974dcfad34d30859a8d06edb2752a0"
+        },
+        "bitSize()I": {
+          "access": 1,
+          "rom_code_sha256": "89fb0813603b6d834451e4bc2de419160a7db92415de4bb9ae07ec6e5fa87d2d"
+        },
+        "functionId()I": {
+          "access": 9,
+          "rom_code_sha256": "6ae09a96d38f49057504f2d50faf9de8a5ce6d09ee9b5407f4a337d172502e2b"
+        },
+        "getFunctionId()I": {
+          "access": 1,
+          "rom_code_sha256": "034e0408da36995b8fec56c10b29bdf41ad7526dddbb015665c69a079283b15b"
+        },
+        "serialize(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "eb23d695efcba17cd7baaec750cbbf51070c7af32cabf2a6b9d2ecc47bc77e53"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "de/vw/mib/bap/mqbab2/navsd/functions/DistanceToNextManeuver": {
+      "access": 49,
+      "fields": {},
+      "methods": {
+        "<init>()V": {
+          "access": 8193,
+          "rom_code_sha256": "cf29a7c5b426084b6d3ad208ce612681df4ef0e89f6ca004d435e4a60b7b08a5"
+        },
+        "computeDistanceAndDistanceUnit(Lde/vw/mib/bap/mqbab2/generated/navsd/serializer/DistanceToNextManeuver_Status;Z)V": {
+          "access": 2,
+          "rom_code_sha256": "51dbf7850a80497acd38f3e400a7cd5459f603254adef4e56e7823579f48bc68"
+        },
+        "getFunctionId()I": {
+          "access": 1,
+          "rom_code_sha256": "d9387cd7ab4467537e47ba0331458d3efa3f95a26af3b8714aca07f380ed963b"
+        },
+        "process(I)V": {
+          "access": 1,
+          "rom_code_sha256": "e12350a8565b9c324a321373ee16632caa45f2ab369d25b12faf261c67552197"
+        },
+        "setDistanceToNextManeuverStatusData(Lde/vw/mib/bap/mqbab2/generated/navsd/serializer/DistanceToNextManeuver_Status;)V": {
+          "access": 2,
+          "rom_code_sha256": "0cb7ac9300d68b742797f430375df26e77ca27e3df9bad74f39517fd8b57b8d6"
+        },
+        "showDistanceToNextManeuver()Z": {
+          "access": 2,
+          "rom_code_sha256": "7ed5078444cb4dc722a821a2d07fa815ee04c61911ad29dcb1e17e017942f404"
+        },
+        "updateNavigationData(Lde/vw/mib/bap/mqbab2/common/api/navigation/NavigationService;I)V": {
+          "access": 1,
+          "rom_code_sha256": "e91a9d048807ede3b246844e4d16cc3ef134d1e443a7a2375e3b2d9ac6fd2f46"
+        }
+      },
+      "superclass": "de/vw/mib/bap/mqbab2/common/api/stages/Function"
+    },
+    "de/vw/mib/bap/mqbab2/navsd/functions/ManeuverDescriptor": {
+      "access": 49,
+      "fields": {},
+      "methods": {
+        "<init>()V": {
+          "access": 8193,
+          "rom_code_sha256": "450cc590b8411327ddda2d89ac92e1a33932fd1e7ecc27bf71beedcb0d734868"
+        },
+        "fillManeuverDescriptor(Lde/vw/mib/bap/mqbab2/generated/navsd/serializer/ManeuverDescriptor_Status;)V": {
+          "access": 2,
+          "rom_code_sha256": "dd36672198179ac5d163a006a9ca2855444c7d2c2d47e07279ab5fac03591ae4"
+        },
+        "getFunctionId()I": {
+          "access": 1,
+          "rom_code_sha256": "2f7bc01041984b0ce9e261ab43f8dfa69ddf78dd8a1d8ccbdc70e708482db1e1"
+        },
+        "mapToBAPMainElement(I)I": {
+          "access": 2,
+          "rom_code_sha256": "929c4734d3a61f69762231c0f94772cab29d27a95d6f266c9e6d3b0da3cca531"
+        },
+        "process(I)V": {
+          "access": 1,
+          "rom_code_sha256": "9451568d32ede0da0207a4cdecaa81d7bea75b17fdff3c9db05fda26d5955352"
+        },
+        "sendManeuverDescriptor(Lde/vw/mib/bap/mqbab2/generated/navsd/serializer/ManeuverDescriptor_Status;)V": {
+          "access": 2,
+          "rom_code_sha256": "3f681f5a2493b7a1c8f58b6bdf0e5cf5d187574be7b17178c542da0e33ef5ea4"
+        },
+        "updateNavigationData(Lde/vw/mib/bap/mqbab2/common/api/navigation/NavigationService;I)V": {
+          "access": 1,
+          "rom_code_sha256": "a6cc0454abb36343eca39c5f7969bd43e68dce16e9835a52559f04414c96fff9"
+        },
+        "validateManeuverData(IILjava/lang/String;I)Lde/vw/mib/bap/mqbab2/generated/navsd/serializer/ManeuverDescriptor_Status$Maneuver_1;": {
+          "access": 2,
+          "rom_code_sha256": "61996e6a80bbfc30293152bab71ff3ebe41a9551936b2eeedd2a6e1634adc992"
+        }
+      },
+      "superclass": "de/vw/mib/bap/mqbab2/common/api/stages/Function"
+    },
+    "de/vw/mib/bap/mqbab2/navsd/functions/RGStatus": {
+      "access": 49,
+      "fields": {},
+      "methods": {
+        "<init>()V": {
+          "access": 1,
+          "rom_code_sha256": "8ae3337058febee4a1816aca818ff5ab31bc3b147fd90b67b66e089c2f382024"
+        },
+        "getFunctionId()I": {
+          "access": 1,
+          "rom_code_sha256": "6ae09a96d38f49057504f2d50faf9de8a5ce6d09ee9b5407f4a337d172502e2b"
+        },
+        "process(I)V": {
+          "access": 1,
+          "rom_code_sha256": "6e4a736787f007eaedf80721d654d9c91c385f2aa1b80ff84e71f2b86849f5e4"
+        },
+        "setRouteGuidanceStatus(Lde/vw/mib/bap/mqbab2/generated/navsd/serializer/RG_Status_Status;)V": {
+          "access": 2,
+          "rom_code_sha256": "a78fef0d71e99973b0009b7cf9a9bdc13623ff13fec60f110268c173fce276a5"
+        },
+        "updateNavigationData(Lde/vw/mib/bap/mqbab2/common/api/navigation/NavigationService;I)V": {
+          "access": 1,
+          "rom_code_sha256": "9ddcc0b4d28b2862d1da3fd72b50e9b47756e22d2e3a5aaa801381428bc63d2a"
+        }
+      },
+      "superclass": "de/vw/mib/bap/mqbab2/common/api/stages/Function"
+    },
+    "de/vw/mib/bap/mqbpq/navsd/functions/ManeuverDescriptor": {
+      "access": 49,
+      "fields": {
+        "MANEUVER_DIRECTION_LEFT": {
+          "access": 26,
+          "descriptor": "I",
+          "value": 64
+        },
+        "MANEUVER_DIRECTION_RIGHT": {
+          "access": 26,
+          "descriptor": "I",
+          "value": 192
+        }
+      },
+      "methods": {
+        "<init>()V": {
+          "access": 8193,
+          "rom_code_sha256": "8b037f182fc6f39a5a21ad741b09c4abf1fdb8c6f11918dd048246676b6ed08f"
+        },
+        "fillManeuverDescriptor(Lde/vw/mib/bap/mqbpq/generated/navsd/serializer/ManeuverDescriptor_StatusArray;)V": {
+          "access": 2,
+          "rom_code_sha256": "380bd6de30ab46744350810c13952120d34d568a21477624d8a236b380217fcb"
+        },
+        "mapToBAPMainElement(I)I": {
+          "access": 2,
+          "rom_code_sha256": "0a9f6348a977ad9cf430b79baf5775c386937fdff3447d9ab522548b484a2aa5"
+        },
+        "process(I)V": {
+          "access": 1,
+          "rom_code_sha256": "f5096852427bed435ed3b3eee3151ed2d64892b90733b41f56851f5c82063ea3"
+        },
+        "validateManeuverData(IILjava/lang/String;I)Lde/vw/mib/bap/mqbpq/generated/navsd/serializer/ManeuverDescriptor_ManeuverDescription;": {
+          "access": 2,
+          "rom_code_sha256": "2f6fac42702fdd0c3058b8757d6173b9ca56303002f9be3ce64a16e6f14a0ba9"
+        }
+      },
+      "superclass": "de/vw/mib/bap/mqbpq/navsd/api/stages/ManeuverDescriptorStage"
+    },
+    "generated/de/vw/mib/asl/internal/navigation/bap/ASLNavigationBapPropertyManager": {
+      "access": 1537,
+      "fields": {
+        "NAVIGATION_STATUS": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 733
+        },
+        "NAVIGATION_STATUS__C0_NO_ERROR": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        },
+        "NAVIGATION_STATUS__C1_NO_NAVIGATION_DATA_MEDIUM_INSERTED": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 1
+        },
+        "NAVIGATION_STATUS__C2_NAVIGATION_DATA_CORRUPTED": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 2
+        },
+        "NAVIGATION_STATUS__DEFAULT_VALUE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        },
+        "ROUTE_GUIDANCE_STATE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 732
+        },
+        "ROUTE_GUIDANCE_STATE__C0_IDLE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        },
+        "ROUTE_GUIDANCE_STATE__C1_ACTIVE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 1
+        },
+        "ROUTE_GUIDANCE_STATE__C2_CALCULATING": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 2
+        },
+        "ROUTE_GUIDANCE_STATE__DEFAULT_VALUE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        }
+      },
+      "methods": {},
+      "superclass": "java/lang/Object"
+    },
+    "generated/de/vw/mib/asl/internal/smartphoneintegration/ASLSmartPhoneIntegrationPropertyManager": {
+      "access": 1537,
+      "fields": {
+        "CURRENT_ACTIVE_CONNECTION_METHOD": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 2910004
+        },
+        "CURRENT_ACTIVE_CONNECTION_METHOD__C0_NONE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        },
+        "CURRENT_ACTIVE_CONNECTION_METHOD__C1_MIRRORLINK": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 1
+        },
+        "CURRENT_ACTIVE_CONNECTION_METHOD__C2_CARPLAY": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 2
+        },
+        "CURRENT_ACTIVE_CONNECTION_METHOD__C3_GAL": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 3
+        },
+        "CURRENT_ACTIVE_CONNECTION_METHOD__DEFAULT_VALUE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        }
+      },
+      "methods": {},
+      "superclass": "java/lang/Object"
+    },
+    "org/dsi/ifc/komonavinfo/DSIKOMONavInfo": {
+      "access": 1537,
+      "fields": {
+        "DISTANCEUNIT_FEEDS": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 4
+        },
+        "DISTANCEUNIT_KILOMETERS": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 2
+        },
+        "DISTANCEUNIT_METERS": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 1
+        },
+        "DISTANCEUNIT_MILES": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        },
+        "DISTANCEUNIT_QUARTERMILE": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 5
+        },
+        "DISTANCEUNIT_YARDS": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 3
+        },
+        "RGMODE_COMPASS": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 2
+        },
+        "RGMODE_KDK": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 1
+        },
+        "RGMODE_MAP": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 3
+        },
+        "RGMODE_RGI": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        },
+        "TIMEFORMAT_12HFORMAT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 1
+        },
+        "TIMEFORMAT_24HFORMAT": {
+          "access": 25,
+          "descriptor": "I",
+          "value": 0
+        }
+      },
+      "methods": {
+        "setCurrentStreet(Ljava/lang/String;)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "setDistanceToDestination(JIZ)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "setDistanceToNextManeuver(JIZ)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "setETA(ISSSZZ)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "setRTT(SSZ)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "setRgSelect(I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "setTurnToStreet(Ljava/lang/String;Ljava/lang/String;)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "org/dsi/ifc/navigation/BapManeuverDescriptor": {
+      "access": 33,
+      "fields": {
+        "direction": {
+          "access": 1,
+          "descriptor": "I"
+        },
+        "mainElement": {
+          "access": 1,
+          "descriptor": "I"
+        },
+        "sideStreets": {
+          "access": 1,
+          "descriptor": "[B"
+        },
+        "zLevelGuidance": {
+          "access": 1,
+          "descriptor": "I"
+        }
+      },
+      "methods": {
+        "<init>()V": {
+          "access": 1,
+          "rom_code_sha256": "c19330c55d8847d0a63a8c6b720296035d6f9d1f41ecd37fc61d8c3f82ff32b9"
+        },
+        "<init>(III[B)V": {
+          "access": 1,
+          "rom_code_sha256": "32041db3670ee705d69dceb313f578b217ce5c12427f29fe553c0a47a2fbe853"
+        },
+        "getDirection()I": {
+          "access": 513,
+          "rom_code_sha256": "9d29095e959e60c75f471728b4980d1d93a908f92ec02af20288c5017473f471"
+        },
+        "getMainElement()I": {
+          "access": 513,
+          "rom_code_sha256": "486196a1c6b55172a2c800aeb94233a2f042b83c8a2a81fc6f6a17f90240b669"
+        },
+        "getSideStreets()[B": {
+          "access": 513,
+          "rom_code_sha256": "5d21c6770bc68931676ce651ab460f6b67d22d7efa9f69c4cc56ddad5b0a0ba7"
+        },
+        "getZLevelGuidance()I": {
+          "access": 513,
+          "rom_code_sha256": "7ee7315e5b25e9cb310dcb9acbf5b3dd8c67a578f99886f9f790b1bd54030b46"
+        }
+      },
+      "superclass": "java/lang/Object"
+    }
+  },
+  "firmware": "MHI2_ER_VWG11_K3342_MU1427",
+  "jxe_bytes": 52751492,
+  "jxe_sha256": "f46290b4a33b98d957170f6207073ad329316902a87cd4c27da4168548ad911a",
+  "rom_parser_commit": "9eeb45bbf14bf8afe3452c7be96a4d1f0206a286",
+  "scope": "selected_fields_and_methods"
+}

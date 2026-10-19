@@ -1,0 +1,101 @@
+{
+  "factory_vm": {
+    "converted_factory_classes_sha256": {
+      "de/vw/mib/bap/mqbab2/generated/navsd/serializer/ManeuverDescriptor_Status": "ad569fbcb660a7a474931a2c53cb4854d8cb5bfbd8c3245260b7f5345cbe75db",
+      "de/vw/mib/bap/mqbab2/generated/navsd/serializer/ManeuverDescriptor_Status$Maneuver_1": "fb8ce90187dd82e98b9864063cb0adac4ab53fecbf042eb4abfffde93bb35410",
+      "de/vw/mib/bap/mqbab2/navsd/functions/ManeuverDescriptor": "5c0fb75e1c4532b9665363fdae72414d82242c00fee256f9d2944c750db8ef33"
+    },
+    "factory_descriptor_vectors": 624,
+    "factory_stage_cases": 39,
+    "fctids_verified": true,
+    "slots": 3
+  },
+  "files_sha256": {
+    "MU1427-NATIVE-CONTRACT.json": "f5b5c22031045ca69660db5de5210e91baf1c23a5d75d24cbdf44681533564a1",
+    "bridge/VerifyNativeContract.java": "069d9c492096ba5bb789a6f0fc34803bda90e61451decf8159b60cd86dd6271a",
+    "probe-native-contract.py": "17daa2cd52c0cdc3624c15db9fe2d1355638e3f7c930a912375e433b291b1e6d",
+    "rgi_bridge.py": "5021c52f3ab862b54b1690a2b8b15da46c7e3cc5bff08cf6bd5d156868bbbefd",
+    "rgi_maneuver.py": "89cbd1c153ee9dce1abcc257a6b45a8c74e0735e4ee7b3b2e55f9368b92c8af0",
+    "test-rgi-bridge.py": "93ed4c9d2f85d27a6804b8c56aab1cbd689703b988605d8e6cd91543d0058e62",
+    "test-rgi-maneuver.py": "d50474a38342157f02321d2ac8d8e89ee542b20d474a6d48aab1d033bf23c2a9"
+  },
+  "jxe_sha256": "f46290b4a33b98d957170f6207073ad329316902a87cd4c27da4168548ad911a",
+  "live_output_enabled": false,
+  "native_metadata_classes": 22,
+  "private_replays": {
+    "C4_2": {
+      "actions": {
+        "clear_and_release": 3,
+        "pass_through": 117,
+        "publish": 183
+      },
+      "coverage": {
+        "gap_windows": 0,
+        "publications": 2,
+        "published_events": 240,
+        "recorded_by_id": {
+          "0x5201": 194,
+          "0x5202": 46
+        },
+        "recorded_events": 240,
+        "unrecorded_events": 0
+      },
+      "descriptor_states": {
+        "0:0": 53,
+        "13:192": 91,
+        "13:64": 35,
+        "21:0": 4
+      },
+      "final_owns_guidance": false,
+      "input_sha256": "719e37549580ea20a888769a68a1e1d65e93d4ff31c1d432c39907fc7dd3dc2d",
+      "mapping_reasons": {
+        "exit_angle_absent": 4,
+        "exit_angle_and_traffic_side": 4,
+        "explicit_type": 126,
+        "junction_conflict": 16,
+        "type_unknown": 33
+      },
+      "ownership": "simulated_carplay",
+      "source_end_reason": 1,
+      "valid_distance_frames": 141
+    },
+    "C4_garage": {
+      "actions": {
+        "clear_and_release": 4,
+        "pass_through": 151,
+        "publish": 213
+      },
+      "coverage": {
+        "gap_windows": 1,
+        "publications": 2,
+        "published_events": 237,
+        "recorded_by_id": {
+          "0x5201": 184,
+          "0x5202": 40,
+          "0x5204": 12
+        },
+        "recorded_events": 236,
+        "unrecorded_events": 1
+      },
+      "descriptor_states": {
+        "0:0": 213
+      },
+      "final_owns_guidance": false,
+      "input_sha256": "96104664ece8630d8cda36e948d0ba516fa09691e3e7f82b8ad5ce437ee03c95",
+      "mapping_reasons": {
+        "exit_angle_absent": 1,
+        "type_unknown": 212
+      },
+      "ownership": "simulated_carplay",
+      "source_end_reason": 1,
+      "valid_distance_frames": 0
+    }
+  },
+  "reviewed": "2026-10-18",
+  "rom_parser_commit": "9eeb45bbf14bf8afe3452c7be96a4d1f0206a286",
+  "scope": "host_mapping_and_replacement_model",
+  "tests": {
+    "bridge_including_two_private_replays": 23,
+    "mapping": 14
+  }
+}

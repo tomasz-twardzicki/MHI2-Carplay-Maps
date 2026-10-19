@@ -4,8 +4,8 @@ The MU1427/791 `core.so` is the MU1367/791 build with the AES key fix ([`../patc
 
 | Option | Shipped as | maxFPS | Forced keyframe every | Cluster content | Safe area (x,y,w,h) | sha256 |
 | --- | --- | --- | --- | --- | --- | --- |
-| `default` | profile payload; toolbox "Default" | 30 | 20 frames | map + turn card | 200,80,400,380 | `3e617cae…` |
-| `wide-card` | toolbox "Map + wide turn card" | 30 | 20 frames | map + turn card | 160,80,480,380 | `a88360ec…` |
+| `default` | profile payload; toolbox "Default" | 30 | 20 frames | map + turn card | 200,96,400,364 | `173eac54…` |
+| `wide-card` | toolbox "Map + wide turn card" | 30 | 20 frames | map + turn card | 160,96,480,364 | `644fd17a…` |
 | `no-card` | toolbox "Map only, no turn card" | 30 | 20 frames | map | 200,80,400,380 | `e8cc5019…` |
 
 For comparison, the AES-fixed build alone has 40 fps, a keyframe every 20 frames, map only, and a safe area of 160,20,480,440.
@@ -63,3 +63,9 @@ The MQB Toolbox ships the options on the SD card under `Custom/carplay_maps_vc/t
 The card's size is decided by the iPhone from the guidance content (start-of-route text, distance, lane guidance, a "then" maneuver). Anchoring it at the top lets extra rows grow down into the map.
 
 Variants used in these tests can be rebuilt with `patch-core-tuning.py`; their toolbox menu entries are in the git history of this directory and of `Toolbox/GEM/carplay-maps-vc-tuning.esd`.
+
+**Final guidance layout:** the safe-area top moves from row 80 to 96 to
+clear the native route distance/time bar. The bottom stays at row 460; both
+narrow and wide cards retain their existing widths. Map-only keeps its
+previous safe area. This 16-pixel shift
+needs a visual check with the final installed layout.

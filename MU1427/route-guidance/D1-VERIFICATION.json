@@ -1,0 +1,43 @@
+{
+  "reviewed": "2026-10-18",
+  "archive": "build-D1/MU1427-route-guidance-D1-toolbox.zip",
+  "archive_sha256": "feb0dcea4edfe50853ea574af82b0d0c7b214210abb05567286bdbf7cf5a4000",
+  "jar_sha256": "b8f0d3599f43419c8cbf3cf748cba4ce16ac4038263d082802359e8fdf47b774",
+  "runtime": {
+    "factory_integration_assertions": 37,
+    "mapping_vectors": 19360,
+    "synthetic_lifecycle_observations": 7,
+    "fragmented_append": {
+      "complete": 7,
+      "partial": 1580
+    },
+    "delta_stress_observations": 602,
+    "malformed_inputs_rejected": 12,
+    "private_replays": [
+      {
+        "input_sha256": "96104664ece8630d8cda36e948d0ba516fa09691e3e7f82b8ad5ce437ee03c95",
+        "observations_matched": 368
+      },
+      {
+        "input_sha256": "719e37549580ea20a888769a68a1e1d65e93d4ff31c1d432c39907fc7dd3dc2d",
+        "observations_matched": 303
+      }
+    ],
+    "jar_sha256": "b8f0d3599f43419c8cbf3cf748cba4ce16ac4038263d082802359e8fdf47b774",
+    "source_id": "8cb0c4098adb3012",
+    "passed": true,
+    "test_sha256": "3256320f235d4002da5228d5bde98a4ed07511d01e5cf1e31392601d5445c8f6",
+    "builder_sha256": "0370704296cb8ec5dbf30cf380527a6b4bca323f72dec3d05d4f815bfc86ac27"
+  },
+  "control_tests": 15,
+  "packaged_install_and_no_sd_rollback_passed": true,
+  "archive_crc_and_menu_wrappers_passed": true,
+  "all_seed_c4_payloads_unchanged": true,
+  "driver_changed": false,
+  "recorder_changed": false,
+  "unit_test_pending": false,
+  "unit_test_passed": false,
+  "disposition": "withdrawn_after_cluster_startup_failure",
+  "cause": "replacement_classes_major_49_rejected_by_firmware_J9",
+  "rollback_recovered_cluster_user_confirmed": true
+}
