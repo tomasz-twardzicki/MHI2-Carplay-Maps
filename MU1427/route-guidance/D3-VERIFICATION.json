@@ -1,0 +1,319 @@
+{
+  "revision": "D3",
+  "jar_sha256": "ea26469494765e2e2e98e9b11c3f2bc00dc970238a24484a1b148909981c1487",
+  "jar_size": 32026,
+  "source_id": "6fa06a5387d3757b",
+  "build_id": "MU1427-RGI-D3-ea264694",
+  "archive_sha256": "4d711618cde0c771a3ab972730dd234959980e615d3386842f4e45d221119fc5",
+  "all_class_major": 46,
+  "factory_classes": {
+    "ManeuverDescriptor": "5c0fb75e1c4532b9665363fdae72414d82242c00fee256f9d2944c750db8ef33",
+    "DistanceToNextManeuver": "8222aa0d2bd086b15b17942bb935a081c028041c788c785ea11dd3c99cfa9e6d",
+    "RGStatus": "fa83a46b89b56f6fa98e83a2f7fe9861da161191bc9ae5e878daeb81b58c6573",
+    "LaneGuidance": "5bbaf19f7a188da5405ba43fdb54611ca0423348e837a37b7673a1abeb9d8d4f",
+    "DistanceToDestination": "ca5388a1cb25b176669d9f9f4c9bcc89562daf100080a1c8768cb5f35409b8c0",
+    "TimeToDestination": "8d307c132b00d74828562429b10dc3058fbb0f93fb5e53f084e77504905fe8aa"
+  },
+  "factory_jxe_sha256": "f46290b4a33b98d957170f6207073ad329316902a87cd4c27da4168548ad911a",
+  "features": [
+    "factory_maneuver_distance_conversion",
+    "factory_destination_distance",
+    "remaining_travel_duration"
+  ],
+  "absolute_clock_eta_included": false,
+  "driver_changed": false,
+  "reader_sha256": "603b9a148ca6ff15fdc332d89b2b97c7987489b8ca5c60dbabcebd9005860fb8",
+  "default_enabled": false,
+  "five_minute_limit": true,
+  "fresh_shadow_required": true,
+  "host_runtime": {
+    "factory_integration_assertions": 123,
+    "mapping_vectors": 19360,
+    "synthetic_lifecycle_observations": 7,
+    "trip_lifecycle_observations": 11,
+    "fragmented_append": {
+      "complete": 11,
+      "partial": 3106
+    },
+    "delta_stress_observations": 602,
+    "malformed_inputs_rejected": 12,
+    "private_replays": [
+      {
+        "input_sha256": "d6d4b6848753f42f041446a152bc0709a607e850bbc2db49067d9218fde6513e",
+        "observations_matched": 208
+      },
+      {
+        "input_sha256": "fc7f446b27dc9b8f38e0284e7dd492d438673e5b4238af05bbd49078da7c2dba",
+        "observations_matched": 573
+      },
+      {
+        "input_sha256": "24b48a125ad276ec5fbbf86417eefebb518320b9fb021ef5959570d611ceac1b",
+        "observations_matched": 214
+      }
+    ],
+    "jar_sha256": "ea26469494765e2e2e98e9b11c3f2bc00dc970238a24484a1b148909981c1487",
+    "source_id": "6fa06a5387d3757b",
+    "passed": true,
+    "test_sha256": "be11f42f4cc2fb88dc9987623d274a4ffa3c70094e1e00ad4ef05749f5b518a8",
+    "builder_sha256": "bf08ee9545c159010262a9aa2f35cad11460ea447e2d172ceda5d0efc25c8f1f"
+  },
+  "qnx_j9": {
+    "passed": true,
+    "jar_sha256": "ea26469494765e2e2e98e9b11c3f2bc00dc970238a24484a1b148909981c1487",
+    "negative_control_sha256": "b8f0d3599f43419c8cbf3cf748cba4ce16ac4038263d082802359e8fdf47b774",
+    "all_class_major": 46,
+    "qnx_actual_firmware_j9": true,
+    "sections": {
+      "STOCK": {
+        "passed": 6,
+        "failed": 0
+      },
+      "FAILED-D1": {
+        "passed": 6,
+        "failed": 5
+      },
+      "FIXED": {
+        "passed": 13,
+        "failed": 0
+      },
+      "VERIFIED": {
+        "passed": 13,
+        "failed": 0
+      }
+    },
+    "qemu_log_sha256": "30d6fb5e5ccc54e67c445bf72bde5a18bc60aa89f286cb9780b689a48bb3b690",
+    "ifs_sha256": "b0d0af28862512941603f2682d6901a76ba643b8eb878851a10caec964272950",
+    "test_sha256": "15e27c9d421861a334173ffb7693e248bc90e6c81564f5c3cffdec292f9b0abc",
+    "probe_sha256": "f0ecb75f4835da7b84eaf668e5675be49069888ca874b5f4e5f6e18009085cbc"
+  },
+  "controls": {
+    "passed": true,
+    "tests": 20,
+    "controller_sha256": "3d341bbc95a3e63980c5d2f7ddd3cbdc7606ad1572726bcef63ea58bb223e5a9",
+    "test_sha256": "9fe38bacfceeb9edcb3f12b6df65b6fda3a80adcd352df78c3ce3631f3af740e"
+  },
+  "packaged_controls": {
+    "passed": true,
+    "archive_sha256": "4d711618cde0c771a3ab972730dd234959980e615d3386842f4e45d221119fc5",
+    "jar_sha256": "ea26469494765e2e2e98e9b11c3f2bc00dc970238a24484a1b148909981c1487",
+    "controller_sha256": "76aea3e84203dbbd63bd8b8810457603c5320d34857b57d73096f84a7f0db8a4",
+    "all_class_major": 46,
+    "c4_seed_files_preserved": true,
+    "actual_packaged_install_idempotence_passed": true,
+    "actual_packaged_no_sd_removal_passed": true,
+    "boot_script_mode_and_other_jars_preserved": true,
+    "live_without_shadow_rejected": true,
+    "zip_crc_shell_syntax_passed": true,
+    "test_sha256": "f66e5d60a4d5c557bb8f2170f45d2fe248ca6c6046c94dcc0f3c4465ae59e255"
+  },
+  "native_output_unit_test_pending": false,
+  "procedure": "TEST-D3.md",
+  "prior_unit_results": "D2-RESULTS.md",
+  "unit_results": "D3-RESULTS.md",
+  "unit_evidence": {
+    "status": "distance_scaling_and_route_totals_accepted_for_tested_run",
+    "user_reports_no_observed_issues": true,
+    "photos_show_aid_hud_maneuver_distance": true,
+    "photo_native_and_phone_maneuver_distance_agree": true,
+    "photo_aid_route_distance_and_duration_visible": true,
+    "approximate_route_total_agreement_confirmation_pending": false,
+    "exhaustive_unit_boundary_lifecycle_testing_complete": false,
+    "adapter_removed_before_export_user_reported": true,
+    "both_exports_structurally_complete": true,
+    "active_live_status": {
+      "mode": 2,
+      "context": 0,
+      "ticks": 1882,
+      "proposals": 217,
+      "writes": 4040,
+      "releases": 5,
+      "failures": 0,
+      "records": 483,
+      "error": 0
+    },
+    "captures": {
+      "cpmap-rgi-D1-3993667": {
+        "journal_sha256": "c764cf09a2fab25ce0eaa5466263ed55d50f41b3c56367f875c1d2a774e8a390",
+        "journal_bytes": 176746,
+        "summary": {
+          "kind": "summary",
+          "poll_interval_ms": 100,
+          "elapsed_ms": 98403,
+          "snapshots": 78,
+          "publishing_snapshots": 77,
+          "producer_fault_snapshots": 0,
+          "active_snapshots": 71,
+          "resolved_maneuver_snapshots": 70,
+          "stopped_snapshots": 1,
+          "max_sequence": 158,
+          "invalidations": 0,
+          "stale_deadlines": 1,
+          "heartbeats": 92,
+          "missing_before_windows": 0,
+          "coverage": {
+            "publications": 1,
+            "published_events": 158,
+            "recorded_events": 158,
+            "unrecorded_events": 0,
+            "gap_windows": 0,
+            "recorded_by_id": {
+              "0x5201": 124,
+              "0x5202": 34
+            }
+          },
+          "message_selection_states": {
+            "inactive": 47,
+            "order_absent": 3,
+            "order_empty": 9,
+            "head_cached": 99
+          },
+          "messages": {
+            "applied": 158,
+            "unapplied": 0
+          },
+          "end_reason": 1
+        },
+        "first_windows": [
+          {
+            "elapsed_ms": 20,
+            "last": 0,
+            "first": 1
+          }
+        ],
+        "unavailable_reasons": [],
+        "status": {
+          "VERSION": "MU1427-RGI-D3-ea264694",
+          "progress.txt": "CPMAP_RGI_D1_EXPORT_OK",
+          "recorder-status.txt": "C4 status=ended polls=923 valid=923 invalid=0 sequence=158 bytes=176746 reason=1",
+          "shadow-verification.txt": "D1 build=6fa06a5387d3757b run=2953283 mode=1 context=0 ticks=550 proposals=216 writes=0 releases=0 failures=0 records=121 error=0",
+          "adapter-status-observed.txt": "D1 build=6fa06a5387d3757b run=2953283 mode=1 context=0 ticks=526 proposals=192 writes=0 releases=0 failures=0 records=109 error=0",
+          "adapter-status-before-disable.txt": "D1 build=6fa06a5387d3757b run=2953283 mode=1 context=0 ticks=696 proposals=266 writes=0 releases=0 failures=0 records=170 error=0",
+          "adapter-status.txt": "D1 build=6fa06a5387d3757b run=0 mode=0 context=0 ticks=704 proposals=0 writes=0 releases=0 failures=0 records=0 error=0",
+          "request-observed.txt": "shadow 2953283"
+        }
+      },
+      "cpmap-rgi-D1-6951040": {
+        "journal_sha256": "7247534bcbbf05f35077fe06f9febc5eb272a08e1b66ef80fd0f7bfc5fe5e400",
+        "journal_bytes": 545802,
+        "summary": {
+          "kind": "summary",
+          "poll_interval_ms": 100,
+          "elapsed_ms": 284798,
+          "snapshots": 233,
+          "publishing_snapshots": 233,
+          "producer_fault_snapshots": 0,
+          "active_snapshots": 223,
+          "resolved_maneuver_snapshots": 189,
+          "stopped_snapshots": 3,
+          "max_sequence": 566,
+          "invalidations": 0,
+          "stale_deadlines": 3,
+          "heartbeats": 267,
+          "missing_before_windows": 655,
+          "coverage": {
+            "publications": 1,
+            "published_events": 566,
+            "recorded_events": 423,
+            "unrecorded_events": 143,
+            "gap_windows": 2,
+            "recorded_by_id": {
+              "0x5201": 367,
+              "0x5202": 56
+            }
+          },
+          "message_selection_states": {
+            "head_not_cached": 19,
+            "inactive": 85,
+            "order_empty": 18,
+            "head_cached": 275,
+            "order_absent": 35
+          },
+          "messages": {
+            "applied": 432,
+            "unapplied": 0
+          },
+          "end_reason": 1
+        },
+        "first_windows": [
+          {
+            "elapsed_ms": 18,
+            "last": 158,
+            "first": 143
+          }
+        ],
+        "unavailable_reasons": [],
+        "status": {
+          "VERSION": "MU1427-RGI-D3-ea264694",
+          "progress.txt": "CPMAP_RGI_D1_EXPORT_OK",
+          "recorder-status.txt": "C4 status=ended polls=2670 valid=2670 invalid=0 sequence=566 bytes=545802 reason=1",
+          "shadow-verification.txt": "D1 build=6fa06a5387d3757b run=2953283 mode=1 context=0 ticks=550 proposals=216 writes=0 releases=0 failures=0 records=121 error=0",
+          "adapter-status-observed.txt": "D1 build=6fa06a5387d3757b run=4665411 mode=2 context=0 ticks=1882 proposals=217 writes=4040 releases=5 failures=0 records=483 error=0",
+          "adapter-status.txt": "D1 build=6fa06a5387d3757b run=0 mode=0 context=0 ticks=2030 proposals=0 writes=0 releases=0 failures=0 records=0 error=0",
+          "request-observed.txt": "live 4665411"
+        }
+      }
+    },
+    "replay": {
+      "cpmap-rgi-D1-3993667": {
+        "journal_sha256": "c764cf09a2fab25ce0eaa5466263ed55d50f41b3c56367f875c1d2a774e8a390",
+        "observations_matched": 172,
+        "old_journal_bootstrap_no_live_output": true,
+        "actions": {
+          "pass_through": 34,
+          "publish": 134,
+          "clear_and_release": 4
+        },
+        "valid_metric_observations": {
+          "distance": 114,
+          "destination_distance": 133,
+          "remaining_time": 134
+        },
+        "unique_sequence_gaps": []
+      },
+      "cpmap-rgi-D1-6951040": {
+        "journal_sha256": "7247534bcbbf05f35077fe06f9febc5eb272a08e1b66ef80fd0f7bfc5fe5e400",
+        "observations_matched": 504,
+        "old_journal_bootstrap_no_live_output": true,
+        "actions": {
+          "pass_through": 79,
+          "publish": 419,
+          "clear_and_release": 6
+        },
+        "valid_metric_observations": {
+          "distance": 354,
+          "destination_distance": 418,
+          "remaining_time": 419
+        },
+        "unique_sequence_gaps": [
+          {
+            "elapsed_ms": 18,
+            "previous_sequence": 0,
+            "first_retained": 143,
+            "missing": 142,
+            "prefix": true
+          },
+          {
+            "elapsed_ms": 117000,
+            "previous_sequence": 363,
+            "first_retained": 365,
+            "missing": 1,
+            "prefix": false
+          }
+        ]
+      }
+    },
+    "analysis_sources": {
+      "rgi_bridge.py": "71a66da6e51fe36b2cd982ed38033ddaa8a75beed0482232b12793509c3429ac",
+      "rgi_observer.py": "6f0f70c4ae09fb5eac12fa04c2e508c3361309f4d72b93d6488585ada1cf66c0",
+      "bridge/TestLive.java": "7668ca90552b237ead05bef3df728b7734ddf9af2072fbc7cd9ad4306d4ecb6b"
+    },
+    "live_coverage_lossless": false,
+    "live_missing_prefix_events": 142,
+    "live_missing_later_events": 1,
+    "packaged_binaries_changed": false,
+    "persistent_output_enabled": false,
+    "maneuver_distance_scale_correct_user_confirmed": true,
+    "remaining_route_distance_visible_and_roughly_matches_phone_user_confirmed": true,
+    "remaining_travel_time_visible_and_roughly_matches_phone_user_confirmed": true
+  }
+}

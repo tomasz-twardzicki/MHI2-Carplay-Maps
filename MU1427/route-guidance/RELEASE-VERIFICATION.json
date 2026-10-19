@@ -1,0 +1,234 @@
+{
+  "version": "1.0.0",
+  "build_id": "MU1427-native-guidance-1.0.0-51896241",
+  "source_id": "7aa249357413c8a7",
+  "jar_sha256": "51896241ff916bcd1546b8630081b3c5303635fe4f6f47a816a81a08ce937822",
+  "reader_sha256": "b683cef78828bfab2b8cdf43e4ea82e5d7c16d0d47730936d936e82af6ee08ac",
+  "controller_sha256": "70fae30ced80316be117bc6bba0985e359a886f1fb495d5f063291f95a888097",
+  "default_enabled_after_boot": true,
+  "manual_test_gate": false,
+  "maximum_ram_feed_bytes": 71680,
+  "route_capture_archive": false,
+  "driver_changed_from_tested_b4": false,
+  "safe_areas": {
+    "default": [
+      200,
+      96,
+      400,
+      364
+    ],
+    "wide-card": [
+      160,
+      96,
+      480,
+      364
+    ],
+    "no-card": [
+      200,
+      80,
+      400,
+      380
+    ]
+  },
+  "hmi": {
+    "revision": "release",
+    "all_class_major": 46,
+    "factory_cdc_compile": true,
+    "source_id": "7aa249357413c8a7",
+    "jar_sha256": "51896241ff916bcd1546b8630081b3c5303635fe4f6f47a816a81a08ce937822",
+    "jar_size": 33310,
+    "factory_jxe_sha256": "f46290b4a33b98d957170f6207073ad329316902a87cd4c27da4168548ad911a",
+    "converted_jar_sha256": "8c24e09ed0b3aa793cb202745b764885009bdca408db2e40adb2dfefc4db653a",
+    "converted_content_sha256": "7c63a1130d42999f18d1f30195292ba547aa14a767df7edab5d09f1ae6feffdf",
+    "factory_classes": {
+      "ManeuverDescriptor": "5c0fb75e1c4532b9665363fdae72414d82242c00fee256f9d2944c750db8ef33",
+      "DistanceToNextManeuver": "8222aa0d2bd086b15b17942bb935a081c028041c788c785ea11dd3c99cfa9e6d",
+      "RGStatus": "fa83a46b89b56f6fa98e83a2f7fe9861da161191bc9ae5e878daeb81b58c6573",
+      "LaneGuidance": "5bbaf19f7a188da5405ba43fdb54611ca0423348e837a37b7673a1abeb9d8d4f",
+      "DistanceToDestination": "ca5388a1cb25b176669d9f9f4c9bcc89562daf100080a1c8768cb5f35409b8c0",
+      "TimeToDestination": "8d307c132b00d74828562429b10dc3058fbb0f93fb5e53f084e77504905fe8aa"
+    },
+    "sources": {
+      "LiveModel.java": "54f7b09eb8b86ca2a92ddc048d5dfbe4d477a0f1eae40f53b5c878e0fd660df5",
+      "JournalReader.java": "7dd3ecf803558dd637cd3a4f6a3186dfbe3707b554ed4dddd6c9cb7e81214b63",
+      "MailboxReader.java": "fb6e28aa0f420be94550e68b30411a4d18d67dd64db6911f1f859c0eea43baf3",
+      "LiveBridge.java": "2803b5748792ebf8d9405c3505fa837265d676493461cac1298b8bcba53c4ef7",
+      "PatchLive.java": "ff9c5ccfb8ab252151dd0db6519c3e9950c679c5f0519063c06770d28a8b359f",
+      "TestLive.java": "7668ca90552b237ead05bef3df728b7734ddf9af2072fbc7cd9ad4306d4ecb6b"
+    },
+    "integration": {
+      "factory_integration_assertions": 123
+    }
+  },
+  "runtime": {
+    "factory_integration_assertions": 123,
+    "mapping_vectors": 19360,
+    "synthetic_lifecycle_observations": 7,
+    "trip_lifecycle_observations": 11,
+    "fragmented_append": {
+      "complete": 11,
+      "partial": 3106
+    },
+    "delta_stress_observations": 602,
+    "malformed_inputs_rejected": 12,
+    "private_replays": [
+      {
+        "input_sha256": "c764cf09a2fab25ce0eaa5466263ed55d50f41b3c56367f875c1d2a774e8a390",
+        "observations_matched": 172
+      },
+      {
+        "input_sha256": "7247534bcbbf05f35077fe06f9febc5eb272a08e1b66ef80fd0f7bfc5fe5e400",
+        "observations_matched": 504
+      }
+    ],
+    "jar_sha256": "51896241ff916bcd1546b8630081b3c5303635fe4f6f47a816a81a08ce937822",
+    "source_id": "7aa249357413c8a7",
+    "passed": true,
+    "test_sha256": "be11f42f4cc2fb88dc9987623d274a4ffa3c70094e1e00ad4ef05749f5b518a8",
+    "builder_sha256": "b7b4e509c7250241911ac0b4b162c7aec7b812ce895809dd16aa63ec61d66977"
+  },
+  "native": {
+    "revision": "release",
+    "size": 16606,
+    "sha256": "b683cef78828bfab2b8cdf43e4ea82e5d7c16d0d47730936d936e82af6ee08ac",
+    "source_sha256": "fa4b4ed62ab1969a9b32cdbeb78cdb01292b8c68d5f3ea7008b1a54d8cf2bc8d",
+    "toolchain_commit": "baa45224f18ae6b13c2e9c77c6663bb8181eb6a1",
+    "image_id": "sha256:93b565ff63ba51c470c1a1e70a6d16607d36df502dfb20ae63a69911f8529bea",
+    "firmware_libc_sha256": "775139dc7381b8aa7001330dafe93b5cb8b0f779eb8e97d5ee32ca93bb85d2f1",
+    "imports_verified": [
+      "__get_errno_ptr",
+      "_exit",
+      "_fini_array",
+      "_init_array",
+      "_init_libc",
+      "_preinit_array",
+      "access",
+      "atexit",
+      "chdir",
+      "clock_gettime",
+      "close",
+      "dup2",
+      "exit",
+      "fclose",
+      "fcntl",
+      "fgets",
+      "fopen",
+      "fork",
+      "fprintf",
+      "fputs",
+      "kill",
+      "memcmp",
+      "memcpy",
+      "memset",
+      "mkdir",
+      "nanosleep",
+      "open",
+      "perror",
+      "pipe",
+      "puts",
+      "read",
+      "rename",
+      "select",
+      "setsid",
+      "signal",
+      "strcmp",
+      "strncmp",
+      "strtoul",
+      "umask",
+      "unlink",
+      "waitpid",
+      "write"
+    ],
+    "compiler": "Apple clang version 17.0.0 (clang-1700.4.4.1)",
+    "flags": [
+      "--target=armv7-none-eabi",
+      "-D__QNXNTO__",
+      "-D__QNX__",
+      "-D__ARM__",
+      "-D__LITTLEENDIAN__",
+      "--sysroot=/private/tmp/mu1427-qnx65-toolchain/sdp/target/qnx6",
+      "-isystem",
+      "/private/tmp/mu1427-qnx65-toolchain/sdp/target/qnx6/usr/include",
+      "-march=armv7-a",
+      "-mfloat-abi=softfp",
+      "-mno-unaligned-access",
+      "-fno-short-enums",
+      "-fno-builtin",
+      "-fno-stack-protector",
+      "-std=c99",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-Werror"
+    ]
+  },
+  "qnx_j9": {
+    "mailbox_qnx_passed": true,
+    "reader_sha256": "b683cef78828bfab2b8cdf43e4ea82e5d7c16d0d47730936d936e82af6ee08ac",
+    "passed": true,
+    "jar_sha256": "51896241ff916bcd1546b8630081b3c5303635fe4f6f47a816a81a08ce937822",
+    "negative_control_sha256": "b8f0d3599f43419c8cbf3cf748cba4ce16ac4038263d082802359e8fdf47b774",
+    "all_class_major": 46,
+    "qnx_actual_firmware_j9": true,
+    "sections": {
+      "STOCK": {
+        "passed": 6,
+        "failed": 0
+      },
+      "FAILED-D1": {
+        "passed": 6,
+        "failed": 5
+      },
+      "FIXED": {
+        "passed": 13,
+        "failed": 0
+      },
+      "VERIFIED": {
+        "passed": 13,
+        "failed": 0
+      }
+    },
+    "qemu_log_sha256": "7d946b6becac81cadacfde45a5d0d6769adea826530730ba3cb7d1733f590b24",
+    "ifs_sha256": "b0d0af28862512941603f2682d6901a76ba643b8eb878851a10caec964272950",
+    "test_sha256": "5b206985c5f2d47888c076d6dce11af9427c0fddb0790e0924990c283b889f34",
+    "probe_sha256": "f18ef940bf61385496da894ff8460dbb8bbefe32a3828510bb95f696e032a8a9"
+  },
+  "qnx_reader": {
+    "qnx_smoke_passed": true,
+    "factory_libc_sha256": "775139dc7381b8aa7001330dafe93b5cb8b0f779eb8e97d5ee32ca93bb85d2f1",
+    "reader_sha256": "b683cef78828bfab2b8cdf43e4ea82e5d7c16d0d47730936d936e82af6ee08ac"
+  },
+  "controls": {
+    "passed": true,
+    "tests": 11,
+    "controller_sha256": "c248d68cba5e40944488b6805820da68a71356f84334b216dbd81723596a1938",
+    "test_sha256": "3ad9248c3a307e577de6793a4c39d4ed320ba08c6b5a4a5b73d020a1aa3e3adb",
+    "jar_sha256": "51896241ff916bcd1546b8630081b3c5303635fe4f6f47a816a81a08ce937822",
+    "reader_sha256": "b683cef78828bfab2b8cdf43e4ea82e5d7c16d0d47730936d936e82af6ee08ac"
+  },
+  "reader_tests": {
+    "passed": true,
+    "tests": 6,
+    "reader_source_sha256": "fa4b4ed62ab1969a9b32cdbeb78cdb01292b8c68d5f3ea7008b1a54d8cf2bc8d",
+    "mailbox_source_sha256": "fb6e28aa0f420be94550e68b30411a4d18d67dd64db6911f1f859c0eea43baf3",
+    "jar_sha256": "51896241ff916bcd1546b8630081b3c5303635fe4f6f47a816a81a08ce937822",
+    "test_sha256": "eda235304214f79dcba283d51a2abfa91693fdf78262d824afed53c069539783"
+  },
+  "unit_automatic_startup_and_lowered_card_check_pending": true,
+  "archive_sha256": "7cdebcf2ab7a37bbcb63d9fc4da58b645a9fac3aa9eee780e561ccdee45c9767",
+  "packaged_verification": {
+    "passed": true,
+    "archive_sha256": "7cdebcf2ab7a37bbcb63d9fc4da58b645a9fac3aa9eee780e561ccdee45c9767",
+    "menus_clean_and_credits_verified": true,
+    "auto_mu_installers_unchanged": true,
+    "only_card_y_height_instructions_changed": true,
+    "map_only_other_profiles_unchanged": true,
+    "actual_zip_install_reinstall_no_sd_removal_passed": true,
+    "actual_zip_factory_restore_wrapper_passed": true,
+    "later_hmi_entries_and_modes_preserved": true,
+    "test_sha256": "59c33ed74e58163daf3b48054fe9615f18dc2afdc36cdd15941c2e3401e42655"
+  },
+  "release_builder_sha256": "8aee763ceefbb3181bbe38722e4ecd8f2523fde0af2cca0f6122373b4dffaa45",
+  "unit_driver_and_output_mapping_baseline": "D3-VERIFICATION.json",
+  "published": false
+}

@@ -1,0 +1,181 @@
+{
+  "archive_sha256": "abe5cd67cc511d299e74f48fe38a00722aaaa41a458f0f30d167093af6b8d4be",
+  "jar_sha256": "cbdd13d9cddd63d1e93973ccd7aa21e9bd8017ec73d3fa95d7db156bb7b090a3",
+  "all_class_major": 46,
+  "qnx_j9": {
+    "passed": true,
+    "jar_sha256": "cbdd13d9cddd63d1e93973ccd7aa21e9bd8017ec73d3fa95d7db156bb7b090a3",
+    "negative_control_sha256": "b8f0d3599f43419c8cbf3cf748cba4ce16ac4038263d082802359e8fdf47b774",
+    "all_class_major": 46,
+    "qnx_actual_firmware_j9": true,
+    "sections": {
+      "STOCK": {
+        "passed": 4,
+        "failed": 0
+      },
+      "FAILED-D1": {
+        "passed": 4,
+        "failed": 5
+      },
+      "FIXED": {
+        "passed": 9,
+        "failed": 0
+      },
+      "VERIFIED": {
+        "passed": 9,
+        "failed": 0
+      }
+    },
+    "qemu_log_sha256": "f17e569d37621ff610b60ce9b9a274556ba21dec7629e490f867d4c4e779571f",
+    "ifs_sha256": "b0d0af28862512941603f2682d6901a76ba643b8eb878851a10caec964272950",
+    "test_sha256": "3993ebb816ee46bfe799eeb05bdb8a336f545c19245000d7207250b61ef157fb",
+    "probe_sha256": "ee69a1bb91d25e788f939b208c90075761bde8316e8e278869f2602808761a9e"
+  },
+  "desktop_runtime": {
+    "factory_integration_assertions": 37,
+    "mapping_vectors": 19360,
+    "synthetic_lifecycle_observations": 7,
+    "fragmented_append": {
+      "complete": 7,
+      "partial": 1580
+    },
+    "delta_stress_observations": 602,
+    "malformed_inputs_rejected": 12,
+    "private_replays": [
+      {
+        "input_sha256": "96104664ece8630d8cda36e948d0ba516fa09691e3e7f82b8ad5ce437ee03c95",
+        "observations_matched": 368
+      },
+      {
+        "input_sha256": "719e37549580ea20a888769a68a1e1d65e93d4ff31c1d432c39907fc7dd3dc2d",
+        "observations_matched": 303
+      }
+    ],
+    "jar_sha256": "cbdd13d9cddd63d1e93973ccd7aa21e9bd8017ec73d3fa95d7db156bb7b090a3",
+    "source_id": "8a25954d4812cdf0",
+    "passed": true,
+    "test_sha256": "3256320f235d4002da5228d5bde98a4ed07511d01e5cf1e31392601d5445c8f6",
+    "builder_sha256": "d12ef4bef89b716ab8399dec84c64a6a21b2548d7e202b637916e7bd726d66f2"
+  },
+  "control_tests": 16,
+  "actual_packaged_install_no_sd_removal_passed": true,
+  "packaged_live_gate_rejected_with_proof": true,
+  "live_output_allowed": false,
+  "unit_startup_shadow_test_pending": false,
+  "prior_d1_withdrawn": true,
+  "rollback_recovered_cluster_user_confirmed": true,
+  "unit_startup_shadow_test_passed": true,
+  "unit_evidence": {
+    "results": "D1-r2-RESULTS.md",
+    "capture": "cpmap-rgi-D1-4386944",
+    "journal_sha256": "24b48a125ad276ec5fbbf86417eefebb518320b9fb021ef5959570d611ceac1b",
+    "oem_carplay_and_reconnection_normal_user_confirmed": true,
+    "healthy_active_shadow_verifier_passed_user_confirmed": true,
+    "photo_active_mode": 1,
+    "photo_active_context": 0,
+    "photo_active_ticks": 889,
+    "active_proposal_write_counts_not_retained": true,
+    "export_after_disable": {
+      "mode": 0,
+      "context": 0,
+      "ticks": 1072,
+      "proposals": 0,
+      "writes": 0,
+      "failures": 0,
+      "error": 0
+    },
+    "recorder": {
+      "valid_reads": 1033,
+      "invalid_reads": 0,
+      "snapshots": 109,
+      "producer_faults": 0,
+      "manual_stop": true
+    },
+    "replay": {
+      "journal_sha256": "24b48a125ad276ec5fbbf86417eefebb518320b9fb021ef5959570d611ceac1b",
+      "first_snapshot": {
+        "elapsed_ms": 21,
+        "sequence": 185,
+        "retained": 16,
+        "first_retained_sequence": 170
+      },
+      "observations_matched": 214,
+      "bootstrap_old_journal_no_live_output": true,
+      "actions": {
+        "pass_through": 11,
+        "publish": 200,
+        "clear_and_release": 3
+      },
+      "descriptor_states": {
+        "0:0": 37,
+        "13:192": 152,
+        "21:64": 11
+      },
+      "valid_distance_observations": 178,
+      "coverage": {
+        "publications": 1,
+        "published_events": 362,
+        "recorded_events": 193,
+        "unrecorded_events": 169,
+        "gap_windows": 1,
+        "recorded_by_id": {
+          "0x5201": 157,
+          "0x5202": 36
+        }
+      },
+      "transitions": [
+        {
+          "elapsed_ms": 21,
+          "phase": "stopped",
+          "head": null
+        },
+        {
+          "elapsed_ms": 8966,
+          "phase": "guiding",
+          "head": null
+        },
+        {
+          "elapsed_ms": 19574,
+          "phase": "guiding",
+          "head": 1
+        },
+        {
+          "elapsed_ms": 20547,
+          "phase": "guiding",
+          "head": 2
+        },
+        {
+          "elapsed_ms": 25527,
+          "phase": "rerouting",
+          "head": 2
+        },
+        {
+          "elapsed_ms": 25849,
+          "phase": "loading",
+          "head": null
+        },
+        {
+          "elapsed_ms": 25953,
+          "phase": "guiding",
+          "head": 0
+        },
+        {
+          "elapsed_ms": 33572,
+          "phase": "guiding",
+          "head": 1
+        },
+        {
+          "elapsed_ms": 39559,
+          "phase": "loading",
+          "head": null
+        },
+        {
+          "elapsed_ms": 39665,
+          "phase": "guiding",
+          "head": 4
+        }
+      ]
+    },
+    "native_output_tested": false
+  }
+}

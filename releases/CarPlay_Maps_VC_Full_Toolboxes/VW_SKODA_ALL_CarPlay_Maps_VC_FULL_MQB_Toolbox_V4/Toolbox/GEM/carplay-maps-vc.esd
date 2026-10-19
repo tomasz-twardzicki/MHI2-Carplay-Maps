@@ -1,6 +1,7 @@
 ###########################################################################
 # CarPlay Maps VC
-# Free open-source project by omonob (QCDWJ)
+# Baseline: omonob (QCDWJ)
+# MU1427 + native route guidance: tomasz-twardzicki
 ###########################################################################
 screen carplay-maps-vc Customization
 
@@ -16,12 +17,17 @@ keyValue
 
 keyValue
     value   String sys 0x00000000 0
-    label   "Author: omonob (QCDWJ)"
+    label   "Baseline author: omonob (QCDWJ)"
     poll    0
 
 keyValue
     value   String sys 0x00000000 0
-    label   "Map video only - no music, nav text or animation"
+    label   "MU1427 author: tomasz-twardzicki"
+    poll    0
+
+keyValue
+    value   String sys 0x00000000 0
+    label   "MU1427: native arrows, distance and route totals"
     poll    0
 
 script
@@ -41,9 +47,21 @@ script
     label   "Collect diagnostics to SD (Log/cpmap-diag-*)"
 
 script
-    value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_navrecon.sh"
-    label   "Collect navigation research data to SD (Log/cpmap-navrecon-*)"
-
-script
     value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_restore.sh"
     label   "Restore factory files"
+
+script
+    value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_guidance_install.sh"
+    label   "Install full native guidance (MU1427 only)"
+
+script
+    value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_guidance_status.sh"
+    label   "Show native guidance status"
+
+script
+    value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_guidance_disable.sh"
+    label   "Disable native guidance now (until reboot)"
+
+script
+    value   sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_guidance_remove.sh"
+    label   "Remove native guidance (reboot)"

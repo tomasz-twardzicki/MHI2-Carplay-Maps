@@ -36,7 +36,12 @@ It sends the CarPlay map video to the cockpit, draws Apple Maps' turn card on it
 - **"Ignore navigation-active" for MU1427:** keeps the factory navigation map running in the cockpit while CarPlay navigates. The toolbox's generic patch stops CarPlay from starting on MU1427, so this package includes a build made from MU1427's own HMI classes. The install script picks it automatically.
 - **Status, diagnostics and restore** entries in the toolbox menu.
 
-Not included: music metadata or cover art, and turn-by-turn shown in the cockpit's own navigation graphics (VW-style arrows). The turn card is part of the CarPlay video, drawn by the iPhone.
+The full MU1427 bundle adds an optional, separate **native guidance** install:
+VW arrows and maneuver distance on AID/HUD, plus remaining route distance and
+travel duration on AID. It starts automatically after boot. See the
+[full native guidance installation](./MU1427/route-guidance/INSTALL.md).
+Music metadata, cover art, native street/lane graphics and clock-time arrival
+ETA are outside this version. The phone-rendered turn card remains available.
 
 ## Compatibility
 
@@ -52,11 +57,25 @@ The package still contains the original project's profiles for other firmware ([
 
 ## Download
 
+**Full MU1427 bundle with automatic native guidance:**
+[CarPlay_Maps_VC_MU1427_Native_Guidance_v1.0.0.zip](./MU1427/route-guidance/build-release/CarPlay_Maps_VC_MU1427_Native_Guidance_v1.0.0.zip).
+Use the [full installation guide](./MU1427/route-guidance/INSTALL.md). The
+existing AUTO MU options remain; native guidance has its own MU1427-only
+install/remove options. The narrow/wide card is 16 pixels lower to clear the
+native distance/time bar. Automatic startup and the revised position still
+need the first installation check on the unit.
+
+The previously published video-only bundle remains available below.
+
 **MQB Toolbox V4.2A with CarPlay Maps VC:** release [`toolbox-plaintext-v1.3.0`](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/toolbox-plaintext-v1.3.0). Direct download: [CarPlay_Maps_VC_FULL_MQB_Toolbox_V4.2A.zip](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/toolbox-plaintext-v1.3.0/CarPlay_Maps_VC_FULL_MQB_Toolbox_V4.2A.zip)
 
 Verify the archive with the release's [SHA-256 manifest](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/toolbox-plaintext-v1.3.0/FULL_TOOLBOX_SHA256.txt). Its sha256 is `90ee99d17ac70e7653790577c53fe8d248151840ca65aa7ca6ea55eb0ac2df50`.
 
 ## Installation
+
+For the full native-guidance bundle, follow [INSTALL.md](./MU1427/route-guidance/INSTALL.md):
+run the existing 791 AUTO MU installer, then the separate MU1427 native
+installer, and fully reboot. The original video-only procedure follows.
 
 Only one installation route is supported: the full MQB Toolbox package.
 
@@ -101,6 +120,7 @@ The iPhone decides the card's size, and it grows with the guidance content (for 
 | [`MU1427/791_AID12.3/`](./MU1427/791_AID12.3/) | Standalone MU1427/791 profile: installer, payload, `patch-core-mu1427.py` |
 | [`MU1427/791_AID12.3/tuning/`](./MU1427/791_AID12.3/tuning/) | `core.so` display patches, `build-mu1427-cores.sh` (rebuild and verify), test history |
 | [`MU1427/NavActiveIgnore/`](./MU1427/NavActiveIgnore/) | MU1427 "Ignore navigation-active" build tooling and jar |
+| [`MU1427/route-guidance/`](./MU1427/route-guidance/) | Experimental iAP2 guidance: B4/C4 and native AID/HUD arrows validated; D3 distance scaling/route totals accepted; full automatic guidance package prepared, with dedicated installer and rollback |
 | [`releases/CarPlay_Maps_VC_Full_Toolboxes/`](./releases/CarPlay_Maps_VC_Full_Toolboxes/) | Source tree of the full MQB Toolbox package and its SHA-256 manifest |
 | [`tests/`](./tests/) | Offline mock-install test |
 
