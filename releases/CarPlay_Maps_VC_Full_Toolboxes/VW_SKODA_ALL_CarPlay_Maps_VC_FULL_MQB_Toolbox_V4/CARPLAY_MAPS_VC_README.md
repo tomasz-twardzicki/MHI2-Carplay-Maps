@@ -1,9 +1,9 @@
 # MU1427 native guidance — full installation
 
-Package: [CarPlay_Maps_VC_MU1427_Native_Guidance_v1.0.0.zip](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/mu1427-native-guidance/CarPlay_Maps_VC_MU1427_Native_Guidance_v1.0.0.zip).
+Package: [CarPlay_Maps_VC_MU1427_Native_Guidance_v1.0.0.zip](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1427-v1.2.0/CarPlay_Maps_VC_MU1427_Native_Guidance_v1.0.0.zip).
 
-[Release notes](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/mu1427-native-guidance) · [SHA-256 checksums](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/mu1427-native-guidance/SHA256SUMS.txt).
-Verify the downloaded archive before extracting it.
+[MU1427 v1.2.0 release notes](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v1.2.0) · [SHA-256 checksums](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1427-v1.2.0/SHA256SUMS.txt).
+Verify the downloaded archive before extracting it. The release tag is `MU1427-v1.2.0`; the original ZIP filename and embedded payload version `1.0.0` are unchanged.
 
 This full MQB Toolbox bundle keeps the original AUTO MU video installers and
 adds **Install full native guidance (MU1427 only)**. The add-on supplies native

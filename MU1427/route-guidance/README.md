@@ -5,7 +5,7 @@ plus remaining route distance and travel duration on AID. Phone guidance
 controls output; OEM navigation retains priority. The phone-rendered map and
 turn card remain available.
 
-[Download and release notes](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/mu1427-native-guidance)
+[Download and release notes](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v1.2.0)
 · [Installation, upgrade and recovery](./INSTALL.md)
 · [Release verification](./RELEASE-VERIFICATION.json).
 

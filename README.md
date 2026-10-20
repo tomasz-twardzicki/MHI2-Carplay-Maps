@@ -9,7 +9,7 @@
 ![Firmware](https://img.shields.io/badge/firmware-MU1427-green?style=flat-square)
 ![Cluster](https://img.shields.io/badge/cluster-791%20AID%2012.3-green?style=flat-square)
 
-[Download](#download) · [Install](#installation) · [Display options](#display-options) · [Support](#support-this-project) · [Origin](#origin-and-upstream-project)
+[Download](#download) · [Install](#installation) · [Display options](#display-options) · [Changelog](#changelog) · [Support](#support-this-project) · [Origin](#origin-and-upstream-project)
 
 [![Support via PayPal](https://img.shields.io/badge/Support-PayPal-0070BA?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/ttomcio)
 
@@ -68,10 +68,10 @@ The package still contains the original project's profiles for other firmware ([
 
 ## Download
 
-**Full MU1427 bundle with automatic native guidance, version 1.0.0:**
-[Release `mu1427-native-guidance`](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/mu1427-native-guidance) ·
-[Download the full ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/mu1427-native-guidance/CarPlay_Maps_VC_MU1427_Native_Guidance_v1.0.0.zip) ·
-[SHA-256 checksums](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/mu1427-native-guidance/SHA256SUMS.txt).
+**Full MU1427 bundle with automatic native guidance — MU1427 v1.2.0:**
+[Release `MU1427-v1.2.0`](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v1.2.0) ·
+[Download the full ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1427-v1.2.0/CarPlay_Maps_VC_MU1427_Native_Guidance_v1.0.0.zip) ·
+[SHA-256 checksums](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1427-v1.2.0/SHA256SUMS.txt).
 
 Use this bundle for the native arrows, route totals and lowered turn cards.
 Verify the archive against `SHA256SUMS.txt`, then follow the
@@ -79,9 +79,29 @@ Verify the archive against `SHA256SUMS.txt`, then follow the
 The [full toolbox files](./releases/CarPlay_Maps_VC_Full_Toolboxes/VW_SKODA_ALL_CarPlay_Maps_VC_FULL_MQB_Toolbox_V4/) are also kept in this repository.
 The older release below contains the video patch only.
 
-**MQB Toolbox V4.2A with CarPlay Maps VC:** release [`toolbox-plaintext-v1.3.0`](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/toolbox-plaintext-v1.3.0). Direct download: [CarPlay_Maps_VC_FULL_MQB_Toolbox_V4.2A.zip](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/toolbox-plaintext-v1.3.0/CarPlay_Maps_VC_FULL_MQB_Toolbox_V4.2A.zip)
+**MQB Toolbox V4.2A with CarPlay Maps VC:** release [`MU1427-v1.1.0`](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v1.1.0). Direct download: [CarPlay_Maps_VC_FULL_MQB_Toolbox_V4.2A.zip](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1427-v1.1.0/CarPlay_Maps_VC_FULL_MQB_Toolbox_V4.2A.zip)
 
-Verify the archive with the release's [SHA-256 manifest](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/toolbox-plaintext-v1.3.0/FULL_TOOLBOX_SHA256.txt). Its sha256 is `90ee99d17ac70e7653790577c53fe8d248151840ca65aa7ca6ea55eb0ac2df50`.
+Verify the archive with the release's [SHA-256 manifest](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1427-v1.1.0/FULL_TOOLBOX_SHA256.txt). Its sha256 is `90ee99d17ac70e7653790577c53fe8d248151840ca65aa7ca6ea55eb0ac2df50`.
+
+## Changelog
+
+Release tags use `MU1427-vMAJOR.MINOR.PATCH`. MU1367/790 has its own version
+sequence and keeps the `-experimental` suffix. **MU1427 v1.0.0 is the first
+confirmed working MU1427 baseline**, rather than the earlier initial port.
+
+| Release | Published | Changes | Previous tag |
+| --- | --- | --- | --- |
+| [MU1427 v1.2.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v1.2.0) | 2026-10-19 | Native AID/HUD maneuver arrows and OEM-formatted distance; remaining route distance/travel duration on AID; automatic reader/HMI adapter; separate install/removal; turn cards 16 pixels lower. Final-package startup/extended-operation/card-position checks remain pending as described above. | `mu1427-native-guidance` |
+| [MU1367 / 790 v1.0.0-experimental](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-790-v1.0.0-experimental) | 2026-10-15 | Experimental 30 fps and turn cards for the 790 display, narrow/wide/map-only/lowered-card options and original-core fallback. Offline verified; not tested in a 790 car at publication. No native guidance add-on. | `mu1367-790-experimental` |
+| [MU1427 v1.1.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v1.1.0) | 2026-10-14 | Phone-rendered turn card, smoother 30 fps cluster stream, narrow/wide/map-only display options and active-option status. | `toolbox-plaintext-v1.3.0` |
+| [MU1427 v1.0.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v1.0.0) | 2026-10-13 | First on-car working MU1427/791 release: corrected cluster-stream AES key offset, firmware-matched Ignore navigation-active JAR and bootclasspath install/uninstall fixes. | `toolbox-plaintext-v1.2.0` |
+| [MU1427 v0.1.0-experimental](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v0.1.0-experimental) | 2026-10-09 | Historical initial MU1427 installer/bootclasspath support, verified offline only. Predates the working baseline's AES and Ignore navigation-active fixes; use v1.0.0 or later. | `toolbox-plaintext-v1.1.0` |
+
+This is a release-tag reorganization: the original commit targets, downloadable
+files, embedded build versions and checksums are preserved. In particular,
+MU1427 v1.2.0 retains the original `Native_Guidance_v1.0.0.zip` filename and
+internal payload version. Older Git tags remain as commit aliases; use the
+versioned release links above for downloads.
 
 ## Installation
 
