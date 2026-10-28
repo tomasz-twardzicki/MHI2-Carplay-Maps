@@ -24,6 +24,13 @@
 
 ## Overview
 
+**MU1367 P4521 experimental support:** the separate
+[MU1367-P4521 installation path](./MU1367-P4521/INSTALL.md) and
+[release bundle](./releases/MU1367-P4521/v1.4.0-experimental/README.md)
+target `MHI2_ER_VWG13_P4521_MU1367` + 791, based on MU1367 v1.4.0.
+Verified OEM files and runtime payloads are identical to K4525; P4521 vehicle
+testing remains pending.
+
 This fork extends CarPlay Maps VC on **MU1367** and ports it to **MU1427**, with the **791 AID 12.3** virtual cockpit. Each firmware has its own package and matched HMI adapters; use the installation guide for your exact version.
 
 It combines the phone-rendered CarPlay map and optional turn card with the cockpit's own navigation graphics: native maneuver arrows, distance to the next turn, remaining route distance and travel time. MU1367 also includes native MU settings and audio text. The new MU1367 lane-guidance layer adds factory lane symbols and recommendations; its on-car acceptance is pending.
