@@ -1,0 +1,22 @@
+{
+  "checked_at": "2026-10-28T08:32:49.016626+00:00",
+  "branch_base": "origin/main at 024dd159c4d99890c9b17ea500325e4d2b5dcbde",
+  "archive_sha256": "19a136685d1e55d8630bfe38146a75a8b999fad0198a3a0f850f075f631a50b9",
+  "archive_crc_passed": true,
+  "fresh_checkout_rebuild_matches_tested_archive": {
+    "CarPlayMU1367Guidance.jar": "8ced153de465e84d12f2545915b91d7564b80ac1f738700493d1f502b4f9483f",
+    "CarPlayMU1367Audio.jar": "fb670fb6c5a824eb656eb69b3e2e9774f2469db6755088078f95f53364f2b3ab",
+    "CarPlayMU1367NavIgnore.jar": "de2590556b726fb67077cf12cda40bdef41968e7cbdba1d503998dbcde9933d0",
+    "ipod-drvr-iap2-B4.so": "76926bde9bdf1e06fdfe57fd324bbd8772bcb2a98a58ac444b4822e25a331b48",
+    "ipod-drvr-iap2-N3.so": "ea75a03841f9fd9078d3b2bee0e509fd6bc48595eb5f21ae5bf26a018eb82048"
+  },
+  "guidance_host_assertions": 123,
+  "audio_host_assertions": 41,
+  "pinned_vendor_files_verified": 75,
+  "python_sources_compiled": 45,
+  "prior_host_qnx_rollback_evidence": "VERIFICATION.json",
+  "resource_evidence": "RESOURCE-VERIFICATION.json",
+  "user_test_report": "../../MU1367/settings-v2/UNIT-RESULTS.md",
+  "runtime_or_default_changes_since_user_test": false,
+  "extended_vehicle_endurance_confirmed": false
+}

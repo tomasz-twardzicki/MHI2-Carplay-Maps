@@ -68,6 +68,15 @@ The package still contains the original project's profiles for other firmware ([
 
 ## Download
 
+**MU1367 / AID 791 integration with native MU settings:** the separate
+[tested bundle](./releases/MU1367/) includes firmware-matched native guidance,
+audio text and navigation-active adapters, plus upstream v2 map/mirror UI,
+selectable FPS/IDR profiles and turn-card layouts. The user prefers **30 fps /
+IDR5** after observing some stutter with both 40 fps options. Read the
+[MU1367 installation and rollback guide](./MU1367/settings-v2/INSTALL.md) and
+[initial user results](./MU1367/settings-v2/UNIT-RESULTS.md). This is a test
+build; extended endurance and detailed acceptance checks remain unrecorded.
+
 **Full MU1427 bundle with automatic native guidance — MU1427 v1.2.0:**
 [Release `MU1427-v1.2.0`](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v1.2.0) ·
 [Download the full ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1427-v1.2.0/CarPlay_Maps_VC_MU1427_Native_Guidance_v1.0.0.zip) ·

@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "scope": "exact-factory host semantics; no transport or AID runtime",
+  "stock_content_sha256": "7c63a1130d42999f18d1f30195292ba547aa14a767df7edab5d09f1ae6feffdf",
+  "source_sha256": "966fe44890701ac72be9738f43db429c674394b984b373a0a7e1889f149bcca5",
+  "runner_sha256": "85a84532a122cb28fd1c6144862b1b4aa504e31af94ed3a7aa8b8a9274c23774",
+  "classes_sha256": {
+    "de/vw/mib/bap/mqbab2/common/api/adapter/AbstractBAPDataPool.class": "556bff3f956cb6fb269dcedd2b2fad36c7e2c65e3078a1a856b8aaa2f64359c1",
+    "de/vw/mib/bap/mqbab2/common/api/adapter/AbstractBAPDataPool$SendbufferFunctionRegistryListenerAdapter.class": "366a9a7c9982bbe9e70c98ab6b4e02d4c89981d07d47cab799b547dd0bf8980c",
+    "de/vw/mib/bap/mqbab2/common/api/adapter/BAPDataPoolValueAdapter.class": "a925a419978767e543414a77af1e60e4b163fa7dbe33e35627d014f3ca97b438",
+    "de/vw/mib/bap/mqbab2/common/marshalling/FunctionRegistryListenerAdapter.class": "a810897f79787973a1459374b2f7d417e56515acd31f9c8ff5cda65d2e6d548d",
+    "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationInfo.class": "875b2132e26b9968847379159dafdc16fd46cb8939cd7e74a544d7c56e405a3e"
+  },
+  "checks": {
+    "checks": 6,
+    "duplicate_returns_false": true,
+    "false_does_not_imply_transport_failure": true
+  }
+}
