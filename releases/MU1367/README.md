@@ -1,4 +1,32 @@
-# MU1367 / AID 791: native guidance, audio and MU settings
+# MU1367 / AID 791 releases
+
+## v1.4.0 — native lane guidance (prerelease)
+
+[Download the full lane-guidance toolbox ZIP](./v1.4.0/CarPlay_Maps_VC_MU1367_791_Native_Lanes_Test.zip?raw=true)
+and verify [SHA256SUMS.txt](./v1.4.0/SHA256SUMS.txt).
+[GitHub release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.0).
+
+Adds native lane order, allowed/best-lane recommendations and branching exits
+through the factory cluster renderer. Turn cards default OFF, with the existing
+App-Connect ON/OFF control retained. Explicit saved preferences, including
+30 fps / IDR5, remain unchanged; select Card OFF once if ON was saved earlier.
+
+For exact K4525 MU1367 + **791** only. Existing v1.3.0 users install **step 4
+only**, after refreshing Toolbox menus/scripts, disconnecting the phone and
+rebooting. Fresh installs complete steps 1–3 first. Read the
+[installation and no-SD rollback guide](../../MU1367/lanes/INSTALL.md).
+
+Build `MU1367-lanes-ac765ddeb391`; ZIP SHA256:
+`942c9d2a1b38e7f417f97e1a8806e42559b29565f3605215c92b932d58c1259f`.
+The bundle includes all four installation stages and source/build scripts.
+[Verification](./v1.4.0/VERIFICATION.json) covers 761 lane assertions,
+factory ARM/J9 loading/serialization, Java/C preferences, 19 installer/recovery
+tests and a full four-layer OEM restore without SD. Phone/app lane delivery,
+physical cluster rendering and extended vehicle endurance are **not yet
+validated on the car**. The original v1.3.0 payloads are preserved unchanged
+inside this bundle; the new runtime is installed only by step 4.
+
+## v1.3.0 — native guidance, audio and MU settings
 
 [Download the tested full toolbox ZIP](./CarPlay_Maps_VC_MU1367_791_MU_Settings_Test.zip?raw=true)
 and verify it against [SHA256SUMS.txt](SHA256SUMS.txt).

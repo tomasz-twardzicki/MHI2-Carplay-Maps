@@ -1,19 +1,19 @@
 <div align="center">
 
-# CarPlay Maps VC for MHI2: MU1427 / AID 791
+# CarPlay Maps VC for MHI2: MU1367 / MU1427 / AID 791
 
-**CarPlay maps and native navigation guidance on the Volkswagen Active Info Display, with maneuver arrows and distance on AID/HUD, for MHI2 firmware MU1427.**
+**CarPlay maps and native navigation guidance on the Volkswagen Active Info Display, with firmware-matched adapters for MHI2 MU1367 and MU1427.**
 
 [![License](https://img.shields.io/badge/license-GPL--3.0-blue?style=flat-square)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-MHI2%20%2F%20QNX%206.5-2f6f9f?style=flat-square)
-![Firmware](https://img.shields.io/badge/firmware-MU1427-green?style=flat-square)
+![Firmware](https://img.shields.io/badge/firmware-MU1367%20%2F%20MU1427-green?style=flat-square)
 ![Cluster](https://img.shields.io/badge/cluster-791%20AID%2012.3-green?style=flat-square)
 
 [Download](#download) · [Install](#installation) · [Display options](#display-options) · [Changelog](#changelog) · [Support](#support-this-project) · [Origin](#origin-and-upstream-project)
 
 [![Support via PayPal](https://img.shields.io/badge/Support-PayPal-0070BA?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/ttomcio)
 
-**MU1427 development: [tomasz-twardzicki](https://github.com/tomasz-twardzicki)** · Based on [CarPlay Maps VC](https://github.com/omonob/MHI2-Carplay-Maps) by **[omonob (汽车大玩家)](https://github.com/omonob)**
+**MU1367 / MU1427 development: [tomasz-twardzicki](https://github.com/tomasz-twardzicki)** · Based on [CarPlay Maps VC](https://github.com/omonob/MHI2-Carplay-Maps) by **[omonob (汽车大玩家)](https://github.com/omonob)**
 
 </div>
 
@@ -24,15 +24,35 @@
 
 ## Overview
 
-This fork carries the CarPlay Maps VC project to MHI2 units on firmware **MU1427** with the **791 AID 12.3** virtual cockpit. The original release doesn't work on this firmware.
+This fork extends CarPlay Maps VC on **MU1367** and ports it to **MU1427**, with the **791 AID 12.3** virtual cockpit. Each firmware has its own package and matched HMI adapters; use the installation guide for your exact version.
 
-It combines the phone-rendered CarPlay map and turn card with the cockpit's own navigation graphics: native maneuver arrows, distance to the next turn, remaining route distance and travel time. The original map-video installation and the new **MU1427-only native guidance add-on** are separate options in the same full MQB Toolbox bundle.
+It combines the phone-rendered CarPlay map and optional turn card with the cockpit's own navigation graphics: native maneuver arrows, distance to the next turn, remaining route distance and travel time. MU1367 also includes native MU settings and audio text. The new MU1367 lane-guidance layer adds factory lane symbols and recommendations; its on-car acceptance is pending.
 
-The baseline project is by **omonob (QCDWJ)**. **tomasz-twardzicki** developed the MU1427 adaptation and native guidance additions.
+The baseline project is by **omonob (QCDWJ)**. **tomasz-twardzicki** developed the firmware adaptations and native guidance additions.
 
 ![MU1427 CarPlay map, native maneuver guidance and route totals on AID, with guidance projected on the HUD](./assets/mu1427-native-guidance-collage.png)
 
 *AID and HUD navigation — edited photo collage.*
+
+## Latest MU1367 / 791 changes
+
+**MU1367 v1.4.0 — lane-guidance prerelease:** phone lane instructions feed the
+factory cluster lane renderer, preserving lane order, allowed/best-lane
+recommendations and branching exits. The OEM lane-display setting and
+six-lane window remain in use. Turn cards default **OFF**, with the existing
+ON/OFF selector under **App-Connect → Virtual Cockpit settings** retained.
+Saved preferences are preserved: select OFF once if Card ON was saved earlier;
+the user's preferred **30 fps / IDR5** is not reset.
+
+This is a removable fourth layer over v1.3.0, with exact firmware/payload
+checks, verified backups, removal guards and recovery without SD. It passes
+761 lane assertions, factory ARM/J9 verification, 19 installer/recovery tests
+and a complete four-layer return to OEM. **Phone/app lane delivery, physical
+cluster rendering and extended vehicle endurance still require testing.**
+See [installation and rollback](./MU1367/lanes/INSTALL.md),
+[protocol review](./MU1367/lanes/RESEARCH.md) and
+[verification](./MU1367/lanes/VERIFICATION.json). These lane changes apply to
+exact **K4525 MU1367 + 791**, and are not part of the MU1427 release below.
 
 ## Features (MU1427 / 791)
 
@@ -54,7 +74,7 @@ ETA are outside this version. The phone-rendered turn card remains available.
 
 **Validation:** D3 unit testing confirmed native AID/HUD arrows, corrected maneuver distance, route distance and travel duration. Reconnection, disconnect clearing and OEM navigation worked in the reported tests. The final package passes host and factory QNX/J9 checks, including installation and rollback. **Automatic startup, operation beyond five minutes and the lowered card position still need their first check on the unit.** See [D3 results](./MU1427/route-guidance/D3-RESULTS.md) and [release verification](./MU1427/route-guidance/RELEASE-VERIFICATION.json).
 
-## Compatibility
+## Compatibility (MU1427)
 
 | | Supported |
 | --- | --- |
@@ -64,11 +84,21 @@ ETA are outside this version. The phone-rendered turn card remains available.
 
 The native guidance installer requires the **MU1427/791 base profile** and checks the firmware and known driver/config sizes before installation. It accepts the factory pair or the tested B4 pair and retains the OEM backups. The 790 installer refuses MU1427; native guidance is not offered for other profiles.
 
-The package still contains the original project's profiles for other firmware ([see below](#origin-and-upstream-project)). This fork hasn't changed or re-tested them.
+MU1367 uses its separate [compatibility and installation guide](./MU1367/lanes/INSTALL.md).
+The original standalone profiles remain available ([see below](#origin-and-upstream-project)).
 
 ## Download
 
-**MU1367 / AID 791 integration with native MU settings:** the separate
+**MU1367 / AID 791 — v1.4.0 lane-guidance prerelease:**
+[Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.0) ·
+[Ready-to-extract full toolbox ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.0/CarPlay_Maps_VC_MU1367_791_Native_Lanes_Test.zip) ·
+[SHA-256 checksums](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.0/SHA256SUMS.txt).
+Read the [lane installation and recovery guide](./MU1367/lanes/INSTALL.md).
+Existing v1.3.0 users install **step 4 only**; refresh Toolbox menus and
+scripts, disconnect CarPlay and reboot first. Fresh installs complete steps
+1–3 before step 4. Lane output has not yet been validated on the car.
+
+**MU1367 / AID 791 — v1.3.0 integration with native MU settings:** the separate
 [tested bundle](./releases/MU1367/) includes firmware-matched native guidance,
 audio text and navigation-active adapters, plus upstream v2 map/mirror UI,
 selectable FPS/IDR profiles and turn-card layouts. The user prefers **30 fps /
@@ -76,6 +106,8 @@ IDR5** after observing some stutter with both 40 fps options. Read the
 [MU1367 installation and rollback guide](./MU1367/settings-v2/INSTALL.md) and
 [initial user results](./MU1367/settings-v2/UNIT-RESULTS.md). This is a test
 build; extended endurance and detailed acceptance checks remain unrecorded.
+The [v1.3.0 release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.3.0)
+and its ZIP remain unchanged.
 
 **Full MU1427 bundle with automatic native guidance — MU1427 v1.2.0:**
 [Release `MU1427-v1.2.0`](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v1.2.0) ·
@@ -94,25 +126,32 @@ Verify the archive with the release's [SHA-256 manifest](https://github.com/toma
 
 ## Changelog
 
-Release tags use `MU1427-vMAJOR.MINOR.PATCH`. MU1367/790 has its own version
+Release tags use separate `MU1367-vMAJOR.MINOR.PATCH` and
+`MU1427-vMAJOR.MINOR.PATCH` sequences. MU1367/790 has its own version
 sequence and keeps the `-experimental` suffix. **MU1427 v1.0.0 is the first
 confirmed working MU1427 baseline**, rather than the earlier initial port.
 
 | Release | Published | Changes | Previous tag |
 | --- | --- | --- | --- |
+| [MU1367 / 791 v1.4.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.0) | 2026-10-28 | Lane-guidance prerelease: native lane order, recommendations and branching exits through the factory renderer; turn cards OFF by default with App-Connect ON/OFF retained; saved preferences preserved; removable fourth layer with verified backups and no-SD rollback. Host/factory-runtime and full OEM-restore checks pass; on-car lane delivery/rendering and endurance remain pending. | `MU1367-v1.3.0` |
+| [MU1367 / 791 v1.3.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.3.0) | 2026-10-28 | Exact MU1367 native guidance, audio text and navigation-active adapters; upstream v2 map/mirror UI; App-Connect FPS/IDR and card-layout settings; bounded logging and verified reverse-order recovery. Initial user testing passed, with 30 fps / IDR5 preferred over both 40 fps profiles. | — |
 | [MU1427 v1.2.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v1.2.0) | 2026-10-19 | Native AID/HUD maneuver arrows and OEM-formatted distance; remaining route distance/travel duration on AID; automatic reader/HMI adapter; separate install/removal; turn cards 16 pixels lower. Final-package startup/extended-operation/card-position checks remain pending as described above. | `mu1427-native-guidance` |
 | [MU1367 / 790 v1.0.0-experimental](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-790-v1.0.0-experimental) | 2026-10-15 | Experimental 30 fps and turn cards for the 790 display, narrow/wide/map-only/lowered-card options and original-core fallback. Offline verified; not tested in a 790 car at publication. No native guidance add-on. | `mu1367-790-experimental` |
 | [MU1427 v1.1.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v1.1.0) | 2026-10-14 | Phone-rendered turn card, smoother 30 fps cluster stream, narrow/wide/map-only display options and active-option status. | `toolbox-plaintext-v1.3.0` |
 | [MU1427 v1.0.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v1.0.0) | 2026-10-13 | First on-car working MU1427/791 release: corrected cluster-stream AES key offset, firmware-matched Ignore navigation-active JAR and bootclasspath install/uninstall fixes. | `toolbox-plaintext-v1.2.0` |
 | [MU1427 v0.1.0-experimental](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v0.1.0-experimental) | 2026-10-09 | Historical initial MU1427 installer/bootclasspath support, verified offline only. Predates the working baseline's AES and Ignore navigation-active fixes; use v1.0.0 or later. | `toolbox-plaintext-v1.1.0` |
 
-This is a release-tag reorganization: the original commit targets, downloadable
-files, embedded build versions and checksums are preserved. In particular,
+The older MU1427 entries reflect a release-tag reorganization: their original
+commit targets, downloadable files, embedded build versions and checksums are preserved. In particular,
 MU1427 v1.2.0 retains the original `Native_Guidance_v1.0.0.zip` filename and
 internal payload version. Older Git tags remain as commit aliases; use the
 versioned release links above for downloads.
 
 ## Installation
+
+**MU1367:** follow the [lane-layer guide](./MU1367/lanes/INSTALL.md) or the
+[v1.3.0 settings guide](./MU1367/settings-v2/INSTALL.md). The steps below are
+for **MU1427**.
 
 Use the **full native-guidance MQB Toolbox bundle** described above. The [full installation guide](./MU1427/route-guidance/INSTALL.md) includes recovery commands and the first installation check.
 
@@ -131,6 +170,9 @@ Keep stable power during the whole process. Don't remove the card while the unit
 Optional: **Customization → Navigation → Ignore navigation-active status from smartphone** keeps the factory navigation running in the cockpit while CarPlay navigates. Undo it with **Uninstall Ignore navigation-active** in the same menu.
 
 ## Display options
+
+**MU1367:** use **App-Connect → Virtual Cockpit settings** for stream/layout
+and Card ON/OFF. The Toolbox tuning options below apply to **MU1427**.
 
 **Customization → CarPlay Maps VC → carplay-maps-vc-tuning** switches the cockpit view. Every option runs at 30 fps and needs a full reboot after switching.
 
@@ -159,6 +201,10 @@ Native guidance does not create the earlier research captures. If the menu is un
 
 | Path | Contents |
 | --- | --- |
+| [`MU1367/lanes/`](./MU1367/lanes/) | Native lane decoder/adapter, card-OFF defaults, build tools, verification and fourth-layer recovery |
+| [`MU1367/settings-v2/`](./MU1367/settings-v2/) | Native App-Connect settings, paired map/mirror runtime and v1.3.0 user results |
+| [`MU1367/port/`](./MU1367/port/) | Exact MU1367 native guidance/audio/NAI adapters and integration tooling |
+| [`releases/MU1367/`](./releases/MU1367/) | Versioned ready-to-use MU1367 bundles, checksums and validation records |
 | [`MU1427/`](./MU1427/) | MU1427 notes: the `core.so` AES fix, the display settings, and offline verification against the factory package |
 | [`MU1427/791_AID12.3/`](./MU1427/791_AID12.3/) | Standalone MU1427/791 profile: installer, payload, `patch-core-mu1427.py` |
 | [`MU1427/791_AID12.3/tuning/`](./MU1427/791_AID12.3/tuning/) | `core.so` display patches, `build-mu1427-cores.sh` (rebuild and verify), test history |
@@ -179,7 +225,9 @@ The original release supports these firmware and cluster combinations:
 | MU1367 | 55,840,541 bytes | ✅ | ✅ |
 | MU1440 Škoda | 55,840,933 bytes | ❌ | ✅ |
 
-Those profiles ([`MU1102/`](./MU1102/), [`MU1367/`](./MU1367/), [`MU1440_SKODA/`](./MU1440_SKODA/)) are kept here unchanged from upstream. For them, use the original project and its releases.
+Those original standalone profiles are retained. MU1367/791 also has the
+separate integration/settings/lane packages described above. For the other
+original profiles, use the upstream project and its releases.
 
 ## Support this project
 

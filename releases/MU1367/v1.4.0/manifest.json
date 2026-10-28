@@ -1,0 +1,238 @@
+{
+  "build_id": "MU1367-lanes-ac765ddeb391",
+  "firmware": "MU1367",
+  "cluster": "791",
+  "runtime": {
+    "firmware": "MU1367",
+    "cluster": "791",
+    "files": {
+      "CarPlayMU1367Guidance.jar": "90f12f3b7a92bbdc00671c7698ec967cfa905c28923cb580c36cafc0b73af6ab",
+      "VCMenu.jar": "e3a33efc3fa579a6228cbf53908bfd739b0ec9a005e96948c16de94776d93287",
+      "core.so": "a63a68925fa96a2a584756c9ea5ab1a218266269c9852e266ad216e1e1dc731a"
+    },
+    "hmi": {
+      "firmware": "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318",
+      "jxe_sha256": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a",
+      "converted_content_sha256": "37bb839fb026bd1d5c0cb5066d189bd58bbde93f5d355eac8473809799f10a48",
+      "class_major": 46,
+      "features": {
+        "guidance": {
+          "build_id": "MU1367-guidance-4cfed248ab4a",
+          "jar": "CarPlayMU1367Guidance.jar",
+          "sha256": "90f12f3b7a92bbdc00671c7698ec967cfa905c28923cb580c36cafc0b73af6ab",
+          "size": 37689,
+          "host": {
+            "factory_integration_assertions": 123
+          }
+        },
+        "audio": {
+          "build_id": "MU1367-audio-e03e0d605623",
+          "jar": "CarPlayMU1367Audio.jar",
+          "sha256": "fb670fb6c5a824eb656eb69b3e2e9774f2469db6755088078f95f53364f2b3ab",
+          "size": 21383,
+          "host": {
+            "text_assertions": 41
+          }
+        },
+        "navignore": {
+          "jar": "CarPlayMU1367NavIgnore.jar",
+          "sha256": "de2590556b726fb67077cf12cda40bdef41968e7cbdba1d503998dbcde9933d0",
+          "size": 13000,
+          "stock_pattern_assertions_passed": true,
+          "stream_state_override": false
+        }
+      },
+      "sources": {
+        "MU1367/lanes/build-runtime/guidance-src/LiveModel.java": "3eed73a4114a22c0349224e5b6b27bde8adc3d732a3f68ab22aedabeefc82041",
+        "MU1367/lanes/build-runtime/guidance-src/JournalReader.java": "7dd3ecf803558dd637cd3a4f6a3186dfbe3707b554ed4dddd6c9cb7e81214b63",
+        "MU1367/lanes/build-runtime/guidance-src/MailboxReader.java": "fb6e28aa0f420be94550e68b30411a4d18d67dd64db6911f1f859c0eea43baf3",
+        "MU1367/lanes/build-runtime/guidance-src/LiveBridge.java": "75248b2b981abb888a8954c06675ee18a123b9012345ec7850054d2987bdfad6",
+        "MU1367/lanes/build-runtime/guidance-src/LaneData.java": "c8cc876bea7609e41d66686b081c878ea9c2efb173625aa9d64b90972cf48f0c",
+        "MU1367/lanes/build-runtime/guidance-src/PatchLive.java": "dd9ff624c3ffe02553f0c9ea868e84c35950b2e0371d91791ea524df53ae2fd9",
+        "MU1367/lanes/build-runtime/guidance-src/TestLive.java": "a05e49bbc75d7e5e3b29a007f0bdec26a36b78616c7fc3cf29fbc85bd545f215",
+        "MU1427/now-playing/n1/java/TextModel.java": "bf175428cac8c61aa829b9a6cb604b8f220b58fd84e97f88a4755c131cdd3a66",
+        "MU1427/now-playing/n1/java/TextBridge.java": "54feab74b4bbf84c0705597c51caddf82f446a85bf8d736781e635f98002c6af",
+        "MU1427/now-playing/java/PatchObserver.java": "06d34764b06d518f314adabc1fbbd91e0811f00c1e8639457dcc1a6fd3199f5c",
+        "MU1427/now-playing/n1/java/PatchText.java": "ef91ce8d771024e7236ce64e629b733208774be7b5c957db1c02e5893cf8e720",
+        "MU1427/now-playing/n1/java/TestText.java": "08a0003f840fb32721bd456d7537b2cae2400f75fd086d6619be0637c0cb630c",
+        "MU1427/NavActiveIgnore/src/de/vw/mib/navactiveignore/NavActiveIgnore.java": "1d0f77fbd8e0c37de208cdf2a7651588a6912083d9f59733d0876b35af5f616d",
+        "MU1427/NavActiveIgnore/patcher/Patch.java": "3abb1b3ba1ca70659ef00c60106e57452f3bbdedbcfe716b1b5e756e84ea2832"
+      },
+      "factory_j9_verified": false,
+      "on_unit_validated": false
+    },
+    "runtime": {
+      "firmware": "MU1367",
+      "cluster": "791",
+      "upstream_commit": "2f5fd58b63b48b807d59c5f79795847fc8c50d05",
+      "stock_content_sha256": "37bb839fb026bd1d5c0cb5066d189bd58bbde93f5d355eac8473809799f10a48",
+      "view_handler_sha256": "7afadc2e226ef2b3444ea0e138e82fda5d839401d58e2beb0bcc00170972ddd6",
+      "files": {
+        "VCMenu.jar": "e3a33efc3fa579a6228cbf53908bfd739b0ec9a005e96948c16de94776d93287",
+        "CarPlayClusterControls.jar": "91d3cf2cf7d5fb19fe1042ea4985c9929b61955f90b7217800ea3904d3cb63c8",
+        "core.so": "a63a68925fa96a2a584756c9ea5ab1a218266269c9852e266ad216e1e1dc731a"
+      },
+      "defaults": {
+        "stream": 0,
+        "layout": 0,
+        "max_fps": 30,
+        "idr_interval": 20,
+        "safe_area": [
+          200,
+          96,
+          400,
+          364
+        ]
+      },
+      "source_sha256": {
+        "package.py": "0f71822d7b9a2507ed13ce8d19fa682cbf2f9934f98bae26cb7e1c75dc6d08bf",
+        "build.py": "4dda77cb090acd4377400412fc92e55daee3a40d90c14f222cb11af3999cf0fa",
+        "test-host.py": "5bfd9f6f037cd3be27b5e507c586c2d1c7b585c5bf45d9a6328df6f99da782ac",
+        "test-package.py": "96c3b9b513a0791845bc51d682a2326cb22a2a2ce67e45c48d27f214c71f8eac",
+        "PatchSettings.java": "cf98cc660709624e017c643619d81a8319f015e707bc105e66acc45d36120304",
+        "display_settings.h": "53b5b6ecc62b98d0f1402977e23c7b61aff57c3031b39f5524a0f9381885045c",
+        "test-controls.py": "95bd198cb09154ee3ff64383df1f4573181235a24b2bcf89a4cc9237f59e5799",
+        "test-qnx.py": "ddcc6daf9a4510e25f10ba9d8393d5190bfa35d32b02cd8d97baf90528f8ebcf",
+        "test-resources.py": "a723e9a8cc5cdc3651c957613c2ef77fc83f9f3ed1a9ab96c6287cc0f3381b67",
+        "DisplaySettings.java": "12f5d2a4f6ccf82e04ca2f8756b6005f3503aaea249b943ae07efb05a1489af5",
+        "TestDisplay.java": "5366a2fca12dd12d24b59a1671f42852fb4701877546215fbff6b2d2445e961f"
+      },
+      "on_unit_validated": false
+    },
+    "card_default": "off",
+    "existing_card_toggle": true,
+    "native_driver_and_reader_changed": false,
+    "lane_source_sha256": {
+      "build.py": "d98b138580ca555beada7fb946588a2c4f4b1cd4b533aaa0ca0a63fcdecf45fc",
+      ".gitignore": "6be9a8d128652f114721b32b7a63701c05ce38421568e49070b5b98207179662",
+      "stage.py": "9d0eedcf4aed321b7add9673624c9317059b400d0760aa48e88d2c2f4ce06243",
+      "LaneData.java": "c8cc876bea7609e41d66686b081c878ea9c2efb173625aa9d64b90972cf48f0c"
+    },
+    "on_unit_validated": false
+  },
+  "before": {
+    "guidance": "8ced153de465e84d12f2545915b91d7564b80ac1f738700493d1f502b4f9483f",
+    "menu": "7ab271624c3999edee58c5502a8d645f22db206297032fffad32ce8f53e625ee",
+    "core": "28b32ff2076281c7dc7b2931cbd08ec0916f2ffceeeff4462b46d218265938af",
+    "parent": "120f968f3018867980f7f767088f9578ab93e7ff7f4456bfc626b6c0df39287d",
+    "settings": "d2206e7afebff28abdccaf99204cf47bf2f55d421b25669f5dabcfda1e940ac3"
+  },
+  "host": {
+    "passed": true,
+    "files": {
+      "CarPlayMU1367Guidance.jar": "90f12f3b7a92bbdc00671c7698ec967cfa905c28923cb580c36cafc0b73af6ab",
+      "VCMenu.jar": "e3a33efc3fa579a6228cbf53908bfd739b0ec9a005e96948c16de94776d93287",
+      "core.so": "a63a68925fa96a2a584756c9ea5ab1a218266269c9852e266ad216e1e1dc731a"
+    },
+    "lanes": "LANES_PASS checks=761 actual_factory_builder=1 no_maneuver_dependency=1 independent_freshness=1",
+    "card_defaults": "CARD_OFF_DEFAULT_PASS explicit_on_off_persisted=1",
+    "settings": {
+      "passed": true,
+      "files": {
+        "VCMenu.jar": "e3a33efc3fa579a6228cbf53908bfd739b0ec9a005e96948c16de94776d93287",
+        "CarPlayClusterControls.jar": "91d3cf2cf7d5fb19fe1042ea4985c9929b61955f90b7217800ea3904d3cb63c8",
+        "core.so": "a63a68925fa96a2a584756c9ea5ab1a218266269c9852e266ad216e1e1dc731a"
+      },
+      "results": {
+        "CardPositionSettingsTest": "CARD_POSITION_SETTINGS_OK checks=286 locales=31 modes=4 other_preferences_unchanged=1",
+        "Card791OptionsTest": "VW791_TWO_CHOICE_CARD_PASS checks=74 locales=31 values=on,off persisted=1",
+        "MapSwitchSettingsTest": "MAP_SWITCH_SETTINGS_TEST_OK checks=16",
+        "ProjectionSettingsTest": "LINKED_SETTINGS_TEST_OK checks=1562 combinations=128 legal=72 blocked=56 locales=31",
+        "WirelessCarPlaySettingsTest": "WIRELESS_INTERFACE_TEST_OK checks=48 default=off service_actions=none",
+        "ProjectionPolicyTest": "LINKED_POLICY_TEST_OK checks=33",
+        "FeatureFlowTest": "FEATURE_FLOW_PASS checks=44 steps=5 independent_information=1 canvas_routing=1",
+        "PublicProfileTest": "PUBLIC_790_791_CHOICES_31_LOCALES_PASS",
+        "TestDisplay": "DISPLAY_SETTINGS_PASS checks=82",
+        "routing": "ACTUAL_GOLDEN_KEYSTATE_ROUTING_PASS checks=5 real_patched_class=1 mirror_phone_map_leak=0",
+        "native": "DISPLAY_NATIVE_CF_PASS checks=115 matrix=16 canvas=800x480 retained_on_corrupt=1 leaks=0\nVW791_CARD_PRODUCTION_CF_TRANSPORT_PASS checks=278 single_view=1 no_updateViewArea=1 single_inflight=1 ready=1 on_off=1 rapid_switch=1 failed_ack=1 immediate_error=1 lost_ack=1 stale_session=1 leaked_cf=0 sends=23",
+        "cross_language": "1,2,2"
+      },
+      "test_sha256": "5bfd9f6f037cd3be27b5e507c586c2d1c7b585c5bf45d9a6328df6f99da782ac",
+      "on_unit_validated": false
+    },
+    "test_sha256": "c7173a12ac04b62a678cae2822b28ae5284ee3db5d5215ebc1b7690e5c9500eb",
+    "on_unit_validated": false
+  },
+  "qnx": {
+    "passed": true,
+    "files": {
+      "CarPlayMU1367Guidance.jar": "90f12f3b7a92bbdc00671c7698ec967cfa905c28923cb580c36cafc0b73af6ab",
+      "VCMenu.jar": "e3a33efc3fa579a6228cbf53908bfd739b0ec9a005e96948c16de94776d93287",
+      "core.so": "a63a68925fa96a2a584756c9ea5ab1a218266269c9852e266ad216e1e1dc731a"
+    },
+    "combined_parent_settings_j9": true,
+    "settings_checks_per_mode": 7,
+    "class_major": 46,
+    "class49_negative_rejected": true,
+    "core_factory_dlopen": true,
+    "java_c_preferences_factory_verified": true,
+    "core_imports_verified": [
+      "__aeabi_uldivmod",
+      "__get_errno_ptr",
+      "_in6addr_any",
+      "accept",
+      "access",
+      "bind",
+      "calloc",
+      "clock_gettime",
+      "close",
+      "dlsym",
+      "fclose",
+      "fcntl",
+      "ferror",
+      "fflush",
+      "fileno",
+      "fopen",
+      "fprintf",
+      "fputc",
+      "fputs",
+      "fread",
+      "free",
+      "fstat",
+      "ftruncate",
+      "fwrite",
+      "getenv",
+      "getpid",
+      "getsockname",
+      "in6addr_any",
+      "listen",
+      "lseek",
+      "lstat",
+      "malloc",
+      "memchr",
+      "memcmp",
+      "memcpy",
+      "memset",
+      "mmap",
+      "munmap",
+      "open",
+      "pthread_create",
+      "pthread_detach",
+      "pthread_mutex_lock",
+      "pthread_mutex_unlock",
+      "realloc",
+      "recv",
+      "select",
+      "setsockopt",
+      "snprintf",
+      "socket",
+      "sscanf",
+      "strcmp",
+      "strstr",
+      "strtol",
+      "unlink",
+      "usleep"
+    ],
+    "test_sha256": "348175306dbbe13c76250a443018fe54601dbbaf73dd87c5acb9e2c7f0da8207",
+    "qemu_log_sha256": "2016ed00db9ce5125f1e8c3550abfd6a8ff052d81b551f0465edc40860c84e6d",
+    "on_unit_validated": false,
+    "lane_factory_fields_verified": true,
+    "card_default_java_c_verified": true
+  },
+  "parent_archive_sha256": "19a136685d1e55d8630bfe38146a75a8b999fad0198a3a0f850f075f631a50b9",
+  "native_driver_and_reader_changed": false,
+  "existing_preferences_retained": true,
+  "card_default": "off",
+  "on_unit_validated": false,
+  "archive_sha256": "942c9d2a1b38e7f417f97e1a8806e42559b29565f3605215c92b932d58c1259f"
+}
