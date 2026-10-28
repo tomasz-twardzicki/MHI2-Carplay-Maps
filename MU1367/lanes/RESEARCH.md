@@ -61,15 +61,16 @@ The converted factory JAR content identity is
 Build scripts stage counted changes over existing sources; the published
 v1.3.0 sources/payloads are retained intact.
 
-## Remaining vehicle evidence
+## Vehicle evidence
 
 Existing private captures contained no 0x5204 geometry. Offline fixtures
-cover the documented protocol and actual factory array builder, but cannot
-prove that a particular iPhone/app supplies the messages or that the cluster
-renders every branch correctly. Compare phone lane hints and cluster output
-on a familiar route. A missing lane bar may mean the phone supplied no lane
-data or the OEM lane setting is disabled. Status records lane count/timestamp,
-without logging road names or accumulating lane traces.
+cover the documented protocol and actual factory array builder. The user
+subsequently [reported successful vehicle operation](UNIT-RESULTS.md),
+supporting promotion of v1.4.0 to a regular release. A per-app/route matrix
+and endurance duration were not supplied. A missing lane bar may mean the
+phone supplied no lane data or the OEM lane setting is disabled. Status
+records lane count/timestamp, without logging road names or accumulating
+lane traces.
 
 This work does not establish a fix for all long-run guidance interruptions.
 The v1.3.0 bounded logging remains in place; the existing reader still fails

@@ -1,7 +1,9 @@
 # MU1367 / 791 lane test: installation and rollback
 
 Only exact MU1367 K4525 + 791 with the published v1.3.0 native/settings
-layers is accepted. This optional update has not yet been tested on the car.
+layers is accepted. The user reports successful vehicle operation;
+[MU1367 v1.4.0 is now a regular release](UNIT-RESULTS.md). The published ZIP
+is unchanged and its bundled documents retain their original pre-test wording.
 
 ## Installation
 

@@ -7,10 +7,11 @@ The factory lane-display setting, six-lane window and BAP request/array
 handling remain in use. Turn cards default to **OFF**; the existing
 App-Connect **Virtual Cockpit settings** Card ON/OFF row remains available.
 
-This is a **vehicle test build**. Offline checks exercise the exact MU1367
-factory interfaces and ARM/J9 runtime; phone/app delivery of lane data and
-the physical cluster layout still require testing. Historical captures did
-not contain lane geometry. No lane layout is inferred from maneuver arrows.
+**MU1367 v1.4.0 is a regular release following successful user vehicle
+testing.** See the [user results](UNIT-RESULTS.md). Offline checks also exercise
+the exact MU1367 factory interfaces and ARM/J9 runtime. Individual app/route
+results and endurance duration were not supplied. No lane layout is inferred
+from maneuver arrows.
 
 Read [installation, acceptance and rollback](INSTALL.md) and the
 [protocol and implementation review](RESEARCH.md). Scope: exact

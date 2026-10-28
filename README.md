@@ -26,7 +26,7 @@
 
 This fork extends CarPlay Maps VC on **MU1367** and ports it to **MU1427**, with the **791 AID 12.3** virtual cockpit. Each firmware has its own package and matched HMI adapters; use the installation guide for your exact version.
 
-It combines the phone-rendered CarPlay map and optional turn card with the cockpit's own navigation graphics: native maneuver arrows, distance to the next turn, remaining route distance and travel time. MU1367 also includes native MU settings and audio text. The new MU1367 lane-guidance layer adds factory lane symbols and recommendations; its on-car acceptance is pending.
+It combines the phone-rendered CarPlay map and optional turn card with the cockpit's own navigation graphics: native maneuver arrows, distance to the next turn, remaining route distance and travel time. MU1367 also includes native MU settings and audio text. The new MU1367 lane-guidance layer adds factory lane symbols and recommendations; the user reports successful vehicle operation.
 
 The baseline project is by **omonob (QCDWJ)**. **tomasz-twardzicki** developed the firmware adaptations and native guidance additions.
 
@@ -36,7 +36,7 @@ The baseline project is by **omonob (QCDWJ)**. **tomasz-twardzicki** developed t
 
 ## Latest MU1367 / 791 changes
 
-**MU1367 v1.4.0 — lane-guidance prerelease:** phone lane instructions feed the
+**MU1367 v1.4.0 — native lane guidance:** phone lane instructions feed the
 factory cluster lane renderer, preserving lane order, allowed/best-lane
 recommendations and branching exits. The OEM lane-display setting and
 six-lane window remain in use. Turn cards default **OFF**, with the existing
@@ -47,8 +47,9 @@ the user's preferred **30 fps / IDR5** is not reset.
 This is a removable fourth layer over v1.3.0, with exact firmware/payload
 checks, verified backups, removal guards and recovery without SD. It passes
 761 lane assertions, factory ARM/J9 verification, 19 installer/recovery tests
-and a complete four-layer return to OEM. **Phone/app lane delivery, physical
-cluster rendering and extended vehicle endurance still require testing.**
+and a complete four-layer return to OEM. **The user reports successful vehicle operation and approved a regular
+release.** See [user results](./MU1367/lanes/UNIT-RESULTS.md); individual
+app/route results and endurance duration were not supplied.
 See [installation and rollback](./MU1367/lanes/INSTALL.md),
 [protocol review](./MU1367/lanes/RESEARCH.md) and
 [verification](./MU1367/lanes/VERIFICATION.json). These lane changes apply to
@@ -89,14 +90,14 @@ The original standalone profiles remain available ([see below](#origin-and-upstr
 
 ## Download
 
-**MU1367 / AID 791 — v1.4.0 lane-guidance prerelease:**
+**MU1367 / AID 791 — v1.4.0 native lane guidance:**
 [Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.0) ·
 [Ready-to-extract full toolbox ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.0/CarPlay_Maps_VC_MU1367_791_Native_Lanes_Test.zip) ·
 [SHA-256 checksums](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.0/SHA256SUMS.txt).
 Read the [lane installation and recovery guide](./MU1367/lanes/INSTALL.md).
 Existing v1.3.0 users install **step 4 only**; refresh Toolbox menus and
 scripts, disconnect CarPlay and reboot first. Fresh installs complete steps
-1–3 before step 4. Lane output has not yet been validated on the car.
+1–3 before step 4. The user reports successful vehicle testing; the ZIP is unchanged.
 
 **MU1367 / AID 791 — v1.3.0 integration with native MU settings:** the separate
 [tested bundle](./releases/MU1367/) includes firmware-matched native guidance,
@@ -133,7 +134,7 @@ confirmed working MU1427 baseline**, rather than the earlier initial port.
 
 | Release | Published | Changes | Previous tag |
 | --- | --- | --- | --- |
-| [MU1367 / 791 v1.4.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.0) | 2026-10-28 | Lane-guidance prerelease: native lane order, recommendations and branching exits through the factory renderer; turn cards OFF by default with App-Connect ON/OFF retained; saved preferences preserved; removable fourth layer with verified backups and no-SD rollback. Host/factory-runtime and full OEM-restore checks pass; on-car lane delivery/rendering and endurance remain pending. | `MU1367-v1.3.0` |
+| [MU1367 / 791 v1.4.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.0) | 2026-10-28 | Native lane guidance: lane order, recommendations and branching exits through the factory renderer; turn cards OFF by default with App-Connect ON/OFF retained; saved preferences preserved; removable fourth layer with verified backups and no-SD rollback. Host/factory-runtime and full OEM-restore checks pass; successful user vehicle testing confirmed, promoted to regular release without changing the ZIP. | `MU1367-v1.3.0` |
 | [MU1367 / 791 v1.3.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.3.0) | 2026-10-28 | Exact MU1367 native guidance, audio text and navigation-active adapters; upstream v2 map/mirror UI; App-Connect FPS/IDR and card-layout settings; bounded logging and verified reverse-order recovery. Initial user testing passed, with 30 fps / IDR5 preferred over both 40 fps profiles. | — |
 | [MU1427 v1.2.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1427-v1.2.0) | 2026-10-19 | Native AID/HUD maneuver arrows and OEM-formatted distance; remaining route distance/travel duration on AID; automatic reader/HMI adapter; separate install/removal; turn cards 16 pixels lower. Final-package startup/extended-operation/card-position checks remain pending as described above. | `mu1427-native-guidance` |
 | [MU1367 / 790 v1.0.0-experimental](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-790-v1.0.0-experimental) | 2026-10-15 | Experimental 30 fps and turn cards for the 790 display, narrow/wide/map-only/lowered-card options and original-core fallback. Offline verified; not tested in a 790 car at publication. No native guidance add-on. | `mu1367-790-experimental` |

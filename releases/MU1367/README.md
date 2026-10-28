@@ -1,6 +1,6 @@
 # MU1367 / AID 791 releases
 
-## v1.4.0 — native lane guidance (prerelease)
+## v1.4.0 — native lane guidance
 
 [Download the full lane-guidance toolbox ZIP](./v1.4.0/CarPlay_Maps_VC_MU1367_791_Native_Lanes_Test.zip?raw=true)
 and verify [SHA256SUMS.txt](./v1.4.0/SHA256SUMS.txt).
@@ -21,9 +21,11 @@ Build `MU1367-lanes-ac765ddeb391`; ZIP SHA256:
 The bundle includes all four installation stages and source/build scripts.
 [Verification](./v1.4.0/VERIFICATION.json) covers 761 lane assertions,
 factory ARM/J9 loading/serialization, Java/C preferences, 19 installer/recovery
-tests and a full four-layer OEM restore without SD. Phone/app lane delivery,
-physical cluster rendering and extended vehicle endurance are **not yet
-validated on the car**. The original v1.3.0 payloads are preserved unchanged
+tests and a full four-layer OEM restore without SD. The user subsequently
+[confirmed successful vehicle operation](../../MU1367/lanes/UNIT-RESULTS.md),
+and v1.4.0 is now a regular release. Individual app/route results and an
+endurance duration were not supplied. The ZIP and build-time records remain
+unchanged; documents inside the ZIP retain their original pre-test wording. The original v1.3.0 payloads are preserved unchanged
 inside this bundle; the new runtime is installed only by step 4.
 
 ## v1.3.0 — native guidance, audio and MU settings

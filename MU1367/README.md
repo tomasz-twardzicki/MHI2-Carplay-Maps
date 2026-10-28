@@ -18,11 +18,12 @@ MU1367/791 only. The user reports successful initial operation and prefers
 30 fps / IDR5; both 40 fps profiles showed some stutter. Extended endurance
 and detailed acceptance checks remain unrecorded.
 
-The optional [native lane-guidance test layer](./lanes/README.md) extends
+The optional [native lane-guidance layer](./lanes/README.md) extends
 that exact v1.3.0 build with phone lane instructions and turn cards OFF by
 default, retaining the App-Connect card toggle. It includes a separate
-[four-layer rollback procedure](./lanes/INSTALL.md). Lane delivery and cluster
-rendering still require vehicle testing; the v1.3.0 release remains unchanged.
+[four-layer rollback procedure](./lanes/INSTALL.md). The user reports successful
+vehicle operation, and [v1.4.0 is now a regular release](./lanes/UNIT-RESULTS.md).
+The published ZIP and v1.3.0 release remain unchanged.
 
 | Cluster | Profile files | Display baseline |
 | --- | --- | --- |

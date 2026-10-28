@@ -1,4 +1,4 @@
-# MU1367 v1.4.0 — native lane guidance (prerelease)
+# MU1367 v1.4.0 — native lane guidance
 
 Ready-to-extract full SD toolbox for exact K4525 MU1367 + AID 791.
 [Download ZIP](CarPlay_Maps_VC_MU1367_791_Native_Lanes_Test.zip?raw=true) ·
@@ -15,7 +15,10 @@ remains available. Saved preferences are retained; select OFF once if Card ON
 was previously saved. The original v1.3.0 release is unchanged.
 
 Offline protocol/factory-runtime, transaction recovery and complete no-SD
-OEM restoration checks pass. Lane delivery from the phone, physical cluster
-rendering and extended vehicle endurance still need testing.
+OEM restoration checks pass. The user subsequently
+[reported successful vehicle operation](../../../MU1367/lanes/UNIT-RESULTS.md),
+and this is now a regular release. Individual app/route results and endurance
+duration were not supplied. The ZIP and build-time records are unchanged;
+bundled documents retain their original pre-test wording.
 
 ZIP SHA256: `942c9d2a1b38e7f417f97e1a8806e42559b29565f3605215c92b932d58c1259f`.
