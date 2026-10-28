@@ -1,0 +1,286 @@
+{
+  "deployable_payload": false,
+  "hardware_validated": false,
+  "native": {
+    "bytes": 739925,
+    "direct_calls_between_selected_functions": [
+      {
+        "callee": "file_xfer_destroy",
+        "caller": "nowplay_update_recv",
+        "va": "0x1c874"
+      },
+      {
+        "callee": "file_xfer_init",
+        "caller": "nowplay_update_recv",
+        "va": "0x1c888"
+      },
+      {
+        "callee": "file_xfer_destroy",
+        "caller": "file_xfer_init",
+        "va": "0x866c"
+      },
+      {
+        "callee": "file_xfer_destroy",
+        "caller": "file_xfer_setup",
+        "va": "0x89e8"
+      },
+      {
+        "callee": "file_xfer_destroy",
+        "caller": "file_xfer_setup",
+        "va": "0x8ba4"
+      },
+      {
+        "callee": "file_xfer_destroy",
+        "caller": "file_xfer_data",
+        "va": "0x889c"
+      },
+      {
+        "callee": "nowplay_update_recv",
+        "caller": "link_handle_iap2pkt",
+        "va": "0x13708"
+      },
+      {
+        "callee": "file_xfer_destroy",
+        "caller": "link_handle_iap2pkt",
+        "va": "0x13920"
+      },
+      {
+        "callee": "nowplay_getartwork",
+        "caller": "iap2_msg",
+        "va": "0xfa1c"
+      }
+    ],
+    "functions": {
+      "file_xfer_data": {
+        "bytes": 764,
+        "sha256": "78fcee21f8e24cbe3b9614f37e35609a8e4827cccd034a589c08a85e6c3e7f8e",
+        "va": "0x86b0"
+      },
+      "file_xfer_destroy": {
+        "bytes": 172,
+        "sha256": "148ab930aa0e50f6c1cb0537157f35c111b1ee625c69aeda3f9523d8d5c260a2",
+        "va": "0x85ac"
+      },
+      "file_xfer_init": {
+        "bytes": 88,
+        "sha256": "cbe4ef8df0de5547414f62e8fea114e6994161e55d8350c72a6b984559627cbb",
+        "va": "0x8658"
+      },
+      "file_xfer_read": {
+        "bytes": 188,
+        "sha256": "34a869fada42ae0889ef9f78604035fe9b3ed09aa8eb7a9130e2b82b67c4d460",
+        "va": "0x84f0"
+      },
+      "file_xfer_setup": {
+        "bytes": 740,
+        "sha256": "de87f2d54c3dca6ec5d61525c31af6746216882b0f56c483e53589473c337550",
+        "va": "0x89ac"
+      },
+      "iap2_msg": {
+        "bytes": 4692,
+        "sha256": "761e18af4373e2f56414f70d971a61030eed1aa5a2d5fb7b1b05dc4a49494b8a",
+        "va": "0xf4c8"
+      },
+      "link_handle_iap2pkt": {
+        "bytes": 4668,
+        "sha256": "dc28a1b081e25d0ffa2b24fee120d773bcd7aaa5ef01fd17684a6180e3487351",
+        "va": "0x12e00"
+      },
+      "nowplay_getartwork": {
+        "bytes": 220,
+        "sha256": "6fa65422723d3b894a0cb80682a68a09339d36bc0fde7311c90614bc267961a7",
+        "va": "0x1ba3c"
+      },
+      "nowplay_start": {
+        "bytes": 476,
+        "sha256": "7b81b6895e37f17e0f80f06ea44a76b8a992a2f70ba24799f748778c6be88d4a",
+        "va": "0x1b860"
+      },
+      "nowplay_update_recv": {
+        "bytes": 7952,
+        "sha256": "66de626e8c42794db8872759bdc06f80fa46dec0141ecd7bb8c366031e0b512d",
+        "va": "0x1bb18"
+      }
+    },
+    "instruction_anchors": {
+      "artwork_file_id_to_init": {
+        "bytes": 28,
+        "sha256": "a24cf2c91e911d052163b3c73fe8733f5f7e53d80ba0870f6017079837aa81b5",
+        "va": "0x1c878"
+      },
+      "data_complete_state_before_notifications": {
+        "bytes": 28,
+        "sha256": "e526a9872e4559c67bd74523a73a82b5a900c1613fbf8f7559dc3e1ae7f7dfea",
+        "va": "0x877c"
+      },
+      "reader_advances_shared_cursor": {
+        "bytes": 16,
+        "sha256": "6a44f6324caee8f64a46da0228f36aa316c93e2b658eec2ba80849696e93579f",
+        "va": "0x1bacc"
+      }
+    },
+    "nowplaying_metadata_table": [
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 0,
+        "name": "MediaItemPersistentIdentifier"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 1,
+        "name": "MediaItemTitle"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 4,
+        "name": "MediaItemPlaybackDurationInMilliseconds"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 6,
+        "name": "MediaItemAlbumTitle"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 7,
+        "name": "MediaItemAlbumTrackNumber"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 8,
+        "name": "MediaItemAlbumTrackCount"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 9,
+        "name": "MediaItemAlbumDiscNumber"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 10,
+        "name": "MediaItemAlbumDiscCount"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 12,
+        "name": "MediaItemArtist"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 16,
+        "name": "MediaItemGenre"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 18,
+        "name": "MediaItemComposer"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 21,
+        "name": "MediaItemIsLikeSupported"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 22,
+        "name": "MediaItemIsBanSupported"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 23,
+        "name": "MediaItemIsLiked"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 24,
+        "name": "MediaItemIsBanned"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 26,
+        "name": "MediaItemArtworkFileTransferIdentifier"
+      },
+      {
+        "default_value": 0,
+        "flags": "0xc0000",
+        "id": 27,
+        "name": "MediaItemChapterCount"
+      }
+    ],
+    "scope": "static ELF inspection; no live delivery or buffer lifetime proof",
+    "sha256": "0ac13f43d3fb259eee328c272fa1211bb558b6e2cd97c6e38ef38e4e71469d51"
+  },
+  "phase": "artwork_feasibility",
+  "probe_sha256": "9d22de1d7c183087eab2ab648d1cd6aeb2509fbd6f9db72e6868711fffa29a48",
+  "reference": {
+    "commit": "71b4ab1c9461d5383a7aa6d56d4dda34f567ade7",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)",
+    "files_sha256": {
+      "docs/altscreen-and-video/COVER_ART_PIPELINE.md": "2dd42866f16a665b744eea08d3651113834862cd51cf7470411b9c8d0f604bb4",
+      "docs/audio/BUFFERED_AUDIO_PATH.md": "6b05e8d74fe95a93b832372f13688833eea307009d4710a677d3b40970e81783",
+      "docs/audio/INTERNAL_AMP_PATH.md": "efad517f825c1fb505f64fa13f921462b4ec3f8fdc987b46b8abae1f2e8e4eb1",
+      "docs/audio/STEREO_TO_5_1_UPMIX.md": "9f73283e05fe8cd0cbf092aca0466858d78b35ac4ded4af9fd22c789fbf59467",
+      "hook/coverart/coverart_hook.c": "a293e7c93298f4ccf370f36587df654d931cba7cf09dbee2fd1343b02876d8c9",
+      "hook/coverart/coverart_hook.h": "75f38f2eba3c28422a1950a3740dfe884eccef1c3cba7200a8b99811262b86a7",
+      "hook/coverart/coverart_stream.c": "0de4b638ad837771e1c3646e6e0451c7b84ccf0d22870256a28ad1998fd2ebd7",
+      "hook/coverart/coverart_stream.h": "9fffc5a7dfd7e7eebe54355c15ae21771ff618215976304019e0c9e138551567",
+      "hook/coverart/jpeg_safety.c": "06ed4eaa7a9a6622e5564977c6f7e5c9453070c05fcead5ca4999bbf53837c53",
+      "hook/coverart/jpeg_safety.h": "e99b36e58980a431cb030a75f7df618f441bcbf6c2fd2ccecdd36064405c57f3",
+      "hook/coverart/stb_image.h": "594c2fe35d49488b4382dbfaec8f98366defca819d916ac95becf3e75f4200b3",
+      "hook/framework/bus.h": "0b5cfb06edb12e6eed2484478f5cb3d54cd837049be5e05b71842ddbb210729c",
+      "hook/framework/bus_protocol.h": "f9aa1497dafe8a4e4c30845cbf008b85a6f50f7555c6afd1e720ca57abd8cee3",
+      "hook/framework/common.h": "6280d88f6e7b309390147fe87282276d1b04a66eb6e99631fc54e12024625d7f",
+      "hook/framework/hook_framework.h": "d765d5cf688e20a8e8c13645f20dbf459d08c448e098faabfb35466b6326e687",
+      "hook/framework/iap2_protocol.c": "40a0cee8670908fb29009d712f59147a222faea1fad71b7b5f99743d05de8d84",
+      "hook/framework/iap2_protocol.h": "1487a42733208afe73a9f894caa42c3ebd4dbc8a079c6580c496457a8b623182",
+      "hook/framework/logging.h": "aba09979ed9a867efebb21b2bf87db20ee9bce0ceaaae81312196a4d12a1049e",
+      "hook/framework/signal_guard.h": "4360a5bd7398edc135f3a44a13c7dfda3a4a85b3ab08488162e63f6bf2f458b7",
+      "hook/framework/state_trace.h": "299763b392ac2a5aace076bbaf55997e9625c3f6c0b79e441cdd84f873853948",
+      "tests/coverart_pipeline_test.c": "74b3466f84cf9c29441c409f5a33f5c80eb1961eee16bfbce5cc655077dd462b",
+      "tests/coverart_safety_test.c": "1a9a7f8d5a8011f30d17629d7817e4a69e19c265b2e9efff4fd49aa9c5359796",
+      "tests/coverart_stream_test.c": "fbe27ad68dd961d68391f354b9447b2a42127fec9cc51b0089ba2f2aa3d56cf0",
+      "tests/fixtures/coverart/exif-thumbnail.jpg": "e4937d1e31b85f0095fcdc37ccb115cc242cd5a19254dd0dda40971355ea0c6f"
+    },
+    "repository": "https://github.com/luka-dev/mib2q-carplay-rgi",
+    "sanitizers": [
+      "address",
+      "undefined"
+    ],
+    "scope": "upstream synthetic host fixtures; not MU1427/QNX or AID acceptance",
+    "sysroot": "/Library/Developer/CommandLineTools/SDKs/MacOSX27.0.sdk",
+    "tests": [
+      {
+        "passed": true,
+        "stdout": "coverart_stream_test: fragmentation, batch, file IDs, completion, checksum, reorder/wrap, reset and bounds PASS",
+        "suite": "coverart_stream"
+      },
+      {
+        "passed": true,
+        "stdout": "OK  bounded EXIF parser, 50000 malformed inputs, pre-decode image budget",
+        "suite": "coverart_safety"
+      },
+      {
+        "passed": true,
+        "stdout": "coverart_pipeline_test: real EXIF JPEG decode, Identify race, stale enqueue, EINTR/short write and PNG publication PASS",
+        "suite": "coverart_pipeline"
+      }
+    ]
+  },
+  "schema": 1
+}

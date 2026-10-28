@@ -1,0 +1,55 @@
+{
+  "installed_build": "MU1427-AUDIO-N1-8bbacafe81af",
+  "snapshots": [
+    {
+      "snapshot": "cpmap-audio-N1-01",
+      "sha256": "ff7f10228ac0c6efa2cae8f365405ef53bbd1ad16a3b8206eacfc752eb995676",
+      "runtime_status_available": true,
+      "fields": {
+        "format": 1,
+        "build": "MU1427-AUDIO-N1-8bbacafe81af",
+        "text_output": 1,
+        "epoch": 2,
+        "connected": 1,
+        "context": 1,
+        "ticks": 3531,
+        "fills": 735,
+        "accepted": 16,
+        "rejected": 1040,
+        "failures": 0,
+        "attach_failures": 0,
+        "tracks": 21,
+        "covers": 0,
+        "io_failures": 0,
+        "writes": 672
+      }
+    }
+  ],
+  "observed_epochs": [
+    2
+  ],
+  "last_process_counters": {
+    "ticks": 3531,
+    "fills": 735,
+    "accepted": 16,
+    "rejected": 1040,
+    "failures": 0,
+    "attach_failures": 0,
+    "tracks": 21,
+    "covers": 0,
+    "io_failures": 0,
+    "writes": 672
+  },
+  "reported_failure_counters_zero": true,
+  "cover_callback_observed": false,
+  "false_property_returns_observed": true,
+  "limitations": [
+    "N1 counters are process-wide and must not be summed across sampled snapshots.",
+    "accepted/rejected count true/false PropertyListener returns, not cluster acknowledgments or transport errors.",
+    "The factory cached listener can return false for unchanged property values.",
+    "One snapshot cannot establish source transitions, disconnect/reconnect ordering or rejection recovery.",
+    "Build markers do not independently fingerprint the installed JAR.",
+    "No text values, app identities, images or exact timestamps are exported."
+  ],
+  "reviewer_sha256": "5546412d5961382bd4faa154eeb4de65de5be08a598633554651225fe3951a74"
+}

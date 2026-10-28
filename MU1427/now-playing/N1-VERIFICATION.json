@@ -1,0 +1,96 @@
+{
+  "phase": "N1-native-text-test",
+  "target": "MU1427 / 791 AID 12.3",
+  "input_evidence": "A0-VERIFICATION.json",
+  "hmi": {
+    "phase": "N1-text-output-test",
+    "build_id": "MU1427-AUDIO-N1-8bbacafe81af",
+    "jar_name": "CarPlayNowPlayingTextN1.jar",
+    "jar_sha256": "f401c6f030a7817e105738a5e9bdc0b36543aac6ab9b9eea021ec379291ac83c",
+    "jar_bytes": 21300,
+    "all_class_major": 46,
+    "sources": {
+      "n1/java/LoadText.java": "d6b720bfe847428a881d68f5e8eb89d9dda9796e49ea4fb912b1a2e29ccddbc0",
+      "n1/java/PatchText.java": "ef91ce8d771024e7236ce64e629b733208774be7b5c957db1c02e5893cf8e720",
+      "n1/java/TestText.java": "08a0003f840fb32721bd456d7537b2cae2400f75fd086d6619be0637c0cb630c",
+      "n1/java/TextBridge.java": "54feab74b4bbf84c0705597c51caddf82f446a85bf8d736781e635f98002c6af",
+      "n1/java/TextModel.java": "bf175428cac8c61aa829b9a6cb604b8f220b58fd84e97f88a4755c131cdd3a66",
+      "java/PatchObserver.java": "06d34764b06d518f314adabc1fbbd91e0811f00c1e8639457dcc1a6fd3199f5c"
+    },
+    "host": {
+      "text_assertions": 41
+    },
+    "factory_jxe_sha256": "f46290b4a33b98d957170f6207073ad329316902a87cd4c27da4168548ad911a",
+    "stock_content_sha256": "7c63a1130d42999f18d1f30195292ba547aa14a767df7edab5d09f1ae6feffdf",
+    "factory_classes": {
+      "de/vw/mib/asl/internal/carplay/target/HsmTarget.class": "9017646043df87c6f1b6191008d2b7423e522917f6e7f2c4106558b696a59153",
+      "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationInfo.class": "875b2132e26b9968847379159dafdc16fd46cb8939cd7e74a544d7c56e405a3e"
+    },
+    "probe_source": "n1/java/LoadText.java",
+    "probe_class": "com.cpmap.audio.LoadText",
+    "factory_j9_verified": false,
+    "on_unit_validated": false,
+    "cover_output": false
+  },
+  "factory_runtime": {
+    "passed": true,
+    "jar_sha256": "f401c6f030a7817e105738a5e9bdc0b36543aac6ab9b9eea021ec379291ac83c",
+    "factory_j9_verified": true,
+    "checks_per_mode": 12,
+    "class49_negative_rejected": true,
+    "qemu_log_sha256": "6811838062bf676de4e30d862e0201758917060d6a0b1da055b4e789773da6ce",
+    "test_sha256": "fc9426db8b08f961ec44f1095b9d192c38e3f3078fbe938dad27471e0959898a",
+    "probe_sha256": "d6b720bfe847428a881d68f5e8eb89d9dda9796e49ea4fb912b1a2e29ccddbc0",
+    "on_unit_validated": false
+  },
+  "installer": {
+    "passed": true,
+    "tests": 18,
+    "jar_sha256": "f401c6f030a7817e105738a5e9bdc0b36543aac6ab9b9eea021ec379291ac83c",
+    "sources": {
+      "control.sh": "c7e37b89fd333d6fa34ba5af6cfa364e4c58c3d725af75bfd04fce8155a88ec1",
+      "package_support.py": "700f7fb9ef27fcdedba0bb22791817f6ac36e27169a669af542d4185a9043089",
+      "test-controls.py": "8c907b140a349deaf1f074f524aa9184754a621844f699041072887d0b08fdc1"
+    }
+  },
+  "on_unit_text_output_validated": true,
+  "cover_output": false,
+  "tools": {
+    "build-text.py": "43b1abc1fb702f66f57df9e7bf4efed1cda796ce6c16c28bae32b9de5b4367d5",
+    "test-observer-qnx.py": "fc9426db8b08f961ec44f1095b9d192c38e3f3078fbe938dad27471e0959898a",
+    "control.sh": "c7e37b89fd333d6fa34ba5af6cfa364e4c58c3d725af75bfd04fce8155a88ec1",
+    "package_support.py": "700f7fb9ef27fcdedba0bb22791817f6ac36e27169a669af542d4185a9043089",
+    "test-controls.py": "8c907b140a349deaf1f074f524aa9184754a621844f699041072887d0b08fdc1",
+    "build-test-package.py": "0c81ef0100dc00536276a96532628166f6cd05aaa64811620627e040b9115854",
+    "test-package.py": "68992bd8ce3fa17b3923c7c43a77ed1638baf9264cc400995e697f6a31056825",
+    "review-capture.py": "4cdb31c33fa11d30bb3de3d02c7691a8071e05b5e198f4b54ea0fbc71a40680b"
+  },
+  "limits": [
+    "A1 accepts reported correct/immediate AID text, controls/source switching and Google Maps/HMI/native-guidance coexistence; individual edge cases and exact startup sequences were not separately reported.",
+    "Nested hmi/factory_runtime on_unit_validated flags are historical build-time records; see unit_observation for A1.",
+    "Property-listener boolean returns are not cluster acknowledgments or transport failure counts; cached equality returns false.",
+    "The tested N1 retries false returns, which can cause repeated processing of already-cached values; distinguish equality from dispatch problems before the next Java revision.",
+    "A0 and A1 observed no cover callbacks; N1 implements no artwork transport.",
+    "N0 must be removed and the head unit fully rebooted before N1 installation."
+  ],
+  "unit_observation": {
+    "capture": "A1",
+    "review_sha256": "3f578a233f3ba31081a68daf2a9e3735e16a063fc2b985db02ea9b523fb135b7",
+    "build_marker_matches": true,
+    "cluster_text_correct_user_reported": true,
+    "immediate_track_updates_user_reported": true,
+    "controls_normal_user_reported": true,
+    "source_switching_normal_user_reported": true,
+    "navigation_app_user_reported": "Google Maps",
+    "hmi_and_native_guidance_normal_user_reported": true,
+    "reported_failure_counters_zero": true,
+    "true_property_returns": 16,
+    "false_property_returns": 1040,
+    "false_returns_are_not_transport_failure_counts": true,
+    "property_semantics_verification": "PROPERTY-SEMANTICS-VERIFICATION.json",
+    "property_semantics_verification_sha256": "aec64395340e46d4536a8606c99383e3fc048ebf5f011e4ef86698dc81eb6ae8",
+    "cover_callback_observed": false,
+    "installed_jar_independently_fingerprinted": false,
+    "runtime_payload_changed": false
+  }
+}

@@ -1,0 +1,576 @@
+{
+  "build": "MU1427-AUDIO-N2-06af3c0b1a79",
+  "snapshots": [
+    {
+      "snapshot": "cpmap-audio-N2-01",
+      "hashes": {
+        "install.txt": "611ef6dda733277389fb80192566a541fafd3ecb88662f05960c0710682baf81",
+        "native.txt": "3f1deecd11bb7e3f695d11ce2858bdc14789665884efea074217219dfb76c9b7",
+        "n1.txt": "bc33d48b1da76752ee5138dc26173a9bdb065991bb8d3005e469413a282e05ae"
+      },
+      "native_error": "DEVICE_IO_1",
+      "n1": {
+        "format": 1,
+        "build": "MU1427-AUDIO-N1-8bbacafe81af",
+        "text_output": 1,
+        "epoch": 1,
+        "connected": 0,
+        "context": 0,
+        "ticks": 619,
+        "fills": 2,
+        "accepted": 5,
+        "rejected": 204,
+        "failures": 0,
+        "attach_failures": 0,
+        "tracks": 3,
+        "covers": 0,
+        "io_failures": 0,
+        "writes": 52
+      }
+    },
+    {
+      "snapshot": "cpmap-audio-N2-02",
+      "hashes": {
+        "install.txt": "70e38226f4754373c06249b364a3946740bb1f741fe38123f03d785285eb3bf6",
+        "native.txt": "22fe616114bffc712c800add0a5237c27f2292ebdb0693594ffb5a4f09e0ea45",
+        "n1.txt": "c52a1b01d3948307556c13dad244dd819dcd109317502d2fee11843280e85de7"
+      },
+      "native": {
+        "format": 1,
+        "observer": "N2",
+        "bytes": 128,
+        "sequence": 58,
+        "fault": 0,
+        "associations": 2,
+        "setups": 1,
+        "data_calls": 26,
+        "completed": 1,
+        "jpeg_signatures": 1,
+        "png_signatures": 0,
+        "oversize_setups": 0,
+        "setup_not_receiving": 0,
+        "other_signatures": 0,
+        "last_size": 102882,
+        "session": 1,
+        "enabled": 1,
+        "instance_sec": 153,
+        "instance_nsec": 256000000
+      },
+      "n1": {
+        "format": 1,
+        "build": "MU1427-AUDIO-N1-8bbacafe81af",
+        "text_output": 1,
+        "epoch": 2,
+        "connected": 1,
+        "context": 1,
+        "ticks": 945,
+        "fills": 3,
+        "accepted": 8,
+        "rejected": 286,
+        "failures": 0,
+        "attach_failures": 0,
+        "tracks": 5,
+        "covers": 0,
+        "io_failures": 0,
+        "writes": 117
+      }
+    },
+    {
+      "snapshot": "cpmap-audio-N2-03",
+      "hashes": {
+        "install.txt": "70e38226f4754373c06249b364a3946740bb1f741fe38123f03d785285eb3bf6",
+        "native.txt": "0e25f22780a412b66b7d204cd5bfb7005f42f107f8ca0874331b9caa94037494",
+        "n1.txt": "15f14584abb0857c14d41b05a8fde2ab8f985f6787bdbbbd9f4898616cf480d3"
+      },
+      "native": {
+        "format": 1,
+        "observer": "N2",
+        "bytes": 128,
+        "sequence": 124,
+        "fault": 0,
+        "associations": 3,
+        "setups": 2,
+        "data_calls": 57,
+        "completed": 2,
+        "jpeg_signatures": 2,
+        "png_signatures": 0,
+        "oversize_setups": 0,
+        "setup_not_receiving": 0,
+        "other_signatures": 0,
+        "last_size": 125131,
+        "session": 1,
+        "enabled": 1,
+        "instance_sec": 153,
+        "instance_nsec": 256000000
+      },
+      "n1": {
+        "format": 1,
+        "build": "MU1427-AUDIO-N1-8bbacafe81af",
+        "text_output": 1,
+        "epoch": 2,
+        "connected": 1,
+        "context": 1,
+        "ticks": 1040,
+        "fills": 4,
+        "accepted": 9,
+        "rejected": 286,
+        "failures": 0,
+        "attach_failures": 0,
+        "tracks": 6,
+        "covers": 0,
+        "io_failures": 0,
+        "writes": 136
+      }
+    },
+    {
+      "snapshot": "cpmap-audio-N2-04",
+      "hashes": {
+        "install.txt": "70e38226f4754373c06249b364a3946740bb1f741fe38123f03d785285eb3bf6",
+        "native.txt": "5aa7afd4c066fbac42d7e886a4707d4ceba0eaaf8fb275a7d7e324ee2e874708",
+        "n1.txt": "a61e105f123bc1f4e32ab08e0eeccff646ea5e48c902b500c84bde209560ece8"
+      },
+      "native": {
+        "format": 1,
+        "observer": "N2",
+        "bytes": 128,
+        "sequence": 140,
+        "fault": 0,
+        "associations": 4,
+        "setups": 3,
+        "data_calls": 63,
+        "completed": 3,
+        "jpeg_signatures": 3,
+        "png_signatures": 0,
+        "oversize_setups": 0,
+        "setup_not_receiving": 0,
+        "other_signatures": 0,
+        "last_size": 20602,
+        "session": 1,
+        "enabled": 1,
+        "instance_sec": 153,
+        "instance_nsec": 256000000
+      },
+      "n1": {
+        "format": 1,
+        "build": "MU1427-AUDIO-N1-8bbacafe81af",
+        "text_output": 1,
+        "epoch": 2,
+        "connected": 1,
+        "context": 1,
+        "ticks": 1155,
+        "fills": 5,
+        "accepted": 10,
+        "rejected": 286,
+        "failures": 0,
+        "attach_failures": 0,
+        "tracks": 7,
+        "covers": 0,
+        "io_failures": 0,
+        "writes": 159
+      }
+    },
+    {
+      "snapshot": "cpmap-audio-N2-05",
+      "hashes": {
+        "install.txt": "70e38226f4754373c06249b364a3946740bb1f741fe38123f03d785285eb3bf6",
+        "native.txt": "69723d7b9dae47d7ca8f2133a1e71cfeed3964914f6472b4d97a08e202d2fa34",
+        "n1.txt": "0660e7096c4bd237e9fba236efde16796c83e31a2cd21ec2c6b697ae6a2beac0"
+      },
+      "native": {
+        "format": 1,
+        "observer": "N2",
+        "bytes": 128,
+        "sequence": 196,
+        "fault": 0,
+        "associations": 5,
+        "setups": 4,
+        "data_calls": 89,
+        "completed": 4,
+        "jpeg_signatures": 4,
+        "png_signatures": 0,
+        "oversize_setups": 0,
+        "setup_not_receiving": 0,
+        "other_signatures": 0,
+        "last_size": 102382,
+        "session": 1,
+        "enabled": 1,
+        "instance_sec": 153,
+        "instance_nsec": 256000000
+      },
+      "n1": {
+        "format": 1,
+        "build": "MU1427-AUDIO-N1-8bbacafe81af",
+        "text_output": 1,
+        "epoch": 2,
+        "connected": 1,
+        "context": 1,
+        "ticks": 1325,
+        "fills": 6,
+        "accepted": 11,
+        "rejected": 286,
+        "failures": 0,
+        "attach_failures": 0,
+        "tracks": 8,
+        "covers": 0,
+        "io_failures": 0,
+        "writes": 193
+      }
+    },
+    {
+      "snapshot": "cpmap-audio-N2-06",
+      "hashes": {
+        "install.txt": "70e38226f4754373c06249b364a3946740bb1f741fe38123f03d785285eb3bf6",
+        "native.txt": "726aa844212cadeb5d62ba32b4b14a85619481d92a1811186397c3622f7d2f48",
+        "n1.txt": "c1d9bc57d391089784e2ac8a193344ff43b19b737fbddce7c5d19947a44b87ac"
+      },
+      "native": {
+        "format": 1,
+        "observer": "N2",
+        "bytes": 128,
+        "sequence": 240,
+        "fault": 0,
+        "associations": 7,
+        "setups": 6,
+        "data_calls": 107,
+        "completed": 6,
+        "jpeg_signatures": 6,
+        "png_signatures": 0,
+        "oversize_setups": 0,
+        "setup_not_receiving": 0,
+        "other_signatures": 0,
+        "last_size": 52065,
+        "session": 1,
+        "enabled": 1,
+        "instance_sec": 153,
+        "instance_nsec": 256000000
+      },
+      "n1": {
+        "format": 1,
+        "build": "MU1427-AUDIO-N1-8bbacafe81af",
+        "text_output": 1,
+        "epoch": 2,
+        "connected": 1,
+        "context": 1,
+        "ticks": 1380,
+        "fills": 8,
+        "accepted": 13,
+        "rejected": 286,
+        "failures": 0,
+        "attach_failures": 0,
+        "tracks": 10,
+        "covers": 0,
+        "io_failures": 0,
+        "writes": 204
+      }
+    },
+    {
+      "snapshot": "cpmap-audio-N2-07",
+      "hashes": {
+        "install.txt": "70e38226f4754373c06249b364a3946740bb1f741fe38123f03d785285eb3bf6",
+        "native.txt": "726aa844212cadeb5d62ba32b4b14a85619481d92a1811186397c3622f7d2f48",
+        "n1.txt": "29997003c0044e064c76d304880f251fa0ecaa919be4fb5b519c4ea3cfd60b49"
+      },
+      "native": {
+        "format": 1,
+        "observer": "N2",
+        "bytes": 128,
+        "sequence": 240,
+        "fault": 0,
+        "associations": 7,
+        "setups": 6,
+        "data_calls": 107,
+        "completed": 6,
+        "jpeg_signatures": 6,
+        "png_signatures": 0,
+        "oversize_setups": 0,
+        "setup_not_receiving": 0,
+        "other_signatures": 0,
+        "last_size": 52065,
+        "session": 1,
+        "enabled": 1,
+        "instance_sec": 153,
+        "instance_nsec": 256000000
+      },
+      "n1": {
+        "format": 1,
+        "build": "MU1427-AUDIO-N1-8bbacafe81af",
+        "text_output": 1,
+        "epoch": 2,
+        "connected": 1,
+        "context": 0,
+        "ticks": 1570,
+        "fills": 13,
+        "accepted": 19,
+        "rejected": 313,
+        "failures": 0,
+        "attach_failures": 0,
+        "tracks": 10,
+        "covers": 0,
+        "io_failures": 0,
+        "writes": 242
+      }
+    },
+    {
+      "snapshot": "cpmap-audio-N2-08",
+      "hashes": {
+        "install.txt": "70e38226f4754373c06249b364a3946740bb1f741fe38123f03d785285eb3bf6",
+        "native.txt": "1ba0758f73a0e531a84d13784272ad8e13b3424be416a4a0aa27c8235f820ceb",
+        "n1.txt": "0aed7b84702312b3993dd05968c14c2c4ee799e54144b0ae73c18c974275201d"
+      },
+      "native": {
+        "format": 1,
+        "observer": "N2",
+        "bytes": 128,
+        "sequence": 18,
+        "fault": 0,
+        "associations": 2,
+        "setups": 1,
+        "data_calls": 6,
+        "completed": 1,
+        "jpeg_signatures": 1,
+        "png_signatures": 0,
+        "oversize_setups": 0,
+        "setup_not_receiving": 0,
+        "other_signatures": 0,
+        "last_size": 21193,
+        "session": 1,
+        "enabled": 1,
+        "instance_sec": 414,
+        "instance_nsec": 374000000
+      },
+      "n1": {
+        "format": 1,
+        "build": "MU1427-AUDIO-N1-8bbacafe81af",
+        "text_output": 1,
+        "epoch": 3,
+        "connected": 1,
+        "context": 1,
+        "ticks": 2366,
+        "fills": 400,
+        "accepted": 25,
+        "rejected": 759,
+        "failures": 0,
+        "attach_failures": 0,
+        "tracks": 14,
+        "covers": 0,
+        "io_failures": 0,
+        "writes": 401
+      }
+    }
+  ],
+  "native_instances": [
+    {
+      "instance_sec": 153,
+      "instance_nsec": 256000000,
+      "last_counters": {
+        "format": 1,
+        "observer": "N2",
+        "bytes": 128,
+        "sequence": 240,
+        "fault": 0,
+        "associations": 7,
+        "setups": 6,
+        "data_calls": 107,
+        "completed": 6,
+        "jpeg_signatures": 6,
+        "png_signatures": 0,
+        "oversize_setups": 0,
+        "setup_not_receiving": 0,
+        "other_signatures": 0,
+        "last_size": 52065,
+        "session": 1,
+        "enabled": 1,
+        "instance_sec": 153,
+        "instance_nsec": 256000000
+      }
+    },
+    {
+      "instance_sec": 414,
+      "instance_nsec": 374000000,
+      "last_counters": {
+        "format": 1,
+        "observer": "N2",
+        "bytes": 128,
+        "sequence": 18,
+        "fault": 0,
+        "associations": 2,
+        "setups": 1,
+        "data_calls": 6,
+        "completed": 1,
+        "jpeg_signatures": 1,
+        "png_signatures": 0,
+        "oversize_setups": 0,
+        "setup_not_receiving": 0,
+        "other_signatures": 0,
+        "last_size": 21193,
+        "session": 1,
+        "enabled": 1,
+        "instance_sec": 414,
+        "instance_nsec": 374000000
+      }
+    }
+  ],
+  "retained_instance_totals": {
+    "associations": 9,
+    "setups": 7,
+    "data_calls": 113,
+    "completed": 7,
+    "jpeg_signatures": 7,
+    "png_signatures": 0,
+    "oversize_setups": 0,
+    "setup_not_receiving": 0,
+    "other_signatures": 0
+  },
+  "native_frame_count": 7,
+  "native_error_snapshots": [
+    {
+      "snapshot": "cpmap-audio-N2-01",
+      "error": "DEVICE_IO_1"
+    }
+  ],
+  "native_frame_faults_zero": true,
+  "sampled_last_sizes": [
+    102882,
+    125131,
+    20602,
+    102382,
+    52065,
+    52065,
+    21193
+  ],
+  "n1_failure_counters_zero": true,
+  "n1_cover_callbacks_observed": false,
+  "completed_image_input_observed": true,
+  "jpeg_signature_input_observed": true,
+  "independent_installed_driver_hash": false,
+  "images_decoded_or_displayed": false,
+  "limitations": [
+    "Cumulative snapshots are counted once per native allocation instance.",
+    "Last-size samples do not preserve the size of every completed transfer.",
+    "New native allocation and DSI epoch do not independently identify a physical phone reconnect.",
+    "Image headers establish input presence, not decoder validity, orientation, track matching or cluster display.",
+    "Capture files do not identify audio apps or map every snapshot to a test step.",
+    "No image bytes, track text or device identifiers are retained in this review."
+  ],
+  "diagnostics": [
+    {
+      "capture": "cpmap-diag-3334268",
+      "hashes": {
+        "ramdisk/carplay-route-guidance/status.txt": "aaef06511ddfc1a3575b365d13bd269e9190c4cbdb701aa492960d39343bb2dd",
+        "ramdisk/carplay-route-guidance/adapter-status.txt": "7b4f34fb810f08f7872f52f76b5b428336f8faf1edcb5cfc056bd9bd5201fd18",
+        "ramdisk/carplay-cluster-supervisor.log": "c69a1c4f5ccf12449694d9e6300acdf00e59dca9ef81d279c6c85968aca916e5",
+        "sloginfo.txt": "ac083565924b004ce6077ae1ae27808c7285b1f521fe02e1c8363d8da8c1fb08",
+        "ramdisk/carplay-maps-session.log": "eaf9d1cd91a89a48f2545901ce27df9f9a779e49c44cfdc0bad0a1b8e69312b5",
+        "summary.txt": "72ca6e0e5703fd2dc2094a21e63be0c6513ccc8c1ce8d189ace358c98b33b6cb"
+      },
+      "status.txt": {
+        "status": "unavailable",
+        "polls": 1134,
+        "valid": 135,
+        "invalid": 999,
+        "sequence": 0,
+        "bytes": 36,
+        "reason": 0
+      },
+      "adapter-status.txt": {
+        "build": "7aa249357413c8a7",
+        "run": 1,
+        "mode": 2,
+        "context": 1,
+        "ticks": 444,
+        "proposals": 0,
+        "writes": 0,
+        "releases": 0,
+        "failures": 0,
+        "records": 112,
+        "error": 0
+      },
+      "supervisor_events": {
+        "stream-timeout-fallback": 1,
+        "bridge-started": 1,
+        "bridge-stopped": 1,
+        "state-oem-active": 1,
+        "state-carplay-active": 1
+      },
+      "selected_crash_marker_counts": {
+        "sloginfo.txt": {
+          "SIGSEGV": 0,
+          "SIGILL": 0,
+          "SIGBUS": 0,
+          "segmentation fault": 0,
+          "Unhandled exception": 0,
+          "heap corruption": 0
+        },
+        "ramdisk/carplay-maps-session.log": {
+          "SIGSEGV": 0,
+          "SIGILL": 0,
+          "SIGBUS": 0,
+          "segmentation fault": 0,
+          "Unhandled exception": 0,
+          "heap corruption": 0
+        }
+      },
+      "collector_date_command_unavailable": true
+    },
+    {
+      "capture": "cpmap-diag-6889541",
+      "hashes": {
+        "ramdisk/carplay-route-guidance/status.txt": "92da560dc26196b336dcb1c15eed8ffde79851d05f80aea337f54bc92e229a3c",
+        "ramdisk/carplay-route-guidance/adapter-status.txt": "5a3b32f84ecb212d6d269b302a13f8db3c32a4fadba4006140f425c721c54299",
+        "ramdisk/carplay-cluster-supervisor.log": "7c0098bbe7d0c1fc4d4c28d57ec46957996182ce014bd3667fdc3ea3ac121746",
+        "sloginfo.txt": "3703948f6b643ea3d4e69859f3d4119c3cd7182e1449ee67ff7af18acb627da5",
+        "ramdisk/carplay-maps-session.log": "2b1e3b14c77e6f84dfb4665f3bffc2f3490d9383b55da65a42f0ae4545ebcb01",
+        "summary.txt": "30ceaf0d10fac8e26689b7539a15a61ffa737f4a1f4223f68662e82de9d5c4fe"
+      },
+      "status.txt": {
+        "status": "stale",
+        "polls": 4690,
+        "valid": 3342,
+        "invalid": 1348,
+        "sequence": 47,
+        "bytes": 32,
+        "reason": 0
+      },
+      "adapter-status.txt": {
+        "build": "7aa249357413c8a7",
+        "run": 1,
+        "mode": 2,
+        "context": 0,
+        "ticks": 1928,
+        "proposals": 29,
+        "writes": 813,
+        "releases": 2,
+        "failures": 0,
+        "records": 503,
+        "error": 0
+      },
+      "supervisor_events": {
+        "stream-timeout-fallback": 2,
+        "bridge-started": 3,
+        "bridge-stopped": 2,
+        "state-oem-active": 2,
+        "state-carplay-active": 3
+      },
+      "selected_crash_marker_counts": {
+        "sloginfo.txt": {
+          "SIGSEGV": 0,
+          "SIGILL": 0,
+          "SIGBUS": 0,
+          "segmentation fault": 0,
+          "Unhandled exception": 0,
+          "heap corruption": 0
+        },
+        "ramdisk/carplay-maps-session.log": {
+          "SIGSEGV": 0,
+          "SIGILL": 0,
+          "SIGBUS": 0,
+          "segmentation fault": 0,
+          "Unhandled exception": 0,
+          "heap corruption": 0
+        }
+      },
+      "collector_date_command_unavailable": true
+    }
+  ],
+  "reviewer_sha256": "03a62ae0ab506ff39802a25bae84bfbac427425a8bfec81c1da2e6eca0507208"
+}

@@ -1,0 +1,96 @@
+{
+  "reviewed": "2026-10-19",
+  "phase": "N0-on-unit-observation-test",
+  "target": "MU1427 / 791 AID 12.3",
+  "reported_hardware_baseline": {
+    "reported": "2026-10-19",
+    "evidence": "user report",
+    "carplay_audio_view": "CarPlay label only",
+    "other_source_audio_view": "title, artist and cover art displayed",
+    "other_source_identified": false,
+    "custom_audio_patch_tested": false
+  },
+  "factory_contract": {
+    "classes": 13,
+    "reextraction_matches": true,
+    "sha256": "974d5e83eab20362900ae24efb25fdd72ccd91031fe0c5129393f5326d8bcd59"
+  },
+  "build": {
+    "build_id": "MU1427-AUDIO-N0-2676bca31ba1",
+    "phase": "N0-observation-only",
+    "all_class_major": 46,
+    "factory_jxe_sha256": "f46290b4a33b98d957170f6207073ad329316902a87cd4c27da4168548ad911a",
+    "stock_content_sha256": "7c63a1130d42999f18d1f30195292ba547aa14a767df7edab5d09f1ae6feffdf",
+    "factory_target_sha256": "9017646043df87c6f1b6191008d2b7423e522917f6e7f2c4106558b696a59153",
+    "jar_sha256": "f66713f281dee1d9e1dd3e2b47c8c1daad4b57264ce08b3c12446cf44aadcb53",
+    "jar_bytes": 10919,
+    "sources": {
+      "LoadObserver.java": "c4ce73eaf5995cd0c68c3cad80f38a8900f4deb79ac607f99943d88ef7867488",
+      "NowPlayingObserver.java": "1f7e2138de4abe027b75da91cc4d6a94cbc3e1c9cba295949f43d6c690f2b3cc",
+      "PatchObserver.java": "06d34764b06d518f314adabc1fbbd91e0811f00c1e8639457dcc1a6fd3199f5c",
+      "TestObserver.java": "6139157ef99a3335d03be90c25b3dcb29c427dfa336656a9bca242ce232a9a31"
+    },
+    "host": {
+      "observer_assertions": 30
+    },
+    "factory_j9_verified": false,
+    "on_unit_validated": false,
+    "cluster_output": false,
+    "installer_included": false
+  },
+  "factory_runtime": {
+    "passed": true,
+    "jar_sha256": "f66713f281dee1d9e1dd3e2b47c8c1daad4b57264ce08b3c12446cf44aadcb53",
+    "factory_j9_verified": true,
+    "checks_per_mode": 12,
+    "class49_negative_rejected": true,
+    "qemu_log_sha256": "cf3338f04508ab5759da98a4f049efe932fb61fdb216e5bd608a5f67a46f91e6",
+    "test_sha256": "6a4e644a34a7a5089583541711f284e33725590f07f2d6c322d66ecff8509da6",
+    "probe_sha256": "c4ce73eaf5995cd0c68c3cad80f38a8900f4deb79ac607f99943d88ef7867488",
+    "on_unit_validated": false
+  },
+  "tools": {
+    "probe-factory.py": "5325ccd1c075d5b3b6b305ec1681d865e4d4dd4db876975d56e28da67d84d0fe",
+    "build-observer.py": "35c0412df72af257a1fb7648bc42ce72a263e58e8837915864c9695dc40c0d52",
+    "test-observer-qnx.py": "6a4e644a34a7a5089583541711f284e33725590f07f2d6c322d66ecff8509da6",
+    "control.sh": "c7e37b89fd333d6fa34ba5af6cfa364e4c58c3d725af75bfd04fce8155a88ec1",
+    "package_support.py": "53007f3726d669419775674a512cd5623a111f28b6f5aae6ffbb1c30b8037012",
+    "test-controls.py": "380b89b822f4eaa26ebee7a07a0cc0de9951d7c0f05e7e6e469c0e660ccc7abb",
+    "build-test-package.py": "f90b12b473829155cc0811cf16d48d081497eb4ab950688da10a13d2b673edd7",
+    "test-package.py": "5d1ffc559d624d46ed3021d660cf9aa34fe871bf151c288a13917a3fa5cf7e33"
+  },
+  "limitations": [
+    "N0 startup and native text callback delivery passed A0; coexistence was reported by the user. Physical cluster text output and artwork remain unvalidated.",
+    "Observer counts field presence and validity; it does not validate text accuracy or image readability.",
+    "The test package installs observation only; title/artist/cover output is not implemented.",
+    "Service attachment epochs do not identify physical phone sessions.",
+    "Factory-runtime tests do not exercise the target notification dispatcher."
+  ],
+  "installer": {
+    "passed": true,
+    "tests": 17,
+    "jar_sha256": "f66713f281dee1d9e1dd3e2b47c8c1daad4b57264ce08b3c12446cf44aadcb53",
+    "sources": {
+      "control.sh": "c7e37b89fd333d6fa34ba5af6cfa364e4c58c3d725af75bfd04fce8155a88ec1",
+      "package_support.py": "53007f3726d669419775674a512cd5623a111f28b6f5aae6ffbb1c30b8037012",
+      "test-controls.py": "380b89b822f4eaa26ebee7a07a0cc0de9951d7c0f05e7e6e469c0e660ccc7abb"
+    }
+  },
+  "unit_observation": {
+    "capture": "A0",
+    "review_sha256": "f4c40e29294c4d43e832fe3a01ac4a3b7fd5b12519adf5faf25bdd923c5ff90c",
+    "build_marker_matches": true,
+    "apps_user_reported": [
+      "Apple Music",
+      "Spotify"
+    ],
+    "text_callback_delivery_observed": true,
+    "pause_resume_observed": true,
+    "detach_reconnect_observed": true,
+    "reported_error_counters_zero": true,
+    "other_service_impact_user_reported": false,
+    "cover_callback_observed": false,
+    "cluster_text_output_tested": false,
+    "installed_jar_independently_fingerprinted": false
+  }
+}

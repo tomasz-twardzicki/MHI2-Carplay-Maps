@@ -1,0 +1,3002 @@
+{
+  "classes": {
+    "de/vw/mib/asl/internal/carplay/target/HsmTarget": {
+      "audio_callback_methods": [],
+      "fields": {},
+      "methods": {
+        "<init>(Lde/vw/mib/genericevents/GenericEvents;I)V": {
+          "access": 1,
+          "rom_code_sha256": "60bba15a44ce7fcd0e8a84b659028783bde8a1de7c0463ff7bea07d7d04104b9"
+        },
+        "<init>(Lde/vw/mib/genericevents/GenericEvents;ILjava/lang/String;)V": {
+          "access": 1,
+          "rom_code_sha256": "e954c95042b765befd8e3d05b921195ef0b2f66cb98ce236fd89a75d189aecf8"
+        },
+        "<init>(Lde/vw/mib/genericevents/GenericEvents;Ljava/lang/String;)V": {
+          "access": 1,
+          "rom_code_sha256": "2382124b305b64adf6aa57219e961b0986a4aa9d38ac94c68e1ae63bdc8d5e92"
+        },
+        "deInitializeDSI()V": {
+          "access": 2,
+          "rom_code_sha256": "5dbd6f4bd021f8c530fe1b955563801fbee8beb1e937eb5485929c5f200adfc6"
+        },
+        "getDSICarPlay()Lorg/dsi/ifc/carplay/DSICarplay;": {
+          "access": 1,
+          "rom_code_sha256": "863fd8e163dd1dcb538fb76c59ce968a54d4ae64263486dbbab55c72e99d1047"
+        },
+        "initializeDSI()V": {
+          "access": 1,
+          "rom_code_sha256": "7fb4e70e523aa7635597429fd02c75ff48ae21795e85b816a93a752a2eaf4734"
+        }
+      },
+      "superclass": "de/vw/mib/asl/framework/internal/framework/AbstractASLTarget"
+    },
+    "de/vw/mib/asl/internal/kombipictureserver/usecaces/CoverArt": {
+      "audio_callback_methods": [],
+      "fields": {
+        "BAP_AUDIO_SD_INVALID_HANDLE": {
+          "descriptor": "I",
+          "value": 4294967295
+        },
+        "_bapActiveSourceType": {
+          "descriptor": "I"
+        }
+      },
+      "methods": {
+        "_isActiveSourceSupportsCoverArt(I)Z": {
+          "access": 10,
+          "rom_code_sha256": "9165f4186ef0620e52cde12b0bb3dbe853fd031f4db9e54e55543bcdafb24aab"
+        },
+        "_transmitCoverArt(JIIILorg/dsi/ifc/global/ResourceLocator;)V": {
+          "access": 2,
+          "rom_code_sha256": "2397f196bfd987647973a30b89433ec431456a33991ef7fba160f0f056f9d952"
+        },
+        "_transmitCoverArt(Lorg/dsi/ifc/global/ResourceLocator;)V": {
+          "access": 2,
+          "rom_code_sha256": "35965ab6230bf21b2a823e0a117f72af4b025dbcb7d6053256ca6e7899185761"
+        },
+        "_updateCoverArt()V": {
+          "access": 2,
+          "rom_code_sha256": "e3b771a6063f41227961a96d54b2907c996fdcd48b06d214c80b988f3efe8301"
+        },
+        "_updateCoverArt(Z)V": {
+          "access": 2,
+          "rom_code_sha256": "e6023a4459402b06e55f62bf7f12a535b774315e1b7a2c14f9cb24ccda878278"
+        },
+        "updateBapAudioSd(Lde/vw/mib/asl/internal/kombipictureserver/common/api/bap/audiosd/BapAudioSdService;I)V": {
+          "access": 1,
+          "rom_code_sha256": "188d364624e9f3ddf083daab7cb4cc7e773eb1c47cbdc66050b1479354474103"
+        }
+      },
+      "superclass": "de/vw/mib/asl/internal/kombipictureserver/usecaces/PictureServerUseCase"
+    },
+    "de/vw/mib/bap/mqbab2/audiosd/functions/ActiveSource": {
+      "audio_callback_methods": [],
+      "fields": {
+        "BAP_STAGE_UPDATE_ID_CURRENT_STATION_INDICES": {
+          "descriptor": "I"
+        },
+        "PRESET_INDEX_INVALID": {
+          "descriptor": "I",
+          "value": 4294967295
+        },
+        "TIMER_ACTION_NOTHING": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "TIMER_ACTION_STOP_IGNORE_ENTERTAINMENT_SUPRESSION": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "TIMER_ACTION_TRANSMIT_NEW_VALUE_AFTER_COMPONENT_CHANGE": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "TIMER_IGNORE_AUDIO_SUPPRESSION_TIME": {
+          "descriptor": "I",
+          "value": 2000
+        },
+        "TIMER_WAIT_FOR_CI_TRANSMISSION_TIME": {
+          "descriptor": "I",
+          "value": 150
+        },
+        "TYPE_OF_NUMBER_OFFSET": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "currentPresetIndex": {
+          "descriptor": "I"
+        },
+        "currentSourceListReference": {
+          "descriptor": "I"
+        },
+        "lastAudioComponent": {
+          "descriptor": "I"
+        }
+      },
+      "methods": {
+        "computeActiveSourceStatus()Lde/vw/mib/bap/mqbab2/generated/audiosd/serializer/ActiveSource_Status;": {
+          "access": 2,
+          "rom_code_sha256": "87be595d874a66c6da14090806821d1d93d4086ec3e36cd394a09dcfc4461159"
+        },
+        "getFunctionId()I": {
+          "access": 1,
+          "rom_code_sha256": "a08fcf8f1c86815794b62e94eb9bc8e6687bbc48f38752ae55a1eec997910a5e"
+        }
+      },
+      "superclass": "de/vw/mib/bap/mqbab2/common/api/stages/Function"
+    },
+    "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationHandle": {
+      "audio_callback_methods": [],
+      "fields": {
+        "CURRENT_STATION_IN_RECEPTIONLIST_BAP_POS_ID": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "DAB_NO_ABS_POS_ID_EXITS": {
+          "descriptor": "I",
+          "value": 4294967295
+        },
+        "INDEX_ENSEMBLE_ID": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "INDEX_ENSEMBLE_ID_ABS_POS": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "INDEX_ID": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "INDEX_ID_ABS_POSITION": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "INDEX_PARENT_ABS_POSITION": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "INVALID_BAP_POS_ID": {
+          "descriptor": "I",
+          "value": 4294967295
+        },
+        "INVALID_HANDLE_REF": {
+          "descriptor": "I",
+          "value": 4294967295
+        },
+        "INVALID_INDEX": {
+          "descriptor": "I",
+          "value": 4294967295
+        },
+        "NO_HANDLE_REF_EXISTS": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "OFFSET_FOR_REF_HANDLE": {
+          "descriptor": "I",
+          "value": 1
+        }
+      },
+      "methods": {
+        "computeCurrentStationHandleStatus()Lde/vw/mib/bap/mqbab2/generated/audiosd/serializer/CurrentStation_Handle_Status;": {
+          "access": 2,
+          "rom_code_sha256": "14e24e36e883ffae34383ef13f2d49efa6fd48a9d061db52ca157bbdd4aa803c"
+        },
+        "getFunctionId()I": {
+          "access": 1,
+          "rom_code_sha256": "854a5a7e944d8c41249d5d8fb522910ed9dd7ac36b0a176fab2905faa034bf7d"
+        }
+      },
+      "superclass": "de/vw/mib/bap/mqbab2/common/api/stages/Function"
+    },
+    "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationInfo": {
+      "audio_callback_methods": [],
+      "fields": {
+        "TIMER_ACTION_NOTHING": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "TIMER_ACTION_STOP_IGNORE_ENTERTAINMENT_SUPRESSION": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "TIMER_ACTION_UPDATE_DATA": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "TIMER_UPDATE_SUPPRESSION_TIME": {
+          "descriptor": "I",
+          "value": 2000
+        },
+        "TIMER_UPDATE_TIME": {
+          "descriptor": "I",
+          "value": 200
+        },
+        "currentAbsolutePosition": {
+          "descriptor": "I"
+        },
+        "lastAudioComponent": {
+          "descriptor": "I"
+        }
+      },
+      "methods": {
+        "computeCurrentStationInfoStatus(Lde/vw/mib/bap/mqbab2/generated/audiosd/serializer/CurrentStationInfo_Status;)Z": {
+          "access": 2,
+          "rom_code_sha256": "e4448868036c4782c3e86dd5a32995f1e826c2189fd566b18e07eb7cb3259a49"
+        },
+        "getFunctionId()I": {
+          "access": 1,
+          "rom_code_sha256": "b018cb4471919803740e17501cfc3c7d69510c7ef433a1b572ae874da7bbde07"
+        },
+        "process(I)V": {
+          "access": 1,
+          "rom_code_sha256": "3b4d2239f663e48cbff9e4aed80aebbb252a2a7f6451bfb5ce470cdf4ead9396"
+        },
+        "setArtistAndAlbum(Lde/vw/mib/bap/mqbab2/generated/audiosd/serializer/CurrentStationInfo_Status;)V": {
+          "access": 2,
+          "rom_code_sha256": "fa1f27ad36aab0f0a5cc3fb294f320a3ddd1ea61a35eaed361f060cacfbb4fd9"
+        },
+        "setStationInfoForMirrorLink(Lde/vw/mib/bap/mqbab2/generated/audiosd/serializer/CurrentStationInfo_Status;)V": {
+          "access": 2,
+          "rom_code_sha256": "7cb105f43c0e5bdd184a2226b6214bd6c81f70b22d006011059a4a1dec5d06f5"
+        },
+        "setStationInfoStatus(Lde/vw/mib/bap/mqbab2/generated/audiosd/serializer/CurrentStationInfo_Status;)Z": {
+          "access": 2,
+          "rom_code_sha256": "ce04b8f38e039d5bf58c61602bf37970bf32b30d0b956244f95e1398c987f92a"
+        }
+      },
+      "superclass": "de/vw/mib/bap/mqbab2/common/api/stages/Function"
+    },
+    "de/vw/mib/bap/mqbab2/generated/audiosd/serializer/CurrentStationInfo_Status": {
+      "audio_callback_methods": [],
+      "fields": {
+        "MAX_PRIMARY_INFORMATION_LENGTH": {
+          "descriptor": "I",
+          "value": 73
+        },
+        "MAX_QUATERNARY_INFORMATION_LENGTH": {
+          "descriptor": "I",
+          "value": 73
+        },
+        "MAX_SECONDARY_INFORMATION_LENGTH": {
+          "descriptor": "I",
+          "value": 73
+        },
+        "MAX_TERTIARY_INFORMATION_LENGTH": {
+          "descriptor": "I",
+          "value": 73
+        },
+        "PI_TYPE_ALBUM": {
+          "descriptor": "I",
+          "value": 74
+        },
+        "PI_TYPE_ANY_CATEGORY_UNKNOWN_CATEGORY": {
+          "descriptor": "I",
+          "value": 5
+        },
+        "PI_TYPE_ANY_TYPE_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "PI_TYPE_ARTIST": {
+          "descriptor": "I",
+          "value": 73
+        },
+        "PI_TYPE_AUDIO_FILE": {
+          "descriptor": "I",
+          "value": 6
+        },
+        "PI_TYPE_AUDIO_FOLDER": {
+          "descriptor": "I",
+          "value": 12
+        },
+        "PI_TYPE_CATEGORY_ALBUM": {
+          "descriptor": "I",
+          "value": 32
+        },
+        "PI_TYPE_CATEGORY_ALBUMS": {
+          "descriptor": "I",
+          "value": 33
+        },
+        "PI_TYPE_CATEGORY_ALL": {
+          "descriptor": "I",
+          "value": 42
+        },
+        "PI_TYPE_CATEGORY_ARTIST": {
+          "descriptor": "I",
+          "value": 20
+        },
+        "PI_TYPE_CATEGORY_ARTISTS": {
+          "descriptor": "I",
+          "value": 21
+        },
+        "PI_TYPE_CATEGORY_AUDIOBOOK": {
+          "descriptor": "I",
+          "value": 40
+        },
+        "PI_TYPE_CATEGORY_AUDIOBOOKS": {
+          "descriptor": "I",
+          "value": 41
+        },
+        "PI_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1": {
+          "descriptor": "I",
+          "value": 58
+        },
+        "PI_TYPE_CATEGORY_COMMENT": {
+          "descriptor": "I",
+          "value": 30
+        },
+        "PI_TYPE_CATEGORY_COMPOSER": {
+          "descriptor": "I",
+          "value": 24
+        },
+        "PI_TYPE_CATEGORY_COMPOSERS": {
+          "descriptor": "I",
+          "value": 25
+        },
+        "PI_TYPE_CATEGORY_DYNAMIC_PLAYLISTS": {
+          "descriptor": "I",
+          "value": 54
+        },
+        "PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR": {
+          "descriptor": "I",
+          "value": 46
+        },
+        "PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS": {
+          "descriptor": "I",
+          "value": 47
+        },
+        "PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS": {
+          "descriptor": "I",
+          "value": 48
+        },
+        "PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS": {
+          "descriptor": "I",
+          "value": 49
+        },
+        "PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS": {
+          "descriptor": "I",
+          "value": 50
+        },
+        "PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED": {
+          "descriptor": "I",
+          "value": 52
+        },
+        "PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED": {
+          "descriptor": "I",
+          "value": 51
+        },
+        "PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED": {
+          "descriptor": "I",
+          "value": 45
+        },
+        "PI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO": {
+          "descriptor": "I",
+          "value": 53
+        },
+        "PI_TYPE_CATEGORY_FAVORITES_DF4_1": {
+          "descriptor": "I",
+          "value": 60
+        },
+        "PI_TYPE_CATEGORY_GENRE": {
+          "descriptor": "I",
+          "value": 16
+        },
+        "PI_TYPE_CATEGORY_GENRES": {
+          "descriptor": "I",
+          "value": 17
+        },
+        "PI_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1": {
+          "descriptor": "I",
+          "value": 59
+        },
+        "PI_TYPE_CATEGORY_MOOD_DF4_1": {
+          "descriptor": "I",
+          "value": 83
+        },
+        "PI_TYPE_CATEGORY_MOVIES_DF4_1": {
+          "descriptor": "I",
+          "value": 55
+        },
+        "PI_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1": {
+          "descriptor": "I",
+          "value": 56
+        },
+        "PI_TYPE_CATEGORY_PODCAST": {
+          "descriptor": "I",
+          "value": 43
+        },
+        "PI_TYPE_CATEGORY_PODCASTS": {
+          "descriptor": "I",
+          "value": 44
+        },
+        "PI_TYPE_CATEGORY_SONG": {
+          "descriptor": "I",
+          "value": 36
+        },
+        "PI_TYPE_CATEGORY_SONGS": {
+          "descriptor": "I",
+          "value": 37
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_ALBUM": {
+          "descriptor": "I",
+          "value": 34
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_ALBUMS": {
+          "descriptor": "I",
+          "value": 35
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_ARTIST": {
+          "descriptor": "I",
+          "value": 22
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_ARTISTS": {
+          "descriptor": "I",
+          "value": 23
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1": {
+          "descriptor": "I",
+          "value": 82
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1": {
+          "descriptor": "I",
+          "value": 81
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_COMMENT": {
+          "descriptor": "I",
+          "value": 31
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_COMPOSER": {
+          "descriptor": "I",
+          "value": 26
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_COMPOSERS": {
+          "descriptor": "I",
+          "value": 27
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_GENRE": {
+          "descriptor": "I",
+          "value": 18
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_GENRES": {
+          "descriptor": "I",
+          "value": 19
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1": {
+          "descriptor": "I",
+          "value": 84
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1": {
+          "descriptor": "I",
+          "value": 62
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1": {
+          "descriptor": "I",
+          "value": 61
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_SONG": {
+          "descriptor": "I",
+          "value": 38
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_SONGS": {
+          "descriptor": "I",
+          "value": 39
+        },
+        "PI_TYPE_CATEGORY_UNKNOWN_YEAR": {
+          "descriptor": "I",
+          "value": 29
+        },
+        "PI_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1": {
+          "descriptor": "I",
+          "value": 63
+        },
+        "PI_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1": {
+          "descriptor": "I",
+          "value": 57
+        },
+        "PI_TYPE_CATEGORY_YEAR": {
+          "descriptor": "I",
+          "value": 28
+        },
+        "PI_TYPE_CD_AUDIO_TRACK_CD_TEXT": {
+          "descriptor": "I",
+          "value": 9
+        },
+        "PI_TYPE_CHANNEL": {
+          "descriptor": "I",
+          "value": 67
+        },
+        "PI_TYPE_COMPOSER_DF_4_1": {
+          "descriptor": "I",
+          "value": 79
+        },
+        "PI_TYPE_CONDUCTOR_DF_4_1": {
+          "descriptor": "I",
+          "value": 78
+        },
+        "PI_TYPE_DAB_ENSEMBLE_DF_4_1": {
+          "descriptor": "I",
+          "value": 75
+        },
+        "PI_TYPE_DAB_SECONDARY_SERVICE_DF_4_1": {
+          "descriptor": "I",
+          "value": 76
+        },
+        "PI_TYPE_DAB_SERVICE": {
+          "descriptor": "I",
+          "value": 70
+        },
+        "PI_TYPE_DVB_SERVICE_TV_STATION": {
+          "descriptor": "I",
+          "value": 71
+        },
+        "PI_TYPE_DVD_CHAPTER": {
+          "descriptor": "I",
+          "value": 65
+        },
+        "PI_TYPE_DVD_MAIN_MENUE": {
+          "descriptor": "I",
+          "value": 64
+        },
+        "PI_TYPE_DVD_TITLE": {
+          "descriptor": "I",
+          "value": 66
+        },
+        "PI_TYPE_FOLDER": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "PI_TYPE_IMAGE_FILE": {
+          "descriptor": "I",
+          "value": 11
+        },
+        "PI_TYPE_IMAGE_FOLDER": {
+          "descriptor": "I",
+          "value": 14
+        },
+        "PI_TYPE_LEGACY_AUDIO_TRACK_CD": {
+          "descriptor": "I",
+          "value": 8
+        },
+        "PI_TYPE_MODERATOR_DF_4_1": {
+          "descriptor": "I",
+          "value": 77
+        },
+        "PI_TYPE_ONLINE_RADIO_STATION_DF4_2": {
+          "descriptor": "I",
+          "value": 96
+        },
+        "PI_TYPE_PLAYLIST": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "PI_TYPE_PLAYLIST_FOLDER": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "PI_TYPE_PROGRAM_NOW_DF_4_1": {
+          "descriptor": "I",
+          "value": 80
+        },
+        "PI_TYPE_RADIO_STATION_FM_AM_AM_SW_AM_LW": {
+          "descriptor": "I",
+          "value": 68
+        },
+        "PI_TYPE_SDARS_STATION": {
+          "descriptor": "I",
+          "value": 69
+        },
+        "PI_TYPE_TITLE_FORBIDDEN_IN_CASE_OF_LEGACY_AUDIO_CD": {
+          "descriptor": "I",
+          "value": 72
+        },
+        "PI_TYPE_TRACK": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "PI_TYPE_VIDEO_FILE": {
+          "descriptor": "I",
+          "value": 7
+        },
+        "PI_TYPE_VIDEO_FOLDER": {
+          "descriptor": "I",
+          "value": 13
+        },
+        "PI_TYPE_VOICEMEMO_FILE": {
+          "descriptor": "I",
+          "value": 10
+        },
+        "PI_TYPE_VOICEMEMO_FOLDER": {
+          "descriptor": "I",
+          "value": 15
+        },
+        "QI_TYPE_ALBUM": {
+          "descriptor": "I",
+          "value": 74
+        },
+        "QI_TYPE_ANY_CATEGORY_UNKNOWN_CATEGORY": {
+          "descriptor": "I",
+          "value": 5
+        },
+        "QI_TYPE_ANY_TYPE_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "QI_TYPE_ARTIST": {
+          "descriptor": "I",
+          "value": 73
+        },
+        "QI_TYPE_AUDIO_FILE": {
+          "descriptor": "I",
+          "value": 6
+        },
+        "QI_TYPE_AUDIO_FOLDER": {
+          "descriptor": "I",
+          "value": 12
+        },
+        "QI_TYPE_CATEGORY_ALBUM": {
+          "descriptor": "I",
+          "value": 32
+        },
+        "QI_TYPE_CATEGORY_ALBUMS": {
+          "descriptor": "I",
+          "value": 33
+        },
+        "QI_TYPE_CATEGORY_ALL": {
+          "descriptor": "I",
+          "value": 42
+        },
+        "QI_TYPE_CATEGORY_ARTIST": {
+          "descriptor": "I",
+          "value": 20
+        },
+        "QI_TYPE_CATEGORY_ARTISTS": {
+          "descriptor": "I",
+          "value": 21
+        },
+        "QI_TYPE_CATEGORY_AUDIOBOOK": {
+          "descriptor": "I",
+          "value": 40
+        },
+        "QI_TYPE_CATEGORY_AUDIOBOOKS": {
+          "descriptor": "I",
+          "value": 41
+        },
+        "QI_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1": {
+          "descriptor": "I",
+          "value": 58
+        },
+        "QI_TYPE_CATEGORY_COMMENT": {
+          "descriptor": "I",
+          "value": 30
+        },
+        "QI_TYPE_CATEGORY_COMPOSER": {
+          "descriptor": "I",
+          "value": 24
+        },
+        "QI_TYPE_CATEGORY_COMPOSERS": {
+          "descriptor": "I",
+          "value": 25
+        },
+        "QI_TYPE_CATEGORY_DYNAMIC_PLAYLISTS": {
+          "descriptor": "I",
+          "value": 54
+        },
+        "QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR": {
+          "descriptor": "I",
+          "value": 46
+        },
+        "QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS": {
+          "descriptor": "I",
+          "value": 47
+        },
+        "QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS": {
+          "descriptor": "I",
+          "value": 48
+        },
+        "QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS": {
+          "descriptor": "I",
+          "value": 49
+        },
+        "QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS": {
+          "descriptor": "I",
+          "value": 50
+        },
+        "QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED": {
+          "descriptor": "I",
+          "value": 52
+        },
+        "QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED": {
+          "descriptor": "I",
+          "value": 51
+        },
+        "QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED": {
+          "descriptor": "I",
+          "value": 45
+        },
+        "QI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO": {
+          "descriptor": "I",
+          "value": 53
+        },
+        "QI_TYPE_CATEGORY_FAVORITES_DF4_1": {
+          "descriptor": "I",
+          "value": 60
+        },
+        "QI_TYPE_CATEGORY_GENRE": {
+          "descriptor": "I",
+          "value": 16
+        },
+        "QI_TYPE_CATEGORY_GENRES": {
+          "descriptor": "I",
+          "value": 17
+        },
+        "QI_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1": {
+          "descriptor": "I",
+          "value": 59
+        },
+        "QI_TYPE_CATEGORY_MOOD_DF4_1": {
+          "descriptor": "I",
+          "value": 83
+        },
+        "QI_TYPE_CATEGORY_MOVIES_DF4_1": {
+          "descriptor": "I",
+          "value": 55
+        },
+        "QI_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1": {
+          "descriptor": "I",
+          "value": 56
+        },
+        "QI_TYPE_CATEGORY_PODCAST": {
+          "descriptor": "I",
+          "value": 43
+        },
+        "QI_TYPE_CATEGORY_PODCASTS": {
+          "descriptor": "I",
+          "value": 44
+        },
+        "QI_TYPE_CATEGORY_SONG": {
+          "descriptor": "I",
+          "value": 36
+        },
+        "QI_TYPE_CATEGORY_SONGS": {
+          "descriptor": "I",
+          "value": 37
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_ALBUM": {
+          "descriptor": "I",
+          "value": 34
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_ALBUMS": {
+          "descriptor": "I",
+          "value": 35
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_ARTIST": {
+          "descriptor": "I",
+          "value": 22
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_ARTISTS": {
+          "descriptor": "I",
+          "value": 23
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1": {
+          "descriptor": "I",
+          "value": 82
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1": {
+          "descriptor": "I",
+          "value": 81
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_COMMENT": {
+          "descriptor": "I",
+          "value": 31
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_COMPOSER": {
+          "descriptor": "I",
+          "value": 26
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_COMPOSERS": {
+          "descriptor": "I",
+          "value": 27
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_GENRE": {
+          "descriptor": "I",
+          "value": 18
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_GENRES": {
+          "descriptor": "I",
+          "value": 19
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1": {
+          "descriptor": "I",
+          "value": 84
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1": {
+          "descriptor": "I",
+          "value": 62
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1": {
+          "descriptor": "I",
+          "value": 61
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_SONG": {
+          "descriptor": "I",
+          "value": 38
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_SONGS": {
+          "descriptor": "I",
+          "value": 39
+        },
+        "QI_TYPE_CATEGORY_UNKNOWN_YEAR": {
+          "descriptor": "I",
+          "value": 29
+        },
+        "QI_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1": {
+          "descriptor": "I",
+          "value": 63
+        },
+        "QI_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1": {
+          "descriptor": "I",
+          "value": 57
+        },
+        "QI_TYPE_CATEGORY_YEAR": {
+          "descriptor": "I",
+          "value": 28
+        },
+        "QI_TYPE_CD_AUDIO_TRACK_CD_TEXT": {
+          "descriptor": "I",
+          "value": 9
+        },
+        "QI_TYPE_CHANNEL": {
+          "descriptor": "I",
+          "value": 67
+        },
+        "QI_TYPE_COMPOSER_DF_4_1": {
+          "descriptor": "I",
+          "value": 79
+        },
+        "QI_TYPE_CONDUCTOR_DF_4_1": {
+          "descriptor": "I",
+          "value": 78
+        },
+        "QI_TYPE_DAB_ENSEMBLE_DF_4_1": {
+          "descriptor": "I",
+          "value": 75
+        },
+        "QI_TYPE_DAB_SECONDARY_SERVICE_DF_4_1": {
+          "descriptor": "I",
+          "value": 76
+        },
+        "QI_TYPE_DAB_SERVICE": {
+          "descriptor": "I",
+          "value": 70
+        },
+        "QI_TYPE_DVB_SERVICE_TV_STATION": {
+          "descriptor": "I",
+          "value": 71
+        },
+        "QI_TYPE_DVD_CHAPTER": {
+          "descriptor": "I",
+          "value": 65
+        },
+        "QI_TYPE_DVD_MAIN_MENUE": {
+          "descriptor": "I",
+          "value": 64
+        },
+        "QI_TYPE_DVD_TITLE": {
+          "descriptor": "I",
+          "value": 66
+        },
+        "QI_TYPE_FOLDER": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "QI_TYPE_IMAGE_FILE": {
+          "descriptor": "I",
+          "value": 11
+        },
+        "QI_TYPE_IMAGE_FOLDER": {
+          "descriptor": "I",
+          "value": 14
+        },
+        "QI_TYPE_LEGACY_AUDIO_TRACK_CD": {
+          "descriptor": "I",
+          "value": 8
+        },
+        "QI_TYPE_MODERATOR_DF_4_1": {
+          "descriptor": "I",
+          "value": 77
+        },
+        "QI_TYPE_ONLINE_RADIO_STATION_DF4_2": {
+          "descriptor": "I",
+          "value": 96
+        },
+        "QI_TYPE_PLAYLIST": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "QI_TYPE_PLAYLIST_FOLDER": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "QI_TYPE_PROGRAM_NOW_DF_4_1": {
+          "descriptor": "I",
+          "value": 80
+        },
+        "QI_TYPE_RADIO_STATION_FM_AM_AM_SW_AM_LW": {
+          "descriptor": "I",
+          "value": 68
+        },
+        "QI_TYPE_SDARS_STATION": {
+          "descriptor": "I",
+          "value": 69
+        },
+        "QI_TYPE_TITLE_FORBIDDEN_IN_CASE_OF_LEGACY_AUDIO_CD": {
+          "descriptor": "I",
+          "value": 72
+        },
+        "QI_TYPE_TRACK": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "QI_TYPE_VIDEO_FILE": {
+          "descriptor": "I",
+          "value": 7
+        },
+        "QI_TYPE_VIDEO_FOLDER": {
+          "descriptor": "I",
+          "value": 13
+        },
+        "QI_TYPE_VOICEMEMO_FILE": {
+          "descriptor": "I",
+          "value": 10
+        },
+        "QI_TYPE_VOICEMEMO_FOLDER": {
+          "descriptor": "I",
+          "value": 15
+        },
+        "SI_TYPE_ALBUM": {
+          "descriptor": "I",
+          "value": 74
+        },
+        "SI_TYPE_ANY_CATEGORY_UNKNOWN_CATEGORY": {
+          "descriptor": "I",
+          "value": 5
+        },
+        "SI_TYPE_ANY_TYPE_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "SI_TYPE_ARTIST": {
+          "descriptor": "I",
+          "value": 73
+        },
+        "SI_TYPE_AUDIO_FILE": {
+          "descriptor": "I",
+          "value": 6
+        },
+        "SI_TYPE_AUDIO_FOLDER": {
+          "descriptor": "I",
+          "value": 12
+        },
+        "SI_TYPE_CATEGORY_ALBUM": {
+          "descriptor": "I",
+          "value": 32
+        },
+        "SI_TYPE_CATEGORY_ALBUMS": {
+          "descriptor": "I",
+          "value": 33
+        },
+        "SI_TYPE_CATEGORY_ALL": {
+          "descriptor": "I",
+          "value": 42
+        },
+        "SI_TYPE_CATEGORY_ARTIST": {
+          "descriptor": "I",
+          "value": 20
+        },
+        "SI_TYPE_CATEGORY_ARTISTS": {
+          "descriptor": "I",
+          "value": 21
+        },
+        "SI_TYPE_CATEGORY_AUDIOBOOK": {
+          "descriptor": "I",
+          "value": 40
+        },
+        "SI_TYPE_CATEGORY_AUDIOBOOKS": {
+          "descriptor": "I",
+          "value": 41
+        },
+        "SI_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1": {
+          "descriptor": "I",
+          "value": 58
+        },
+        "SI_TYPE_CATEGORY_COMMENT": {
+          "descriptor": "I",
+          "value": 30
+        },
+        "SI_TYPE_CATEGORY_COMPOSER": {
+          "descriptor": "I",
+          "value": 24
+        },
+        "SI_TYPE_CATEGORY_COMPOSERS": {
+          "descriptor": "I",
+          "value": 25
+        },
+        "SI_TYPE_CATEGORY_DYNAMIC_PLAYLISTS": {
+          "descriptor": "I",
+          "value": 54
+        },
+        "SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR": {
+          "descriptor": "I",
+          "value": 46
+        },
+        "SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS": {
+          "descriptor": "I",
+          "value": 47
+        },
+        "SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS": {
+          "descriptor": "I",
+          "value": 48
+        },
+        "SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS": {
+          "descriptor": "I",
+          "value": 49
+        },
+        "SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS": {
+          "descriptor": "I",
+          "value": 50
+        },
+        "SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED": {
+          "descriptor": "I",
+          "value": 52
+        },
+        "SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED": {
+          "descriptor": "I",
+          "value": 51
+        },
+        "SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED": {
+          "descriptor": "I",
+          "value": 45
+        },
+        "SI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO": {
+          "descriptor": "I",
+          "value": 53
+        },
+        "SI_TYPE_CATEGORY_FAVORITES_DF4_1": {
+          "descriptor": "I",
+          "value": 60
+        },
+        "SI_TYPE_CATEGORY_GENRE": {
+          "descriptor": "I",
+          "value": 16
+        },
+        "SI_TYPE_CATEGORY_GENRES": {
+          "descriptor": "I",
+          "value": 17
+        },
+        "SI_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1": {
+          "descriptor": "I",
+          "value": 59
+        },
+        "SI_TYPE_CATEGORY_MOOD_DF4_1": {
+          "descriptor": "I",
+          "value": 83
+        },
+        "SI_TYPE_CATEGORY_MOVIES_DF4_1": {
+          "descriptor": "I",
+          "value": 55
+        },
+        "SI_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1": {
+          "descriptor": "I",
+          "value": 56
+        },
+        "SI_TYPE_CATEGORY_PODCAST": {
+          "descriptor": "I",
+          "value": 43
+        },
+        "SI_TYPE_CATEGORY_PODCASTS": {
+          "descriptor": "I",
+          "value": 44
+        },
+        "SI_TYPE_CATEGORY_SONG": {
+          "descriptor": "I",
+          "value": 36
+        },
+        "SI_TYPE_CATEGORY_SONGS": {
+          "descriptor": "I",
+          "value": 37
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_ALBUM": {
+          "descriptor": "I",
+          "value": 34
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_ALBUMS": {
+          "descriptor": "I",
+          "value": 35
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_ARTIST": {
+          "descriptor": "I",
+          "value": 22
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_ARTISTS": {
+          "descriptor": "I",
+          "value": 23
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1": {
+          "descriptor": "I",
+          "value": 82
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1": {
+          "descriptor": "I",
+          "value": 81
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_COMMENT": {
+          "descriptor": "I",
+          "value": 31
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_COMPOSER": {
+          "descriptor": "I",
+          "value": 26
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_COMPOSERS": {
+          "descriptor": "I",
+          "value": 27
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_GENRE": {
+          "descriptor": "I",
+          "value": 18
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_GENRES": {
+          "descriptor": "I",
+          "value": 19
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1": {
+          "descriptor": "I",
+          "value": 84
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1": {
+          "descriptor": "I",
+          "value": 62
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1": {
+          "descriptor": "I",
+          "value": 61
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_SONG": {
+          "descriptor": "I",
+          "value": 38
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_SONGS": {
+          "descriptor": "I",
+          "value": 39
+        },
+        "SI_TYPE_CATEGORY_UNKNOWN_YEAR": {
+          "descriptor": "I",
+          "value": 29
+        },
+        "SI_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1": {
+          "descriptor": "I",
+          "value": 63
+        },
+        "SI_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1": {
+          "descriptor": "I",
+          "value": 57
+        },
+        "SI_TYPE_CATEGORY_YEAR": {
+          "descriptor": "I",
+          "value": 28
+        },
+        "SI_TYPE_CD_AUDIO_TRACK_CD_TEXT": {
+          "descriptor": "I",
+          "value": 9
+        },
+        "SI_TYPE_CHANNEL": {
+          "descriptor": "I",
+          "value": 67
+        },
+        "SI_TYPE_COMPOSER_DF_4_1": {
+          "descriptor": "I",
+          "value": 79
+        },
+        "SI_TYPE_CONDUCTOR_DF_4_1": {
+          "descriptor": "I",
+          "value": 78
+        },
+        "SI_TYPE_DAB_ENSEMBLE_DF_4_1": {
+          "descriptor": "I",
+          "value": 75
+        },
+        "SI_TYPE_DAB_SECONDARY_SERVICE_DF_4_1": {
+          "descriptor": "I",
+          "value": 76
+        },
+        "SI_TYPE_DAB_SERVICE": {
+          "descriptor": "I",
+          "value": 70
+        },
+        "SI_TYPE_DVB_SERVICE_TV_STATION": {
+          "descriptor": "I",
+          "value": 71
+        },
+        "SI_TYPE_DVD_CHAPTER": {
+          "descriptor": "I",
+          "value": 65
+        },
+        "SI_TYPE_DVD_MAIN_MENUE": {
+          "descriptor": "I",
+          "value": 64
+        },
+        "SI_TYPE_DVD_TITLE": {
+          "descriptor": "I",
+          "value": 66
+        },
+        "SI_TYPE_FOLDER": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "SI_TYPE_IMAGE_FILE": {
+          "descriptor": "I",
+          "value": 11
+        },
+        "SI_TYPE_IMAGE_FOLDER": {
+          "descriptor": "I",
+          "value": 14
+        },
+        "SI_TYPE_LEGACY_AUDIO_TRACK_CD": {
+          "descriptor": "I",
+          "value": 8
+        },
+        "SI_TYPE_MODERATOR_DF_4_1": {
+          "descriptor": "I",
+          "value": 77
+        },
+        "SI_TYPE_ONLINE_RADIO_STATION_DF4_2": {
+          "descriptor": "I",
+          "value": 96
+        },
+        "SI_TYPE_PLAYLIST": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "SI_TYPE_PLAYLIST_FOLDER": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "SI_TYPE_PROGRAM_NOW_DF_4_1": {
+          "descriptor": "I",
+          "value": 80
+        },
+        "SI_TYPE_RADIO_STATION_FM_AM_AM_SW_AM_LW": {
+          "descriptor": "I",
+          "value": 68
+        },
+        "SI_TYPE_SDARS_STATION": {
+          "descriptor": "I",
+          "value": 69
+        },
+        "SI_TYPE_TITLE_FORBIDDEN_IN_CASE_OF_LEGACY_AUDIO_CD": {
+          "descriptor": "I",
+          "value": 72
+        },
+        "SI_TYPE_TRACK": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "SI_TYPE_VIDEO_FILE": {
+          "descriptor": "I",
+          "value": 7
+        },
+        "SI_TYPE_VIDEO_FOLDER": {
+          "descriptor": "I",
+          "value": 13
+        },
+        "SI_TYPE_VOICEMEMO_FILE": {
+          "descriptor": "I",
+          "value": 10
+        },
+        "SI_TYPE_VOICEMEMO_FOLDER": {
+          "descriptor": "I",
+          "value": 15
+        },
+        "TI_TYPE_ALBUM": {
+          "descriptor": "I",
+          "value": 74
+        },
+        "TI_TYPE_ANY_CATEGORY_UNKNOWN_CATEGORY": {
+          "descriptor": "I",
+          "value": 5
+        },
+        "TI_TYPE_ANY_TYPE_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "TI_TYPE_ARTIST": {
+          "descriptor": "I",
+          "value": 73
+        },
+        "TI_TYPE_AUDIO_FILE": {
+          "descriptor": "I",
+          "value": 6
+        },
+        "TI_TYPE_AUDIO_FOLDER": {
+          "descriptor": "I",
+          "value": 12
+        },
+        "TI_TYPE_CATEGORY_ALBUM": {
+          "descriptor": "I",
+          "value": 32
+        },
+        "TI_TYPE_CATEGORY_ALBUMS": {
+          "descriptor": "I",
+          "value": 33
+        },
+        "TI_TYPE_CATEGORY_ALL": {
+          "descriptor": "I",
+          "value": 42
+        },
+        "TI_TYPE_CATEGORY_ARTIST": {
+          "descriptor": "I",
+          "value": 20
+        },
+        "TI_TYPE_CATEGORY_ARTISTS": {
+          "descriptor": "I",
+          "value": 21
+        },
+        "TI_TYPE_CATEGORY_AUDIOBOOK": {
+          "descriptor": "I",
+          "value": 40
+        },
+        "TI_TYPE_CATEGORY_AUDIOBOOKS": {
+          "descriptor": "I",
+          "value": 41
+        },
+        "TI_TYPE_CATEGORY_BORROWED_VIDEOS_DF4_1": {
+          "descriptor": "I",
+          "value": 58
+        },
+        "TI_TYPE_CATEGORY_COMMENT": {
+          "descriptor": "I",
+          "value": 30
+        },
+        "TI_TYPE_CATEGORY_COMPOSER": {
+          "descriptor": "I",
+          "value": 24
+        },
+        "TI_TYPE_CATEGORY_COMPOSERS": {
+          "descriptor": "I",
+          "value": 25
+        },
+        "TI_TYPE_CATEGORY_DYNAMIC_PLAYLISTS": {
+          "descriptor": "I",
+          "value": 54
+        },
+        "TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_1_STAR": {
+          "descriptor": "I",
+          "value": 46
+        },
+        "TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_2_STARS": {
+          "descriptor": "I",
+          "value": 47
+        },
+        "TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_3_STARS": {
+          "descriptor": "I",
+          "value": 48
+        },
+        "TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_4_STARS": {
+          "descriptor": "I",
+          "value": 49
+        },
+        "TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_5_STARS": {
+          "descriptor": "I",
+          "value": 50
+        },
+        "TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_LAST_PLAYED": {
+          "descriptor": "I",
+          "value": 52
+        },
+        "TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_MOST_PLAYED": {
+          "descriptor": "I",
+          "value": 51
+        },
+        "TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_NOT_RATED": {
+          "descriptor": "I",
+          "value": 45
+        },
+        "TI_TYPE_CATEGORY_DYNAMIC_PLAYLIST_ON_THE_GO": {
+          "descriptor": "I",
+          "value": 53
+        },
+        "TI_TYPE_CATEGORY_FAVORITES_DF4_1": {
+          "descriptor": "I",
+          "value": 60
+        },
+        "TI_TYPE_CATEGORY_GENRE": {
+          "descriptor": "I",
+          "value": 16
+        },
+        "TI_TYPE_CATEGORY_GENRES": {
+          "descriptor": "I",
+          "value": 17
+        },
+        "TI_TYPE_CATEGORY_LAST_COPIED_FILES_DF4_1": {
+          "descriptor": "I",
+          "value": 59
+        },
+        "TI_TYPE_CATEGORY_MOOD_DF4_1": {
+          "descriptor": "I",
+          "value": 83
+        },
+        "TI_TYPE_CATEGORY_MOVIES_DF4_1": {
+          "descriptor": "I",
+          "value": 55
+        },
+        "TI_TYPE_CATEGORY_MUSIC_VIDEOS_DF4_1": {
+          "descriptor": "I",
+          "value": 56
+        },
+        "TI_TYPE_CATEGORY_PODCAST": {
+          "descriptor": "I",
+          "value": 43
+        },
+        "TI_TYPE_CATEGORY_PODCASTS": {
+          "descriptor": "I",
+          "value": 44
+        },
+        "TI_TYPE_CATEGORY_SONG": {
+          "descriptor": "I",
+          "value": 36
+        },
+        "TI_TYPE_CATEGORY_SONGS": {
+          "descriptor": "I",
+          "value": 37
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_ALBUM": {
+          "descriptor": "I",
+          "value": 34
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_ALBUMS": {
+          "descriptor": "I",
+          "value": 35
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_ARTIST": {
+          "descriptor": "I",
+          "value": 22
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_ARTISTS": {
+          "descriptor": "I",
+          "value": 23
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOKS_DF4_1": {
+          "descriptor": "I",
+          "value": 82
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_AUDIOBOOK_DF4_1": {
+          "descriptor": "I",
+          "value": 81
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_COMMENT": {
+          "descriptor": "I",
+          "value": 31
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_COMPOSER": {
+          "descriptor": "I",
+          "value": 26
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_COMPOSERS": {
+          "descriptor": "I",
+          "value": 27
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_GENRE": {
+          "descriptor": "I",
+          "value": 18
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_GENRES": {
+          "descriptor": "I",
+          "value": 19
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_MOOD_DF4_1": {
+          "descriptor": "I",
+          "value": 84
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_PODCASTS_DF4_1": {
+          "descriptor": "I",
+          "value": 62
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_PODCAST_DF4_1": {
+          "descriptor": "I",
+          "value": 61
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_SONG": {
+          "descriptor": "I",
+          "value": 38
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_SONGS": {
+          "descriptor": "I",
+          "value": 39
+        },
+        "TI_TYPE_CATEGORY_UNKNOWN_YEAR": {
+          "descriptor": "I",
+          "value": 29
+        },
+        "TI_TYPE_CATEGORY_VARIOUS_ARTISTS_DF4_1": {
+          "descriptor": "I",
+          "value": 63
+        },
+        "TI_TYPE_CATEGORY_VIDEO_PODCASTS_GERMAN_SENDUNGEN_DF4_1": {
+          "descriptor": "I",
+          "value": 57
+        },
+        "TI_TYPE_CATEGORY_YEAR": {
+          "descriptor": "I",
+          "value": 28
+        },
+        "TI_TYPE_CD_AUDIO_TRACK_CD_TEXT": {
+          "descriptor": "I",
+          "value": 9
+        },
+        "TI_TYPE_CHANNEL": {
+          "descriptor": "I",
+          "value": 67
+        },
+        "TI_TYPE_COMPOSER_DF_4_1": {
+          "descriptor": "I",
+          "value": 79
+        },
+        "TI_TYPE_CONDUCTOR_DF_4_1": {
+          "descriptor": "I",
+          "value": 78
+        },
+        "TI_TYPE_DAB_ENSEMBLE_DF_4_1": {
+          "descriptor": "I",
+          "value": 75
+        },
+        "TI_TYPE_DAB_SECONDARY_SERVICE_DF_4_1": {
+          "descriptor": "I",
+          "value": 76
+        },
+        "TI_TYPE_DAB_SERVICE": {
+          "descriptor": "I",
+          "value": 70
+        },
+        "TI_TYPE_DVB_SERVICE_TV_STATION": {
+          "descriptor": "I",
+          "value": 71
+        },
+        "TI_TYPE_DVD_CHAPTER": {
+          "descriptor": "I",
+          "value": 65
+        },
+        "TI_TYPE_DVD_MAIN_MENUE": {
+          "descriptor": "I",
+          "value": 64
+        },
+        "TI_TYPE_DVD_TITLE": {
+          "descriptor": "I",
+          "value": 66
+        },
+        "TI_TYPE_FOLDER": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "TI_TYPE_IMAGE_FILE": {
+          "descriptor": "I",
+          "value": 11
+        },
+        "TI_TYPE_IMAGE_FOLDER": {
+          "descriptor": "I",
+          "value": 14
+        },
+        "TI_TYPE_LEGACY_AUDIO_TRACK_CD": {
+          "descriptor": "I",
+          "value": 8
+        },
+        "TI_TYPE_MODERATOR_DF_4_1": {
+          "descriptor": "I",
+          "value": 77
+        },
+        "TI_TYPE_ONLINE_RADIO_STATION_DF4_2": {
+          "descriptor": "I",
+          "value": 96
+        },
+        "TI_TYPE_PLAYLIST": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "TI_TYPE_PLAYLIST_FOLDER": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "TI_TYPE_PROGRAM_NOW_DF_4_1": {
+          "descriptor": "I",
+          "value": 80
+        },
+        "TI_TYPE_RADIO_STATION_FM_AM_AM_SW_AM_LW": {
+          "descriptor": "I",
+          "value": 68
+        },
+        "TI_TYPE_SDARS_STATION": {
+          "descriptor": "I",
+          "value": 69
+        },
+        "TI_TYPE_TITLE_FORBIDDEN_IN_CASE_OF_LEGACY_AUDIO_CD": {
+          "descriptor": "I",
+          "value": 72
+        },
+        "TI_TYPE_TRACK": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "TI_TYPE_VIDEO_FILE": {
+          "descriptor": "I",
+          "value": 7
+        },
+        "TI_TYPE_VIDEO_FOLDER": {
+          "descriptor": "I",
+          "value": 13
+        },
+        "TI_TYPE_VOICEMEMO_FILE": {
+          "descriptor": "I",
+          "value": 10
+        },
+        "TI_TYPE_VOICEMEMO_FOLDER": {
+          "descriptor": "I",
+          "value": 15
+        },
+        "channel_Id": {
+          "descriptor": "I"
+        },
+        "pi_Id": {
+          "descriptor": "I"
+        },
+        "pi_Type": {
+          "descriptor": "I"
+        },
+        "primaryInformation": {
+          "descriptor": "Lde/vw/mib/bap/datatypes/BAPString;"
+        },
+        "qi_Type": {
+          "descriptor": "I"
+        },
+        "quaternaryInformation": {
+          "descriptor": "Lde/vw/mib/bap/datatypes/BAPString;"
+        },
+        "secondaryInformation": {
+          "descriptor": "Lde/vw/mib/bap/datatypes/BAPString;"
+        },
+        "si_Type": {
+          "descriptor": "I"
+        },
+        "stationInfoSwitches": {
+          "descriptor": "Lde/vw/mib/bap/mqbab2/generated/audiosd/serializer/CurrentStationInfo_Status$StationInfoSwitches;"
+        },
+        "stationProperties": {
+          "descriptor": "Lde/vw/mib/bap/mqbab2/generated/audiosd/serializer/CurrentStationInfo_Status$StationProperties;"
+        },
+        "tertiaryInformation": {
+          "descriptor": "Lde/vw/mib/bap/datatypes/BAPString;"
+        },
+        "ti_Type": {
+          "descriptor": "I"
+        }
+      },
+      "methods": {
+        "<init>()V": {
+          "access": 1,
+          "rom_code_sha256": "fd25a0daeaaa3f590bcbeabfa9cd2b0a69391b13d22c420eac600cb963617c05"
+        },
+        "<init>(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "6e831b7e7bff0b70192150cbeaeaf17a0fccb410d73638c6c2c824887022081e"
+        },
+        "bitSize()I": {
+          "access": 1,
+          "rom_code_sha256": "89fb0813603b6d834451e4bc2de419160a7db92415de4bb9ae07ec6e5fa87d2d"
+        },
+        "customInitialization()V": {
+          "access": 2,
+          "rom_code_sha256": "87dd3061b1b14cfdba1f72b8e7ed6572fd211cfb1eda28913f54a3b665af18a0"
+        },
+        "deserialize(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 16385,
+          "rom_code_sha256": "8eeb772b34c1bb487f9670fccb46de75f970a3d037862ef8131e094f5544fc00"
+        },
+        "equalTo(Lde/vw/mib/bap/datatypes/BAPEntity;)Z": {
+          "access": 1,
+          "rom_code_sha256": "5b86a3154ced4c3bf79f5d855f57091d886d8cce5a8ec3a997c6f0dd087b440e"
+        },
+        "functionId()I": {
+          "access": 9,
+          "rom_code_sha256": "b018cb4471919803740e17501cfc3c7d69510c7ef433a1b572ae874da7bbde07"
+        },
+        "getFunctionId()I": {
+          "access": 1,
+          "rom_code_sha256": "a63334fd68ce17a4d56df9bbe96c2e185a3745bb978a99168fdc29775a313c0a"
+        },
+        "internalReset()V": {
+          "access": 2,
+          "rom_code_sha256": "29c666d0d06bfe900de752dc96f9b8f6864717e2f5e037e4e56a9a08f7eb41ed"
+        },
+        "reset()V": {
+          "access": 1,
+          "rom_code_sha256": "b154c0bba75b7c8382cf778c6592862558252438dfba57922abe3e0ddeb6b3f7"
+        },
+        "serialize(Lde/vw/mib/bap/stream/BitStream;)V": {
+          "access": 1,
+          "rom_code_sha256": "7c7533f4365b6e52e12463968adebf94b33a1bcf65cc77c5e9ea579e5cb0309c"
+        },
+        "toString()Ljava/lang/String;": {
+          "access": 1,
+          "rom_code_sha256": "5de3d63fff0dde7deeab5eb63d0334782d252dbc3f6db9ff67bf4eaa79909ab0"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "org/dsi/ifc/base/DSIListener": {
+      "audio_callback_methods": [],
+      "fields": {
+        "ATTRVALIDFLAG_INVALID": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "ATTRVALIDFLAG_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "ATTRVALIDFLAG_VALID": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "RT_NONE": {
+          "descriptor": "I",
+          "value": 0
+        }
+      },
+      "methods": {
+        "asyncException(ILjava/lang/String;I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "org/dsi/ifc/carplay/DSICarplay": {
+      "audio_callback_methods": [],
+      "fields": {
+        "APPLICATIONID_NAVIGATION": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "APPLICATIONID_PHONE": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "APPLICATIONID_SPEECH": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "APPLICATIONID_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "APPLICATIONOWNER_DEVICE": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "APPLICATIONOWNER_MAINUNIT": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "APPLICATIONOWNER_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "ATTR_CALLSTATE": {
+          "descriptor": "I",
+          "value": 8
+        },
+        "ATTR_COVERARTURL": {
+          "descriptor": "I",
+          "value": 6
+        },
+        "ATTR_DEVICEINFO": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "ATTR_MAINAUDIOTYPE": {
+          "descriptor": "I",
+          "value": 12
+        },
+        "ATTR_MODE": {
+          "descriptor": "I",
+          "value": 9
+        },
+        "ATTR_NOWPLAYINGDATA": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "ATTR_PLAYBACKSTATE": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "ATTR_PLAYPOSITION": {
+          "descriptor": "I",
+          "value": 5
+        },
+        "ATTR_TELEPHONYSTATE": {
+          "descriptor": "I",
+          "value": 7
+        },
+        "ATTR_TEXTINPUTSTATE": {
+          "descriptor": "I",
+          "value": 10
+        },
+        "AUDIOTYPE_ALERT": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "AUDIOTYPE_MEDIA": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "AUDIOTYPE_NONE": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "AUDIOTYPE_SPEECHRECOGNITION": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "AUDIOTYPE_TELEPHONY": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "BUTTONSTATE_PRESSED": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "BUTTONSTATE_RELEASED": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "BUTTON_ACCEPT_CALL": {
+          "descriptor": "I",
+          "value": 13
+        },
+        "BUTTON_BACK": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "BUTTON_DOWN": {
+          "descriptor": "I",
+          "value": 8
+        },
+        "BUTTON_END_CALL": {
+          "descriptor": "I",
+          "value": 14
+        },
+        "BUTTON_FLASH_CALL": {
+          "descriptor": "I",
+          "value": 20
+        },
+        "BUTTON_HOME": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "BUTTON_LEFT": {
+          "descriptor": "I",
+          "value": 5
+        },
+        "BUTTON_PAUSE": {
+          "descriptor": "I",
+          "value": 18
+        },
+        "BUTTON_PLAY": {
+          "descriptor": "I",
+          "value": 19
+        },
+        "BUTTON_PLAY_PAUSE": {
+          "descriptor": "I",
+          "value": 15
+        },
+        "BUTTON_PRIMARY": {
+          "descriptor": "I",
+          "value": 16
+        },
+        "BUTTON_RIGHT": {
+          "descriptor": "I",
+          "value": 6
+        },
+        "BUTTON_SECONDARY": {
+          "descriptor": "I",
+          "value": 17
+        },
+        "BUTTON_SEEK_BACKWARD": {
+          "descriptor": "I",
+          "value": 12
+        },
+        "BUTTON_SEEK_FORWARD": {
+          "descriptor": "I",
+          "value": 11
+        },
+        "BUTTON_SELECT": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "BUTTON_SKIP_BACKWARD": {
+          "descriptor": "I",
+          "value": 10
+        },
+        "BUTTON_SKIP_FORWARD": {
+          "descriptor": "I",
+          "value": 9
+        },
+        "BUTTON_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "BUTTON_UP": {
+          "descriptor": "I",
+          "value": 7
+        },
+        "BUTTON_VOICE": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "CALLDIRECTION_INCOMING": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "CALLDIRECTION_OUTGOING": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "CALLDIRECTION_UNKNOWN": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "CALLSTATE_ACTIVE": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "CALLSTATE_CONNECTING": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "CALLSTATE_DISCONNECTED": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "CALLSTATE_HOLDING": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "CHANGEMODERESULT_OK": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "CHANGEMODERESULT_REJECTED": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "INPUTFEATURE_HIGHFIDELITYTOUCH": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "INPUTFEATURE_KNOB": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "INPUTFEATURE_LOWFIDELITYTOUCH": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "INPUTFEATURE_TOUCHPAD": {
+          "descriptor": "I",
+          "value": 8
+        },
+        "IN_DUCKAUDIO": {
+          "descriptor": "I",
+          "value": 3002
+        },
+        "IN_OEMAPPSELECTED": {
+          "descriptor": "I",
+          "value": 3004
+        },
+        "IN_REQUESTBTDEACTIVATION": {
+          "descriptor": "I",
+          "value": 3001
+        },
+        "IN_UNDUCKAUDIO": {
+          "descriptor": "I",
+          "value": 3003
+        },
+        "PLAYBACKMODEREPEAT_ALL": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "PLAYBACKMODEREPEAT_OFF": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "PLAYBACKMODEREPEAT_ONE": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "PLAYBACKMODESHUFFLE_ALBUMS": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "PLAYBACKMODESHUFFLE_OFF": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "PLAYBACKMODESHUFFLE_SONGS": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "PLAYBACKSTATE_PAUSED": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "PLAYBACKSTATE_PLAYING": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "PLAYBACKSTATE_SEEKBACKWARD": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "PLAYBACKSTATE_SEEKFORWARD": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "PLAYBACKSTATE_STOPPED": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "REGISTRATIONSTATE_DENIED": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "REGISTRATIONSTATE_EMERGENCY_CALLS_ONLY": {
+          "descriptor": "I",
+          "value": 6
+        },
+        "REGISTRATIONSTATE_NOT_REGISTERED": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "REGISTRATIONSTATE_REGISTRED_HOME": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "REGISTRATIONSTATE_ROAMING": {
+          "descriptor": "I",
+          "value": 5
+        },
+        "REGISTRATIONSTATE_SEARCHING": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "REGISTRATIONSTATE_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "RESOURCEOWNER_DEVICE": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "RESOURCEOWNER_MAINUNIT": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "RESOURCEOWNER_UNDEFINED": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "RESOURCESHARINGPOLICY_ALWAYS": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "RESOURCESHARINGPOLICY_NEVER": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "RESOURCESHARINGPOLICY_UKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "RESOURCESHARINGPOLICY_USER_INITIATED": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "RESOURCETRANSFERPRIORITY_NICE_TO_HAVE": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "RESOURCETRANSFERPRIORITY_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "RESOURCETRANSFERPRIORITY_USER_INITIATED": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "RESOURCETRANSFERTYPE_BORROW": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "RESOURCETRANSFERTYPE_TAKE": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "RESOURCETRANSFERTYPE_UNBORROW": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "RESOURCETRANSFERTYPE_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "RESOURCETRANSFERTYPE_UNTAKE": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "RESOURCE_MAIN_AUDIO": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "RESOURCE_MAIN_SCREEN": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "RESOURCE_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "RP_RESPONSEMODECHANGE": {
+          "descriptor": "I",
+          "value": 2000
+        },
+        "RT_POSTBUTTONEVENT": {
+          "descriptor": "I",
+          "value": 1002
+        },
+        "RT_POSTCHARACTEREVENT": {
+          "descriptor": "I",
+          "value": 1009
+        },
+        "RT_POSTROTARYEVENT": {
+          "descriptor": "I",
+          "value": 1004
+        },
+        "RT_POSTTOUCHEVENT": {
+          "descriptor": "I",
+          "value": 1003
+        },
+        "RT_REQUESTMODECHANGE": {
+          "descriptor": "I",
+          "value": 1007
+        },
+        "RT_REQUESTNIGHTMODE": {
+          "descriptor": "I",
+          "value": 1011
+        },
+        "RT_REQUESTSIRIACTION": {
+          "descriptor": "I",
+          "value": 1012
+        },
+        "RT_REQUESTUI": {
+          "descriptor": "I",
+          "value": 1006
+        },
+        "RT_RESPONSEBTDEACTIVATION": {
+          "descriptor": "I",
+          "value": 1005
+        },
+        "RT_RESPONSEUPDATEMAINAUDIOTYPE": {
+          "descriptor": "I",
+          "value": 1014
+        },
+        "RT_RESPONSEUPDATEMODE": {
+          "descriptor": "I",
+          "value": 1013
+        },
+        "RT_STARTSERVICE": {
+          "descriptor": "I",
+          "value": 1000
+        },
+        "SCREENRESOLUTION_1024_BY_480": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "SCREENRESOLUTION_800_BY_480": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "SCREENRESOLUTION_960_BY_540": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "SCREENRESOLUTION_CUSTOM": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "SIGNALSTRENGTH_0_BARS_NO_SERVICE": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "SIGNALSTRENGTH_1_BAR": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "SIGNALSTRENGTH_2_BARS": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "SIGNALSTRENGTH_3_BARS": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "SIGNALSTRENGTH_4_BARS": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "SIGNALSTRENGTH_5_BARS": {
+          "descriptor": "I",
+          "value": 5
+        },
+        "SIRIACTION_PREWARM": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "SIRIACTION_START": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "SIRIACTION_STOP": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "SPEECHMODE_NONE": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "SPEECHMODE_RECOGNIZING": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "SPEECHMODE_SPEAKING": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "SPEECHMODE_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "TEXTINPUTSTATE_ACTIVE": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "TEXTINPUTSTATE_INACTIVE": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "TOUCHSOURCE_TOUCHPAD": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "TOUCHSOURCE_TOUCHSCREEN": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "UI_HOME": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "UI_MEDIA": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "UI_MEDIA_NOWPLAYING": {
+          "descriptor": "I",
+          "value": 5
+        },
+        "UI_NAVIGATION": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "UI_PHONE": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "UI_UNKNOWN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "VERSION": {
+          "descriptor": "Ljava/lang/String;"
+        }
+      },
+      "methods": {
+        "postButtonEvent(II)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "postCharacterEvent(I[Ljava/lang/String;)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "postRotaryEvent(I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "postTouchEvent(II[Lorg/dsi/ifc/carplay/TouchEvent;)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "requestModeChange([Lorg/dsi/ifc/carplay/ResourceRequest;[Lorg/dsi/ifc/carplay/AppStateRequest;Ljava/lang/String;)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "requestNightMode(Z)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "requestSIRIAction(I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "requestUI(I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "responseBTDeactivation()V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "responseUpdateMainAudioType(I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "responseUpdateMode([Lorg/dsi/ifc/carplay/Resource;[Lorg/dsi/ifc/carplay/AppState;)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "startService(Lorg/dsi/ifc/carplay/ServiceConfiguration;)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "org/dsi/ifc/carplay/DSICarplayListener": {
+      "audio_callback_methods": [
+        "updateCoverArtUrl(Lorg/dsi/ifc/global/ResourceLocator;I)V",
+        "updateNowPlayingData(Lorg/dsi/ifc/carplay/TrackData;I)V",
+        "updatePlaybackState(Lorg/dsi/ifc/carplay/PlaybackInfo;I)V",
+        "updatePlayposition(II)V"
+      ],
+      "fields": {},
+      "methods": {
+        "duckAudio(ID)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "oemAppSelected()V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "requestBTDeactivation(Ljava/lang/String;I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "responseModeChange([Lorg/dsi/ifc/carplay/Resource;[Lorg/dsi/ifc/carplay/AppState;I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "unduckAudio(I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "updateCallState([Lorg/dsi/ifc/carplay/CallState;I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "updateCoverArtUrl(Lorg/dsi/ifc/global/ResourceLocator;I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "updateDeviceInfo(Lorg/dsi/ifc/carplay/DeviceInfo;I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "updateMainAudioType(II)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "updateMode([Lorg/dsi/ifc/carplay/Resource;[Lorg/dsi/ifc/carplay/AppState;I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "updateNowPlayingData(Lorg/dsi/ifc/carplay/TrackData;I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "updatePlaybackState(Lorg/dsi/ifc/carplay/PlaybackInfo;I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "updatePlayposition(II)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "updateTelephonyState(Lorg/dsi/ifc/carplay/TelephonyState;I)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "updateTextInputState(II)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "org/dsi/ifc/carplay/PlaybackInfo": {
+      "audio_callback_methods": [],
+      "fields": {
+        "playbackApp": {
+          "descriptor": "Ljava/lang/String;"
+        },
+        "repeatMode": {
+          "descriptor": "I"
+        },
+        "shuffleMode": {
+          "descriptor": "I"
+        },
+        "status": {
+          "descriptor": "I"
+        }
+      },
+      "methods": {
+        "<init>()V": {
+          "access": 1,
+          "rom_code_sha256": "5bb5c206fd500537a61b644da31640c5e0c6efc042b7ff380de8986c1412bf98"
+        },
+        "<init>(IIILjava/lang/String;)V": {
+          "access": 1,
+          "rom_code_sha256": "32041db3670ee705d69dceb313f578b217ce5c12427f29fe553c0a47a2fbe853"
+        },
+        "getPlaybackApp()Ljava/lang/String;": {
+          "access": 513,
+          "rom_code_sha256": "685ccea8c8c700c37be0f864850391c755864d50377f618decdb4e729b38f1f9"
+        },
+        "getRepeatMode()I": {
+          "access": 513,
+          "rom_code_sha256": "5d21c6770bc68931676ce651ab460f6b67d22d7efa9f69c4cc56ddad5b0a0ba7"
+        },
+        "getShuffleMode()I": {
+          "access": 513,
+          "rom_code_sha256": "7ee7315e5b25e9cb310dcb9acbf5b3dd8c67a578f99886f9f790b1bd54030b46"
+        },
+        "getStatus()I": {
+          "access": 513,
+          "rom_code_sha256": "9d29095e959e60c75f471728b4980d1d93a908f92ec02af20288c5017473f471"
+        },
+        "toString()Ljava/lang/String;": {
+          "access": 1,
+          "rom_code_sha256": "7fb2ee31f83d687932ecbd2771b6a1cbd23a4da0993f6facc7c15be6d6930a97"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "org/dsi/ifc/carplay/TrackData": {
+      "audio_callback_methods": [],
+      "fields": {
+        "album": {
+          "descriptor": "Ljava/lang/String;"
+        },
+        "artist": {
+          "descriptor": "Ljava/lang/String;"
+        },
+        "composer": {
+          "descriptor": "Ljava/lang/String;"
+        },
+        "duration": {
+          "descriptor": "I"
+        },
+        "genre": {
+          "descriptor": "Ljava/lang/String;"
+        },
+        "title": {
+          "descriptor": "Ljava/lang/String;"
+        }
+      },
+      "methods": {
+        "<init>()V": {
+          "access": 1,
+          "rom_code_sha256": "c7041b8d4b171b294c15c55ba26859a3712fb35f7243bfda7962452f9fa074cd"
+        },
+        "<init>(Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V": {
+          "access": 1,
+          "rom_code_sha256": "0e882bdc309a5eb36aab4bd9aa5216408af78f9fc0a078dd6b24efed64cd675c"
+        },
+        "getAlbum()Ljava/lang/String;": {
+          "access": 513,
+          "rom_code_sha256": "8f49b8b51ceca0f78d8e613b1fb2cdea55d9c391b26913b60a8e090faaab5567"
+        },
+        "getArtist()Ljava/lang/String;": {
+          "access": 513,
+          "rom_code_sha256": "135c1238cfd4106f5b13922776d7b11ad6ee288ac3cf8ac70ca8cf7bd3b5422e"
+        },
+        "getComposer()Ljava/lang/String;": {
+          "access": 513,
+          "rom_code_sha256": "8693043891f8c99e9a4358874a672be2434c9f35d4d99849f0ec61c8edc6505d"
+        },
+        "getDuration()I": {
+          "access": 513,
+          "rom_code_sha256": "685ccea8c8c700c37be0f864850391c755864d50377f618decdb4e729b38f1f9"
+        },
+        "getGenre()Ljava/lang/String;": {
+          "access": 513,
+          "rom_code_sha256": "25b76ee984d658084a855f60a05be2ffddf1fe9d23ca5d08462b4b16ccfb59be"
+        },
+        "getTitle()Ljava/lang/String;": {
+          "access": 513,
+          "rom_code_sha256": "5d21c6770bc68931676ce651ab460f6b67d22d7efa9f69c4cc56ddad5b0a0ba7"
+        },
+        "toString()Ljava/lang/String;": {
+          "access": 1,
+          "rom_code_sha256": "d10cc2cb4b803ce0644e826dc595c220f81def982842f15ad602a08a39ee6b08"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "org/dsi/ifc/global/ResourceLocator": {
+      "audio_callback_methods": [],
+      "fields": {
+        "id": {
+          "descriptor": "I"
+        },
+        "url": {
+          "descriptor": "Ljava/lang/String;"
+        }
+      },
+      "methods": {
+        "<init>()V": {
+          "access": 1,
+          "rom_code_sha256": "5f0d5bda5ae4698913d6146c935c93b5e493c6ba6f4f6ed622e302ad071ecaee"
+        },
+        "<init>(I)V": {
+          "access": 1,
+          "rom_code_sha256": "da464a87f6756be97f5951e20e85f4ebe127a3faaf1e5fd85f4f9abcecf46da1"
+        },
+        "<init>(ILjava/lang/String;)V": {
+          "access": 1,
+          "rom_code_sha256": "1cd4cac06c81a01c99bc3ece74aad62d1d6b42087f9e94cb9785e2445bf78814"
+        },
+        "<init>(Ljava/lang/String;)V": {
+          "access": 1,
+          "rom_code_sha256": "faa882a5818784cecce5b616d5cadded9a1076ea9d6715a47eaf7ec592d77bf6"
+        },
+        "getId()I": {
+          "access": 513,
+          "rom_code_sha256": "5d21c6770bc68931676ce651ab460f6b67d22d7efa9f69c4cc56ddad5b0a0ba7"
+        },
+        "getUrl()Ljava/lang/String;": {
+          "access": 513,
+          "rom_code_sha256": "685ccea8c8c700c37be0f864850391c755864d50377f618decdb4e729b38f1f9"
+        },
+        "isIntResource()Z": {
+          "access": 17,
+          "rom_code_sha256": "38bbb61189c49750e062dbc6f6ddb1f862510b928c604d9d181bc84ecb44eb6b"
+        },
+        "toString()Ljava/lang/String;": {
+          "access": 17,
+          "rom_code_sha256": "df844b605b46a52853aa59bad9d93f80dfd8abdfd16f8de81bea0e8ffd34cb97"
+        }
+      },
+      "superclass": "java/lang/Object"
+    },
+    "org/dsi/ifc/kombipictureserver/DSIKombiPictureServer": {
+      "audio_callback_methods": [],
+      "fields": {
+        "ACTIVECALLPICTURETYPE_CONFERENCE": {
+          "descriptor": "I",
+          "value": 5
+        },
+        "ACTIVECALLPICTURETYPE_CONTACT": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "ACTIVECALLPICTURETYPE_DEFAULT": {
+          "descriptor": "I",
+          "value": 6
+        },
+        "ACTIVECALLPICTURETYPE_EMERGENCY": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "ACTIVECALLPICTURETYPE_INFO": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "ACTIVECALLPICTURETYPE_NOPICTURE": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "ACTIVECALLPICTURETYPE_SERVICE": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "ADBCONTACTPICTURETYPES_CONTACT": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "ADBCONTACTPICTURETYPES_DEFAULT": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "ADBCONTACTPICTURETYPES_NOPICTURE": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "ADDRESSTYPE_BAP": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "ADDRESSTYPE_MOST": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "AVAILABLEPICTURESOURCES_AUDIOAVAILABLE": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "AVAILABLEPICTURESOURCES_BRANDINGAVAILABLE": {
+          "descriptor": "I",
+          "value": 32
+        },
+        "AVAILABLEPICTURESOURCES_NAVIGATIONAVAILABLE": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "AVAILABLEPICTURESOURCES_ONLINEAVAILABLE": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "AVAILABLEPICTURESOURCES_PICNAVAVAILABLE": {
+          "descriptor": "I",
+          "value": 16
+        },
+        "AVAILABLEPICTURESOURCES_TELEPHONEAVAILABLE": {
+          "descriptor": "I",
+          "value": 8
+        },
+        "CALLID_NOCALL": {
+          "descriptor": "I",
+          "value": 254
+        },
+        "CALLID_UNKNOWN": {
+          "descriptor": "I",
+          "value": 255
+        },
+        "COVERARTTYPE_DEFAULT": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "COVERARTTYPE_NOPICTURE": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "COVERARTTYPE_NORMAL": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "ICONTYPE_ACTIVESOURCE": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "ICONTYPE_SOURCELIST": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "IDTYPE_ADDRESSBOOKCONTACT": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "IDTYPE_COVERART": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "IDTYPE_STATIONART": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "ID_INVALID": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "ID_UNKNOWN": {
+          "descriptor": "I",
+          "value": 65535
+        },
+        "IN_INDICATIONACTIVECALLPICTURE": {
+          "descriptor": "I",
+          "value": 3002
+        },
+        "IN_INDICATIONACTIVECALLPICTUREINSTANCE": {
+          "descriptor": "I",
+          "value": 3007
+        },
+        "IN_INDICATIONADBCONTACTPICTURE": {
+          "descriptor": "I",
+          "value": 3004
+        },
+        "IN_INDICATIONCOVERART": {
+          "descriptor": "I",
+          "value": 3000
+        },
+        "IN_INDICATIONDYNAMICICON": {
+          "descriptor": "I",
+          "value": 3008
+        },
+        "IN_INDICATIONINTERNALADDRESSID": {
+          "descriptor": "I",
+          "value": 3003
+        },
+        "IN_INDICATIONPICTURESTREAM": {
+          "descriptor": "I",
+          "value": 3006
+        },
+        "IN_INDICATIONPICTURESTREAMABILITIES": {
+          "descriptor": "I",
+          "value": 3005
+        },
+        "IN_INDICATIONSTATIONART": {
+          "descriptor": "I",
+          "value": 3001
+        },
+        "LISTPOSTYPE_8BYTE": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "LISTPOSTYPE_ARBITRARY": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "PHONEINSTANCE_FIRST": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "PHONEINSTANCE_MAIN": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "PHONEINSTANCE_SECOND": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "PHONEINSTANCE_THIRD": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "PSSOURCETYPE_AUDIO": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "PSSOURCETYPE_BRANDING": {
+          "descriptor": "I",
+          "value": 5
+        },
+        "PSSOURCETYPE_NAVIGATION": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "PSSOURCETYPE_ONLINE": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "PSSOURCETYPE_PICNAV": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "PSSOURCETYPE_TELEPHONE": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "RT_RESPONSEACTIVECALLPICTURE": {
+          "descriptor": "I",
+          "value": 1003
+        },
+        "RT_RESPONSEACTIVECALLPICTUREINSTANCE": {
+          "descriptor": "I",
+          "value": 1009
+        },
+        "RT_RESPONSEADBCONTACTPICTURE": {
+          "descriptor": "I",
+          "value": 1004
+        },
+        "RT_RESPONSECOVERART": {
+          "descriptor": "I",
+          "value": 1001
+        },
+        "RT_RESPONSEDYNAMICICON": {
+          "descriptor": "I",
+          "value": 1010
+        },
+        "RT_RESPONSEINTERNALADDRESSID": {
+          "descriptor": "I",
+          "value": 1006
+        },
+        "RT_RESPONSEPICTURESERVERABILITIES": {
+          "descriptor": "I",
+          "value": 1007
+        },
+        "RT_RESPONSEPICTURESTREAM": {
+          "descriptor": "I",
+          "value": 1008
+        },
+        "RT_RESPONSESTATIONART": {
+          "descriptor": "I",
+          "value": 1002
+        },
+        "RT_SETKOMBIHMIREADY": {
+          "descriptor": "I",
+          "value": 1000
+        },
+        "SOURCETYPE_AM": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "SOURCETYPE_AM_TI": {
+          "descriptor": "I",
+          "value": 17
+        },
+        "SOURCETYPE_AUX_IN_AUDIO": {
+          "descriptor": "I",
+          "value": 13
+        },
+        "SOURCETYPE_AUX_IN_VIDEO": {
+          "descriptor": "I",
+          "value": 14
+        },
+        "SOURCETYPE_AUX_IN_VIDEO_TV": {
+          "descriptor": "I",
+          "value": 32
+        },
+        "SOURCETYPE_BT_RCP": {
+          "descriptor": "I",
+          "value": 22
+        },
+        "SOURCETYPE_BT_STREAM": {
+          "descriptor": "I",
+          "value": 21
+        },
+        "SOURCETYPE_CD": {
+          "descriptor": "I",
+          "value": 6
+        },
+        "SOURCETYPE_CD_CHANGER": {
+          "descriptor": "I",
+          "value": 7
+        },
+        "SOURCETYPE_DAB": {
+          "descriptor": "I",
+          "value": 3
+        },
+        "SOURCETYPE_DVB_AUDIO": {
+          "descriptor": "I",
+          "value": 24
+        },
+        "SOURCETYPE_DVB_VIDEO": {
+          "descriptor": "I",
+          "value": 23
+        },
+        "SOURCETYPE_DVD": {
+          "descriptor": "I",
+          "value": 8
+        },
+        "SOURCETYPE_DVD_CHANGER": {
+          "descriptor": "I",
+          "value": 18
+        },
+        "SOURCETYPE_FLASHMEMORY": {
+          "descriptor": "I",
+          "value": 25
+        },
+        "SOURCETYPE_FM": {
+          "descriptor": "I",
+          "value": 1
+        },
+        "SOURCETYPE_GENERIC_PLAYER": {
+          "descriptor": "I",
+          "value": 16
+        },
+        "SOURCETYPE_HDD": {
+          "descriptor": "I",
+          "value": 10
+        },
+        "SOURCETYPE_HDMI": {
+          "descriptor": "I",
+          "value": 33
+        },
+        "SOURCETYPE_JUKEBOX": {
+          "descriptor": "I",
+          "value": 20
+        },
+        "SOURCETYPE_NOSOURCE": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "SOURCETYPE_ONLINE_MASS_STORAGE": {
+          "descriptor": "I",
+          "value": 28
+        },
+        "SOURCETYPE_ONLINE_RADIO": {
+          "descriptor": "I",
+          "value": 35
+        },
+        "SOURCETYPE_PORTABLE_DEVICE": {
+          "descriptor": "I",
+          "value": 15
+        },
+        "SOURCETYPE_SD": {
+          "descriptor": "I",
+          "value": 11
+        },
+        "SOURCETYPE_SDARS_SIRIUS": {
+          "descriptor": "I",
+          "value": 5
+        },
+        "SOURCETYPE_SDARS_XM": {
+          "descriptor": "I",
+          "value": 4
+        },
+        "SOURCETYPE_TPMEMO_TIM": {
+          "descriptor": "I",
+          "value": 12
+        },
+        "SOURCETYPE_TV": {
+          "descriptor": "I",
+          "value": 9
+        },
+        "SOURCETYPE_UNKNOWN": {
+          "descriptor": "I",
+          "value": 255
+        },
+        "SOURCETYPE_USB": {
+          "descriptor": "I",
+          "value": 19
+        },
+        "STATIONARTTYPE_DEFAULT": {
+          "descriptor": "I",
+          "value": 2
+        },
+        "STATIONARTTYPE_NOPICTURE": {
+          "descriptor": "I",
+          "value": 0
+        },
+        "STATIONARTTYPE_NORMAL": {
+          "descriptor": "I",
+          "value": 1
+        }
+      },
+      "methods": {
+        "responseCoverArt(JIIILorg/dsi/ifc/global/ResourceLocator;)V": {
+          "access": 1025,
+          "rom_code_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "superclass": "java/lang/Object"
+    }
+  },
+  "cluster_target": "791 AID 12.3",
+  "firmware": "MHI2_ER_VWG11_K3342_MU1427",
+  "hardware_validated": false,
+  "jxe_bytes": 52751492,
+  "jxe_sha256": "f46290b4a33b98d957170f6207073ad329316902a87cd4c27da4168548ad911a",
+  "rom_parser_commit": "9eeb45bbf14bf8afe3452c7be96a4d1f0206a286",
+  "scope": "selected_fields_and_methods"
+}
