@@ -1,4 +1,4 @@
-# MU1367-P4521 / 791 — v1.4.0 experimental
+# MU1367-P4521 / 791 — v1.4.1 experimental
 
 Separate installation bundle for **MHI2_ER_VWG13_P4521_MU1367** and the
 **791 / 12.3-inch** cluster, based directly on `MU1367-v1.4.0`
@@ -7,13 +7,21 @@ Separate installation bundle for **MHI2_ER_VWG13_P4521_MU1367** and the
 Both firmware hardware variants (50 and 70) have identical HMI, iAP2 driver,
 accessory config, AirPlay library, boot script and DIO manager bytes to the
 K4525 inputs used by v1.4.0. The J9 runtime and pinned stage-1 libraries also
-match. `FACTORY.json` records hashes and sizes. No size or hash check was
-relaxed; no runtime binary, JAR or transactional controller was changed.
+match. `FACTORY.json` records hashes and sizes. No firmware size or hash
+check was relaxed; no runtime binary or JAR was changed. The v1.4.1 settings
+controller recognizes two exact dormant upstream menu hashes and retains
+them in its verified snapshot; the lane controller pins the new dependency.
+
+The [P4521 vehicle report and investigation](P4521-2026-10-29.md) records the
+step-3 failure and 20-minute partial test. The original v1.4.0 package remains
+unchanged. v1.4.1 fixes the known dormant-menu installation path; it does not
+claim to resolve every reported runtime symptom.
 
 Read [installation and recovery](INSTALL.md). This package retains native
 lanes, native guidance/audio text, App-Connect display settings, map/mirror
 and Card OFF defaults from v1.4.0. Saved preferences are retained by the
-existing controllers. **P4521 vehicle operation has not been validated.**
+existing controllers. **P4521 steps 1/2 received a partial vehicle test;
+the corrected steps 3/4 and runtime behaviour still need vehicle testing.**
 790 support is outside this release.
 
 The separate repository path is `MU1367-P4521/`; the SD entry point is
@@ -39,6 +47,11 @@ test pins its class contents. The existing lane fault-injection suite also
 accepts this package as both `--base` and `--package`, the extracted P4521
 inputs as `--inputs`, and `build-package/sd-card/Custom/carplay_mu1367_lanes`
 as `--payload`; see `MU1367/lanes/test-controls.py --help`.
+`test-migration.py` additionally runs the settings fault suite with the known
+dormant v2.0.1 menu present and verifies v2.0.0/v2.0.1 rollback, active/unknown
+menu rejection, the original failure, and step-4/full restoration without SD.
+Supply the two official upstream JARs as `--legacy-v200` and `--legacy-v201`;
+their hashes are pinned in `migration.py`.
 
 No extracted OEM firmware is committed or included in the release. Existing
 v1.4.0 runtime test evidence is retained with its original firmware identity;

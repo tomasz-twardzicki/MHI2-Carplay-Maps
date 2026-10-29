@@ -45,7 +45,7 @@ def main():
             check(file.read_bytes() == release.read(item), 'exact archive bytes: ' + item.filename)
             check(file.stat().st_mode & 0o777 == (item.external_attr >> 16) & 0o777, 'archive permissions')
         for name in base.namelist():
-            if name.startswith('Custom/'):
+            if name.startswith('Custom/') and name not in package.migration.CHANGED_CUSTOM:
                 check(base.read(name) == release.read(name), 'unchanged baseline Custom payload: ' + name)
                 preserved += 1
     source = stage / 'Custom/carplay_mu1367_p4521/source'

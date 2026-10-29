@@ -1,0 +1,294 @@
+{
+  "schema": 1,
+  "verified_date": "2026-10-29",
+  "firmware": "MHI2_ER_VWG13_P4521_MU1367",
+  "cluster": "791",
+  "release_version": "MU1367-P4521-v1.4.1-experimental",
+  "baseline_tag": "MU1367-v1.4.0",
+  "baseline_archive_sha256": "942c9d2a1b38e7f417f97e1a8806e42559b29565f3605215c92b932d58c1259f",
+  "controller_migration": {
+    "known_dormant_menu_sha256": {
+      "toolbox-plaintext-v2.0.0": "f4fbb455aee272f3fa15b05c70345e59fd1e84b725ed55a99ce091b62261ed4a",
+      "toolbox-plaintext-v2.0.1": "fb0840e1d7f753ba8d3f5b37b79090b1129262e8afc767c5ea15e01a0393e91d"
+    },
+    "settings_build": "MU1367-P4521-settings-e59e7a883ca0",
+    "lanes_build": "MU1367-lanes-a32486faf106",
+    "changed_baseline_custom_files": [
+      "Custom/carplay_mu1367_lanes/VERSION",
+      "Custom/carplay_mu1367_lanes/control.sh",
+      "Custom/carplay_mu1367_lanes/manifest.json",
+      "Custom/carplay_mu1367_settings/VERSION",
+      "Custom/carplay_mu1367_settings/control.sh",
+      "Custom/carplay_mu1367_settings/manifest.json"
+    ]
+  },
+  "full_package": {
+    "passed": true,
+    "checks": 1898,
+    "firmware": "MHI2_ER_VWG13_P4521_MU1367",
+    "archive_sha256": "6995e85764345f6d8dabe1f4c9af71f3b7d427a96d881eca9c0f10bf15267c79",
+    "baseline_custom_files_unchanged": 386,
+    "all_six_same_size_modified_originals_refused_without_writes": true,
+    "four_layer_install_and_no_sd_factory_restore": true,
+    "on_unit_validated": false,
+    "test_sha256": "d3014d9fd5e2bfa2b6bf308d2c4fe43a4921233522a9c4188d830847b0a26fd5"
+  },
+  "settings_migration_and_recovery": {
+    "passed": true,
+    "tests": 21,
+    "legacy_menu_sha256": {
+      "toolbox-plaintext-v2.0.0": "f4fbb455aee272f3fa15b05c70345e59fd1e84b725ed55a99ce091b62261ed4a",
+      "toolbox-plaintext-v2.0.1": "fb0840e1d7f753ba8d3f5b37b79090b1129262e8afc767c5ea15e01a0393e91d"
+    },
+    "test_sha256": "f23a8926a376c59b6ac6317ad9964fe8b87745b33495a8f79054e4f2b5ebf621",
+    "controller_sha256": "885748e58d6036d15bd15db3b04daad195fe8db9f5fbae21e85520832c107b45",
+    "on_unit_validated": false
+  },
+  "lane_recovery": {
+    "passed": true,
+    "tests": 19,
+    "controller_sha256": "7ebbbf4f78516c6550ed0ca6dfce3e45fc88b2e1fc6d04967be7868a0a9788af",
+    "test_sha256": "fcf2e60ac1230023aa055f31924bea2acc4f0c10119b4d21d5e461e7c1b13633",
+    "on_unit_validated": false
+  },
+  "firmware_comparison": {
+    "firmware": "MHI2_ER_VWG13_P4521_MU1367",
+    "variants": {
+      "50": {
+        "files": {
+          "lsd.jxe": {
+            "sha256": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a",
+            "size": 55840541
+          },
+          "driver": {
+            "sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+            "size": 739925
+          },
+          "libairplay": {
+            "sha256": "193a4fd9101ec2aa05e7159cfa307b96500810d379ca74a194f172adc13a46b5",
+            "size": 703688
+          },
+          "boot": {
+            "sha256": "fe4f9cc8bd68282238546605c53b36ca0add985eafc8a100a477a7f827f4a731",
+            "size": 16567
+          },
+          "dio": {
+            "sha256": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+            "size": 684305
+          },
+          "iap2.cfg": {
+            "sha256": "88a4d24f5c50b181d73429fb585ad6b38d10daca67c5b5a9798ef17f84208bbe",
+            "size": 5951
+          }
+        },
+        "stage1_runtime": {
+          "proc/boot/libz.so.2": "2fd9ce7b0616f325417ad6ca8c58e2e840f05e215fe8acdcc2506111a150617e",
+          "lib/libm.so.2": "715ba06e022f7f9f2d9e2cf6b94a03bf619e034f41f8d832601507cc5073cd83",
+          "lib/libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+          "lib/libcam.so.2": "c28165f4ae3f45094b01f2fc857090b407412239b9f16d4f3840ba376a2964ca",
+          "proc/boot/libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc"
+        },
+        "stage2_runtime": {
+          "ifs/jre/bin/libj9mjitd23.so": "951ac9352499fd3a70b54bc965788fa0d319434f7cba43894dba346f08eddf92",
+          "ifs/jre/bin/libj9thr23.so": "8b352478c7dcf9f2ac25f6c061a57e93f33b262b7e66d3ae8ba2edb6ddd799c4",
+          "ifs/jre/bin/libj9bcv23.so": "e951b3232a38f1d1ad18c9e70cd5d0b70d33d82d27c1415309fc3540f5e88923",
+          "ifs/jre/bin/libj9vrb23.so": "d23c99f65037d2bcfa58e1e4e0bdbfa573e63082cfc00a685af9b1ab973fdbbd",
+          "ifs/jre/bin/libj9jpi23.so": "a7930282c92dd7d64ace52064c7d8d17191bd5a3235a84a5aaa03c31b2de7e8c",
+          "ifs/jre/bin/libj9dbg23.so": "af53077c3697498351189e66a34eaeba75d7d49545025ccefa327c5944318df8",
+          "ifs/jre/bin/libj9hookable23.so": "26e16f974d60d441a442e4fe962c341a4390ba0fc4ab9e6bbd6dc5e3de5908c7",
+          "ifs/jre/bin/libj9mjit23.so": "2f03d039ea0c94476b4a27553f57801bb79bb02d4f410dec067b44a8d52de60f",
+          "ifs/jre/bin/libj9prt23.so": "d5154e66fedefc85f8deb0dd7eb52e6f3f15f09749cf665dbb857b0ccd2cdd4c",
+          "ifs/jre/bin/libj9gcchk23.so": "f5aa0485155bca4818423366a0bb461733c3d466b9e968c88f43890990ee34a9",
+          "ifs/jre/bin/libj9zlib23.so": "1e0b58418594e6c482915b028d0bf7f18fb3ae9197ff436045d75189b77c2626",
+          "ifs/jre/bin/libj9fdm23.so": "c359296f37783d6f349ecdaed9e770b68a16cfa816d36fa8ad1a057dba799f2d",
+          "ifs/jre/bin/j9": "b0ac39d7ab165f6f007204bb169186f693321d8fe178f8e2298f90113062b75d",
+          "ifs/jre/bin/libj9vm23.so": "46da44018ddce26a10666082acb3ca868d34914510657123a568b69ffe453464",
+          "ifs/jre/bin/libj9dyn23.so": "5e7642dd19309b9d348c81b6802ed850d8a65bb6544e99e908d8264f774fbbd0",
+          "ifs/jre/bin/libj9gc23.so": "6977a17142a8680612901e74c5e11cfcfa501c59ecf4cb6c766f28597df736a0",
+          "ifs/jre/lib/jclFoundation11/ext/j9jsse.jar": "78bab707b8a040e3f159de26fbf3a318234b6c81ad754c2527c010bbdcab18df",
+          "ifs/jre/lib/jclFoundation11/opt-ext/j9jceprov.jar": "1ca103b432c6f3001e478357cd0f55de8ff7647a305a438c74f51ca4c5f78e04",
+          "ifs/jre/lib/jclFoundation11/ext/j9jce.jar": "cf0e3b65d4fe4ebf5999b77862e7724a1161f656c145f17a4c891e5a2c710051"
+        }
+      },
+      "70": {
+        "files": {
+          "lsd.jxe": {
+            "sha256": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a",
+            "size": 55840541
+          },
+          "driver": {
+            "sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+            "size": 739925
+          },
+          "libairplay": {
+            "sha256": "193a4fd9101ec2aa05e7159cfa307b96500810d379ca74a194f172adc13a46b5",
+            "size": 703688
+          },
+          "boot": {
+            "sha256": "fe4f9cc8bd68282238546605c53b36ca0add985eafc8a100a477a7f827f4a731",
+            "size": 16567
+          },
+          "dio": {
+            "sha256": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+            "size": 684305
+          },
+          "iap2.cfg": {
+            "sha256": "88a4d24f5c50b181d73429fb585ad6b38d10daca67c5b5a9798ef17f84208bbe",
+            "size": 5951
+          }
+        },
+        "stage1_runtime": {
+          "proc/boot/libz.so.2": "2fd9ce7b0616f325417ad6ca8c58e2e840f05e215fe8acdcc2506111a150617e",
+          "lib/libm.so.2": "715ba06e022f7f9f2d9e2cf6b94a03bf619e034f41f8d832601507cc5073cd83",
+          "lib/libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+          "lib/libcam.so.2": "c28165f4ae3f45094b01f2fc857090b407412239b9f16d4f3840ba376a2964ca",
+          "proc/boot/libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc"
+        },
+        "stage2_runtime": {
+          "ifs/jre/bin/libj9mjitd23.so": "951ac9352499fd3a70b54bc965788fa0d319434f7cba43894dba346f08eddf92",
+          "ifs/jre/bin/libj9thr23.so": "8b352478c7dcf9f2ac25f6c061a57e93f33b262b7e66d3ae8ba2edb6ddd799c4",
+          "ifs/jre/bin/libj9bcv23.so": "e951b3232a38f1d1ad18c9e70cd5d0b70d33d82d27c1415309fc3540f5e88923",
+          "ifs/jre/bin/libj9vrb23.so": "d23c99f65037d2bcfa58e1e4e0bdbfa573e63082cfc00a685af9b1ab973fdbbd",
+          "ifs/jre/bin/libj9jpi23.so": "a7930282c92dd7d64ace52064c7d8d17191bd5a3235a84a5aaa03c31b2de7e8c",
+          "ifs/jre/bin/libj9dbg23.so": "af53077c3697498351189e66a34eaeba75d7d49545025ccefa327c5944318df8",
+          "ifs/jre/bin/libj9hookable23.so": "26e16f974d60d441a442e4fe962c341a4390ba0fc4ab9e6bbd6dc5e3de5908c7",
+          "ifs/jre/bin/libj9mjit23.so": "2f03d039ea0c94476b4a27553f57801bb79bb02d4f410dec067b44a8d52de60f",
+          "ifs/jre/bin/libj9prt23.so": "d5154e66fedefc85f8deb0dd7eb52e6f3f15f09749cf665dbb857b0ccd2cdd4c",
+          "ifs/jre/bin/libj9gcchk23.so": "f5aa0485155bca4818423366a0bb461733c3d466b9e968c88f43890990ee34a9",
+          "ifs/jre/bin/libj9zlib23.so": "1e0b58418594e6c482915b028d0bf7f18fb3ae9197ff436045d75189b77c2626",
+          "ifs/jre/bin/libj9fdm23.so": "c359296f37783d6f349ecdaed9e770b68a16cfa816d36fa8ad1a057dba799f2d",
+          "ifs/jre/bin/j9": "b0ac39d7ab165f6f007204bb169186f693321d8fe178f8e2298f90113062b75d",
+          "ifs/jre/bin/libj9vm23.so": "46da44018ddce26a10666082acb3ca868d34914510657123a568b69ffe453464",
+          "ifs/jre/bin/libj9dyn23.so": "5e7642dd19309b9d348c81b6802ed850d8a65bb6544e99e908d8264f774fbbd0",
+          "ifs/jre/bin/libj9gc23.so": "6977a17142a8680612901e74c5e11cfcfa501c59ecf4cb6c766f28597df736a0",
+          "ifs/jre/lib/jclFoundation11/ext/j9jsse.jar": "78bab707b8a040e3f159de26fbf3a318234b6c81ad754c2527c010bbdcab18df",
+          "ifs/jre/lib/jclFoundation11/opt-ext/j9jceprov.jar": "1ca103b432c6f3001e478357cd0f55de8ff7647a305a438c74f51ca4c5f78e04",
+          "ifs/jre/lib/jclFoundation11/ext/j9jce.jar": "cf0e3b65d4fe4ebf5999b77862e7724a1161f656c145f17a4c891e5a2c710051"
+        }
+      }
+    },
+    "matches_k4525_v140_inputs": true,
+    "on_unit_validated": false
+  },
+  "inherited_runtime_evidence": {
+    "rerun_for_v141": false,
+    "reason": "All runtime binaries and JARs are byte-identical; only two controllers, their dependency metadata, SD scripts and documents changed.",
+    "host_runtime": {
+      "passed": true,
+      "results": {
+        "com.cpmap.rgi.TestLive": "{\"factory_integration_assertions\":123}",
+        "com.cpmap.rgi.TestLanes": "LANES_PASS checks=761 actual_factory_builder=1 no_maneuver_dependency=1 independent_freshness=1",
+        "TestCardDefault": "CARD_OFF_DEFAULT_PASS explicit_on_off_persisted=1"
+      },
+      "all_installed_classes_major_46": true,
+      "jars": {
+        "CarPlayMU1367Guidance.jar": "90f12f3b7a92bbdc00671c7698ec967cfa905c28923cb580c36cafc0b73af6ab",
+        "VCMenu.jar": "e3a33efc3fa579a6228cbf53908bfd739b0ec9a005e96948c16de94776d93287"
+      },
+      "test_sha256": "276f889356adccde496c6ada5968428bd0dec3e852bc2b003b4abb6a1a947ab2",
+      "on_unit_validated": false
+    },
+    "factory_qnx_j9": {
+      "rerun_for_p4521": false,
+      "reason": "The colima-cpmap-rgi Docker context is unavailable. This is inherited evidence for unchanged v1.4.0 binaries and matching pinned firmware runtimes, not a fresh P4521 QNX run.",
+      "baseline_evidence_sha256": "431c4f4529bfa9cdac545bad597ee3d1c4a1f5e8c596fe07d94f3a7b983a122f",
+      "result": {
+        "passed": true,
+        "files": {
+          "CarPlayMU1367Guidance.jar": "90f12f3b7a92bbdc00671c7698ec967cfa905c28923cb580c36cafc0b73af6ab",
+          "VCMenu.jar": "e3a33efc3fa579a6228cbf53908bfd739b0ec9a005e96948c16de94776d93287",
+          "core.so": "a63a68925fa96a2a584756c9ea5ab1a218266269c9852e266ad216e1e1dc731a"
+        },
+        "combined_parent_settings_j9": true,
+        "settings_checks_per_mode": 7,
+        "class_major": 46,
+        "class49_negative_rejected": true,
+        "core_factory_dlopen": true,
+        "java_c_preferences_factory_verified": true,
+        "core_imports_verified": [
+          "__aeabi_uldivmod",
+          "__get_errno_ptr",
+          "_in6addr_any",
+          "accept",
+          "access",
+          "bind",
+          "calloc",
+          "clock_gettime",
+          "close",
+          "dlsym",
+          "fclose",
+          "fcntl",
+          "ferror",
+          "fflush",
+          "fileno",
+          "fopen",
+          "fprintf",
+          "fputc",
+          "fputs",
+          "fread",
+          "free",
+          "fstat",
+          "ftruncate",
+          "fwrite",
+          "getenv",
+          "getpid",
+          "getsockname",
+          "in6addr_any",
+          "listen",
+          "lseek",
+          "lstat",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "mmap",
+          "munmap",
+          "open",
+          "pthread_create",
+          "pthread_detach",
+          "pthread_mutex_lock",
+          "pthread_mutex_unlock",
+          "realloc",
+          "recv",
+          "select",
+          "setsockopt",
+          "snprintf",
+          "socket",
+          "sscanf",
+          "strcmp",
+          "strstr",
+          "strtol",
+          "unlink",
+          "usleep"
+        ],
+        "test_sha256": "348175306dbbe13c76250a443018fe54601dbbaf73dd87c5acb9e2c7f0da8207",
+        "qemu_log_sha256": "2016ed00db9ce5125f1e8c3550abfd6a8ff052d81b551f0465edc40860c84e6d",
+        "on_unit_validated": false,
+        "lane_factory_fields_verified": true,
+        "card_default_java_c_verified": true
+      }
+    }
+  },
+  "vehicle_report": {
+    "connection": "USB",
+    "prior_upstream_v201_and_nav_ignore_fully_uninstalled_reported": true,
+    "step3_failure": "MU1367_SETTINGS_FAIL=UNEXPECTED_BASE_menu",
+    "actual_installed_menu_sha256": null,
+    "reader_status": "ended",
+    "reader_reason": 3,
+    "reader_reason_meaning": "WORKER_FAILED",
+    "mailbox_kind": 5,
+    "mailbox_detail": 3,
+    "mailbox_sha256": "93880c1988e197794db7efc5673534b12550b446bc922642b9801c5dd8752617",
+    "runtime_reader_recovery_fixed": false
+  },
+  "on_unit_validated": false,
+  "remaining_checks": [
+    "Confirm tester menu hash matches one of the two pinned dormant upstream JARs",
+    "Successful P4521 step3 and step4 vehicle retest",
+    "USB video stutter/view changes after successful step3",
+    "Native reader worker failure cause and bounded recovery",
+    "90-minute vehicle endurance"
+  ]
+}

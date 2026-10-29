@@ -4,7 +4,36 @@ Use only on **MHI2_ER_VWG13_P4521_MU1367 with a 791 / 12.3-inch cluster**.
 This is an experimental P4521 bundle based on MU1367 v1.4.0. Offline firmware
 and installation checks do not establish vehicle compatibility.
 
-1. Verify `CarPlay_Maps_VC_MU1367_P4521_791_v1.4.0_Experimental.zip` against
+## Retry after the v1.4.0 step-3 failure
+
+For the exact `MU1367_SETTINGS_FAIL=UNEXPECTED_BASE_menu` failure, with steps
+1/2 installed and no settings recovery directory created, keep steps 1/2
+and their backups. Extract this **v1.4.1** bundle to a clean SD and refresh
+Toolbox **menus and scripts**. Disconnect CarPlay, fully reboot, then retry
+**step 3 only**. Do not reinstall steps 1/2 or delete `VCMenu.jar`.
+
+The installer accepts only a dormant upstream v2.0.0 or v2.0.1 MU1367/791
+menu with a pinned SHA-256. It snapshots the original and restores it on
+removal/recovery. An active competing boot entry is still refused. If it
+fails again, save `MU1367_SETTINGS_ACTUAL_SHA256` and collect diagnostics;
+the supplied report does not identify the tester's existing JAR hash.
+
+Expect `MU1367_SETTINGS_INSTALLED_REBOOT_REQUIRED`, then reboot without the
+phone, verify OEM operation, install step 4 from **this same bundle**, and
+reboot. Do not run the old v1.4.0 step-4 controller against the new settings
+build. Re-evaluate stutter and view changes after step 3; disappearing native
+arrows have a separate confirmed reader termination (`WORKER_FAILED`) in
+the supplied export. This installer correction does not add reader recovery.
+If arrows disappear, export diagnostics before rebooting; a full reboot
+starts a new reader session. Do not delete the reader's RAM directory.
+
+This is not an upgrade path for already completed v1.4.0 settings/lane
+installations or interrupted transactions. Retain the saved controller and
+backups for those installations and recover/remove in reverse order first.
+
+## Fresh installation
+
+1. Verify `CarPlay_Maps_VC_MU1367_P4521_791_v1.4.1_Experimental.zip` against
    `SHA256SUMS.txt`. Extract it to a clean SD root; refresh Toolbox menus
    **and scripts** from this bundle. Keep the SD and recovery instructions.
 2. Park, maintain stable power and keep a working MMX shell. Disconnect the
@@ -12,7 +41,7 @@ and installation checks do not establish vehicle compatibility.
    installed, use its saved recovery controllers to restore OEM first,
    reboot, then archive/move removed recovery directories aside. Never
    delete active or interrupted recovery directories to bypass a refusal.
-3. In the **MU1367 P4521 v1.4.0 experimental** Toolbox menu, select
+3. In the **MU1367 P4521 v1.4.1 experimental** Toolbox menu, select
    **1. Install MU1367 P4521 / 791 video**, then
    **2. Install MU1367 P4521 / 791 guidance + audio text**. Fully reboot.
    Step 1 checks exact OEM hashes before writing. A rejection requires
@@ -34,14 +63,17 @@ of **step 1 only**, run the bundled script with the bundled maps directory:
 ```
 
 Use the appropriate SD mount path; from RCC use `/net/mmx/fs/sda0` if needed.
-The remaining steps use the Toolbox menu and unchanged v1.4.0 controllers.
+The remaining steps use the Toolbox menu. v1.4.1 updates the settings
+precondition and the lane controller's exact settings dependency; runtime
+payloads are unchanged from v1.4.0.
 The inherited K4525 documents in the ZIP explain those controllers; the
 P4521 instructions here define this bundle's supported firmware and scope.
 
 ## Recovery without SD or HMI
 
 Disconnect the phone. On MMX (from RCC use `on -f mmx`), remove in this order,
-stopping on failure:
+stopping on failure. Run only the controllers for layers actually installed;
+after the reported step-3 rejection, settings and lane layers are absent:
 
 ```sh
 /bin/ksh /mnt/app/carplay-mu1367-lanes/control.sh uninstall

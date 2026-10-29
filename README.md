@@ -26,10 +26,11 @@
 
 **MU1367 P4521 experimental support:** the separate
 [MU1367-P4521 installation path](./MU1367-P4521/INSTALL.md) and
-[release bundle](./releases/MU1367-P4521/v1.4.0-experimental/README.md)
+[release bundle](./releases/MU1367-P4521/v1.4.1-experimental/README.md)
 target `MHI2_ER_VWG13_P4521_MU1367` + 791, based on MU1367 v1.4.0.
 Verified OEM files and runtime payloads are identical to K4525; P4521 vehicle
-testing remains pending.
+testing of corrected steps 3/4 remains pending. The v1.4.1 bundle handles
+known dormant upstream menu leftovers found after a reported step-3 failure.
 
 This fork extends CarPlay Maps VC on **MU1367** and ports it to **MU1427**, with the **791 AID 12.3** virtual cockpit. Each firmware has its own package and matched HMI adapters; use the installation guide for your exact version.
 
