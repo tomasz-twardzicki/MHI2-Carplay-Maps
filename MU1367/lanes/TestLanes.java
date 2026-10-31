@@ -45,8 +45,10 @@ public final class TestLanes {
   Method method=f.getClass().getDeclaredMethod("computeFullLaneGuidanceList",new Class[]{Class.forName("de.vw.mib.bap.mqbab2.generated.navsd.serializer.LaneGuidance_ChangedArray")});method.setAccessible(true);method.invoke(f,out);return out;
  }
  static void model()throws Exception{
-  for(int a=-180;a<=180;a++){int d=LaneData.direction(a);check(d>=0&&d<=240&&d%16==0,"direction sector");check((d+LaneData.direction(-a))%256==0,"mirrored direction");}
-  check(LaneData.direction(-90)==64&&LaneData.direction(90)==192&&LaneData.direction(180)==128,"factory geometry");
+  for(int a=-169;a<=169;a++){int d=LaneData.direction(a);check(d>=0&&d<=240&&d%16==0,"direction sector");check((d+LaneData.direction(-a))%256==0,"mirrored direction");}
+  check(LaneData.direction(-90)==64&&LaneData.direction(90)==192,"factory geometry");
+  check(LaneData.direction(-180)==114&&LaneData.direction(-170)==114&&LaneData.direction(180)==114,"left U-turn lane 114");
+  check(LaneData.direction(170)==146&&LaneData.direction(179)==146,"right U-turn lane 146");
   check(LaneData.direction(1000)==255&&LaneData.direction(-1000)==255&&LaneData.direction(181)==255,"unknown angles");
   LaneData p=LaneData.decode(lane(0,2,90,-90,0),0,lane(0,2,90,-90,0).length);
   check(p.direction==192&&p.recommendation==2&&p.sides.length()==2&&p.sides.charAt(0)==64&&p.sides.charAt(1)==0,"separate highlighted angle and raw side exits");
