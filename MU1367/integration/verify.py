@@ -8,10 +8,10 @@ def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def read(p):return json.loads(p.read_text())
 def main():
  p=argparse.ArgumentParser(description=__doc__)
- for n in ('package','filesystem-package','runtime','native','guidance','filesystem','migration','prefix','qnx','driver','fetch'):
+ for n in ('package','filesystem-package','migration-package','preflight','runtime','native','guidance','filesystem','migration','prefix','qnx','driver','fetch'):
   p.add_argument('--'+n,type=Path,required=True)
  a=p.parse_args();pkg=a.package;manifest=read(pkg/'manifest.json')
- proofs={n:read(getattr(a,n)) for n in ('runtime','native','guidance','filesystem','migration','prefix','qnx','driver','fetch')}
+ proofs={n:read(getattr(a,n)) for n in ('runtime','native','guidance','filesystem','migration','prefix','qnx','driver','fetch','preflight')}
  for n,r in proofs.items():assert r.get('passed',n=='driver'),n
  assert proofs['driver']['driver_sha256']=='0ca39135a9f2326d9781ae7b010b96ad0355a97562d133d6dec8a1633921ee85'
  assert proofs['fetch']['sha256']=='acbf7f676e3c2690b1ee8c5185c3bbb378962b3a8f9d4dbf56d778cd4813f11e'
@@ -20,7 +20,8 @@ def main():
  assert proofs['native']['core_sha256']==manifest['files']['core']
  assert proofs['native']['menu_sha256']==manifest['files']['menu']
  assert proofs['guidance']['guidance_sha256']==manifest['files']['guidance']
- assert proofs['migration']['archive_sha256']==manifest['archive_sha256']
+ assert proofs['migration']['archive_sha256']==read(a.migration_package/'manifest.json')['archive_sha256']
+ assert proofs['preflight']['archive_sha256']==manifest['archive_sha256']
  assert proofs['filesystem']['archive_sha256']==read(a.filesystem_package/'manifest.json')['archive_sha256']
  assert proofs['prefix']['archive_sha256']==proofs['filesystem']['archive_sha256']
  # Final hardening changes only the generated legacy integrity gate and preflight hashes.
@@ -28,7 +29,28 @@ def main():
  diffs=[]
  for f in after.rglob('*'):
   if f.is_file() and (before/f.relative_to(after)).is_file() and f.read_bytes()!=(before/f.relative_to(after)).read_bytes():diffs.append(str(f.relative_to(after)))
- assert set(diffs)=={'Custom/carplay_mu1367_guidance_v3/legacy-check.sh','Custom/carplay_mu1367_guidance_v3/payload-check.sh','Custom/carplay_mu1367_map_only/payload-check.sh','Custom/carplay_mu1367_refinements/payload-check.sh','FILES_SHA256.json'},diffs
+ metadata={'Custom/carplay_mu1367_guidance_v3/COMMANDS.json','Custom/carplay_mu1367_map_only/COMMANDS.json','Custom/carplay_mu1367_refinements/COMMANDS.json','Custom/carplay_mu1367_oem_reset/COMMANDS.json','Custom/carplay_mu1367_oem_reset/manifest.json'}
+ assert set(diffs)==metadata|{'Custom/carplay_mu1367_guidance_v3/legacy-check.sh','Custom/carplay_mu1367_guidance_v3/payload-check.sh','Custom/carplay_mu1367_map_only/payload-check.sh','Custom/carplay_mu1367_refinements/payload-check.sh','FILES_SHA256.json'},diffs
+ def descriptive_only(old,new):
+  removed=0
+  if isinstance(old,dict):
+   for k in list(old):
+    if k not in new:
+     assert old[k]=='RUN_CHECK_TOOLS.sh';del old[k];removed+=1
+    else:removed+=descriptive_only(old[k],new[k])
+  elif isinstance(old,list):
+   assert len(old)==len(new)
+   for x,y in zip(old,new):removed+=descriptive_only(x,y)
+  assert old==new
+  return removed
+ for n in metadata:assert descriptive_only(read(before/n),read(after/n))==1
+ # Controller/runtime/legacy integrity code matches the final migration-tested SD.
+ tested=a.migration_package/'sd-card'
+ for top in ('Custom','Toolbox'):
+  for f in (after/top).rglob('*'):
+   if f.is_file() and str(f.relative_to(after)) not in metadata and f.name!='payload-check.sh':
+    assert f.read_bytes()==(tested/f.relative_to(after)).read_bytes(),f
+
  assert proofs['qnx']['factory_migration_verified'] and proofs['qnx']['sdk_utilities_injected'] is False
  assert proofs['qnx']['main_controller_sha256']==sha(after/'Custom/carplay_mu1367_guidance_v3/6/control.sh')
  reset=after/'Custom/carplay_mu1367_oem_reset/control.sh';assert proofs['qnx']['controller_sha256']==sha(reset)
@@ -44,7 +66,7 @@ def main():
   for n,h in inv.items():assert hashlib.sha256(z.read(n)).hexdigest()==h==sha(after/n),n
  r={'passed':True,'version':'1.4.1','archive_sha256':sha(archive),'archive_bytes':archive.stat().st_size,
   'inventory_checks':len(inv),'files':manifest['files'],'runtime_rebuild':expected,
-  'tests':{'filesystem':proofs['filesystem']['tests'],'final_integrity_and_migration':proofs['migration']['tests'],'published_prefixes':proofs['prefix']['tests'],'migration_scenarios':8,'prefix_scenarios':4},
+  'tests':{'filesystem':proofs['filesystem']['tests'],'final_integrity_and_migration':proofs['migration']['tests'],'published_prefixes':proofs['prefix']['tests'],'final_preflight':proofs['preflight']['tests'],'migration_scenarios':8,'prefix_scenarios':4},
   'source_and_package_refactor':True,'default_fps':30,'default_idr':5,'base_turn_cards':False,'safe_area':[200,96,400,364],
   'new_unit_commands':[],'factory_j9_proof_reused_for_identical_runtime':True,
   'factory_qnx_release_migration_verified':True,'oem_reset_sha256':sha(reset),'oem_reset_fault_proof_reused':reset_proof,
