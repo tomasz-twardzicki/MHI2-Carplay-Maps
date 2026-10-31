@@ -1,0 +1,14 @@
+screen carplay-maps-vc Customization
+
+keyValue
+    value String sys 0x00000000 0
+    label "MU1367 / 791 v1.4.1"
+    poll 0
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_suite_install.sh"
+    label "Install / update CarPlay integration (reboot)"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_suite_reset-settings.sh"
+    label "Reset saved MU UI settings (reboot)"

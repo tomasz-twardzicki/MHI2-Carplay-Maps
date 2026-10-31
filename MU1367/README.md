@@ -2,28 +2,22 @@
 
 Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
 
-The separate [MU1367 / 791 integration test](./port/README.md) adds turn-card
-and 30 fps variants, firmware-matched native guidance/audio/navigation-active
-HMI adapters, and optional N3 artwork capture. It includes exact-hash gates,
-verified backups and [no-SD recovery](./port/INSTALL.md). See its
-[verification record](./port/VERIFICATION.json) and subsequent
-[user test results](./settings-v2/UNIT-RESULTS.md).
-The standalone profiles below retain their existing baseline payloads.
+Use the maintained **[v1.4.1 complete integration](./integration/README.md)** for
+K4525 MU1367 + AID 791. It combines maps, native arrows/progress, current road,
+lanes, music metadata/artwork and reconnect recovery. Fresh defaults are 30 fps /
+IDR5 and cards OFF; optional tuning adds card support and its MU controls.
 
-The optional [native MU settings layer](./settings-v2/README.md) integrates
-omonob's plaintext v2 UI and paired map/mirror runtime with that integration.
-It adds selectable FPS/IDR cadence and compact card layouts in App-Connect,
-with a separate complete test bundle and [reverse-order rollback](./settings-v2/INSTALL.md).
-MU1367/791 only. The user reports successful initial operation and prefers
-30 fps / IDR5; both 40 fps profiles showed some stutter. Extended endurance
-and detailed acceptance checks remain unrecorded.
+The [single install/update guide](./integration/INSTALL.md) covers OEM, v1.4.0 and
+known later test states, with retained snapshots and a reboot boundary for v3
+migration. Diagnostics, tuning and recovery have dedicated submenus. The same
+SD includes independent full OEM reset. See [known issues and TODOs](./integration/KNOWN-ISSUES.md)
+for the unresolved Mini Pico card override, expected OEM unused-lane blanks and
+planned navigation/app improvements.
 
-The optional [native lane-guidance layer](./lanes/README.md) extends
-that exact v1.3.0 build with phone lane instructions and turn cards OFF by
-default, retaining the App-Connect card toggle. It includes a separate
-[four-layer rollback procedure](./lanes/INSTALL.md). The user reports successful
-vehicle operation, and [v1.4.0 is now a regular release](./lanes/UNIT-RESULTS.md).
-The published ZIP and v1.3.0 release remain unchanged.
+The `port`, `settings-v2` and `lanes` directories document published v1.3.0/v1.4.0
+baselines. Their source and original assets remain for compatibility and recovery;
+new development belongs in `integration`. The standalone profiles below are
+historical video baselines, not the v1.4.1 complete installation package.
 
 | Cluster | Profile files | Display baseline |
 | --- | --- | --- |

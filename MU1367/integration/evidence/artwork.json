@@ -1,0 +1,179 @@
+{
+  "prepared_on": "2026-10-29",
+  "firmware": "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318",
+  "cluster": "791 AID 12.3",
+  "on_unit_validated": false,
+  "release_status": "local vehicle-test bundle; not published",
+  "build_id": "MU1367-artwork-f353117dbe5c",
+  "archive": "build-package/CarPlay_Maps_VC_MU1367_791_Recovery_Artwork_Test.zip",
+  "archive_sha256": "e7228ae6769a22b4be205d8e8226aae14187010f22243963409f3b8f0015cf03",
+  "archive_bytes": 12843141,
+  "runtime_files": {
+    "driver": "0ca39135a9f2326d9781ae7b010b96ad0355a97562d133d6dec8a1633921ee85",
+    "audio": "c5a0f63c22b8f9b10fc4b54b8239bea57e2693cbecc15d7d71119e999feefff3",
+    "artwork-fetch": "acbf7f676e3c2690b1ee8c5185c3bbb378962b3a8f9d4dbf56d778cd4813f11e"
+  },
+  "base_archive_sha256": "62fd9acb2a2ed9b5328bc652788849f9a9c7c400eb2a81e5de471d04bc7ab427",
+  "reference": {
+    "repository": "https://github.com/brisoleg/e-golf-mib2",
+    "commit": "a5a15515191105143727871ae61931307713abb1",
+    "license": "GPL-3.0"
+  },
+  "checks": {
+    "native_arm": {
+      "passed": true,
+      "tests": 43,
+      "driver_sha256": "0ca39135a9f2326d9781ae7b010b96ad0355a97562d133d6dec8a1633921ee85",
+      "test_sha256": "176140fdf8626b683e97dc7f3f50378f3c3c1c2cfd48819e23526a749278c1c6",
+      "on_unit_validated": false
+    },
+    "hmi_host": {
+      "passed": true,
+      "audio_sha256": "c5a0f63c22b8f9b10fc4b54b8239bea57e2693cbecc15d7d71119e999feefff3",
+      "results": {
+        "TestCover": "ARTWORK_JAVA_PASS checks=44",
+        "TestText": "{\"text_assertions\":41}"
+      },
+      "on_unit_validated": false,
+      "test_sha256": "7e4f35dd58e2ee1ee6476618f5fe25cc584bc8c1a1487fd146327849eed5bf8d"
+    },
+    "fetch_sanitizers": {
+      "passed": true,
+      "fetch_source_sha256": "cee25181a675676bb90c3fb4eda4961123ddcb552f01e14b4974d3d77cf871bf",
+      "sanitizers": [
+        "address",
+        "undefined"
+      ],
+      "tests": "ARTWORK_FETCH_PASS checks=158",
+      "blocked_child_seconds": 5.654,
+      "blocked_child_reaped": true,
+      "on_unit_validated": false
+    },
+    "fetch_factory_qnx": {
+      "qnx_smoke_passed": true,
+      "work": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/artwork/build-fetch-qnx-r2",
+      "factory_libc_sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+      "reader_sha256": "acbf7f676e3c2690b1ee8c5185c3bbb378962b3a8f9d4dbf56d778cd4813f11e",
+      "passed": true,
+      "fetch_sha256": "acbf7f676e3c2690b1ee8c5185c3bbb378962b3a8f9d4dbf56d778cd4813f11e",
+      "test_sha256": "3e2097319e86acc224d5159153f4efbb3560b3b5470366d1bdd4f436733bc2f6",
+      "on_unit_validated": false
+    },
+    "combined_factory_j9_qnx": {
+      "passed": true,
+      "files": {
+        "CarPlayMU1367Guidance.jar": "be458ca5336b32255bbc3827bdb7e137950fa3efbf3eefff14729085247d7748",
+        "VCMenu.jar": "e3a33efc3fa579a6228cbf53908bfd739b0ec9a005e96948c16de94776d93287",
+        "core.so": "eb824f9520c6c03b1295776e3ca3986cccd89c46907eb1dd746b80d6b82360a3"
+      },
+      "combined_parent_settings_j9": true,
+      "settings_checks_per_mode": 7,
+      "class_major": 46,
+      "class49_negative_rejected": true,
+      "core_factory_dlopen": true,
+      "java_c_preferences_factory_verified": true,
+      "core_imports_verified": [
+        "__aeabi_uldivmod",
+        "__get_errno_ptr",
+        "_in6addr_any",
+        "accept",
+        "access",
+        "bind",
+        "calloc",
+        "clock_gettime",
+        "close",
+        "dlsym",
+        "fclose",
+        "fcntl",
+        "ferror",
+        "fflush",
+        "fileno",
+        "fopen",
+        "fprintf",
+        "fputc",
+        "fputs",
+        "fread",
+        "free",
+        "fstat",
+        "ftruncate",
+        "fwrite",
+        "getenv",
+        "getpid",
+        "getsockname",
+        "in6addr_any",
+        "listen",
+        "lseek",
+        "lstat",
+        "malloc",
+        "memchr",
+        "memcmp",
+        "memcpy",
+        "memset",
+        "mmap",
+        "munmap",
+        "open",
+        "pthread_create",
+        "pthread_detach",
+        "pthread_mutex_lock",
+        "pthread_mutex_unlock",
+        "realloc",
+        "recv",
+        "rename",
+        "select",
+        "setsockopt",
+        "snprintf",
+        "socket",
+        "sscanf",
+        "strcmp",
+        "strcpy",
+        "strlen",
+        "strstr",
+        "strtol",
+        "unlink",
+        "usleep"
+      ],
+      "test_sha256": "9bc49892e44445248ae1a970761132298a485a0c6628ca5324f5f533fcafc394",
+      "qemu_log_sha256": "c72f3c6dbd0a57a68513182590c05c953129be68e3d946b8b40d1def00a7642b",
+      "on_unit_validated": false,
+      "lane_factory_fields_verified": true,
+      "card_default_java_c_verified": true,
+      "recovery_factory_verified": true,
+      "audio_sha256": "c5a0f63c22b8f9b10fc4b54b8239bea57e2693cbecc15d7d71119e999feefff3",
+      "artwork_factory_verified": true,
+      "artwork_checks_per_mode": 44,
+      "artwork_worker_tracks_per_mode": 10,
+      "artwork_worker_cache_limit": 8
+    },
+    "installer_faults": {
+      "passed": true,
+      "tests": 23,
+      "controller_sha256": "8513843e9adb65c2517840e2469dfccb670adbe9fe9663b4a4205acbc3ed53fe",
+      "test_sha256": "69136284370a1aba9c69e318fa6022fd67491b1a01d31c069392dcfe354a4a52",
+      "on_unit_validated": false
+    },
+    "package_and_full_oem_restore": {
+      "passed": true,
+      "checks": 2173,
+      "archive_sha256": "e7228ae6769a22b4be205d8e8226aae14187010f22243963409f3b8f0015cf03",
+      "test_sha256": "611787515f221808da7e7e58165a956abd3a84b466bbca3c38511840699742bf",
+      "full_settings_hmi_video_factory_restore_without_sd": true,
+      "parent_payloads_unchanged": true,
+      "on_unit_validated": false,
+      "full_six_layer_oem_restore_without_sd": true,
+      "recovery_custom_files_unchanged": 413,
+      "complete_artwork_source": true
+    }
+  },
+  "remaining_acceptance": [
+    "Vehicle cluster rendering and music-app persistent-ID/artwork delivery",
+    "Mini Pico build 26101215.6071 guidance, artwork and scene forwarding",
+    "90-minute vehicle endurance, skips, source switches and reconnect"
+  ],
+  "known_limits": [
+    "A nonzero factory-format media persistent ID and a complete supported artwork transfer are required.",
+    "Native capture contention fails closed for that allocation; full reboot resets it. Guidance retains its independent snapshot path.",
+    "Offline factory runtime probes do not verify MOST delivery or physical cluster rendering."
+  ],
+  "native_arm_optional_capture_skipped": 1,
+  "published_v130_v140_and_recovery_archives_unchanged": true
+}

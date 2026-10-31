@@ -1,0 +1,8 @@
+# Preserve the child layer snapshot before removing its parent.
+case "${1:-status}" in uninstall|recover|install)
+ G=${CPMAP_TEST_ROOT:-}
+ if [ -z "$G" ] && [ ! -s /ifs/lsd.jxe ];then G=/net/mmx;fi
+ G=$G/mnt/app/carplay-mu1367-guidance-v3
+ if [ -d "$G" ];then
+  [ -f "$G/STATE" ] && [ ! -L "$G/STATE" ] && [ "$(cat "$G/STATE")" = removed ] || { echo MU1367_GUIDANCE_V3_REMOVE_CHILD_FIRST;exit 1; }
+ fi;;esac

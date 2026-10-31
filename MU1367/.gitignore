@@ -1,0 +1,16 @@
+# Retired local experiment trees and previously shared packages are retained for
+# reference/recovery. Maintained source and release builds live in integration/.
+/adapter-card/
+/arrow-progress/
+/artwork/
+/guidance-v3/
+/lane-outlines/
+/lane-type/
+/lane-window/
+/map-only/
+/oem-reset/
+/refinements/
+/road-name/
+/safe-area/
+/wireless-recovery/
+.DS_Store

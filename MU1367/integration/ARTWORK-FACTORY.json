@@ -1,0 +1,12 @@
+{
+  "jxe_sha256": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a",
+  "classes": {
+    "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationHandle.class": "9fbbc62918c60b6e99b43f783f16e6d4170f4323d1c97196be7e71f16aad62e0",
+    "de/vw/mib/asl/internal/kombipictureserver/usecaces/CoverArt.class": "319027dfaa3f39948bb8039a01ad4dbacaba8e9ecde71d91c30bc39ca83d0962"
+  },
+  "cover_art_sequence_id": 1480001,
+  "audio_component": 6,
+  "bap_source": 19,
+  "pps_media_persistent_id": "16 zero-padded hexadecimal digits without prefix",
+  "native_identity_formatter": "nowplay_update_recv: base-16 ulltoa at 0x1c4ec, pad to 16 digits at 0x1c4f0-0x1c524"
+}

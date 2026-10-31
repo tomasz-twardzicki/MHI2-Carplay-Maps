@@ -1,0 +1,300 @@
+{
+  "passed": true,
+  "on_unit_validated": false,
+  "archive": "MU1367/guidance-v3/build-package-verified/CarPlay_Maps_VC_MU1367_791_Guidance_v3.zip",
+  "archive_sha256": "256dc774ec68d91cd81c33be5e9c8640088f4b58d05b1b000614df7c12f9e5b0",
+  "live_build": "MU1367-guidance-94ee12f86d10",
+  "runtime_files": {
+    "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+    "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+    "guidance": "626079f7792f2cf871a24cacf965b3451758af7c67fee11352fb043551f13403"
+  },
+  "saved_child_controller": "/mnt/app/carplay-mu1367-guidance-v3/control.sh",
+  "immediate_parent": "Exact lane-v2 map-only core/menu/guidance and matching controller, all four accepted baseline layouts.",
+  "card_tuning_files": {
+    "core.so": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+    "VCMenu.jar": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d",
+    "CarPlayClusterControls.jar": "91d3cf2cf7d5fb19fe1042ea4985c9929b61955f90b7217800ea3904d3cb63c8"
+  },
+  "default_stream": {
+    "choice": 2,
+    "fps": 30,
+    "idr": 5,
+    "saved_preferences_preserved": true
+  },
+  "placeholder_scope": "Only a fresh owned active route with unmapped/absent maneuver pictogram; no valid turn distance or countdown; cancellation, stale data, disconnect and OEM ownership remain authoritative.",
+  "lane_change": "Known supplied directions use factory LANE_AVAILABLE description 0; unknown remains 15; recommendation and canonical geometry unchanged.",
+  "card_change": "Explicit no-overlay map URL; URL-only requestUI without display UUID; other commands remain scoped and serialized. Optional tuning retains card/UI support.",
+  "diagnostic_limit_bytes": 16384,
+  "factory_optional_ui_identity": "Only DisplaySettings differs from its prior factory-tested optional UI; its bytes match the new base class tested on factory J9.",
+  "factory_optional_native_imports": "Strong imports exactly equal the factory-verified new base core; new optional native behavior is tested using the actual CF builder/async transport with ASan/UBSan.",
+  "limits": [
+    "New vehicle-rendered lane outlines and Mini Pico card suppression are not confirmed.",
+    "Command acknowledgement proves neither adapter forwarding nor rendered output.",
+    "Lane description 15 was observed with blanks, but causality is not proven.",
+    "Source evidence, selected cache and last reply may have different instruction timestamps.",
+    "Host filesystems mock mount/sync; QNX runs matching factory utilities with mounts mocked; neither emulates storage durability or physical cluster rendering.",
+    "Full reset restores the OEM boot script, preserving previous files but removing other edits to that script."
+  ],
+  "evidence": {
+    "guidance_host": {
+      "path": "MU1367/guidance-v3/build-host/result.json",
+      "sha256": "24e2f127a0d7c79667ea21b4712fac4643919ad1f3b54ff6953563ede8f4518c",
+      "result": {
+        "passed": true,
+        "guidance_sha256": "626079f7792f2cf871a24cacf965b3451758af7c67fee11352fb043551f13403",
+        "results": {
+          "TestLive": "{\"factory_integration_assertions\":124}",
+          "TestLanes": "LANES_PASS checks=761 actual_factory_builder=1 no_maneuver_dependency=1 independent_freshness=1",
+          "TestRecovery": "RECOVERY_PASS checks=539 strict_validation=1 fresh_after_baseline=1 actual_bridge=1 first_failure_bounded=1 private_captures=2",
+          "TestRoad": "ROAD_PRIVATE_CAPTURE records=16 nonempty_current_roads=16\nROAD_PRIVATE_CAPTURE records=16 nonempty_current_roads=16\nROAD_NAME_PASS checks=50 actual_factory_stage=1 own_freshness=1 oem_priority=1 bounded_utf8=1",
+          "TestLaneOutlines": "LANE_OUTLINES_PASS checks=26 neutral_geometry=1 real_recommendations=1 factory_raw_bytes=1",
+          "TestArrow": "ARROW_PROGRESS_PASS checks=16575 actual_factory_stage=1 real_distance=1 route_freshness=1 oem_priority=1",
+          "TestArrowQnx": "ARROW_FACTORY_J9_PASS checks=13 factory_serialization=1 countdown=1 oem=1 clear=1",
+          "TestSessions": "SESSION_BOUNDARY_PASS checks=14 atomic_producer_restart=1 old_floor_reset=1 release_evidence=1",
+          "TestLaneCanonical": "CANONICAL_LANE_PASS checks=630 real_factory_getArray=1 record_0_1_2_3=1 no_duplicate_primary=1 bounded_retained_evidence=1",
+          "TestPlaceholder": "PLACEHOLDER_PASS checks=16 active_only=1 real_symbols=1 no_fake_distance=1 oem_stale_disconnect=1"
+        },
+        "test_sha256": "08fa0e218528ae62579b7f2f7c8536e05eb3bc1f0f99b57390dba3c9f9f35565",
+        "on_unit_validated": false
+      }
+    },
+    "native_and_ui_host": {
+      "path": "MU1367/guidance-v3/build-runtime-tests/result.json",
+      "sha256": "38fb7c72141d903afb81e39492c86b54f5c079cd354901762dc8879e59ae66f4",
+      "result": {
+        "passed": true,
+        "core_sha256": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+        "menu_sha256": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+        "results": {
+          "base": {
+            "java": "DISPLAY_SETTINGS_PASS checks=82",
+            "native": "GUIDANCE_V3_CF_PASS map_only=1 matrix=64 default_30_5=1 saved_choices=1 unscoped_requestUI=1 single_inflight=1 bounded_route_edge=1 leaks=0\n0,2,2",
+            "core_sha256": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+            "menu_sha256": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+          },
+          "tuning": {
+            "java": "DISPLAY_SETTINGS_PASS checks=82",
+            "native": "GUIDANCE_V3_CF_PASS map_only=0 matrix=64 default_30_5=1 saved_choices=1 unscoped_requestUI=1 single_inflight=1 bounded_route_edge=1 leaks=0\n0,2,2",
+            "core_sha256": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+            "menu_sha256": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+          }
+        },
+        "on_unit_validated": false,
+        "test_sha256": "0f4b0728ad7c93d4c7f25019d5a55ab9bd68a46ca85fbf69fc260ef5fd265e1a"
+      }
+    },
+    "factory_arm_j9_runtime": {
+      "path": "MU1367/guidance-v3/build-qnx/result.json",
+      "sha256": "8d2a6b7cbb6c168b3655e295208c51c268d9e00832445f319209786362b90a80",
+      "result": {
+        "passed": true,
+        "files": {
+          "core.so": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+          "VCMenu.jar": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+          "CarPlayClusterControls.jar": "91d3cf2cf7d5fb19fe1042ea4985c9929b61955f90b7217800ea3904d3cb63c8",
+          "CarPlayMU1367Guidance.jar": "626079f7792f2cf871a24cacf965b3451758af7c67fee11352fb043551f13403"
+        },
+        "combined_parent_settings_j9": true,
+        "settings_checks_per_mode": 7,
+        "class_major": 46,
+        "class49_negative_rejected": true,
+        "core_factory_dlopen": true,
+        "java_c_preferences_factory_verified": true,
+        "core_imports_verified": [
+          "__aeabi_uldivmod",
+          "__get_errno_ptr",
+          "_in6addr_any",
+          "accept",
+          "access",
+          "bind",
+          "calloc",
+          "clock_gettime",
+          "close",
+          "dlsym",
+          "fclose",
+          "fcntl",
+          "ferror",
+          "fflush",
+          "fileno",
+          "fopen",
+          "fprintf",
+          "fputc",
+          "fputs",
+          "fread",
+          "free",
+          "fstat",
+          "ftruncate",
+          "fwrite",
+          "getenv",
+          "getpid",
+          "getsockname",
+          "in6addr_any",
+          "listen",
+          "lseek",
+          "lstat",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "mmap",
+          "munmap",
+          "open",
+          "pthread_create",
+          "pthread_detach",
+          "pthread_mutex_lock",
+          "pthread_mutex_unlock",
+          "realloc",
+          "recv",
+          "rename",
+          "select",
+          "setsockopt",
+          "snprintf",
+          "socket",
+          "sscanf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strstr",
+          "strtol",
+          "unlink",
+          "usleep"
+        ],
+        "test_sha256": "71b73b814c314fec3027b6f88f5353e8726810eb79cf6792ac4f70349a78d34b",
+        "qemu_log_sha256": "d850c87d1e553e4e0bf86de6e0ae09ce5025afc17977c76538862c4830230b62",
+        "on_unit_validated": false,
+        "lane_factory_fields_verified": true,
+        "card_default_java_c_verified": true,
+        "recovery_factory_verified": true,
+        "audio_sha256": "c5a0f63c22b8f9b10fc4b54b8239bea57e2693cbecc15d7d71119e999feefff3",
+        "artwork_factory_verified": true,
+        "artwork_checks_per_mode": 44,
+        "artwork_worker_tracks_per_mode": 10,
+        "artwork_worker_cache_limit": 8,
+        "guidance_sha256": "626079f7792f2cf871a24cacf965b3451758af7c67fee11352fb043551f13403",
+        "road_factory_checks_per_mode": 11,
+        "lane_outline_factory_checks_per_mode": 34,
+        "arrow_factory_checks_per_mode": 13,
+        "arrow_factory_serialization_verified": true,
+        "arrow_test_sha256": "0c090f80b49e4cb72abc907b0fd57f9ed9a86bba1a20d3ff8c5ec20e45076c1c",
+        "map_only_ui_factory_verified": true,
+        "session_generation_factory_verified": true,
+        "canonical_lane_factory_requests_verified": true,
+        "placeholder_factory_verified": true,
+        "supplied_lane_availability_factory_verified": true,
+        "stream_default_30_5_factory_verified": true
+      }
+    },
+    "factory_command_transactions": {
+      "path": "MU1367/guidance-v3/build-actions-qnx/result.json",
+      "sha256": "81ac95cc17d6435f7c50ae0f62baad2bb16c45469bb8aaef7199ca9ec8193332",
+      "result": {
+        "passed": true,
+        "controller_sha256": "0f53d6454db562139e978057e58551a018243e3a86829fe90364adf98d660725",
+        "fixture_controller_sha256": "c19a374d3ca7a26b1404a843d5a8790a8a9e8078b579ff820d55f16c239ede15",
+        "fixture_only_change": "JXE_SHA constant for small RAM-disk fixture; host tests use full real JXE",
+        "verifier_sha256": "0512b28bd589336fe8a32f8e514f90b2646e2117064454160a660daff48f9a7a",
+        "factory_libc_sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+        "actual_qnx_ksh": true,
+        "mounts_mocked": true,
+        "on_unit_validated": false,
+        "factory_utilities_sha256": {
+          "ksh": "11288c35bdb7a5e31e361d8301258fdda6546cd357dde68d721868eec819d3f9",
+          "cat": "04495daaf52a86fbff8897d885961959982b8c400514526fabeb5990491aa02e",
+          "cp": "b2f2839de260165a85a29c64dbd460d1a59556ecb4b2c199ce43c2d8b116ce1c",
+          "mv": "5478f1ccb35395107d93bca389178537079baf5550b7b4ce141ce1f1d96e5771",
+          "rm": "b4935f2b45300d9f3ac5168a5de969751735d51c90967bd5a46fa5642c48eae3",
+          "mkdir": "55cbb03fa6195782df31a7e7a4564fd5ec59dfe6a0a6b5706100193b4444fdf7",
+          "chmod": "896cd46394bb3c8200359ff364205a2fa41830f3a8efcddf977f5308b139578c",
+          "sync": "4ae64a41e79173a6dbe324dd07ba7a52325f9cf76b3ec67a4c8344694aca8bdf",
+          "mount": "a6fd3a6c168b80cc1838d93fecf302736a76bd8c632c1a1734b1fb673fc5f957",
+          "on": "c6479282b46b248b03780cb3fb15846d239946505220134798b04bc3e699b166",
+          "df": "784d003440972ca859d2a6dc7ff19f70dbdaac3e4295311c295823bac017301c",
+          "slay": "330538235b0f67cfb65d48caf4a220118b3d934e6d9ed654184101c699699fdc",
+          "ls": "7986897575f6a2f0c493fb310e570850c709b44dad2bffde65d2c33c5cb4f444",
+          "grep": "2def0eef89a356c569ce5263fbf3d7f629bf83900a822b5b2311122af723fe47",
+          "touch": "d4c49146093e7e4a2ec93029b5933d53b84fe7e1ca6d507a64facc979f0e498c",
+          "awk": "beb8949b08896ed8f20f5db265552bee47aa50b5925b75cfe77a808c31fb994b",
+          "basename": "e2a5646af0ae391e4613002f7d399423a3b83665e12c40e92e9fd055928076c0"
+        },
+        "sdk_utilities_injected": false,
+        "rmdir_absent_factory_gawk_present": true,
+        "lock_cleanup_verified": true,
+        "qemu_log_sha256": "d20c1706c657f488a18b42fb16c16d03cab283106bcf5950c591fe4603a1ecf5",
+        "test_sha256": "41d60652edcfbea66457609a91117d187631438e7bd38760cb31e3c70a1def23",
+        "map_only_actions_sha256": "b3d168c98ad713cc0a13f153b3844da732fd9c84703a4d91b7f43e622e885d16",
+        "main_controller_sha256": "83fa8b0b504f429985e3373660613dff6677225b8d7ffd11e8a884dd68086ce8",
+        "tuning_controller_sha256": "86123177826fcbb94ad10a53eb75172671ae2b8f1817afccaa946f1b5546aecf",
+        "fixture_changes": "Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host",
+        "map_only_and_optional_transactions_verified": true,
+        "guidance_v3_actions_factory_verified": true,
+        "reset_twelve_roots_factory_verified": true,
+        "v3_test_sha256": "b0fb54f6f7bd761ea8b05ee5f0a4e9d2dcffcf771158b94de6568cc8f1abf5fd"
+      }
+    },
+    "package_upgrade_rollback": {
+      "path": "MU1367/guidance-v3/build-package-tests.json",
+      "sha256": "5da38faa6d1a4ee9b8c674d52d9ae4ff4c588087602794ab01ff320b4f245537",
+      "result": {
+        "passed": true,
+        "tests": 7,
+        "inventory_checks": 2557,
+        "archive_sha256": "1f6fe012404d340fa42f08b1bbd0fa378927c439632d3510a3ec7e78068cb7a6",
+        "mounts_and_sync_mocked_on_host": true,
+        "on_unit_validated": false
+      }
+    },
+    "oem_reset_faults": {
+      "path": "MU1367/guidance-v3/build-reset-tests-v3.json",
+      "sha256": "cc87b49484a17f5b0afe214e77b9e6cc9cd76628dbef9fcbc27a87b00363af8d",
+      "result": {
+        "passed": true,
+        "tests": 36,
+        "controller_sha256": "0f53d6454db562139e978057e58551a018243e3a86829fe90364adf98d660725",
+        "test_sha256": "72eaa8079eb229bb7860a81775b5f73474572cf44b93b5ec0868a3d7c3f7bf44",
+        "read_only_mount_order_enforced": true,
+        "host_sync_mocked": true,
+        "on_unit_validated": false
+      }
+    },
+    "final_inventory": {
+      "path": "MU1367/guidance-v3/build-final-inventory.json",
+      "sha256": "6eb8d276a833f80ba6ee363b2baef56382cf17a14e28192baa34fdb53295a899",
+      "result": {
+        "passed": true,
+        "archive_sha256": "256dc774ec68d91cd81c33be5e9c8640088f4b58d05b1b000614df7c12f9e5b0",
+        "inventory_checks": 2560,
+        "runtime_menu_and_scripts_match_tested_package": true,
+        "filesystem_tests": {
+          "passed": true,
+          "tests": 7,
+          "inventory_checks": 2557,
+          "archive_sha256": "1f6fe012404d340fa42f08b1bbd0fa378927c439632d3510a3ec7e78068cb7a6",
+          "mounts_and_sync_mocked_on_host": true,
+          "on_unit_validated": false
+        },
+        "on_unit_validated": false
+      }
+    }
+  },
+  "source_sha256": {
+    "package.py": "ecbd0749cad44bae206dce861b44736ef4a9d4afc22eeccfda69510778226444",
+    "TestPlaceholder.java": "d1b0b2d0cc3ad8cdccff8fa46d0f2b67c2ef2dc5cf3b5eeba61dd7ed7fb49314",
+    "test-host.py": "08fa0e218528ae62579b7f2f7c8536e05eb3bc1f0f99b57390dba3c9f9f35565",
+    "test-package.py": "f7384aba2eb8723e8ee43afbcc90a8af36e59d2c0ad8500c44397c4a36dc428f",
+    "build-guidance.py": "7c033d49554bed3c6d2bf9c2989d10e78eccf3012a9146fccf1572c45c521b96",
+    "build-runtime.py": "d8b2dc4990f68534f2d8f3f2ca682035565924f146b36569f7ae541ba755d12e",
+    "test-reset.py": "72eaa8079eb229bb7860a81775b5f73474572cf44b93b5ec0868a3d7c3f7bf44",
+    "test-runtime.py": "0f4b0728ad7c93d4c7f25019d5a55ab9bd68a46ca85fbf69fc260ef5fd265e1a",
+    "INSTALL.md": "0ee689c6394b75730692129a248c39f70e5bd13f4834d7fcc90b3bb9e8133a2a",
+    "README.md": "eab3ff7928659171deeb9a53738521867139f2cf0ee013e8645db7df0e4be0ab",
+    "test_runtime.c": "fff4af5cf9dbc593b93d1eb40fc7e2803f3adff29b83633f257de2ae5f6b3045",
+    "test-qnx.py": "bddfa1fbe0efd7bba5ea530a972d4cc64c2d02ed297be8432b3f2d8ecff75b67",
+    "test-actions-qnx.py": "b0fb54f6f7bd761ea8b05ee5f0a4e9d2dcffcf771158b94de6568cc8f1abf5fd",
+    "TestLaneOutlinesQnx.java": "e11ad8f637181dd6dbcdd8d44f240c23d7c9e5df7ee4b6299005a2d20697eede",
+    "DIAGNOSIS.md": "71b3a41f3752ac41ff7197097abee401ae5624b5c613bb9bdc991814da59978a",
+    "staging.py": "1ef54cf0d8540014498edeeb8a844f7f1878f13515ae70ff9fedb4c5a4b56180"
+  },
+  "final_identity": "Final ZIP runtime/menu/scripts match the candidate used in the passing seven filesystem transaction cases and factory-command transaction tests; final rebuild adds source/document material only."
+}

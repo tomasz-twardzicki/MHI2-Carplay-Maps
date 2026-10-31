@@ -1,0 +1,9 @@
+Install scripts and menus from SD card
+Finished copying
+Cleanup, mounting app rw
+Deleting old mqbcoding.esd pre v4.1
+___________________________________
+
+Deleting old MIB Toolbox scripts pre v4.1
+__________________________________________
+Cleanup complete.

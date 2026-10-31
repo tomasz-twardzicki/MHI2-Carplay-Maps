@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "controller_sha256": "979cbeffe2a197b80171b1243984db542901407636fc88579cfb7e32f143d759",
+  "fixture_controller_sha256": "c197c304773f357608685640cb518628eee1a2beb07e46ff2fff5d3df18df8e3",
+  "fixture_only_change": "JXE_SHA constant for small RAM-disk fixture; host tests use full real JXE",
+  "verifier_sha256": "0512b28bd589336fe8a32f8e514f90b2646e2117064454160a660daff48f9a7a",
+  "factory_libc_sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+  "actual_qnx_ksh": true,
+  "mounts_mocked": true,
+  "on_unit_validated": false,
+  "factory_utilities_sha256": {
+    "ksh": "11288c35bdb7a5e31e361d8301258fdda6546cd357dde68d721868eec819d3f9",
+    "cat": "04495daaf52a86fbff8897d885961959982b8c400514526fabeb5990491aa02e",
+    "cp": "b2f2839de260165a85a29c64dbd460d1a59556ecb4b2c199ce43c2d8b116ce1c",
+    "mv": "5478f1ccb35395107d93bca389178537079baf5550b7b4ce141ce1f1d96e5771",
+    "rm": "b4935f2b45300d9f3ac5168a5de969751735d51c90967bd5a46fa5642c48eae3",
+    "mkdir": "55cbb03fa6195782df31a7e7a4564fd5ec59dfe6a0a6b5706100193b4444fdf7",
+    "chmod": "896cd46394bb3c8200359ff364205a2fa41830f3a8efcddf977f5308b139578c",
+    "sync": "4ae64a41e79173a6dbe324dd07ba7a52325f9cf76b3ec67a4c8344694aca8bdf",
+    "mount": "a6fd3a6c168b80cc1838d93fecf302736a76bd8c632c1a1734b1fb673fc5f957",
+    "on": "c6479282b46b248b03780cb3fb15846d239946505220134798b04bc3e699b166",
+    "df": "784d003440972ca859d2a6dc7ff19f70dbdaac3e4295311c295823bac017301c",
+    "slay": "330538235b0f67cfb65d48caf4a220118b3d934e6d9ed654184101c699699fdc"
+  },
+  "sdk_utilities_injected": false,
+  "rmdir_and_awk_absent": true,
+  "lock_cleanup_verified": true,
+  "qemu_log_sha256": "052b14bb1c697cb47ceb5d04bb7f278e9f6c44e096180c7076aa6414d5e90bf4",
+  "test_sha256": "41d60652edcfbea66457609a91117d187631438e7bd38760cb31e3c70a1def23"
+}

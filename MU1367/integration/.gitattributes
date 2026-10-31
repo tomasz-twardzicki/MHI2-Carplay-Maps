@@ -1,0 +1,5 @@
+# Legacy fingerprints and payload inventories require byte-exact checkout.
+toolbox/** -text -filter -whitespace
+tests/revisions/** -text
+*.jar binary
+*.so binary

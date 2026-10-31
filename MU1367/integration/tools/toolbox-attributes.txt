@@ -1,0 +1,12 @@
+# Declare files that will always have LF line endings on checkout.
+/metainfo2.txt text eol=crlf
+/Toolbox/GEM/*.esd text eol=crlf
+*/hashes.txt text eol=lf
+*.sh text eol=lf
+*.exe filter=lfs diff=lfs merge=lfs -text
+*.jar filter=lfs diff=lfs merge=lfs -text
+/Toolbox/apps/sshd/usr/sbin/start_sshd text eol=lf
+/Toolbox/apps/sshd/scp_wrapper text eol=lf
+/Toolbox/apps/sshd/etc/banner.txt text eol=lf
+# Keep the MU1427 adapter in Git: public forks cannot upload new LFS objects.
+/Custom/carplay_native_guidance/*.jar binary -filter

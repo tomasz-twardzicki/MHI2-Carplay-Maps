@@ -1,0 +1,457 @@
+#!/bin/sh
+
+##
+##SWDL Purpose RamDisk usage
+##
+info "lsd.sh called ..." 
+##
+##SWDL Purpose RamDisk usage
+##
+if [[ ${RUN_MODE} = "swdl" ]]; then
+
+      RAM_DISK_SIZE=$(df -k /ramdisk | awk -F" " '{$1=$1; print $2}') 
+      RAM_DISK_USED=$(df -k /ramdisk | awk -F" " '{$1=$1; print $3}')
+
+      echo RamDiskSize:$RAM_DISK_SIZE
+      echo RamDiskUsed:$RAM_DISK_USED
+
+
+      WAS_ERROR=0
+
+      echo "RAM_DISK is in SWDL Mode, copying data..."
+
+      echo "Removing possible old contents"
+      rm -rf /ramdisk/hmi
+      cp -c -R -l 0 /mnt/app/eso/hmi/lsd/* /ramdisk/hmi/lsd
+      ERROR_CODE=$?
+      if [ $ERROR_CODE !=  0 ]; then
+            WAS_ERROR=1
+      fi
+
+      echo "Copy config"
+      cp -c -R /mnt/app/eso/hmi/lsd/config /ramdisk/hmi/lsd/config
+      ERROR_CODE=$?
+      if [ $ERROR_CODE !=  0 ]; then
+            WAS_ERROR=1
+       fi
+
+      echo "Copy hmi"
+       cp -c -R /mnt/app/eso/hmi/lsd/hmi /ramdisk/hmi/lsd/hmi
+      ERROR_CODE=$?
+
+      if [ $ERROR_CODE !=  0 ]; then
+            WAS_ERROR=1
+      fi
+
+      echo "Copy JXE"
+     ln -s /ifs/ /ramdisk/ifs
+      ERROR_CODE=$?
+
+      if [ $ERROR_CODE !=  0 ]; then
+            WAS_ERROR=1
+       fi
+
+      echo "Copy jars"
+       cp -c -R /mnt/app/eso/hmi/lsd/jars /ramdisk/hmi/lsd/jars
+      ERROR_CODE=$?
+      if [ $ERROR_CODE !=  0 ]; then
+            WAS_ERROR=1
+      fi
+
+      echo "Copy lib"
+      cp -c -R /mnt/app/eso/hmi/lsd/lib /ramdisk/hmi/lsd/lib
+
+      echo "Copy res"
+      cp -c -R /mnt/app/eso/hmi/lsd/res /ramdisk/hmi/lsd/res
+       ERROR_CODE=$?
+      if [ $ERROR_CODE !=  0 ]; then
+            WAS_ERROR=1
+      fi
+
+      echo "Copy skin resources"
+      cp -c -R /mnt/app/eso/hmi/lsd/Resources /ramdisk/hmi/lsd/Resources
+      ERROR_CODE=$?
+      if [ $ERROR_CODE !=  0 ]; then
+            WAS_ERROR=1
+       fi
+  
+       if [ $WAS_ERROR ==  1 ]; then
+            echo "RAM_DISK error on copy for SWDL, starting HMI normally..."
+            export BASE_DIR=$MOUNT_DIR/eso/hmi
+            export IFS_DIR=/ifs
+      else
+            echo "RAM_DISK is ready for SWDL, starting HMI from RamDisk for SWDL..."
+            VMOPTIONS="$VMOPTIONS -Dspi.resourcepath=/ramdisk/hmi/lsd/Resources"
+            export BASE_DIR=/ramdisk/hmi
+            export IFS_DIR=/ramdisk/ifs
+      fi
+else 
+      echo "RUN_MODE != SWDL detected starting HMI normally..."
+      export BASE_DIR=$MOUNT_DIR/eso/hmi
+      export IFS_DIR=/ifs
+fi
+
+
+
+##
+## VM  Environment Setup section
+##
+
+export MOUNT_DIR=
+
+## Java path setup:
+export JAVA_HOME=/ifs/jre
+
+# VM which is bound to one CPU core
+#export J9="on -C 0 $JAVA_HOME/bin/j9"
+
+# VM is staring on prio 12, running con both CPU cores
+export J9="on -p 12 $JAVA_HOME/bin/j9"
+
+#export PATH="$JAVA_HOME/bin:$PATH"
+## mime type
+export LIBIMG_CFGFILE=$BASE_DIR/lsd/img.conf
+
+##
+## JVM general setup:
+##
+
+## Setup library paths for Java generally, J9 and system:
+export LD_LIBRARY_PATH=$JAVA_HOME/bin:.:$MOUNT_DIR/root/lib-target:$MOUNT_DIR/armle/lib:$MOUNT_DIR/armle/usr/lib:$MOUNT_DIR/armle/lib/dll:$MOUNT_DIR/eso/lib:/navigation:/navigation/lib
+
+VMOPTIONS="$VMOPTIONS -Djava.library.path=$LD_LIBRARY_PATH"
+VMOPTIONS="$VMOPTIONS -Dcom.ibm.oti.vm.bootstrap.library.path=$LD_LIBRARY_PATH"
+
+#use micro JIT 
+VMOPTIONS="$VMOPTIONS -Xmjit:code=4096,singlecache"
+
+VMOPTIONS="$VMOPTIONS -jcl:foun11"
+# VMOPTIONS="$VMOPTIONS -analyze"
+
+VMOPTIONS="$VMOPTIONS -DErrorDumpDir=$BASE_DIR/errlog/"
+
+## temporary settings for developement
+#VMOPTIONS="$VMOPTIONS -DStorageProviderConfig=Sim"
+#VMOPTIONS="$VMOPTIONS -DDefaultStorageProvider-PhysicalPath=$BASE_DIR/persistence"
+
+VMOPTIONS="$VMOPTIONS -Dshowcombi=false"
+VMOPTIONS="$VMOPTIONS -DSYNC_EARLY_RVC=false"
+VMOPTIONS="$VMOPTIONS -DWAIT_FOR_MAP_AVAILABLE=1"
+VMOPTIONS="$VMOPTIONS -DWAIT_FOR_AUDIO_TIMEOUT=1"
+VMOPTIONS="$VMOPTIONS -DWAIT_FOR_SDS_AVAILABLE=1"
+
+VMOPTIONS="$VMOPTIONS -Dmedia.config.usb=installed"
+VMOPTIONS="$VMOPTIONS -Dmedia.config.aux=installed"
+
+#use new TTS client implementation
+VMOPTIONS="$VMOPTIONS -DuseNewTtsClient=true"
+VMOPTIONS="$VMOPTIONS -Dstartup.max.domain.wait=1"
+
+VMOPTIONS="$VMOPTIONS -Dde.audi.gem.path.scriptfifo=/var"
+VMOPTIONS="$VMOPTIONS -Dde.audi.gem.path.esdfiles=/eso/hmi/engdefs"
+
+
+#
+#VW HMI releated path
+#
+VWHMIBASE_DIR=$BASE_DIR/lsd
+MIBCFG=$VWHMIBASE_DIR/config
+MIBRES=$VWHMIBASE_DIR/lsd/res
+VWSKINS=$BASE_DIR/lsd/Resources
+##==============================================================
+## enable here the IFS Booting
+HMI_JXE=$IFS_DIR/lsd.jxe
+##==============================================================
+
+
+#############################################################
+# Here begins the VW specific part
+# Script Version 7.10.10 23.06.17_RELEASE_1
+# HMI Variant: HIGH2GP_EU
+# ############################################################
+# JVM memory management parameters
+VMOPTIONS="$VMOPTIONS -Xmca256k -Xmco1024k -Xmo42m -Xmoi0 -Xmn4m -Xmx46m"
+
+
+
+# JVM use micro JIT
+VMOPTIONS="$VMOPTIONS -Xmjit:code=4096,singlecache"
+
+################# Disable this section for SOP Release #####################
+
+
+
+
+###################### END ##########################################
+
+# HMI: Base installation paths of the HMI
+VMOPTIONS="$VMOPTIONS -Dde.vw.mib.installation.directory=$VWHMIBASE_DIR/"
+VMOPTIONS="$VMOPTIONS -Dde.vw.mib.configuration.directory=$MIBCFG/"
+VMOPTIONS="$VMOPTIONS -Dde.vw.mib.resources.directory=$VWSKINS/"
+
+
+# Defines this build as a development version
+# VMOPTIONS="$VMOPTIONS -Dde.vw.mib.developmentbuild"
+
+# Setup logging for DSITracer
+VMOPTIONS="$VMOPTIONS -DLOG=all=2"
+VMOPTIONS="$VMOPTIONS -Dde.audi.tghu.traceConfig=$BASE_DIR/lsd/traceConfig.properties"
+VMOPTIONS="$VMOPTIONS -Ddsitracer.client.lib=/mnt/app/eso/hmi/lsd/DSITracer-clientData.bin"
+
+
+#############################################################
+# Enable the Debug features of the HMI 
+# if startup order DEBUG is set the HMI Monitor and debug 
+# Probes can be used 
+# This is switched off by default
+#############################################################
+# Do not change manually. Used by GEM.
+DSITRACER_ACTIVATED=no
+
+if [ $DSITRACER_ACTIVATED = yes ]; then
+   VMOPTIONS="$VMOPTIONS -Dde.vw.mib.startup.flag=DSITRACER"
+else
+if [[ ${RUN_MODE} = "eso_screening" ]]; then
+VMOPTIONS="$VMOPTIONS -Dde.vw.mib.startup.flag=HEADLESS"
+# else
+# VMOPTIONS="$VMOPTIONS -Dde.vw.mib.startup.flag=DEBUG"
+fi
+fi
+
+# # ##################################################################################################################
+# Common HMI settings
+# # ##################################################################################################################
+
+# Set the HMi internal startup order
+VMOPTIONS="$VMOPTIONS -Dde.vw.mib.startup.order=TARGET"
+VMOPTIONS="$VMOPTIONS -noverify"
+VMOPTIONS="$VMOPTIONS -DuseStartupBootExtension"
+
+# HMI: Tell the HMI where the bundles.properties file is located
+VMOPTIONS="$VMOPTIONS -Dbundles.properties=$MIBCFG/bundles.properties"
+
+# HMI: Tell the HMI where the threads.properties file is located
+VMOPTIONS="$VMOPTIONS -Dthreads.properties=$MIBCFG/threads.properties"
+
+# HMI: Tell the HMI where the logging.properties file is located
+VMOPTIONS="$VMOPTIONS -Dlogging.properties=$MIBCFG/logging.properties"
+
+# HMI: Tell the HMI where the system.properties file is located
+VMOPTIONS="$VMOPTIONS -Dsystem.properties=$MIBCFG/system.properties"
+
+# HMI: Tell the HMI where the debugprobe.properties file is located
+# VMOPTIONS="$VMOPTIONS -Ddebugprobes.config=$MIBCFG/debugprobes.config"
+
+# HMI: Tell the HMI-Monitor where to find the other config files
+VMOPTIONS="$VMOPTIONS -Ddebugprobes.config.path=$MIBCFG"
+
+# HMI: Tell the HMI where the dsiexclude.properties is located
+VMOPTIONS="$VMOPTIONS -Ddsiexclude.properties=$MIBCFG/dsiexclude.properties"
+
+# Tell the HMI where the diagApi.properties file is located
+# VMOPTIONS="$VMOPTIONS -DdiagApi.properties=$MIBCFG/diagApi.properties"
+
+
+# HMI: Define directories  where screenshots are stored
+VMOPTIONS="$VMOPTIONS -Dscreenshotdirectories=/fs/sda0/;/fs/sda0/;$BASE_DIR/lsd/"
+
+# Mountpoint for SD-Cards
+VMOPTIONS="$VMOPTIONS -DConfigurationManager.SdRoots=/fs/sda0,/fs/sdb0"
+
+# Enable JXE-Loader for zipped view handlers
+VMOPTIONS="$VMOPTIONS -Dviewhandler.format=zip"
+
+
+# Path to the resource file  (production parameter) / In case of the production version the res files will be read from the IFS
+VMOPTIONS="$VMOPTIONS -Dvw.mib.resources=$IFS_DIR/hmi/res"
+
+# Define the Timeout for DSI and the domain
+VMOPTIONS="$VMOPTIONS -DdsiTimeout=20000 -DdomainTimeout=120000"
+
+
+# Tell the HMI where the .esd files for GEM are located
+VMOPTIONS="$VMOPTIONS -Dde.audi.gem.path.esdfiles=/eso/hmi/engdefs"
+
+# Generic Event Pooling settings
+VMOPTIONS="$VMOPTIONS -DGenericEvents.activatePooling=true"
+VMOPTIONS="$VMOPTIONS -DGenericEventPool.poolSize=2048"
+VMOPTIONS="$VMOPTIONS -DGenericEventPool.poolPreFill=512"
+
+
+# Enable old screenshot method
+VMOPTIONS="$VMOPTIONS -DuseOldScreenshotMethod=true"
+
+# Set ABT initial gesture mask
+VMOPTIONS="$VMOPTIONS -Dde.vw.mib.asl.internal.util.SystemKeyUtil.abtMaskSetting=255"
+
+# Temporary parameter in order to get the target started (last user mode)
+VMOPTIONS="$VMOPTIONS -DSTARTUP_LUM_READY=true"
+
+# Ruleset for all languages
+VMOPTIONS="$VMOPTIONS -Dde.vw.mib.format.4asl.rulesets=$MIBCFG/locationformattingrules_de_DE.properties"
+
+# Rulesetdirectory
+VMOPTIONS="$VMOPTIONS -Dde.vw.mib.format.4asl.rulesets.directory=$MIBCFG"
+
+# Set flush timeout in milliseconds (development only)
+# VMOPTIONS="$VMOPTIONS -Dde.vw.mib.asl.persistence.flush=60000"
+
+
+
+# PHEV / BEV - Coding overwite to enable BEV
+# VMOPTIONS="$VMOPTIONS -Dde.vw.mib.OverwriteBevPhev=30"
+# PHEV / BEV - Coding overwite to enable PHEV
+# VMOPTIONS="$VMOPTIONS -Dde.vw.mib.OverwriteBevPhev=73"
+
+
+
+
+#  new flag to set the time scale factor for the gesture update 2 method, by default shall be set to 1
+VMOPTIONS="$VMOPTIONS -Dde.vw.mib.asl.internal.system.updateGesture2TimeScaleFactor=1"
+
+# Enable Personalization. This means to enable the listerener to get the information for the user profile
+VMOPTIONS="$VMOPTIONS  -Dde.vw.mib.personalization.useDsiUpdates=true"
+
+# Data type to access the initial profile diagnosis blob with: true if to use 'readInt' as data type, false if to use 'readBuffer'
+VMOPTIONS="$VMOPTIONS -Dde.vw.mib.pso.useReadInt=true"
+
+# Define the default values used by driverdistraction (NHTSA) if no valid coding is available on the target (coding will overwrite the default value)
+VMOPTIONS="$VMOPTIONS  -Dde.vw.mib.driverdistraction.default=ALLOFF"
+# VMOPTIONS="$VMOPTIONS  -Dde.vw.mib.driverdistraction.default=ALLON"
+
+
+# # Define the  values used by driverdistraction (NHTSA) to overwrite the coding for tests
+# VMOPTIONS="$VMOPTIONS  -Dde.vw.mib.driverdistraction.overwrite=ALLOFF"
+# VMOPTIONS="$VMOPTIONS  -Dde.vw.mib.driverdistraction.overwrite=ALLON"
+# VMOPTIONS="$VMOPTIONS  -Dde.vw.mib.driverdistraction.overwrite=<value>"
+
+# PREMIUM "Bringuphack" (needed for HIGH2GP keypanel scaling)
+# VMOPTIONS="$VMOPTIONS  -Dde.vw.mib.premium.bringupHacks=true"
+
+# HWR coordinates scaling
+VMOPTIONS="$VMOPTIONS  -Dde.vw.mib.asl.hwr.scaling=0.5"
+
+
+# PREMIUM/HIGH2GP: Set the touch event scaling factors for the ABT
+VMOPTIONS="$VMOPTIONS  -Dde.vw.mib.asl.keypanel.touch.scaleX=2.0"
+VMOPTIONS="$VMOPTIONS  -Dde.vw.mib.asl.keypanel.touch.scaleY=2.0"
+
+
+
+
+
+# # ##################################################################################################################
+# Graphics settings
+# # ##################################################################################################################
+
+
+
+# # ##################################################################################################################
+# Navigation specific settings
+# # ##################################################################################################################
+
+# Reference to the supplier implemented location factory
+VMOPTIONS="$VMOPTIONS -Ddsi.adapter.factory.class=org.dsi.ifc.internal.NavigationFactory"
+
+# unknown parameter (by b.apportin)
+VMOPTIONS="$VMOPTIONS -DDSINavInterceptor=true"
+
+# # ##################################################################################################################
+# Media specific settings
+# # ##################################################################################################################
+
+# The time ASL media waits for the last used medium
+VMOPTIONS="$VMOPTIONS -Dde.vw.mib.asl.media.startupListTimer=10000"
+
+
+# Media startup settings
+# VMOPTIONS="$VMOPTIONS -Dde.vw.mib.asl.startup.runLevelMediaRecorder=1065350912"
+# VMOPTIONS="$VMOPTIONS -Dde.vw.mib.asl.startup.runLevelMediaBrowser=510981888"
+# VMOPTIONS="$VMOPTIONS -Dde.vw.mib.asl.startup.runLevelMediaPlayer=6321920"
+
+# # ##################################################################################################################
+# Online specific settings
+# # ##################################################################################################################
+
+
+# Eso Online Settings: Region and OEM variables will be defined by another start script
+VMOPTIONS="$VMOPTIONS -DOEM=$OEM"
+VMOPTIONS="$VMOPTIONS -DREGION=$REGION"
+VMOPTIONS="$VMOPTIONS -DRUN_MODE=$RUN_MODE"
+
+# HIGH2GP: Set the resolution of the MOD browser
+VMOPTIONS="$VMOPTIONS -DScreenRes=3"
+
+# # ##################################################################################################################
+# Tracing  specific settings
+# # ##################################################################################################################
+
+# Enable the logging watchdog
+VMOPTIONS="$VMOPTIONS -Dde.vw.mib.log4mib.watchdog.enabled=true"
+
+# Set a default trace source for development version to enable HMI default tracing (via TCP/IP)
+VMOPTIONS="$VMOPTIONS -DdebugProbes.default=130"
+
+
+# Enable the MIB Logging Protocol
+VMOPTIONS="$VMOPTIONS  -Dde.vw.mib.log4mib.mlp.enabled=true"
+
+# # ##################################################################################################################
+# Debugging  specific settings
+# # ##################################################################################################################
+
+# Start J9 Micro Analyzer
+# VMOPTIONS="$VMOPTIONS -analyze:ia=172.16.250.250" 
+
+# Set verbosity of the VM
+# VMOPTIONS="$VMOPTIONS -verbose:gc"    
+
+# Enables the MB Java Profiler on the target
+# VMOPTIONS="$VMOPTIONS -Djava.compiler=NONE -Xrunprof:net=172.16.250.250:5115"
+
+# Enable thread dumps in case of fatal errors
+# VMOPTIONS="$VMOPTIONS -DdumpThreadsMs=60000 -DdumpThreadDelayMs=60000
+
+# Enable the heap dump in case of a OOM
+VMOPTIONS="$VMOPTIONS -DheapDumpOnOOM=true"
+
+# JVM parameters for remote debugging, must be added on first position
+# VMOPTIONS="-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=12345 $VMOPTIONS"
+
+# # Set the priority of the logging thread
+# # VMOPTIONS="$VMOPTIONS -Dde.vw.mib.log4mib.thread.prio=9"
+
+# # Disable watchdog for Java-debugging
+# VMOPTIONS="$VMOPTIONS -Dde.vw.mib.threads.disableWatchdog=true"
+
+
+# Enables the heap histogram traces, in case of an OOM. This will be only active in development variants. 
+if [ $BUILD_MODE = "development" ]; then
+  VMOPTIONS="$VMOPTIONS -Xrunheaputil:file=/tmp/j9heapdump.txt"
+fi
+
+
+##
+## Launch J9 Production (begin)
+##
+
+FIXBOOTCLASSPATH_EXT="$BASE_DIR/lsd/hmi/MIBTestDebug-H29.319.75-HIGH2GP_EU.jar"
+
+ONLINE_BCP=$BASE_DIR/lsd/jars/lib-util.zip:$BASE_DIR/lsd/jars/service.core.registration.zip:$BASE_DIR/lsd/jars/service.dsi.destimport.zip:$BASE_DIR/lsd/jars/service.dsi.onlinedictation.zip:$BASE_DIR/lsd/jars/service.dsi.operatorCall.zip:$BASE_DIR/lsd/jars/service.dsi.picnav.zip:$BASE_DIR/lsd/jars/service.dsi.poi.zip:$BASE_DIR/lsd/jars/service.http.zip:$BASE_DIR/lsd/jars/:$BASE_DIR/lsd/jars/service.javalogger.zip:$BASE_DIR/lsd/jars/:$BASE_DIR/lsd/jars/service.onlinetraffic.zip:$BASE_DIR/lsd/jars/service.soap.car2x.zip:$BASE_DIR/lsd/jars/service.userprofile.zip
+BOOTCLASSPATH=-Xbootclasspath/a:/ifs/lsd.jxe:/ifs/jre/lib/charconv.zip:$FIXBOOTCLASSPATH_EXT:$ONLINE_BCP:$BASE_DIR/lsd/jars/GEM.jar:$BASE_DIR/lsd/lib/bcprov-jdk14.jar:/ifs/jre/lib/jclFoundation11/ext/j9jce.jar
+
+if [ $DSITRACER_ACTIVATED = yes ]; then
+    DSITRACER=$BASE_DIR/lsd/DSITracer.jar
+    if [[ -f "$DSITRACER" ]]; then
+        BOOTCLASSPATH="$BOOTCLASSPATH:$DSITRACER:$BASE_DIR/lsd/hmi/DSITracer-VW-H29.319.75.jar"
+    fi
+fi
+
+export LD_PRELOAD=/lib/libecpp-ne.so.4:/mnt/app/root/lib-target/libcgdrv.so
+info "lsd.sh J9 started" 
+$J9 $VMOPTIONS $BOOTCLASSPATH -jxe $HMI_JXE &
+unset LD_PRELOAD
+
+## Launch J9 Production (end)
+
+export LD_PRELOAD=/lib/libecpp-ne.so.4:/mnt/app/root/lib-target/libcgdrv.so

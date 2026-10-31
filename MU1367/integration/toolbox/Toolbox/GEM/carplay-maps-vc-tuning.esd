@@ -1,0 +1,14 @@
+screen CarPlay-Tuning carplay-maps-vc
+
+keyValue
+    value String sys 0x00000000 0
+    label "Optional turn-card support + MU UI controls"
+    poll 0
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_suite_enable-cards.sh"
+    label "Install optional turn-card support (reboot)"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_suite_disable-cards.sh"
+    label "Remove turn-card support + settings (reboot)"

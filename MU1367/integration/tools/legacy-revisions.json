@@ -1,0 +1,578 @@
+{
+  "adbd12d36996596f7efd18b2993ad51e0146d4ef8be330dadd1fcbe45d7a46e9": {
+    "revision": "guidance-v3",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "7",
+    "build_id": "mu1367-guidance-v3-2832656557aa",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "b6f77ec9fe27271eb0b4ac0664d6b9d2ab9fd4346c0ed75082062e1a8f21e5e2"
+    },
+    "files": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "guidance": "626079f7792f2cf871a24cacf965b3451758af7c67fee11352fb043551f13403",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "83fa8b0b504f429985e3373660613dff6677225b8d7ffd11e8a884dd68086ce8": {
+    "revision": "guidance-v3",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "6",
+    "build_id": "mu1367-guidance-v3-db92e6b05d9d",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "e4986538e64e816dc7a16548e5c08b2a7c04f46929f5ea81998a8aeb289b8da3"
+    },
+    "files": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "guidance": "626079f7792f2cf871a24cacf965b3451758af7c67fee11352fb043551f13403",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "76b1c3025cba37071e9218206a164e388c03f4a20affed288735139ec8f2df51": {
+    "revision": "guidance-v3",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "6-road",
+    "build_id": "mu1367-guidance-v3-e690958c3ab5",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "79324273285fd49f4bb00ace7697969fdc550031590eef471b29fca0940fe9cd"
+    },
+    "files": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "guidance": "626079f7792f2cf871a24cacf965b3451758af7c67fee11352fb043551f13403",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "7bb0b1f5149e6abc0096162e39115162f496627f9bb0631995782859d58ce3ea": {
+    "revision": "guidance-v3",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "7-road",
+    "build_id": "mu1367-guidance-v3-b260e81d8e1d",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "c661f88ab651f9624c7a5a47e2895b2eb84bc5c7f19cdfa6decd6f83c4aebcc0"
+    },
+    "files": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "guidance": "626079f7792f2cf871a24cacf965b3451758af7c67fee11352fb043551f13403",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "a5692265465dd34476d459260d69ddad02e6f0849ab7d2b8dd4c2ad1fc7c0933": {
+    "revision": "guidance-v3",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "7",
+    "build_id": "mu1367-turn-cards-6758a6958559",
+    "before": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "adbd12d36996596f7efd18b2993ad51e0146d4ef8be330dadd1fcbe45d7a46e9"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "86123177826fcbb94ad10a53eb75172671ae2b8f1817afccaa946f1b5546aecf": {
+    "revision": "guidance-v3",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "6",
+    "build_id": "mu1367-turn-cards-5b4aef74bffc",
+    "before": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "83fa8b0b504f429985e3373660613dff6677225b8d7ffd11e8a884dd68086ce8"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "819706d674c5df562c42aff7b150dfd2fb2f9745b9dbfe089d76a445b319d2fd": {
+    "revision": "guidance-v3",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "6-road",
+    "build_id": "mu1367-turn-cards-9f46eeeb3d76",
+    "before": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "76b1c3025cba37071e9218206a164e388c03f4a20affed288735139ec8f2df51"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "e44dc7237c006b2b63ab5fe7e745adfb2d97e72a41dd8a8bb3e56f62ad05b2c0": {
+    "revision": "guidance-v3",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "7-road",
+    "build_id": "mu1367-turn-cards-8c6b64a9e253",
+    "before": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "7bb0b1f5149e6abc0096162e39115162f496627f9bb0631995782859d58ce3ea"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "6475ff44e1626b4bfdd82fd71d8818539c1493e13f2c81d1a5ea7d36068df9db": {
+    "revision": "lane-window",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "7",
+    "build_id": "mu1367-guidance-v3-730b6fb33ab4",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "b6f77ec9fe27271eb0b4ac0664d6b9d2ab9fd4346c0ed75082062e1a8f21e5e2"
+    },
+    "files": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "guidance": "36a49648e240440485dd0d7ce5bf22c3899d1c8c1e0402b428458c0afdfb0b64",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "49a1caffe3015f442cc48ed3ad13051496aad5d5742c07b636c838619ffc5019": {
+    "revision": "lane-window",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "6",
+    "build_id": "mu1367-guidance-v3-86642eb1e6e3",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "e4986538e64e816dc7a16548e5c08b2a7c04f46929f5ea81998a8aeb289b8da3"
+    },
+    "files": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "guidance": "36a49648e240440485dd0d7ce5bf22c3899d1c8c1e0402b428458c0afdfb0b64",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "9b1938752c6f7292e120afafc671bcbb5e78a9dd7365ba27da077e337b3b2feb": {
+    "revision": "lane-window",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "6-road",
+    "build_id": "mu1367-guidance-v3-f2cd555f76eb",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "79324273285fd49f4bb00ace7697969fdc550031590eef471b29fca0940fe9cd"
+    },
+    "files": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "guidance": "36a49648e240440485dd0d7ce5bf22c3899d1c8c1e0402b428458c0afdfb0b64",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "4d9562eee0ee37e1e9e545928e841f7da071924875d1e84de87489621077a7fa": {
+    "revision": "lane-window",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "7-road",
+    "build_id": "mu1367-guidance-v3-1fff23a69364",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "c661f88ab651f9624c7a5a47e2895b2eb84bc5c7f19cdfa6decd6f83c4aebcc0"
+    },
+    "files": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "guidance": "36a49648e240440485dd0d7ce5bf22c3899d1c8c1e0402b428458c0afdfb0b64",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "5bc4e30fc923a130f25f2e9bdb23cfa9196c9bd31108103944003218bbb52fd8": {
+    "revision": "lane-window",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "7",
+    "build_id": "mu1367-turn-cards-73f7a7bf69cd",
+    "before": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "6475ff44e1626b4bfdd82fd71d8818539c1493e13f2c81d1a5ea7d36068df9db"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "69affb7c28c32b1133a4d9abdea6b1796c6b697e361d36f45fadf0c795e3f204": {
+    "revision": "lane-window",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "6",
+    "build_id": "mu1367-turn-cards-9f776e205824",
+    "before": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "49a1caffe3015f442cc48ed3ad13051496aad5d5742c07b636c838619ffc5019"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "4d3488fe4e41deab3966da46ffdaf607563009d7e89dd45b794e28f3d70ccf90": {
+    "revision": "lane-window",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "6-road",
+    "build_id": "mu1367-turn-cards-480e89aec091",
+    "before": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "9b1938752c6f7292e120afafc671bcbb5e78a9dd7365ba27da077e337b3b2feb"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "9eba76a485e3e05860a64c2f5f15ccc94bbc38b407a33d6287c9c4ecca36ee9c": {
+    "revision": "lane-window",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "7-road",
+    "build_id": "mu1367-turn-cards-8ae7cab2cf67",
+    "before": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "4d9562eee0ee37e1e9e545928e841f7da071924875d1e84de87489621077a7fa"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "af2af49ca7cb39702bfbe75e3dfe3109f190b60cc314f5b230363eda66ac5861": {
+    "revision": "lane-type",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "7",
+    "build_id": "mu1367-guidance-v3-15617f71ba40",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "b6f77ec9fe27271eb0b4ac0664d6b9d2ab9fd4346c0ed75082062e1a8f21e5e2"
+    },
+    "files": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "guidance": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "be40db4059bbfe5363c3a553fe0afd933c9c2ae5cecf9101e2b9e88ce660e6e4": {
+    "revision": "lane-type",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "6",
+    "build_id": "mu1367-guidance-v3-92271296d2fe",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "e4986538e64e816dc7a16548e5c08b2a7c04f46929f5ea81998a8aeb289b8da3"
+    },
+    "files": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "guidance": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "889cf02e7927aa9a621bf55688860d4ed8893ca183ae917018adb5bb3db842d8": {
+    "revision": "lane-type",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "6-road",
+    "build_id": "mu1367-guidance-v3-6779c0cb4ee4",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "79324273285fd49f4bb00ace7697969fdc550031590eef471b29fca0940fe9cd"
+    },
+    "files": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "guidance": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "bf61a028e98b7f737bad9c263b965e5b9baed3724140b5726db0a885b6b543d5": {
+    "revision": "lane-type",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "7-road",
+    "build_id": "mu1367-guidance-v3-03311ccefbdf",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "c661f88ab651f9624c7a5a47e2895b2eb84bc5c7f19cdfa6decd6f83c4aebcc0"
+    },
+    "files": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "guidance": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "42dc308d69b152a2746721426e4c95144211aba27e7bf547e78536e8d684b150": {
+    "revision": "lane-type",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "7",
+    "build_id": "mu1367-turn-cards-30315e4884ef",
+    "before": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "af2af49ca7cb39702bfbe75e3dfe3109f190b60cc314f5b230363eda66ac5861"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "93853ccb912fb2ec6ad36e15c2451a1520b8efe03ce2d58fa19071c1ff1627d0": {
+    "revision": "lane-type",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "6",
+    "build_id": "mu1367-turn-cards-37fe55c63d99",
+    "before": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "be40db4059bbfe5363c3a553fe0afd933c9c2ae5cecf9101e2b9e88ce660e6e4"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "99f0e789e997ffcb97e5348eca4cd652ae9c024a440995366ec84c22ac24582f": {
+    "revision": "lane-type",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "6-road",
+    "build_id": "mu1367-turn-cards-c9bf3ecc4e2d",
+    "before": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "889cf02e7927aa9a621bf55688860d4ed8893ca183ae917018adb5bb3db842d8"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "c176dcf4d54f5c2945cfac6b858acc0bd714d0b2509537cdd2bf5e5969015a50": {
+    "revision": "lane-type",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "7-road",
+    "build_id": "mu1367-turn-cards-66dcddb9b450",
+    "before": {
+      "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "bf61a028e98b7f737bad9c263b965e5b9baed3724140b5726db0a885b6b543d5"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "2a99ce3c212be6e8735dcfe26d9e6630813de5e95cc1c417542880645c3741d4": {
+    "revision": "safe-area",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "7",
+    "build_id": "mu1367-guidance-v3-e431216eb440",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "b6f77ec9fe27271eb0b4ac0664d6b9d2ab9fd4346c0ed75082062e1a8f21e5e2"
+    },
+    "files": {
+      "core": "e3e977974003de345bb6247605554b631fccb0e290e9e515f0bcbdedfb38824d",
+      "guidance": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "65a75b0b61db723f2099358813e8dc70f1ad4beeac34672f661891caa0bd8991": {
+    "revision": "safe-area",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "6",
+    "build_id": "mu1367-guidance-v3-75b3d5aaf344",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "e4986538e64e816dc7a16548e5c08b2a7c04f46929f5ea81998a8aeb289b8da3"
+    },
+    "files": {
+      "core": "e3e977974003de345bb6247605554b631fccb0e290e9e515f0bcbdedfb38824d",
+      "guidance": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "d334576ee1c3199301920981092748cf88c2212ae1dca87be23a43b9500a806f": {
+    "revision": "safe-area",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "6-road",
+    "build_id": "mu1367-guidance-v3-1f6391b9b5e9",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "79324273285fd49f4bb00ace7697969fdc550031590eef471b29fca0940fe9cd"
+    },
+    "files": {
+      "core": "e3e977974003de345bb6247605554b631fccb0e290e9e515f0bcbdedfb38824d",
+      "guidance": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "39561501d85cae08021efe1753ffe4e788682691c80f5c44056bc1728de1028b": {
+    "revision": "safe-area",
+    "layer": "carplay_mu1367_guidance_v3",
+    "variant": "7-road",
+    "build_id": "mu1367-guidance-v3-f5e6b7e37456",
+    "before": {
+      "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+      "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+      "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+      "parent": "c661f88ab651f9624c7a5a47e2895b2eb84bc5c7f19cdfa6decd6f83c4aebcc0"
+    },
+    "files": {
+      "core": "e3e977974003de345bb6247605554b631fccb0e290e9e515f0bcbdedfb38824d",
+      "guidance": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+    },
+    "parent": "carplay-mu1367-map-only",
+    "on_unit_validated": false
+  },
+  "5706ff23317528e24d044c3e52752892869b7f7a1b039181943f567ed97654ab": {
+    "revision": "safe-area",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "7",
+    "build_id": "mu1367-turn-cards-6f5bc430bcce",
+    "before": {
+      "core": "e3e977974003de345bb6247605554b631fccb0e290e9e515f0bcbdedfb38824d",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "2a99ce3c212be6e8735dcfe26d9e6630813de5e95cc1c417542880645c3741d4"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "ac8de9deb67d2301b88ba5fd34cfd1e220ee4a0a923a14023d0ab3d67076648b": {
+    "revision": "safe-area",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "6",
+    "build_id": "mu1367-turn-cards-d5cd852c4fc9",
+    "before": {
+      "core": "e3e977974003de345bb6247605554b631fccb0e290e9e515f0bcbdedfb38824d",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "65a75b0b61db723f2099358813e8dc70f1ad4beeac34672f661891caa0bd8991"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "e361772c7aef547e9cde6e4891ba1b2089bb7c2fa10e93ac93e1174aedd95c44": {
+    "revision": "safe-area",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "6-road",
+    "build_id": "mu1367-turn-cards-4fd41dc16aea",
+    "before": {
+      "core": "e3e977974003de345bb6247605554b631fccb0e290e9e515f0bcbdedfb38824d",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "d334576ee1c3199301920981092748cf88c2212ae1dca87be23a43b9500a806f"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  },
+  "ce1d7cf5f7c2bc7377acc8edbc468c776c17f6ee4addefa3b6808c8ae127157e": {
+    "revision": "safe-area",
+    "layer": "carplay_mu1367_v3_turn_cards",
+    "variant": "7-road",
+    "build_id": "mu1367-turn-cards-d85ba657c843",
+    "before": {
+      "core": "e3e977974003de345bb6247605554b631fccb0e290e9e515f0bcbdedfb38824d",
+      "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+      "parent": "39561501d85cae08021efe1753ffe4e788682691c80f5c44056bc1728de1028b"
+    },
+    "files": {
+      "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+      "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+    },
+    "parent": "carplay-mu1367-guidance-v3",
+    "on_unit_validated": false
+  }
+}

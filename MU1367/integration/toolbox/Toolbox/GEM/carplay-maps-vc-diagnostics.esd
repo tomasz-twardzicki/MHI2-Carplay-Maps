@@ -1,0 +1,34 @@
+screen CarPlay-Diagnostics carplay-maps-vc
+
+keyValue
+    value String sys 0x00000000 0
+    label "CarPlay diagnostics"
+    poll 0
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_suite_check-tools.sh"
+    label "Check required commands (read only)"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_suite_status.sh"
+    label "Show integration + guidance + card status"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_artwork_status.sh"
+    label "Show album artwork status"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_diag.sh"
+    label "Export diagnostics to SD"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_oem_reset_inspect.sh"
+    label "Inspect OEM reset state (read only)"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_oem_reset_verify.sh"
+    label "Verify restored OEM files"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_suite_lane-status.sh"
+    label "Show retained lane source + cluster requests"
