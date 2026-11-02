@@ -1,0 +1,60 @@
+{
+  "firmware": "MHI2_ER_VWG13_P4521_MU1367",
+  "baseline_tag": "MU1367-v1.4.0",
+  "baseline_commit": "e502f20286b1140c17e297dffb98537ad445a75f",
+  "cluster": "791",
+  "files": {
+    "lsd.jxe": {
+      "sha256": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a",
+      "size": 55840541
+    },
+    "driver": {
+      "sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+      "size": 739925
+    },
+    "libairplay": {
+      "sha256": "193a4fd9101ec2aa05e7159cfa307b96500810d379ca74a194f172adc13a46b5",
+      "size": 703688
+    },
+    "boot": {
+      "sha256": "fe4f9cc8bd68282238546605c53b36ca0add985eafc8a100a477a7f827f4a731",
+      "size": 16567
+    },
+    "dio": {
+      "sha256": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+      "size": 684305
+    },
+    "iap2.cfg": {
+      "sha256": "88a4d24f5c50b181d73429fb585ad6b38d10daca67c5b5a9798ef17f84208bbe",
+      "size": 5951
+    }
+  },
+  "stage1_runtime": {
+    "proc/boot/libz.so.2": "2fd9ce7b0616f325417ad6ca8c58e2e840f05e215fe8acdcc2506111a150617e",
+    "lib/libm.so.2": "715ba06e022f7f9f2d9e2cf6b94a03bf619e034f41f8d832601507cc5073cd83",
+    "lib/libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+    "lib/libcam.so.2": "c28165f4ae3f45094b01f2fc857090b407412239b9f16d4f3840ba376a2964ca",
+    "proc/boot/libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc"
+  },
+  "stage2_runtime": {
+    "ifs/jre/bin/libj9mjitd23.so": "951ac9352499fd3a70b54bc965788fa0d319434f7cba43894dba346f08eddf92",
+    "ifs/jre/bin/libj9thr23.so": "8b352478c7dcf9f2ac25f6c061a57e93f33b262b7e66d3ae8ba2edb6ddd799c4",
+    "ifs/jre/bin/libj9bcv23.so": "e951b3232a38f1d1ad18c9e70cd5d0b70d33d82d27c1415309fc3540f5e88923",
+    "ifs/jre/bin/libj9vrb23.so": "d23c99f65037d2bcfa58e1e4e0bdbfa573e63082cfc00a685af9b1ab973fdbbd",
+    "ifs/jre/bin/libj9jpi23.so": "a7930282c92dd7d64ace52064c7d8d17191bd5a3235a84a5aaa03c31b2de7e8c",
+    "ifs/jre/bin/libj9dbg23.so": "af53077c3697498351189e66a34eaeba75d7d49545025ccefa327c5944318df8",
+    "ifs/jre/bin/libj9hookable23.so": "26e16f974d60d441a442e4fe962c341a4390ba0fc4ab9e6bbd6dc5e3de5908c7",
+    "ifs/jre/bin/libj9mjit23.so": "2f03d039ea0c94476b4a27553f57801bb79bb02d4f410dec067b44a8d52de60f",
+    "ifs/jre/bin/libj9prt23.so": "d5154e66fedefc85f8deb0dd7eb52e6f3f15f09749cf665dbb857b0ccd2cdd4c",
+    "ifs/jre/bin/libj9gcchk23.so": "f5aa0485155bca4818423366a0bb461733c3d466b9e968c88f43890990ee34a9",
+    "ifs/jre/bin/libj9zlib23.so": "1e0b58418594e6c482915b028d0bf7f18fb3ae9197ff436045d75189b77c2626",
+    "ifs/jre/bin/libj9fdm23.so": "c359296f37783d6f349ecdaed9e770b68a16cfa816d36fa8ad1a057dba799f2d",
+    "ifs/jre/bin/j9": "b0ac39d7ab165f6f007204bb169186f693321d8fe178f8e2298f90113062b75d",
+    "ifs/jre/bin/libj9vm23.so": "46da44018ddce26a10666082acb3ca868d34914510657123a568b69ffe453464",
+    "ifs/jre/bin/libj9dyn23.so": "5e7642dd19309b9d348c81b6802ed850d8a65bb6544e99e908d8264f774fbbd0",
+    "ifs/jre/bin/libj9gc23.so": "6977a17142a8680612901e74c5e11cfcfa501c59ecf4cb6c766f28597df736a0",
+    "ifs/jre/lib/jclFoundation11/ext/j9jsse.jar": "78bab707b8a040e3f159de26fbf3a318234b6c81ad754c2527c010bbdcab18df",
+    "ifs/jre/lib/jclFoundation11/opt-ext/j9jceprov.jar": "1ca103b432c6f3001e478357cd0f55de8ff7647a305a438c74f51ca4c5f78e04",
+    "ifs/jre/lib/jclFoundation11/ext/j9jce.jar": "cf0e3b65d4fe4ebf5999b77862e7724a1161f656c145f17a4c891e5a2c710051"
+  }
+}

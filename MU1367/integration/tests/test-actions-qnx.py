@@ -59,7 +59,19 @@ echo MU1367/791 > "$APP/carplaymaps/PROFILE"
  for i,(dest,src) in enumerate(paths.items()):script+='mkdir -p "$APP/'+str(Path(dest).parent)+'"\ncp /proc/boot/old-'+str(i)+' "$APP/'+dest+'"\n'
  for live,source in [('carplay-mu1367','carplay_mu1367'),('carplay-mu1367-settings','carplay_mu1367_settings'),('carplay-mu1367-map-only','carplay_mu1367_map_only/6')]:
   script+='mkdir -p "$APP/'+live+'"\necho installed > "$APP/'+live+'/STATE"\necho '+(custom/source/'VERSION').read_text().strip()+' > "$APP/'+live+'/VERSION"\n'
- script+='''awk 'BEGIN {if(2+2!=4)exit 1}' || exit 80
+ script+='''# Exercise train recognition with the actual firmware gawk before writes.
+mkdir -p "$CPMAP_TEST_ROOT/net/rcc/dev/shmem"
+echo 'Current train = "MHI2_ER_VWG13_P4521"' > "$CPMAP_TEST_ROOT/net/rcc/dev/shmem/version.txt"
+/bin/ksh "$P/actions.sh" lane-status "$P" > /ramdisk/train-status || exit 79
+grep 'MU1367_FIRMWARE_TYPE=P4521_EXPERIMENTAL' /ramdisk/train-status || exit 79
+echo 'Current train = "MHI2_ER_VWG13_P9999"' > "$CPMAP_TEST_ROOT/net/rcc/dev/shmem/version.txt"
+if /bin/ksh "$P/actions.sh" install "$P";then exit 79;fi
+echo 'Current train = "MHI2_ER_VWG13_K4525_1_AIO_MU1367"' > "$CPMAP_TEST_ROOT/net/rcc/dev/shmem/version.txt"
+/bin/ksh "$P/actions.sh" lane-status "$P" > /ramdisk/train-status || exit 79
+grep 'MU1367_FIRMWARE_TYPE=K4525' /ramdisk/train-status || exit 79
+echo 'Current train = "MHI2_ER_VWG13_P4521"' > "$CPMAP_TEST_ROOT/net/rcc/dev/shmem/version.txt"
+echo RELEASE_FACTORY_TRAIN_RECOGNITION_PASS
+awk 'BEGIN {if(2+2!=4)exit 1}' || exit 80
 /bin/ksh "$P/6/control.sh" install "$P/6" || exit 81
 /bin/ksh "$P/actions.sh" install "$P" || exit 82
 /bin/ksh "$P/actions.sh" enable-cards "$P" || exit 83
@@ -80,7 +92,9 @@ test ! -e "$CPMAP_TEST_ROOT/ramdisk/.carplay-guidance-install-lock" || exit 91
  script+='/bin/ksh "$OLD/control.sh" install "$OLD" || exit 95\n/bin/ksh "$P/actions.sh" install "$P" || exit 96\ntest -f "$CPMAP_TEST_ROOT/ramdisk/.cpmap-release-migration-reboot" || exit 97\nif /bin/ksh "$P/actions.sh" install "$P";then exit 98;fi\nrm "$CPMAP_TEST_ROOT/ramdisk/.cpmap-release-migration-reboot"\n/bin/ksh "$P/actions.sh" install "$P" || exit 99\n/bin/ksh "$P/actions.sh" uninstall "$P" || exit 100\necho RELEASE_FACTORY_MIGRATION_PASS\n'
  script+='echo RELEASE_FACTORY_ACTIONS_PASS main_install=1 repeat=1 optional_install_remove=2 guard=1 retain_removed=1 rollback_hashes=1\n'
  libs=a.output.parent/(a.output.name+'-libs');libs.mkdir(parents=True,exist_ok=False)
- files=image_files(stage1(a.firmware/'MMX2/mifs-stage1/50/default/mifs-stage1.img'))
+ directory=a.firmware/'MMX2'
+ if not directory.is_dir():directory=a.firmware/'mmx2'
+ files=image_files(stage1(directory/'mifs-stage1/50/default/mifs-stage1.img'))
  for name in ('libm.so.2','libsocket.so.3'):
   matches=[b for n,b in files.items() if n.endswith('/'+name)];assert len(matches)==1;(libs/name).write_bytes(matches[0]);extras[name]=libs/name
  import factory_reset
@@ -88,7 +102,7 @@ test ! -e "$CPMAP_TEST_ROOT/ramdisk/.carplay-guidance-install-lock" || exit 91
  for n in ('reader-setup','toolchain','firmware-commands','output'):sys.argv+=['--'+n,str(getattr(a,n.replace('-','_')))]
  try:rc=factory_reset.main(script,extras,main/'COMMANDS.json')
  finally:sys.argv=old
- log=(a.output/'qemu.log').read_text(errors='replace');assert 'RELEASE_FACTORY_MIGRATION_PASS' in log
- r=json.loads((a.output/'result.json').read_text());r.update(factory_migration_verified=True,map_only_actions_sha256=sha((main/'actions.sh').read_bytes()),main_controller_sha256=sha((main/'6/control.sh').read_bytes()),tuning_controller_sha256=sha((tuning/'6/control.sh').read_bytes()),fixture_changes='Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host',map_only_and_optional_transactions_verified=True,sdk_utilities_injected=False)
+ log=(a.output/'qemu.log').read_text(errors='replace');assert 'RELEASE_FACTORY_MIGRATION_PASS' in log and 'RELEASE_FACTORY_TRAIN_RECOGNITION_PASS' in log
+ r=json.loads((a.output/'result.json').read_text());r.update(factory_migration_verified=True,firmware_train_recognition_verified=True,map_only_actions_sha256=sha((main/'actions.sh').read_bytes()),main_controller_sha256=sha((main/'6/control.sh').read_bytes()),tuning_controller_sha256=sha((tuning/'6/control.sh').read_bytes()),fixture_changes='Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host',map_only_and_optional_transactions_verified=True,sdk_utilities_injected=False)
  (a.output/'result.json').write_text(json.dumps(r,indent=2)+'\n');return rc
 if __name__=='__main__':raise SystemExit(main())

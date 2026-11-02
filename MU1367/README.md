@@ -2,8 +2,9 @@
 
 Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
 
-Use the maintained **[v1.4.2 complete integration](./integration/README.md)** for
-K4525 MU1367 + AID 791. It combines maps, native arrows/progress, current road,
+Use the maintained **[v1.4.3 complete integration](./integration/README.md)** for
+K4525 or P4521 MU1367 + AID 791. P4521 installation remains experimental;
+the earlier experimental build has been confirmed working in a vehicle. It combines maps, native arrows/progress, current road,
 lanes with corrected VW U-turn symbols, music metadata/artwork and reconnect recovery. Fresh defaults are 30 fps /
 IDR5 and cards OFF; optional tuning adds card support and its MU controls.
 
@@ -17,7 +18,7 @@ planned navigation/app improvements.
 The `port`, `settings-v2` and `lanes` directories document published v1.3.0/v1.4.0
 baselines. Their source and original assets remain for compatibility and recovery;
 new development belongs in `integration`. The standalone profiles below are
-historical video baselines, not the v1.4.2 complete installation package.
+historical video baselines, not the v1.4.3 complete installation package.
 
 | Cluster | Profile files | Display baseline |
 | --- | --- | --- |

@@ -55,7 +55,7 @@ sources and requires all six rebuilt outputs to match `RUNTIME.json`. It does
 not import successive experiment staging scripts. The v1.4.2 guidance ID is `MU1367-guidance-v1.4.2`; its rebuilt JAR includes the
 reviewed U-turn mapping from PR #8. Audio remains `MU1367-artwork-55008dbaf18e`.
 The other five runtime payloads retain their v1.4.1 hashes. Release controller
-IDs and `MU1367_RELEASE_MANIFEST.json` identify the complete v1.4.2 package.
+IDs and `MU1367_RELEASE_MANIFEST.json` identify the complete v1.4.3 package.
 Published v1.4.1 controllers and payloads are retained as exact migration fixtures;
 updates retire that layer through the same verified removal/reboot boundary as
 older v3 tests, preserving original snapshots.
@@ -108,3 +108,24 @@ checks left/right U-turn bytes through the decoder, actual factory builder and
 serializer under both `-noverify` and `-verify`; it also runs the road/arrow probes.
 This establishes runtime compatibility and encoding, while vehicle rendering
 remains a separate acceptance check.
+
+## P4521 support in v1.4.3
+
+The six runtime outputs retain their exact v1.4.2 hashes, including the guidance
+ID `MU1367-guidance-v1.4.2`. Release/controller IDs identify v1.4.3 separately.
+`evidence/p4521-factory.json` pins both P4521 hardware variants and their identical
+K4525 HMI, driver, configuration, boot and J9/libc inputs. Recheck them with:
+
+```sh
+python3 MU1367/integration/tools/verify-p4521.py /path/to/P4521 /tmp/p4521-inputs
+```
+
+The main action reports the actual RCC train when available and always retains
+the exact JXE gate. A missing RCC train uses the documented shared-hash identity;
+an explicit unsupported train is refused. Recognition adds only shell syntax,
+`cat` and `awk`, already verified in the matching firmware command inventory.
+The older separate P4521 controller chain uses the independent OEM reset and a
+full reboot before integrated installation, preserving archived originals.
+v1.4.2 base/card transactions are archived as exact migration fixtures alongside
+v1.4.1. `test-p4521.py` checks recognition, unsupported identities, unchanged
+runtime bytes, installation/tuning and the old experimental reset/update path.

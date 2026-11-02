@@ -1,13 +1,16 @@
-Fixes U-turn lane directions in the complete Toolbox for **K4525 MU1367 + AID 791**, incorporating [PR #8](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/pull/8).
+Adds **experimental P4521 support** to the complete **MU1367 + AID 791** Toolbox, based on v1.4.2.
 
-- Emit the factory VW U-turn lane bytes: **114 left / 146 right**, replacing the ambiguous 128 in the reviewed U-turn range.
-- Rebuild the maintained guidance JAR; status now reports **`MU1367-guidance-v1.4.2`**. The video core, MU menus, audio and optional card runtime retain their v1.4.1 bytes.
-- Retain complete installation, Diagnostics, tuning, rollback and independent OEM reset, with exact v1.4.1 upgrade recognition and retained snapshots.
+- Recognize **MHI2_ER_VWG13_P4521 MU1367** explicitly and allow the complete integrated installation. K4525 support is retained; exact firmware/hash checks remain in place.
+- P4521 receives all current features: maps, native arrows/countdown, ETA/current road, recommended lanes, audio metadata/artwork, MU settings, reconnect recovery, optional turn cards, Diagnostics, rollback and independent OEM reset.
+- Retain the **v1.4.2 VW U-turn lane fix** (114 left / 146 right). All six runtime payloads are byte-identical to v1.4.2, so guidance status continues to report `MU1367-guidance-v1.4.2`; the package/menu/controller version is v1.4.3.
+- Defaults remain **30 fps / IDR5, turn cards OFF**, with optional card runtime and controls installed together.
 
-**Updating from v1.4.1 or v3 / v3r2 / v3r3 / v3r4:** disconnect the phone/adapter and fully reboot, then refresh both Toolbox menus and scripts from this SD. Run **Install / update CarPlay integration (reboot)**. The first invocation verifies the saved controller and backups, removes matching optional tuning and the preceding release/test layer, and requests a reboot. **Fully reboot disconnected, then run the same action again** to install v1.4.2. Final success: `MU1367_RELEASE_1_4_2_INSTALLED_FULL_REBOOT_REQUIRED`; fully reboot once more. Snapshots are retained. Read `START_HERE.md` for the complete procedure and supported baselines.
+**P4521 remains experimental.** The earlier P4521 experimental build has been tested and confirmed working in a vehicle. This does not claim vehicle acceptance of the new combined v1.4.3 package or resolve the existing Mini Pico card override and app-specific limitations.
 
-**Validation and limits:** the matching MU1367 firmware has the same 114/146 defaults; host tests exercise the actual decoder, factory lane builder and serializer. The PR reports successful vehicle rendering on MU1161 + AID 791. MU1367 U-turn rendering and final-package vehicle acceptance remain pending. The reviewed mapping covers −180…−170° and 170…179°; exactly +180° selects left for right-hand traffic. ±169° retains its previous encoding.
+**Updating from the separate P4521 v1.4.0/v1.4.1 experimental bundle:** refresh both Toolbox menus and scripts from this SD, select **Recovery > Restore complete OEM state**, fully reboot with phone/adapter disconnected, then select **Install / update CarPlay integration (reboot)**. The reset verifies originals and retains old layers, snapshots and saved settings. Use the same reset path for dormant upstream menu JARs. The known P4521 v1.4.1 settings controller is recognized and directs you to recovery before install writes.
 
-The unresolved Mini Pico card override and other documented limitations remain. Other firmware (including P4521), AID 790 and MU1427 require their own packages. Verify the ZIP using the attached `SHA256SUMS.txt`. Earlier release assets are preserved.
+**Updating from integrated v1.4.1/v1.4.2 or supported v3 revisions:** run the single install action, reboot when migration requests it, then run the same action again. Final success is `MU1367_RELEASE_1_4_3_INSTALLED_FULL_REBOOT_REQUIRED`; fully reboot again. Read the attached `START_HERE.md` for full instructions.
 
-Thanks to [@chrzanowy](https://github.com/chrzanowy) for the U-turn fix and MU1161 vehicle test.
+When RCC train data is available, installation/status reports `P4521_EXPERIMENTAL` or `K4525`. Without RCC data, the identical pinned firmware is reported as `K4525_OR_P4521_HASH_MATCH`. A different reported train or firmware hash is refused.
+
+Verify the archive with the attached `SHA256SUMS.txt`. Earlier releases and assets remain unchanged. Thanks to [@chrzanowy](https://github.com/chrzanowy) for the retained U-turn fix.

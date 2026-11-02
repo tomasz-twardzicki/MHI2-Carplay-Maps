@@ -36,16 +36,21 @@ The baseline project is by **omonob (QCDWJ)**. **tomasz-twardzicki** developed t
 
 ## Latest MU1367 / 791 changes
 
-**[MU1367 v1.4.2](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.2)**
-fixes U-turn lane symbols using the factory VW left/right direction bytes
+**[MU1367 v1.4.3](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3)**
+adds **experimental P4521 installation** with all current features, retaining the
+v1.4.2 U-turn lane fix using the factory VW left/right direction bytes
 (114/146), incorporating [PR #8](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/pull/8).
 It includes maps, native arrows with distance progress, current road in the ETA
 bar, native lane recommendations, audio metadata/artwork and reconnect recovery.
 Fresh MU settings default to **30 fps / IDR5**. The base disables turn cards and
 removes their MU controls; the **Tuning** submenu adds/removes both together.
 
-One install/update action supports stock, v1.4.0, v1.4.1 and known test states.
-An active v1.4.1 installation and the v3 test revisions use a checked, snapshot-preserving removal/reboot stage
+The earlier P4521 experimental build has been confirmed working in a vehicle.
+Separate P4521 experimental installations use the documented OEM reset + reboot
+before installing the combined package; snapshots and settings are retained.
+
+One install/update action supports stock, v1.4.0, v1.4.1/v1.4.2 and known test states.
+An active integrated v1.4.1/v1.4.2 installation and the v3 test revisions use a checked, snapshot-preserving removal/reboot stage
 before release installation. Settings reset archives old choices; Diagnostics
 and Recovery have dedicated submenus, including independent matched OEM reset.
 Normal map alignment is restored after the unsuccessful right-edge experiment.
@@ -56,10 +61,10 @@ unverified and no adapter firmware patch is included. Blank unused-lane slots
 match OEM behavior. Refined symbols, OEM recalculation messages, names above the
 arrow, and Apple Maps/Waze support remain planned. See [known issues and TODOs](./MU1367/integration/KNOWN-ISSUES.md).
 
-Use the [v1.4.2 installation and recovery guide](./MU1367/integration/INSTALL.md)
+Use the [v1.4.3 installation and recovery guide](./MU1367/integration/INSTALL.md)
 and [maintained source/build guide](./MU1367/integration/DEVELOPMENT.md).
 Earlier packages and tags remain unchanged. These changes apply to exact
-**K4525 MU1367 + AID 791**, separately from the MU1427 release below.
+**K4525 or P4521 MU1367 + AID 791 (P4521 experimental)**, separately from the MU1427 release below.
 
 ## Features (MU1427 / 791)
 
@@ -96,14 +101,17 @@ The original standalone profiles remain available ([see below](#origin-and-upstr
 
 ## Download
 
-**MU1367 / AID 791 — v1.4.2 complete integration:**
-[Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.2) ·
-[Full Toolbox ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.2/CarPlay_Maps_VC_MU1367_791_v1.4.2.zip) ·
-[SHA-256](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.2/SHA256SUMS.txt).
+**MU1367 / AID 791 — v1.4.3 complete integration:**
+[Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3) ·
+[Full Toolbox ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3/CarPlay_Maps_VC_MU1367_791_v1.4.3.zip) ·
+[SHA-256](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3/SHA256SUMS.txt).
 Read [installation, migration and recovery](./MU1367/integration/INSTALL.md).
+Supports K4525 and **P4521 (experimental installation)**; the earlier P4521
+experimental build has been confirmed working in a vehicle.
 The same SD includes the complete fresh-install path and independent OEM reset.
 
-Previous [v1.4.1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.1),
+Previous [v1.4.2](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.2),
+[v1.4.1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.1),
 [v1.4.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.0)
 and [v1.3.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.3.0)
 assets are preserved unchanged for historical installations.
@@ -115,6 +123,7 @@ confirmed working MU1427 baseline**, rather than the earlier initial port.
 
 | Release | Published | Changes | Previous tag |
 | --- | --- | --- | --- |
+| [MU1367 / 791 v1.4.3](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3) | 2026-11-02 | Recognize P4521 firmware and allow all current integrated features, retaining the v1.4.2 VW U-turn fix. **P4521 installation remains experimental**, following confirmed vehicle success of the earlier experimental build. Separate P4521 bundles upgrade through retained OEM reset + reboot; integrated v1.4.2 migration is recognized. Runtime payloads unchanged. | `MU1367-v1.4.2` |
 | [MU1367 / 791 v1.4.2](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.2) | 2026-11-02 | Fix U-turn lane direction bytes with VW left/right symbols (114/146), from [PR #8](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/pull/8). Rebuilt maintained guidance JAR; verified v1.4.1 update/reboot migration and retained snapshots. Factory MU1367 constants and serialization verified; U-turn vehicle result reported on MU1161 + AID 791, MU1367 rendering still awaits acceptance. | `MU1367-v1.4.1` |
 | [MU1367 / 791 v1.4.1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.1) | 2026-10-31 | Consolidated single install/update; road names, progressing native arrows, lane recommendations, audio metadata/artwork and reconnect recovery; 30 fps/IDR5 defaults; map-only base with optional card runtime + MU controls; archived settings reset, grouped diagnostics/recovery and independent OEM reset. Known test revisions migrate through a checked reboot boundary with snapshots retained. Normal safe area restored; Ottocast card override remains unresolved. Inactive lane blanks are OEM behavior. | `MU1367-v1.4.0` |
 | [MU1367 / 791 v1.4.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.0) | 2026-10-28 | Native lane guidance: lane order, recommendations and branching exits through the factory renderer; turn cards OFF by default with App-Connect ON/OFF retained; saved preferences preserved; removable fourth layer with verified backups and no-SD rollback. Host/factory-runtime and full OEM-restore checks pass; successful user vehicle testing confirmed, promoted to regular release without changing the ZIP. | `MU1367-v1.3.0` |
@@ -133,7 +142,7 @@ versioned release links above for downloads.
 
 ## Installation
 
-**MU1367:** follow the [complete v1.4.2 guide](./MU1367/integration/INSTALL.md). The steps below are
+**MU1367:** follow the [complete v1.4.3 guide](./MU1367/integration/INSTALL.md). The steps below are
 for **MU1427**.
 
 Use the **full native-guidance MQB Toolbox bundle** described above. The [full installation guide](./MU1427/route-guidance/INSTALL.md) includes recovery commands and the first installation check.
@@ -154,7 +163,7 @@ Optional: **Customization → Navigation → Ignore navigation-active status fro
 
 ## Display options
 
-**MU1367 v1.4.2:** use **App-Connect → Virtual Cockpit settings** for stream/map/mirror
+**MU1367 v1.4.3:** use **App-Connect → Virtual Cockpit settings** for stream/map/mirror
 choices. Card controls appear only after installing optional card support through
 **Tuning**. The base ignores old card-ON preferences. The options below apply to **MU1427**.
 
@@ -172,7 +181,7 @@ The iPhone decides the card's size, and it grows with the guidance content (for 
 
 ## Diagnostics and restore
 
-**MU1367 v1.4.2:** use its dedicated **Diagnostics** and **Recovery** submenus.
+**MU1367 v1.4.3:** use its dedicated **Diagnostics** and **Recovery** submenus.
 The independent OEM reset retains snapshots and restores matching firmware files
 directly; see [MU1367 recovery](./MU1367/integration/RECOVERY.md). The descriptions
 below refer to the **MU1427** package.
@@ -191,7 +200,7 @@ Native guidance does not create the earlier research captures. If the menu is un
 | Path | Contents |
 | --- | --- |
 | [`MU1367/lanes/`](./MU1367/lanes/) | Native lane decoder/adapter, card-OFF defaults, build tools, verification and fourth-layer recovery |
-| [`MU1367/integration/`](./MU1367/integration/) | Maintained v1.4.2 sources, complete Toolbox, migration, diagnostics and OEM recovery |
+| [`MU1367/integration/`](./MU1367/integration/) | Maintained v1.4.3 sources, complete Toolbox, migration, diagnostics and OEM recovery |
 | [`MU1367/settings-v2/`](./MU1367/settings-v2/) | Native App-Connect settings, paired map/mirror runtime and v1.3.0 user results |
 | [`MU1367/port/`](./MU1367/port/) | Exact MU1367 native guidance/audio/NAI adapters and integration tooling |
 | [`releases/MU1367/`](./releases/MU1367/) | Versioned ready-to-use MU1367 bundles, checksums and validation records |

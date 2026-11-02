@@ -1,8 +1,8 @@
-# MU1367 / 791 integration v1.4.2
+# MU1367 / 791 integration v1.4.3
 
 The maintained MU1367 package combines CarPlay maps, native arrows/progress,
 ETA/current road and lane guidance, audio metadata/artwork, MU display settings
-and reconnect recovery. v1.4.2 fixes the lane decoder to emit the factory VW
+and reconnect recovery. The retained v1.4.2 fix makes the lane decoder emit the factory VW
 left/right U-turn bytes (114/146), incorporating [PR #8](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/pull/8). Defaults are map only and **30 fps / IDR5**. Optional
 turn-card tuning adds both the runtime support and its MU UI controls.
 
@@ -10,9 +10,11 @@ turn-card tuning adds both the runtime support and its MU UI controls.
 - [Known issues and planned navigation improvements](KNOWN-ISSUES.md)
 - [Independent OEM reset and no-SD recovery](RECOVERY.md)
 - [Source layout, builds and verification](DEVELOPMENT.md)
-- [Download v1.4.2](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.2)
+- [Download v1.4.3](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3)
 
-Exact K4525 MU1367 + AID 791 only. Mini Pico can override the MU's map-only URL
+K4525 or **P4521 MU1367 + AID 791**. P4521 installation remains **experimental**;
+the prior P4521 experimental build has been confirmed working in a vehicle.
+This combined v1.4.3 package adds the full current feature set. Mini Pico can override the MU's map-only URL
 and still display a card. Normal safe-area alignment is restored. Unused-lane
 blank slots are expected OEM rendering. Apple Maps/Waze remain planned work.
 

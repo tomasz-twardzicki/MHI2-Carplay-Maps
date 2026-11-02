@@ -58,3 +58,12 @@ AID 791; MU1367 vehicle rendering is still awaiting a targeted check. The
 reviewed ranges are −180…−170° and 170…179°; exactly +180° selects left
 for right-hand traffic. ±169° remains unchanged at 128. This fixes lane
 encoding and does not change the main maneuver symbols or Mini Pico card URLs.
+
+## P4521 installation (experimental)
+
+The prior P4521 experimental build was confirmed working in a vehicle by the
+user on 2026-11-02. v1.4.3 recognizes P4521 and supplies all current integrated
+features, while P4521 installation remains experimental. Acceptance of this
+new combined package is distinct from that earlier vehicle result. Use the OEM
+reset/reboot path in INSTALL.md when moving from the separate experimental
+bundle or dormant upstream menu files; all old layers and snapshots are retained.

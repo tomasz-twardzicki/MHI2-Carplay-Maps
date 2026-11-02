@@ -30,7 +30,21 @@ for C in cat cp mv rm mkdir chmod sync mount ls awk grep basename touch;do
  command -v "$C" >/dev/null 2>&1 || fail "MISSING_$C"
 done
 regular "$P/verify" && parents "$P/verify" || fail VERIFIER_MISSING_OR_UNSAFE
-"$P/verify" "$M/ifs/lsd.jxe" 09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a || fail EXACT_K4525_MU1367_REQUIRED
+"$P/verify" "$M/ifs/lsd.jxe" 09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a || fail EXACT_K4525_OR_P4521_MU1367_REQUIRED
+# The two supported trains share this exact JXE. Report the actual train when
+# RCC exposes it; a missing RCC file keeps the exact-hash MMX recovery path.
+FW_TYPE=K4525_OR_P4521_HASH_MATCH
+TRAIN_FILE=$M/net/rcc/dev/shmem/version.txt
+if regular "$TRAIN_FILE" && parents "$TRAIN_FILE";then
+ TRAIN=$(awk -F ' = ' '$1 == "Current train" {gsub(/["\047\r]/,"",$2);print $2}' "$TRAIN_FILE")
+ case "$TRAIN" in
+  MHI2_ER_VWG13_P4521|MHI2_ER_VWG13_P4521_*) FW_TYPE=P4521_EXPERIMENTAL;;
+  MHI2_ER_VWG13_K4525|MHI2_ER_VWG13_K4525_*) FW_TYPE=K4525;;
+  "") :;;
+  *) fail UNSUPPORTED_FIRMWARE_TRAIN;;
+ esac
+fi
+echo "MU1367_FIRMWARE_TYPE=$FW_TYPE"
 case "$ACTION" in
  lane-status)
   if regular "$M/ramdisk/carplay-route-guidance/lane-evidence.txt";then cat "$M/ramdisk/carplay-route-guidance/lane-evidence.txt";else echo MU1367_NO_LANE_EVIDENCE_YET;fi
@@ -81,6 +95,12 @@ retain_removed(){
  [ ! -e "$LOCK" ] || fail LOCK_CLEANUP_FAILED
  OWN=no
 }
+if [ "$ACTION" = install ] && regular "$APP/carplay-mu1367-settings/VERSION";then
+ case "$(cat "$APP/carplay-mu1367-settings/VERSION")" in
+  MU1367-P4521-settings-e59e7a883ca0)
+   fail P4521_EXPERIMENTAL_BASE_USE_RECOVERY_RESTORE_OEM_REBOOT_THEN_INSTALL;;
+ esac
+fi
 CARDS=$APP/carplay-mu1367-turn-cards
 MAIN=$APP/carplay-mu1367-guidance-v3
 case "$ACTION" in

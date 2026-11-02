@@ -77,7 +77,7 @@ class Suite(unittest.TestCase):
         self.p = self.sd / 'Custom/carplay_mu1367_refinements'
 
     def run_script(self, p, args, success=True, env=None):
-        r = subprocess.run(['/bin/ksh', str(p), *map(str, args)], env=env or self.env, capture_output=True, text=True, timeout=90)
+        r = subprocess.run(['/bin/ksh', str(p), *map(str, args)], env=env or self.env, capture_output=True, text=True, timeout=300)
         self.assertEqual(r.returncode == 0, success, r.stdout + r.stderr)
         return r.stdout + r.stderr
 

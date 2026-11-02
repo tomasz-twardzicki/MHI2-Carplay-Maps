@@ -1,9 +1,15 @@
-# MU1367 / 791 v1.4.2 — complete installation and update
+# MU1367 / 791 v1.4.3 — complete installation and update
 
-For **MHI2_ER_VWG13_K4525 MU1367 + AID 791 (12.3 inch)** only. P4521, AID 790,
-MU1427 and other firmware are not supported by this package.
+For **MHI2_ER_VWG13_K4525 or MHI2_ER_VWG13_P4521 MU1367 + AID 791
+(12.3 inch)**. **P4521 installation remains experimental**, following a successful
+vehicle test of the earlier P4521 experimental build. AID 790, MU1427 and other
+firmware are outside this package. Both supported trains receive the same complete
+feature set, including the v1.4.2 U-turn fix. Exact firmware hashes remain required.
+The installer reports `MU1367_FIRMWARE_TYPE=P4521_EXPERIMENTAL` or `K4525` when
+RCC train information is available. Without it, the shared exact firmware hash
+is reported as `K4525_OR_P4521_HASH_MATCH`; it cannot distinguish these trains.
 
-Verify `CarPlay_Maps_VC_MU1367_791_v1.4.2.zip` with the adjacent `SHA256SUMS.txt`.
+Verify `CarPlay_Maps_VC_MU1367_791_v1.4.3.zip` with the adjacent `SHA256SUMS.txt`.
 Extract to a clean FAT32 SD root; do not merge older SD contents. Keep this SD
 and copy all recovery snapshots off the unit after a successful installation.
 
@@ -17,9 +23,19 @@ menus and scripts** from this SD. The established refresh command on MMX is:
 
 Use `/fs/sdb0` throughout if appropriate. From RCC enter MMX with `on -f mmx`.
 Under **MQB Coding > Customization > CarPlay Maps VC**, verify the banner reads
-**MU1367 / 791 v1.4.2**. Do not use scripts left from an earlier SD.
+**MU1367 / 791 v1.4.3 - P4521 experimental**. Do not use scripts left from an earlier SD.
 
 ## Install / update
+
+**From the separate P4521 v1.4.0/v1.4.1 experimental package:** its settings/lane
+transactions differ from the integrated baseline. First select **Recovery >
+Restore complete OEM state**, fully reboot disconnected, then select the normal
+install action below. OEM reset verifies the shared firmware originals, archives
+all old layers and retains settings/snapshots. It also removes dormant upstream
+menu JARs. Do this before installing over an older upstream Toolbox map package
+with a dormant `VCMenu.jar`. Do not delete or edit version markers. An installed
+P4521 v1.4.1 settings layer is recognized and directs you to this recovery path
+before any installation writes.
 
 Select **Install / update CarPlay integration (reboot)**. This is the single
 installation path for video, guidance, native lanes, audio text and artwork,
@@ -29,7 +45,7 @@ numbered or experimental steps need to be selected separately.
 - **Stock OEM, v1.3.0, v1.4.0, supported step-6/step-8 and Integrated Arrows:**
   matching existing layers are checked and retained; missing layers are added.
 - **Lane-v2:** the release update is added directly.
-- **Active v1.4.1 or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
+- **Active integrated v1.4.1/v1.4.2 or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
   the first invocation checks the saved controller and every original backup,
   removes matching optional card tuning if present, and restores the lane-v2
   baseline through the saved controller. Expect
@@ -39,7 +55,7 @@ numbered or experimental steps need to be selected separately.
   The old removed snapshot is verified and archived, never overwritten.
 
 The final success message is
-**`MU1367_RELEASE_1_4_2_INSTALLED_FULL_REBOOT_REQUIRED`**. Fully reboot with the
+**`MU1367_RELEASE_1_4_3_INSTALLED_FULL_REBOOT_REQUIRED`**. Fully reboot with the
 phone/adapter absent. Check OEM HMI, cluster and audio before reconnecting.
 If a stage fails, retain its complete output and use Recovery. Do not force
 version markers, delete recovery directories or continue through an error.
@@ -72,7 +88,7 @@ for that adapter-generated behavior. See [KNOWN-ISSUES.md](KNOWN-ISSUES.md).
 
 ## Checks and diagnostics
 
-Guidance status must show **`MU1367-guidance-v1.4.2`**, identifying the rebuilt
+Guidance status must show **`MU1367-guidance-v1.4.2`**, identifying the unchanged
 JAR with corrected VW U-turn lane bytes (114/146). **Diagnostics > Show integration + guidance + card status**
 also reports the release controller version. The release manifest pins all files.
 
