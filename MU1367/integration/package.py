@@ -3,7 +3,7 @@
 import argparse, hashlib, importlib.util, json, re, shutil, subprocess, zipfile
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
-ARCHIVE='CarPlay_Maps_VC_MU1367_791_v1.4.1.zip'
+ARCHIVE='CarPlay_Maps_VC_MU1367_791_v1.4.2.zip'
 def sha(f): return hashlib.sha256(f.read_bytes()).hexdigest()
 def toolbox_input(name):
     # The SD's upstream Git attributes belong to its distribution, not this
@@ -39,7 +39,7 @@ def main():
     actions=actions[:pos]+'. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n'+actions[pos:]
     # migrate.sh handles both latest and old tuning; the existing gate runs afterwards.
     actions=actions.replace('. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n','. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n'+code+'\n')
-    actions=actions.replace('echo MU1367_GUIDANCE_V3_SUITE_INSTALLED_FULL_REBOOT_REQUIRED','echo MU1367_RELEASE_1_4_1_INSTALLED_FULL_REBOOT_REQUIRED')
+    actions=actions.replace('echo MU1367_GUIDANCE_V3_SUITE_INSTALLED_FULL_REBOOT_REQUIRED','echo MU1367_RELEASE_1_4_2_INSTALLED_FULL_REBOOT_REQUIRED')
     (root/'actions.sh').write_text(actions)
     legacy=json.loads((HERE/'tools/legacy-revisions.json').read_text())
     sh='''# Generated exact identities of supported local revisions. No saved code runs before this gate.
@@ -69,11 +69,11 @@ legacy_check(){
     for n in ('INSTALL.md','KNOWN-ISSUES.md','DEVELOPMENT.md'):
         shutil.copy2(HERE/n,sd/('START_HERE.md' if n=='INSTALL.md' else n))
     shutil.copy2(HERE/'RECOVERY.md',sd/'MU1367_OEM_RESET_INSTALL.md')
-    (sd/'README.md').write_text('# MU1367 / 791 v1.4.1\n\nStart with [START_HERE.md](START_HERE.md).\n')
+    (sd/'README.md').write_text('# MU1367 / 791 v1.4.2\n\nStart with [START_HERE.md](START_HERE.md).\n')
     shutil.copy2(HERE/'NOTICE.md',sd/'NOTICE.md')
-    manifest={'version':'1.4.1','archive_name':ARCHIVE,'firmware':'K4525 MU1367','cluster':'791','variants':variants,'tuning_variants':tv,
+    manifest={'version':'1.4.2','archive_name':ARCHIVE,'firmware':'K4525 MU1367','cluster':'791','variants':variants,'tuning_variants':tv,
         'files':variants['6']['files'],'defaults':{'fps':30,'idr':5,'cards':False,'safe_area':[200,96,400,364]},
-        'guidance_build':'MU1367-guidance-31dfc8d5a6f2','mini_pico_card_suppression':False,'inactive_lane_blanks':'OEM behavior',
+        'guidance_build':'MU1367-guidance-v1.4.2','mini_pico_card_suppression':False,'inactive_lane_blanks':'OEM behavior',
         'release_package_vehicle_tested':False,'feature_vehicle_results':'See KNOWN-ISSUES.md; final packaging and migration verified off-unit.'}
     (sd/'MU1367_RELEASE_MANIFEST.json').write_text(json.dumps(manifest,indent=2)+'\n')
     # One inventory covers all migration payloads before the first persistent write.

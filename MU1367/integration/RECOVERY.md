@@ -1,6 +1,6 @@
 # MU1367 / 791 independent OEM recovery
 
-Use the v1.4.1 SD for a complete return to exact **K4525 MU1367 + 791**, including
+Use the v1.4.2 SD for a complete return to exact **K4525 MU1367 + 791**, including
 mixed or partially removed test installations. This reset does not call old
 per-layer uninstallers or depend on their installed/removed markers.
 

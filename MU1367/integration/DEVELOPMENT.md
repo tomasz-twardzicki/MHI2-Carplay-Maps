@@ -52,10 +52,13 @@ python3 MU1367/integration/package.py --runtime "$BUILD" --output "$PACKAGE"
 
 `build.py` directly compiles the maintained guidance, artwork, menu and core
 sources and requires all six rebuilt outputs to match `RUNTIME.json`. It does
-not import successive experiment staging scripts. IDs intentionally remain
-`MU1367-guidance-31dfc8d5a6f2` and `MU1367-artwork-55008dbaf18e`, preserving the
-validated runtime bytes. Release controller IDs and `MU1367_RELEASE_MANIFEST.json`
-identify v1.4.1 packaging separately.
+not import successive experiment staging scripts. The v1.4.2 guidance ID is `MU1367-guidance-v1.4.2`; its rebuilt JAR includes the
+reviewed U-turn mapping from PR #8. Audio remains `MU1367-artwork-55008dbaf18e`.
+The other five runtime payloads retain their v1.4.1 hashes. Release controller
+IDs and `MU1367_RELEASE_MANIFEST.json` identify the complete v1.4.2 package.
+Published v1.4.1 controllers and payloads are retained as exact migration fixtures;
+updates retire that layer through the same verified removal/reboot boundary as
+older v3 tests, preserving original snapshots.
 
 `tools/build-driver.py STOCK_DRIVER OUTPUT` builds the identity-bound artwork
 driver using the shared verified firmware normalization and hook assembler
@@ -90,3 +93,18 @@ physical storage remountability or power-loss durability.
 No new target shell commands/options are introduced by release migration.
 Required commands are checked before writes. Keep diagnostic files bounded;
 never add append-only route histories on the unit's small RAM disk.
+
+The U-turn factory-runtime probe can be rerun with:
+
+```sh
+python3 MU1367/integration/tests/test-guidance-qnx.py --build "$BUILD" \
+  --java-home "$JDK" --stock-jar "$STOCK" --asm-dir "$ASM" \
+  --sysroot "$QNX" --j9-setup "$FIRMWARE_J9_SETUP" --output "$J9_TESTS"
+```
+
+The setup contains the matching extracted JRE/JXE, factory libc and previously
+validated QNX boot fixture. Outputs must be shared with the build VM. The test
+checks left/right U-turn bytes through the decoder, actual factory builder and
+serializer under both `-noverify` and `-verify`; it also runs the road/arrow probes.
+This establishes runtime compatibility and encoding, while vehicle rendering
+remains a separate acceptance check.

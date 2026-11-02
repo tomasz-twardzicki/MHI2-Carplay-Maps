@@ -2,7 +2,7 @@ screen carplay-maps-vc Customization
 
 keyValue
     value String sys 0x00000000 0
-    label "MU1367 / 791 v1.4.1"
+    label "MU1367 / 791 v1.4.2"
     poll 0
 
 script

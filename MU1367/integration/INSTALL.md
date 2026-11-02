@@ -1,9 +1,9 @@
-# MU1367 / 791 v1.4.1 — complete installation and update
+# MU1367 / 791 v1.4.2 — complete installation and update
 
 For **MHI2_ER_VWG13_K4525 MU1367 + AID 791 (12.3 inch)** only. P4521, AID 790,
 MU1427 and other firmware are not supported by this package.
 
-Verify `CarPlay_Maps_VC_MU1367_791_v1.4.1.zip` with the adjacent `SHA256SUMS.txt`.
+Verify `CarPlay_Maps_VC_MU1367_791_v1.4.2.zip` with the adjacent `SHA256SUMS.txt`.
 Extract to a clean FAT32 SD root; do not merge older SD contents. Keep this SD
 and copy all recovery snapshots off the unit after a successful installation.
 
@@ -17,7 +17,7 @@ menus and scripts** from this SD. The established refresh command on MMX is:
 
 Use `/fs/sdb0` throughout if appropriate. From RCC enter MMX with `on -f mmx`.
 Under **MQB Coding > Customization > CarPlay Maps VC**, verify the banner reads
-**MU1367 / 791 v1.4.1**. Do not use scripts left from an earlier SD.
+**MU1367 / 791 v1.4.2**. Do not use scripts left from an earlier SD.
 
 ## Install / update
 
@@ -29,7 +29,7 @@ numbered or experimental steps need to be selected separately.
 - **Stock OEM, v1.3.0, v1.4.0, supported step-6/step-8 and Integrated Arrows:**
   matching existing layers are checked and retained; missing layers are added.
 - **Lane-v2:** the release update is added directly.
-- **Active v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
+- **Active v1.4.1 or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
   the first invocation checks the saved controller and every original backup,
   removes matching optional card tuning if present, and restores the lane-v2
   baseline through the saved controller. Expect
@@ -39,7 +39,7 @@ numbered or experimental steps need to be selected separately.
   The old removed snapshot is verified and archived, never overwritten.
 
 The final success message is
-**`MU1367_RELEASE_1_4_1_INSTALLED_FULL_REBOOT_REQUIRED`**. Fully reboot with the
+**`MU1367_RELEASE_1_4_2_INSTALLED_FULL_REBOOT_REQUIRED`**. Fully reboot with the
 phone/adapter absent. Check OEM HMI, cluster and audio before reconnecting.
 If a stage fails, retain its complete output and use Recovery. Do not force
 version markers, delete recovery directories or continue through an error.
@@ -72,14 +72,15 @@ for that adapter-generated behavior. See [KNOWN-ISSUES.md](KNOWN-ISSUES.md).
 
 ## Checks and diagnostics
 
-Guidance status shows `MU1367-guidance-31dfc8d5a6f2`; this deliberately retains the
-validated guidance JAR. **Diagnostics > Show integration + guidance + card status**
+Guidance status must show **`MU1367-guidance-v1.4.2`**, identifying the rebuilt
+JAR with corrected VW U-turn lane bytes (114/146). **Diagnostics > Show integration + guidance + card status**
 also reports the release controller version. The release manifest pins all files.
 
 Test cable first, then Mini Pico. Check map alignment, native arrows/countdown,
 ETA/current road, recommended lanes, music text/artwork, controls, cancellation,
 reroute, OEM navigation priority and switching connection types. Enable the OEM
-lane guidance setting. Blank unused-lane slots match OEM behavior; this release
+lane guidance setting. At a suitable junction, check a U-turn lane and its
+other exits; the corrected MU1367 rendering still needs vehicle acceptance. Blank unused-lane slots match OEM behavior; this release
 does not draw additional outline arrows. Google Maps is the currently exercised
 navigation app; Apple Maps/Waze need separate support and acceptance work.
 

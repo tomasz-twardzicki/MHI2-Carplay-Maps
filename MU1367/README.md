@@ -2,12 +2,12 @@
 
 Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
 
-Use the maintained **[v1.4.1 complete integration](./integration/README.md)** for
+Use the maintained **[v1.4.2 complete integration](./integration/README.md)** for
 K4525 MU1367 + AID 791. It combines maps, native arrows/progress, current road,
-lanes, music metadata/artwork and reconnect recovery. Fresh defaults are 30 fps /
+lanes with corrected VW U-turn symbols, music metadata/artwork and reconnect recovery. Fresh defaults are 30 fps /
 IDR5 and cards OFF; optional tuning adds card support and its MU controls.
 
-The [single install/update guide](./integration/INSTALL.md) covers OEM, v1.4.0 and
+The [single install/update guide](./integration/INSTALL.md) covers OEM, v1.4.0, v1.4.1 and
 known later test states, with retained snapshots and a reboot boundary for v3
 migration. Diagnostics, tuning and recovery have dedicated submenus. The same
 SD includes independent full OEM reset. See [known issues and TODOs](./integration/KNOWN-ISSUES.md)
@@ -17,7 +17,7 @@ planned navigation/app improvements.
 The `port`, `settings-v2` and `lanes` directories document published v1.3.0/v1.4.0
 baselines. Their source and original assets remain for compatibility and recovery;
 new development belongs in `integration`. The standalone profiles below are
-historical video baselines, not the v1.4.1 complete installation package.
+historical video baselines, not the v1.4.2 complete installation package.
 
 | Cluster | Profile files | Display baseline |
 | --- | --- | --- |

@@ -180,5 +180,14 @@
     "Rerouting, OEM navigation takeover, reconnect and Card ON/OFF on unit",
     "90-minute vehicle endurance"
   ],
-  "release_version": "MU1367-v1.4.0"
+  "release_version": "MU1367-v1.4.0",
+  "post_release_source_changes": {
+    "pull_request": 8,
+    "commit": "48a3dee979e422d643cd7ccc0660bf954a2d876f",
+    "note": "The original v1.4.0 binaries and build-time verification remain unchanged. Current U-turn source is rebuilt and verified by integration v1.4.2.",
+    "source_sha256": {
+      "LaneData.java": "61da0bc826a4c570d5907f9497c627849ee43441848a808396d9e20a87f710d5",
+      "TestLanes.java": "83d56a496e9bddbd620b871f38f1816755707bbac11c6f55ea27091c08e4bcbe"
+    }
+  }
 }

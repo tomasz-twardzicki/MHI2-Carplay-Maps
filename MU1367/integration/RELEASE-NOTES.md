@@ -1,37 +1,13 @@
-Complete Toolbox for **K4525 MU1367 + AID 791**. Other firmware, including P4521,
-and AID 790 require their own packages.
+Fixes U-turn lane directions in the complete Toolbox for **K4525 MU1367 + AID 791**, incorporating [PR #8](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/pull/8).
 
-- Consolidated maps, native arrows with distance progress, current-road/ETA bar,
-  lane guidance, music metadata/artwork and reconnect recovery.
-- Fresh default **30 fps / IDR5**; valid saved choices are preserved. MU UI
-  settings reset archives the previous store.
-- Map-only base with turn cards disabled and card settings absent. **Tuning**
-  adds/removes card support and its MU UI controls together.
-- One install/update action; useful Diagnostics and Recovery submenus, including
-  exact-firmware OEM reset that retains snapshots.
-- Normal map alignment restored after the right-edge safe-area experiment.
-  Canonical feature sources replace the incremental experiment build chain.
+- Emit the factory VW U-turn lane bytes: **114 left / 146 right**, replacing the ambiguous 128 in the reviewed U-turn range.
+- Rebuild the maintained guidance JAR; status now reports **`MU1367-guidance-v1.4.2`**. The video core, MU menus, audio and optional card runtime retain their v1.4.1 bytes.
+- Retain complete installation, Diagnostics, tuning, rollback and independent OEM reset, with exact v1.4.1 upgrade recognition and retained snapshots.
 
-**Updating from v3 / v3r2 / v3r3 / v3r4:** disconnect and fully reboot, refresh
-both Toolbox menus and scripts, then run Install / update. The first invocation
-validates and removes the known test revision through its saved controller,
-retaining backups. Fully reboot again and run the same action to finish v1.4.1.
-Do not delete recovery directories or force version markers. OEM/v1.4.0 and other
-supported baselines follow the same action without that retirement stage.
-Read `START_HERE.md` in the ZIP for exact messages, recovery and compatibility.
+**Updating from v1.4.1 or v3 / v3r2 / v3r3 / v3r4:** disconnect the phone/adapter and fully reboot, then refresh both Toolbox menus and scripts from this SD. Run **Install / update CarPlay integration (reboot)**. The first invocation verifies the saved controller and backups, removes matching optional tuning and the preceding release/test layer, and requests a reboot. **Fully reboot disconnected, then run the same action again** to install v1.4.2. Final success: `MU1367_RELEASE_1_4_2_INSTALLED_FULL_REBOOT_REQUIRED`; fully reboot once more. Snapshots are retained. Read `START_HERE.md` for the complete procedure and supported baselines.
 
-**Known issue:** Ottocast Mini Pico can still show its turn card. The supplied
-Mini firmware has fixed-URL scene handling; exact Pico internals remain
-unverified. No adapter firmware patch is included. Inactive-lane blank slots
-match OEM navigation and are no longer treated as a missing-outline bug.
+**Validation and limits:** the matching MU1367 firmware has the same 114/146 defaults; host tests exercise the actual decoder, factory lane builder and serializer. The PR reports successful vehicle rendering on MU1161 + AID 791. MU1367 U-turn rendering and final-package vehicle acceptance remain pending. The reviewed mapping covers −180…−170° and 170…179°; exactly +180° selects left for right-hand traffic. ±169° retains its previous encoding.
 
-**Planned:** better initial/no-direction maneuver symbols, OEM “recalculating…”
-message, road/intersection name above the native arrow, and Apple Maps/Waze
-support. The existing current-road name in the ETA bar is included.
+The unresolved Mini Pico card override and other documented limitations remain. Other firmware (including P4521), AID 790 and MU1427 require their own packages. Verify the ZIP using the attached `SHA256SUMS.txt`. Earlier release assets are preserved.
 
-Runtime bytes match the validated feature builds, and host/factory-QNX
-installation, migration and recovery checks are recorded with the release.
-The final combined package has not received a separate vehicle acceptance run;
-this does not claim all apps, adapters or endurance scenarios have passed.
-Verify the ZIP with the attached `SHA256SUMS.txt` before use. Previous releases
-and their assets remain unchanged.
+Thanks to [@chrzanowy](https://github.com/chrzanowy) for the U-turn fix and MU1161 vehicle test.

@@ -13,7 +13,7 @@ The OMKE and Ottocast analyses are references; their binaries are not executed
 or flashed by this release.
 
 Maintained source and build/recovery tooling:
-https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/tree/MU1367-v1.4.1/MU1367/integration
+https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/tree/MU1367-v1.4.2/MU1367/integration
 
 Factory classes/binaries are specific to the matching firmware. Build tools
 require the owner's exact factory inputs and refuse mismatched fingerprints.

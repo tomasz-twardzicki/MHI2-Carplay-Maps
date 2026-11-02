@@ -48,3 +48,13 @@ alignment. It does not claim that every app, route, endurance scenario or adapte
 firmware has passed. The newly consolidated package/migration is verified
 separately off-unit; physical storage durability and AID rasterization cannot
 be established by host/QNX emulation.
+
+## U-turn lane acceptance
+
+v1.4.2 uses the MU1367 factory U-turn defaults 114 (left) and 146 (right).
+The matching firmware constants, decoder, factory builder and serialization
+are verified off-unit. PR #8 reports a successful vehicle test on MU1161 +
+AID 791; MU1367 vehicle rendering is still awaiting a targeted check. The
+reviewed ranges are −180…−170° and 170…179°; exactly +180° selects left
+for right-hand traffic. ±169° remains unchanged at 128. This fixes lane
+encoding and does not change the main maneuver symbols or Mini Pico card URLs.
