@@ -25,6 +25,10 @@ public final class LaneData implements NavigationLaneGuidanceElement {
 
     static int direction(int degrees){
         if(degrees < -180 || degrees > 180)return 255;
+        // U-turn lanes: the factory VW lane bytes NAV_UTURN_LEFT_DIRECTION=114 / NAV_UTURN_RIGHT_DIRECTION=146
+        // (no 128 U-turn symbol in the HMI); exactly 180 has no side, taken as left (right-hand traffic)
+        if(degrees <= -170 || degrees == 180)return 114;
+        if(degrees >= 170)return 146;
         int sector=(Math.abs(degrees)*16+180)/360;
         return (degrees<0?sector*16:256-sector*16)&255;
     }
