@@ -19,7 +19,13 @@ class Suite(parent.Suite):
     def runtime(root):
         values=parent.Suite.runtime(root);p=root/'mnt/app/carplay-mu1367-guidance-v3/control.sh'
         values['carplay-mu1367-guidance-v3/control.sh']=(sha(p.read_bytes()),p.stat().st_mode&0o777) if p.is_file() else None
+        p=root/'mnt/app/carplay-mu1367/rgi-observer'
+        values['carplay-mu1367/rgi-observer']=(sha(p.read_bytes()),p.stat().st_mode&0o777) if p.is_file() else None
         return values
+    def expected(self,variant='6'):
+        super().expected(variant)
+        m=json.loads((self.p/variant/'manifest.json').read_text())
+        self.assertEqual(sha((self.app/'carplay-mu1367/rgi-observer').read_bytes()),m['files']['reader'])
     def saved(self,action,success=True,name='guidance-v3'):
         return self.run_script(self.app/('carplay-mu1367-'+name)/'control.sh',[action],success)
     def v2(self,v='6'):
@@ -47,7 +53,7 @@ class Suite(parent.Suite):
                 self.saved('uninstall');self.compare_without_v3(before)
     def test_v3_commit_faults_restore_parent_and_runtime(self):
         self.v2();before=self.runtime(self.root)
-        for dest in ('carplaymaps/core.so','eso/hmi/lsd/jars/CarPlayMU1367Guidance.jar','eso/hmi/lsd/jars/VCMenu.jar','carplay-mu1367-map-only/control.sh'):
+        for dest in ('carplaymaps/core.so','eso/hmi/lsd/jars/CarPlayMU1367Guidance.jar','eso/hmi/lsd/jars/VCMenu.jar','carplay-mu1367/rgi-observer','carplay-mu1367-map-only/control.sh'):
             with self.subTest(target=dest):
                 tools=Path(self.tmp.name)/('fault-'+str(abs(hash(dest))));tools.mkdir();once=tools/'once';target=self.app/dest
                 (tools/'mv').write_text('#!/bin/ksh\nif [ "$2" = '+shlex.quote(str(target))+' ] && [ ! -f '+shlex.quote(str(once))+' ];then : > '+shlex.quote(str(once))+';exit 1;fi\nexec '+shlex.quote(shutil.which('mv'))+' "$@"\n');(tools/'mv').chmod(0o755)
@@ -60,6 +66,11 @@ class Suite(parent.Suite):
         self.saved('recover',False);self.assertEqual(self.runtime(self.root),before)
         (r/'STATE').write_text('removed\n');self.assertIn('REMOVED_SNAPSHOT_DAMAGED',self.action('install',False));self.assertEqual(len(list(self.app.glob('carplay-mu1367-guidance-v3.removed-*'))),1)
     def test_v3_checks_before_writes_and_reset_settings(self):
+        # Optional Toolbox examples/customizations are unrelated to this suite.
+        for path in list(self.sd.joinpath('Custom').iterdir()):
+            if not (path.name == 'carplay_maps_vc' or path.name == 'carplay_mu1367' or path.name.startswith('carplay_mu1367_')):
+                if path.is_dir():shutil.rmtree(path)
+                else:path.unlink()
         before=self.runtime(self.root);ready=self.root/'ramdisk/carplay-altstream.ready';ready.touch();self.action('install',False);ready.unlink();self.assertEqual(self.runtime(self.root),before)
         f=self.p/'6/core.so';content=f.read_bytes();f.write_bytes(b'corrupt');self.assertIn('SD_PAYLOAD_HASH',self.action('install',False));self.assertEqual(self.runtime(self.root),before);f.write_bytes(content)
         prefs=self.root/'mnt/icab/persistent/cpmap-ui';(prefs/'display.state').write_text('saved');(prefs/'navigation-card.state').write_text('on')
@@ -85,7 +96,7 @@ class Suite(parent.Suite):
                 for name in ('carplay_mu1367','carplay_mu1367_settings','carplay_mu1367_lanes','carplay_mu1367_wireless','carplay_mu1367_artwork')[:min(count,5)]:
                     layer=custom/name;self.run_script(layer/'control.sh',['install',layer])
                 if count==6:self.old_install()
-                self.assertIn('RELEASE_1_4_3_INSTALLED',self.action('install'));self.expected()
+                self.assertIn('RELEASE_1_4_3_E_EXPERIMENTAL_INSTALLED',self.action('install'));self.expected()
 
     def revision(self, revision, variant='6', tuning=False):
         old=self.revisions/revision
@@ -99,7 +110,7 @@ class Suite(parent.Suite):
         f=self.root/'ramdisk/.cpmap-release-migration-reboot'
         if f.exists():f.unlink()
     def test_release_supported_revision_migrations(self):
-        cases=[(release,v,t) for release in ('release-v1.4.1','release-v1.4.2') for v in ('6','7','6-road','7-road') for t in (False,True)]+[('guidance-v3','6',False),('lane-window','6',False),('lane-type','6',False),
+        cases=[(release,v,t) for release in ('release-v1.4.1','release-v1.4.2','release-v1.4.3') for v in ('6','7','6-road','7-road') for t in (False,True)]+[('guidance-v3','6',False),('lane-window','6',False),('lane-type','6',False),
                ('safe-area','6',False),('safe-area','7',False),('safe-area','6-road',False),
                ('safe-area','7-road',False),('safe-area','6',True)]
         for revision,variant,tuning in cases:
@@ -113,7 +124,7 @@ class Suite(parent.Suite):
                 before=self.runtime(self.root)
                 self.assertIn('FULL_REBOOT_REQUIRED',self.action('install',False))
                 self.assertEqual(before,self.runtime(self.root))
-                self.reboot();self.assertIn('RELEASE_1_4_3_INSTALLED',self.action('install'));self.expected(variant)
+                self.reboot();self.assertIn('RELEASE_1_4_3_E_EXPERIMENTAL_INSTALLED',self.action('install'));self.expected(variant)
                 archives=list(self.app.glob('carplay-mu1367-guidance-v3.removed-*'))
                 self.assertEqual(len(archives),1);self.assertEqual((archives[0]/'VERSION').read_text(),version)
                 self.assertEqual({f.name:sha(f.read_bytes()) for f in (archives[0]/'backup').iterdir()},backups)

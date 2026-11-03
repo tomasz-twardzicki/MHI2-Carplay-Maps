@@ -51,6 +51,7 @@ case "$ACTION" in
   exit 0;;
  status)
   /bin/ksh "$CUSTOM/carplay_mu1367_map_only/actions.sh" status "$CUSTOM/carplay_mu1367_map_only" || exit 1
+  if regular "$M/ramdisk/carplay-route-guidance/reader-failure-first.txt";then cat "$M/ramdisk/carplay-route-guidance/reader-failure-first.txt";fi
   for R in "$APP/carplay-mu1367-guidance-v3" "$APP/carplay-mu1367-turn-cards";do
    echo "LAYER=${R##*/}"
    for F in STATE VERSION;do regular "$R/$F" && cat "$R/$F";done
@@ -78,6 +79,11 @@ retain_removed(){
  regular "$R/BACKUPS_READY" && [ -d "$R/backup" ] && [ ! -L "$R/backup" ] || fail REMOVED_SNAPSHOT_INCOMPLETE
  # Every generated snapshot has these keys; card tuning leaves guidance alone.
  case "$R" in *turn-cards) KEYS='core menu parent';;*) KEYS='core guidance menu parent';;esac
+ # Current experimental main snapshots also own the reader. Validate it
+ # before archiving a removed session, including a missing backup/digest.
+ case "$(cat "$R/VERSION")" in
+ @READER_VERSIONS@) KEYS="$KEYS reader";;
+ esac
  for K in $KEYS;do
   regular "$R/backup/$K" && regular "$R/backup/$K.sha256" || fail SNAPSHOT_HASH_MISSING
   "$P/verify" "$R/backup/$K" "$(cat "$R/backup/$K.sha256")" || fail REMOVED_SNAPSHOT_DAMAGED
@@ -100,6 +106,9 @@ if [ "$ACTION" = install ] && regular "$APP/carplay-mu1367-settings/VERSION";the
   MU1367-P4521-settings-e59e7a883ca0)
    fail P4521_EXPERIMENTAL_BASE_USE_RECOVERY_RESTORE_OEM_REBOOT_THEN_INSTALL;;
  esac
+fi
+if [ "$ACTION" = install ] && [ -d "$APP/carplay-mu1367-reader-recovery" ];then
+ [ "$(cat "$APP/carplay-mu1367-reader-recovery/STATE" 2>/dev/null)" = removed ] || fail RESTORE_STANDALONE_READER_TEST_FIRST
 fi
 CARDS=$APP/carplay-mu1367-turn-cards
 MAIN=$APP/carplay-mu1367-guidance-v3

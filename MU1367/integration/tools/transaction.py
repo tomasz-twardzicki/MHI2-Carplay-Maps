@@ -11,7 +11,7 @@ def change(s,old,new):
 def transaction(sd,root,variant,payloads,old,parent,layer,prefix,parent_build):
     p=root/variant;p.mkdir()
     template=(HERE/'transaction.sh').read_text()
-    template=template.replace('# SPDX-License-Identifier: GPL-3.0-or-later','# SPDX-License-Identifier: GPL-3.0-or-later\n# MU1367 integration release 1.4.3')
+    template=template.replace('# SPDX-License-Identifier: GPL-3.0-or-later','# SPDX-License-Identifier: GPL-3.0-or-later\n# MU1367 integration release 1.4.3-e (experimental reader fix)')
     c=template.replace('carplay-mu1367-lanes','carplay-mu1367-'+layer).replace('MU1367_LANES',prefix).replace('.lanes-new','.'+layer+'-new').replace('for K in parent settings;','for K in parent;')
     c=change(c,'  echo "Cards: App-Connect > Virtual Cockpit settings > navigation card ON/OFF; reconnect after changing"','  echo "See START_HERE.md for map-only and optional turn-card tuning"')
     guard='''# Preserve the child layer snapshot before removing its parent.
@@ -25,7 +25,7 @@ case "${1:-status}" in uninstall|recover|install)
 '''.replace('LAYER',layer).replace('PREFIX',prefix)
     (p/'guard').write_text(guard)
     keys=list(payloads)+['parent']
-    targets={'core':'carplaymaps/core.so','guidance':'eso/hmi/lsd/jars/CarPlayMU1367Guidance.jar','menu':'eso/hmi/lsd/jars/VCMenu.jar','parent':parent+'/control.sh'}
+    targets={'core':'carplaymaps/core.so','guidance':'eso/hmi/lsd/jars/CarPlayMU1367Guidance.jar','menu':'eso/hmi/lsd/jars/VCMenu.jar','reader':'carplay-mu1367/rgi-observer','parent':parent+'/control.sh'}
     new={k:sha(src.read_bytes()) for k,(src,_) in payloads.items()}
     gates=' [ "$(cat "$APP/'+parent+'/STATE" 2>/dev/null)" = installed ] && [ "$(cat "$APP/'+parent+'/VERSION" 2>/dev/null)" = '+shlex.quote(parent_build)+' ] || fail EXACT_IMMEDIATE_PARENT_REQUIRED\n'
     art=sd/'Custom/carplay_mu1367_artwork'

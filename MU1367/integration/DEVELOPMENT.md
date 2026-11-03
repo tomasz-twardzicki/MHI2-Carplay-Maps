@@ -37,6 +37,11 @@ formats. There is one user-facing install action, not one unprotected bulk copy.
 
 ## Build
 
+`RUNTIME.json` pins the six accepted v1.4.3 runtime payloads (the same
+runtime bytes as v1.4.2). This release retains the corresponding v1.4.3
+audio sources. The experimental native reader has its separate source and
+`READER-RUNTIME.json` identity.
+
 Use JDK 8, ASM 9.7, the matching converted stock JAR and the pinned QNX 6.5
 SDK/container environment used by `MU1367/port`. Firmware class hashes are
 checked before patching; installed JAR classes target major 46 for factory J9.
@@ -47,7 +52,8 @@ installed on the unit.
 ```sh
 python3 MU1367/integration/build.py --java-home "$JDK" --stock-jar "$STOCK" \
   --asm-dir "$ASM" --toolchain "$QNX" --output "$BUILD"
-python3 MU1367/integration/package.py --runtime "$BUILD" --output "$PACKAGE"
+python3 MU1367/integration/package.py --runtime "$BUILD" \
+  --reader-build "$READER_BUILD" --output "$PACKAGE"
 ```
 
 `build.py` directly compiles the maintained guidance, artwork, menu and core
@@ -55,7 +61,7 @@ sources and requires all six rebuilt outputs to match `RUNTIME.json`. It does
 not import successive experiment staging scripts. The v1.4.2 guidance ID is `MU1367-guidance-v1.4.2`; its rebuilt JAR includes the
 reviewed U-turn mapping from PR #8. Audio remains `MU1367-artwork-55008dbaf18e`.
 The other five runtime payloads retain their v1.4.1 hashes. Release controller
-IDs and `MU1367_RELEASE_MANIFEST.json` identify the complete v1.4.3 package.
+IDs and `MU1367_RELEASE_MANIFEST.json` identify the complete v1.4.3-e package.
 Published v1.4.1 controllers and payloads are retained as exact migration fixtures;
 updates retire that layer through the same verified removal/reboot boundary as
 older v3 tests, preserving original snapshots.
@@ -129,3 +135,25 @@ full reboot before integrated installation, preserving archived originals.
 v1.4.2 base/card transactions are archived as exact migration fixtures alongside
 v1.4.1. `test-p4521.py` checks recognition, unsupported identities, unchanged
 runtime bytes, installation/tuning and the old experimental reset/update path.
+
+## Experimental v1.4.3-e reader
+
+Further work uses the v1.4.3 source baseline and exact published archive
+`62cd0bb55f874e206f37bfc09952da3bee137421b9fdc695c1a2b1419c0543e3`.
+`RUNTIME.json` retains all six v1.4.3 runtime pins; `READER-RUNTIME.json` separately
+pins the experimental native reader. The normal main transaction snapshots and
+restores `reader` alongside core/menu/guidance/parent. Optional tuning therefore
+uses the same ownership/removal chain without an extra reader layer.
+
+Build the reader with `tools/build-reader.py`, using a verified QNX/factory-libc
+setup; run `tests/test-reader.py` against the v1.4.3 guidance JAR and
+`tests/test-reader-qnx.py` with matching firmware libc/pipe. Package with
+`package.py --runtime BASE_RUNTIME --reader-build READER_BUILD --output PACKAGE`.
+`BASE_RUNTIME` may contain the six exact payloads extracted from the verified
+published v1.4.3 ZIP; the builder checks each against `RUNTIME.json`.
+
+Release validation includes full host transactions, all v1.4.3 migration variants,
+P4521 identity/install/reset checks and factory-shell QNX transactions. Tests
+mock mounts and do not establish vehicle endurance or power-loss durability.
+The earlier v1.4.1-only standalone reader test is historical; this experimental
+release uses the integrated builder above.

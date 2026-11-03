@@ -61,7 +61,10 @@ unverified and no adapter firmware patch is included. Blank unused-lane slots
 match OEM behavior. Refined symbols, OEM recalculation messages, names above the
 arrow, and Apple Maps/Waze support remain planned. See [known issues and TODOs](./MU1367/integration/KNOWN-ISSUES.md).
 
-Use the [v1.4.3 installation and recovery guide](./MU1367/integration/INSTALL.md)
+An **[experimental v1.4.3-e reader fix](./releases/MU1367/v1.4.3-e/README.md)** is
+published for K4525/P4521 vehicle testing; it retains the v1.4.3 baseline.
+
+Use the [stable v1.4.3 installation and recovery guide](./releases/MU1367/v1.4.3/START_HERE.md)
 and [maintained source/build guide](./MU1367/integration/DEVELOPMENT.md).
 Earlier packages and tags remain unchanged. These changes apply to exact
 **K4525 or P4521 MU1367 + AID 791 (P4521 experimental)**, separately from the MU1427 release below.

@@ -2,8 +2,9 @@
 """Assemble the maintained Toolbox and verified compatibility migrations (GPL-3.0+)."""
 import argparse, hashlib, importlib.util, json, re, shutil, subprocess, zipfile
 from pathlib import Path
+from tools.payload_checks import write_payload_checks
 HERE=Path(__file__).resolve().parent
-ARCHIVE='CarPlay_Maps_VC_MU1367_791_v1.4.3.zip'
+ARCHIVE='CarPlay_Maps_VC_MU1367_791_v1.4.3-e.zip'
 def sha(f): return hashlib.sha256(f.read_bytes()).hexdigest()
 def toolbox_input(name):
     # The SD's upstream Git attributes belong to its distribution, not this
@@ -11,10 +12,14 @@ def toolbox_input(name):
     return HERE/'tools/toolbox-attributes.txt' if name=='.gitattributes' else HERE/'toolbox'/name
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    for n in ('runtime','output'):p.add_argument('--'+n,type=Path,required=True)
+    for n in ('runtime','reader-build','output'):p.add_argument('--'+n,type=Path,required=True)
     a=p.parse_args();a.runtime=a.runtime.resolve()
     pinned=json.loads((HERE/'RUNTIME.json').read_text())['rebuild']
     for name,h in pinned.items(): assert sha(a.runtime/name)==h,name
+    reader=json.loads((a.reader_build/'manifest.json').read_text())
+    reader_pin=json.loads((HERE/'READER-RUNTIME.json').read_text())
+    assert reader['passed'] and sha(a.reader_build/'rgi-observer')==reader['sha256']==reader_pin['sha256']
+    assert sha(HERE/'src/reader/reader.c')==reader['source_sha256']==reader_pin['source_sha256']
     for name,h in json.loads((HERE/'toolbox-inputs.json').read_text()).items():assert sha(toolbox_input(name))==h,name
     out=a.output.resolve();out.mkdir(parents=True,exist_ok=False);sd=out/'sd-card';shutil.copytree(HERE/'toolbox',sd)
     shutil.copy2(toolbox_input('.gitattributes'),sd/'.gitattributes')
@@ -25,12 +30,15 @@ def main():
     variants={};tv={}
     for v in ('6','7','6-road','7-road'):
         pm=json.loads((parent/v/'manifest.json').read_text());before=dict(pm['files']);before['parent']=sha(parent/v/'control.sh')
+        before['reader']=sha(custom/'carplay_mu1367/rgi-observer')
         payload={k:(a.runtime/path,name) for k,path,name in [('core','base/core.so','core.so'),('menu','base/VCMenu.jar','VCMenu.jar'),('guidance','CarPlayMU1367Guidance.jar','CarPlayMU1367Guidance.jar')]}
+        payload['reader']=(a.reader_build/'rgi-observer','rgi-observer')
         variants[v]=tx.transaction(sd,root,v,payload,before,'carplay-mu1367-map-only','guidance-v3','MU1367_GUIDANCE_V3',pm['build_id'])
         before={k:variants[v]['files'][k] for k in ('core','menu')};before['parent']=sha(root/v/'control.sh')
         payload={k:(a.runtime/'tuning'/name,name) for k,name in [('core','core.so'),('menu','VCMenu.jar')]}
         tv[v]=tx.transaction(sd,tuning,v,payload,before,'carplay-mu1367-guidance-v3','turn-cards','MU1367_TURN_CARDS',variants[v]['build_id'])
     actions=(HERE/'tools/actions.sh').read_text()
+    actions=actions.replace('@READER_VERSIONS@','|'.join(m['build_id'] for m in variants.values()))
     code=(HERE/'tools/migrate.sh').read_text()
     # Diagnose old tuning before requesting ordinary release tuning removal.
     needle='if [ -d "$CARDS" ];then\n regular "$CARDS/STATE"'
@@ -39,7 +47,7 @@ def main():
     actions=actions[:pos]+'. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n'+actions[pos:]
     # migrate.sh handles both latest and old tuning; the existing gate runs afterwards.
     actions=actions.replace('. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n','. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n'+code+'\n')
-    actions=actions.replace('echo MU1367_GUIDANCE_V3_SUITE_INSTALLED_FULL_REBOOT_REQUIRED','echo MU1367_RELEASE_1_4_3_INSTALLED_FULL_REBOOT_REQUIRED')
+    actions=actions.replace('echo MU1367_GUIDANCE_V3_SUITE_INSTALLED_FULL_REBOOT_REQUIRED','echo MU1367_RELEASE_1_4_3_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED')
     (root/'actions.sh').write_text(actions)
     legacy=json.loads((HERE/'tools/legacy-revisions.json').read_text())
     sh='''# Generated exact identities of supported local revisions. No saved code runs before this gate.
@@ -57,7 +65,7 @@ legacy_check(){
         for k,before in m['before'].items():
             sh+='  regular "$LROOT/backup/'+k+'" && regular "$LROOT/backup/'+k+'.sha256" || return 1\n'
             sh+='  [ "$(cat "$LROOT/backup/'+k+'.sha256")" = '+before+' ] && "$P/verify" "$LROOT/backup/'+k+'" '+before+' || return 1\n'
-        paths={'core':'carplaymaps/core.so','menu':'eso/hmi/lsd/jars/VCMenu.jar','guidance':'eso/hmi/lsd/jars/CarPlayMU1367Guidance.jar'}
+        paths={'core':'carplaymaps/core.so','menu':'eso/hmi/lsd/jars/VCMenu.jar','guidance':'eso/hmi/lsd/jars/CarPlayMU1367Guidance.jar','reader':'carplay-mu1367/rgi-observer'}
         for k,hfile in m['files'].items():
             sh+='  if [ "$IDENTITY" = "$LROOT/control.sh" ] || [ '+k+' = guidance ];then\n'
             sh+='   parents "$APP/'+paths[k]+'" && regular "$APP/'+paths[k]+'" && "$P/verify" "$APP/'+paths[k]+'" '+hfile+' || return 1\n  fi\n'
@@ -67,22 +75,25 @@ legacy_check(){
     (root/'legacy-check.sh').write_text(sh)
     (root/'release-versions.sh').write_text('case "$(cat "$MAIN/VERSION")" in\n '+ '|'.join(m['build_id'] for m in variants.values())+') RELEASE_CURRENT=yes;;\n *) RELEASE_CURRENT=no;;\nesac\n')
     shutil.copy2(HERE/'evidence/p4521-factory.json',sd/'P4521_FACTORY.json')
-    for n in ('INSTALL.md','KNOWN-ISSUES.md','DEVELOPMENT.md'):
+    for n in ('INSTALL.md','KNOWN-ISSUES.md','DEVELOPMENT.md','READER-RECOVERY.md','RELEASE-NOTES.md'):
         shutil.copy2(HERE/n,sd/('START_HERE.md' if n=='INSTALL.md' else n))
     shutil.copy2(HERE/'RECOVERY.md',sd/'MU1367_OEM_RESET_INSTALL.md')
-    (sd/'README.md').write_text('# MU1367 / 791 v1.4.3\n\nStart with [START_HERE.md](START_HERE.md).\n')
+    guide=sd/'READER-RECOVERY.md'
+    guide.write_text(guide.read_text().replace('](INSTALL.md)','](START_HERE.md)'))
+    menu=sd/'Toolbox/GEM/carplay-maps-vc.esd'
+    menu_text=menu.read_text()
+    old_banner='MU1367 / 791 v1.4.3 - P4521 experimental'
+    assert old_banner in menu_text
+    menu.write_text(menu_text.replace(old_banner,'MU1367 / 791 v1.4.3-e - EXPERIMENTAL reader fix'))
+    (sd/'README.md').write_text('# MU1367 / 791 v1.4.3-e — EXPERIMENTAL\n\nBased on v1.4.3, including K4525/P4521 support and the U-turn lane fix.\n\nExperimental guidance-reader recovery for the reported loss of native guidance; vehicle testing is required. Start with [START_HERE.md](START_HERE.md) and [READER-RECOVERY.md](READER-RECOVERY.md).\n')
     shutil.copy2(HERE/'NOTICE.md',sd/'NOTICE.md')
-    manifest={'version':'1.4.3','archive_name':ARCHIVE,'firmware':'K4525 / P4521 MU1367','supported_firmware':[{'train':'MHI2_ER_VWG13_K4525','experimental':False},{'train':'MHI2_ER_VWG13_P4521','experimental':True}],'p4521_prior_experimental_vehicle_tested':True,'p4521_final_package_vehicle_tested':False,'cluster':'791','variants':variants,'tuning_variants':tv,
+    manifest={'version':'1.4.3-e','experimental':True,'prerelease':True,'base_version':'1.4.3','base_archive_sha256':'62cd0bb55f874e206f37bfc09952da3bee137421b9fdc695c1a2b1419c0543e3','reader_build':'MU1367-reader-v1.4.3-e','reader_sha256':reader['sha256'],'reader_source_sha256':reader['source_sha256'],'experimental_fix':'Bounded recovery and retained diagnostics for native guidance reader worker failure; vehicle endurance not yet validated.','archive_name':ARCHIVE,'firmware':'K4525 / P4521 MU1367','supported_firmware':[{'train':'MHI2_ER_VWG13_K4525','experimental':False},{'train':'MHI2_ER_VWG13_P4521','experimental':True}],'p4521_prior_experimental_vehicle_tested':True,'p4521_final_package_vehicle_tested':False,'cluster':'791','variants':variants,'tuning_variants':tv,
         'files':variants['6']['files'],'defaults':{'fps':30,'idr':5,'cards':False,'safe_area':[200,96,400,364]},
         'guidance_build':'MU1367-guidance-v1.4.2','mini_pico_card_suppression':False,'inactive_lane_blanks':'OEM behavior',
         'release_package_vehicle_tested':False,'feature_vehicle_results':'See KNOWN-ISSUES.md; final packaging and migration verified off-unit.'}
     (sd/'MU1367_RELEASE_MANIFEST.json').write_text(json.dumps(manifest,indent=2)+'\n')
-    # One inventory covers all migration payloads before the first persistent write.
-    checks=[]
-    for f in sorted(custom.rglob('*')):
-        if f.is_file() and f.name!='payload-check.sh':checks.append('"$P/verify" "$CUSTOM_CHECK/'+str(f.relative_to(custom))+'" '+sha(f)+' || return 1')
-    body='CUSTOM_CHECK=${P%/*}\n'+'\n'.join(checks)+'\n'
-    for r in (root,parent,custom/'carplay_mu1367_refinements'):(r/'payload-check.sh').write_text(body)
+    # Check every CarPlay migration/recovery payload before persistent writes.
+    write_payload_checks(custom)
     for f in [*custom.rglob('*.sh'),*(sd/'Toolbox/scripts').glob('cpmap*.sh')]:
         subprocess.run(['/bin/ksh','-n',str(f)],check=True,capture_output=True);f.chmod(0o755)
     inventory={str(f.relative_to(sd)):sha(f) for f in sorted(sd.rglob('*')) if f.is_file()}

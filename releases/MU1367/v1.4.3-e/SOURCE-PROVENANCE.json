@@ -1,0 +1,22 @@
+{
+  "base_commit": "1d694730a7162fa30ba5a84085543bddc2d4706a",
+  "base_tag": "MU1367-v1.4.3",
+  "release_tag": "MU1367-v1.4.3-e",
+  "archive_sha256": "3ecb5304c8a9e85c43a01dd532dfc5c920c3e1a866321a7c1d667d750260afa5",
+  "reader_source_sha256": "d99e6705b466a3cc6566465a58bc52987730293e893ccb416ca24bda9523287a",
+  "reader_sha256": "b2d8d608ed3dfe7ac730124c3144e0deb0e9539d7140ef71f75fce2dc313de68",
+  "source_scope": "v1.4.3 sources plus experimental reader, integrated transaction, regression tests and release documentation. Audio sources retain committed v1.4.3.",
+  "verification_note": "VERIFICATION.json is the retained exact-artifact test record. Its original workspace source inventory also lists unpromoted audio diagnostics and historical standalone tests, which are excluded from the release source. Documentation in the tagged source has publishing wording and omits links to those local diagnostics; the tested ZIP is unchanged.",
+  "assets": {
+    "CarPlay_Maps_VC_MU1367_791_v1.4.3-e.zip": "3ecb5304c8a9e85c43a01dd532dfc5c920c3e1a866321a7c1d667d750260afa5",
+    "KNOWN-ISSUES.md": "a4b497eee1a82cb24a158a3ae33ce592cebb85a224a8db8cecc7a1b4c3e4cab3",
+    "MU1367_OEM_RESET_INSTALL.md": "d88e0287cfb43d01ceae94983ed5927ed9363245a8113c460ded93801950ce98",
+    "READER-RECOVERY.md": "1aa15999761e664eff2d9dfaec383b97208590824ab58d8418753d5441d645c1",
+    "README.md": "c9d4b5675685f3da2b07fe4e80b9ec1a0db4bd6859503868bfa8418d1d135974",
+    "RELEASE-NOTES.md": "2558610acd4ab1d2c6f88612e88a3eebef496382af7022037105464310b06607",
+    "SHA256SUMS.txt": "9b2d44a1c14428bed9ac8c9aa33ca304e77b2b36936e3ab6b37f93842fb85deb",
+    "START_HERE.md": "f1fe1c097db95ea0127df26817bb5df36926549d8d9c68af1228c30568c8d256",
+    "VERIFICATION.json": "0f210ec6125826d294619b1e2ea7d81186562edbe0218e674bf85b8d28a6f93b",
+    "manifest.json": "57b0df9f5f8daf891c2dd4881615c6f5c028a93aa53542a417994f2f62ec3631"
+  }
+}

@@ -1,24 +1,24 @@
-# MU1367 / 791 integration v1.4.3
+# MU1367 / 791 integration v1.4.3-e — experimental
 
-The maintained MU1367 package combines CarPlay maps, native arrows/progress,
-ETA/current road and lane guidance, audio metadata/artwork, MU display settings
-and reconnect recovery. The retained v1.4.2 fix makes the lane decoder emit the factory VW
-left/right U-turn bytes (114/146), incorporating [PR #8](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/pull/8). Defaults are map only and **30 fps / IDR5**. Optional
-turn-card tuning adds both the runtime support and its MU UI controls.
+This release adds bounded guidance-reader recovery and retained first-failure
+information to the published **v1.4.3** baseline. It is an **experimental fix,
+to be tested**, for native guidance disappearing after extended operation.
+The supplied capture showed worker failure; the original interruption's cause
+and vehicle endurance of this recovery remain unverified.
 
-- [Install, update from existing test builds, and rollback](INSTALL.md)
-- [Known issues and planned navigation improvements](KNOWN-ISSUES.md)
-- [Independent OEM reset and no-SD recovery](RECOVERY.md)
-- [Source layout, builds and verification](DEVELOPMENT.md)
-- [Download v1.4.3](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3)
+Supports **K4525 and P4521 MU1367 + AID 791**. P4521 installation retains its
+experimental status. The v1.4.2 VW U-turn lane fix (114/146), complete v1.4.3
+feature set, map-only defaults and **30 fps / IDR5** are retained.
 
-K4525 or **P4521 MU1367 + AID 791**. P4521 installation remains **experimental**;
-the prior P4521 experimental build has been confirmed working in a vehicle.
-This combined v1.4.3 package adds the full current feature set. Mini Pico can override the MU's map-only URL
-and still display a card. Normal safe-area alignment is restored. Unused-lane
-blank slots are expected OEM rendering. Apple Maps/Waze remain planned work.
+- [Install, update and rollback](INSTALL.md)
+- [Experimental recovery behavior and vehicle test](READER-RECOVERY.md)
+- [Release files](../../releases/MU1367/v1.4.3-e/README.md)
+- [Known issues](KNOWN-ISSUES.md)
+- [Independent OEM reset](RECOVERY.md)
+- [Source, builds and verification](DEVELOPMENT.md)
 
-U-turn encoding and factory serialization are verified against MU1367. Vehicle
-rendering was reported on MU1161 + AID 791; MU1367 U-turn acceptance remains
-pending. The patch covers −180…−170° and 170…179°; +180° selects left for
-right-hand traffic. ±169° retains its previous sector encoding.
+The normal install/update action includes the new reader in the same verified
+snapshot transaction as native guidance. Optional turn-card tuning remains
+available. No separate reader add-on action is needed. Audio retains the v1.4.3
+runtime and source. Mini Pico card overrides, unused-lane blank slots and
+navigation-app limitations remain documented known issues.

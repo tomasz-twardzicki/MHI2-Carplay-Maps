@@ -1,4 +1,4 @@
-# MU1367 / 791 v1.4.3 — complete installation and update
+# MU1367 / 791 v1.4.3-e — complete installation and update
 
 For **MHI2_ER_VWG13_K4525 or MHI2_ER_VWG13_P4521 MU1367 + AID 791
 (12.3 inch)**. **P4521 installation remains experimental**, following a successful
@@ -9,7 +9,16 @@ The installer reports `MU1367_FIRMWARE_TYPE=P4521_EXPERIMENTAL` or `K4525` when
 RCC train information is available. Without it, the shared exact firmware hash
 is reported as `K4525_OR_P4521_HASH_MATCH`; it cannot distinguish these trains.
 
-Verify `CarPlay_Maps_VC_MU1367_791_v1.4.3.zip` with the adjacent `SHA256SUMS.txt`.
+**Experimental guidance-reader fix — to be tested.** The complete v1.4.3
+baseline, including the U-turn fix and P4521 recognition, is retained. The normal
+install action also replaces the native reader and saves its original alongside
+guidance for rollback. See [READER-RECOVERY.md](READER-RECOVERY.md).
+
+If the previous standalone reader test is installed, restore it first using
+its saved controller and fully reboot. Audio R1/R2 test layers must be restored
+before a base upgrade because the release retains the original audio runtime.
+
+Verify `CarPlay_Maps_VC_MU1367_791_v1.4.3-e.zip` with the adjacent `SHA256SUMS.txt`.
 Extract to a clean FAT32 SD root; do not merge older SD contents. Keep this SD
 and copy all recovery snapshots off the unit after a successful installation.
 
@@ -23,7 +32,7 @@ menus and scripts** from this SD. The established refresh command on MMX is:
 
 Use `/fs/sdb0` throughout if appropriate. From RCC enter MMX with `on -f mmx`.
 Under **MQB Coding > Customization > CarPlay Maps VC**, verify the banner reads
-**MU1367 / 791 v1.4.3 - P4521 experimental**. Do not use scripts left from an earlier SD.
+**MU1367 / 791 v1.4.3-e - EXPERIMENTAL reader fix**. Do not use scripts left from an earlier SD.
 
 ## Install / update
 
@@ -45,7 +54,7 @@ numbered or experimental steps need to be selected separately.
 - **Stock OEM, v1.3.0, v1.4.0, supported step-6/step-8 and Integrated Arrows:**
   matching existing layers are checked and retained; missing layers are added.
 - **Lane-v2:** the release update is added directly.
-- **Active integrated v1.4.1/v1.4.2 or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
+- **Active integrated v1.4.1/v1.4.2/v1.4.3 or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
   the first invocation checks the saved controller and every original backup,
   removes matching optional card tuning if present, and restores the lane-v2
   baseline through the saved controller. Expect
@@ -55,7 +64,7 @@ numbered or experimental steps need to be selected separately.
   The old removed snapshot is verified and archived, never overwritten.
 
 The final success message is
-**`MU1367_RELEASE_1_4_3_INSTALLED_FULL_REBOOT_REQUIRED`**. Fully reboot with the
+**`MU1367_RELEASE_1_4_3_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`**. Fully reboot with the
 phone/adapter absent. Check OEM HMI, cluster and audio before reconnecting.
 If a stage fails, retain its complete output and use Recovery. Do not force
 version markers, delete recovery directories or continue through an error.
@@ -108,7 +117,8 @@ available in the same submenu. The runtime uses bounded diagnostic files.
 ## Recovery and full return to OEM
 
 **Recovery > Remove latest update only** restores the pre-release lane-v2 snapshot;
-remove optional turn-card tuning first. Fully reboot. Recovery for a failed or
+remove optional turn-card tuning first. The saved reader is restored in the
+same transaction. Fully reboot. Recovery for a failed or
 interrupted latest update is also in this submenu. On MMX, without SD/HMI:
 
 ```sh

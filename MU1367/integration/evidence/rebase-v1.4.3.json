@@ -1,0 +1,22 @@
+{
+  "base_version": "1.4.3",
+  "base_commit": "1d694730a7162fa30ba5a84085543bddc2d4706a",
+  "base_tag": "MU1367-v1.4.3",
+  "base_release_url": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3",
+  "base_archive_sha256": "62cd0bb55f874e206f37bfc09952da3bee137421b9fdc695c1a2b1419c0543e3",
+  "experimental_version": "1.4.3-e",
+  "source_rebase": "Release source is based directly on committed v1.4.3; only the experimental reader, its integrated transactions, tests and documentation are overlaid. Unpromoted audio sources are excluded.",
+  "preserved_baseline": [
+    "P4521 train recognition and both hardware variants",
+    "v1.4.2 VW U-turn bytes 114/146",
+    "all six runtime payloads",
+    "defaults and optional tuning",
+    "firmware command checks, migration and OEM recovery"
+  ],
+  "candidate_scope": [
+    "native reader",
+    "main transaction reader snapshot/rollback",
+    "exact v1.4.3 migration fixtures",
+    "experimental labels and test documentation"
+  ]
+}
