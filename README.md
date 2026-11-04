@@ -36,6 +36,19 @@ The baseline project is by **omonob (QCDWJ)**. **tomasz-twardzicki** developed t
 
 ## Latest MU1367 / 791 changes
 
+**[MU1367 v1.4.3-1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3-1)** is the stable release of the
+vehicle-confirmed v1.4.3-e guidance-reader fix. When the native guidance worker
+fails during long sessions, the reader now clears guidance, confirms the failed
+worker has exited and starts a replacement (up to three times, after 1/2/4 s).
+Guidance returns only after fresh phone data, and the first failure's details
+are kept for diagnostics. A 2 h 30 min guided drive recovered twice without
+user action. The ZIP is byte-identical to v1.4.3-e, so its menu banner and
+completion message still read "v1.4.3-e".
+
+An experimental **[v1.4.4-e pre-release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.4-e)** targets
+Apple Maps / Waze native guidance and renews the reader-recovery budget; it awaits
+vehicle testing.
+
 **[MU1367 v1.4.3](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3)**
 adds **experimental P4521 installation** with all current features, retaining the
 v1.4.2 U-turn lane fix using the factory VW left/right direction bytes
@@ -61,10 +74,7 @@ unverified and no adapter firmware patch is included. Blank unused-lane slots
 match OEM behavior. Refined symbols, OEM recalculation messages, names above the
 arrow, and Apple Maps/Waze support remain planned. See [known issues and TODOs](./MU1367/integration/KNOWN-ISSUES.md).
 
-An **[experimental v1.4.3-e reader fix](./releases/MU1367/v1.4.3-e/README.md)** is
-published for K4525/P4521 vehicle testing; it retains the v1.4.3 baseline.
-
-Use the [stable v1.4.3 installation and recovery guide](./releases/MU1367/v1.4.3/START_HERE.md)
+Use the [stable v1.4.3-1 installation and recovery guide](./releases/MU1367/v1.4.3-e/START_HERE.md)
 and [maintained source/build guide](./MU1367/integration/DEVELOPMENT.md).
 Earlier packages and tags remain unchanged. These changes apply to exact
 **K4525 or P4521 MU1367 + AID 791 (P4521 experimental)**, separately from the MU1427 release below.
@@ -104,10 +114,10 @@ The original standalone profiles remain available ([see below](#origin-and-upstr
 
 ## Download
 
-**MU1367 / AID 791 — v1.4.3 complete integration:**
-[Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3) ·
-[Full Toolbox ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3/CarPlay_Maps_VC_MU1367_791_v1.4.3.zip) ·
-[SHA-256](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3/SHA256SUMS.txt).
+**MU1367 / AID 791 — v1.4.3-1 complete integration:**
+[Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3-1) ·
+[Full Toolbox ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3-1/CarPlay_Maps_VC_MU1367_791_v1.4.3-e.zip) ·
+[SHA-256](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3-1/SHA256SUMS.txt).
 Read [installation, migration and recovery](./MU1367/integration/INSTALL.md).
 Supports K4525 and **P4521 (experimental installation)**; the earlier P4521
 experimental build has been confirmed working in a vehicle.
@@ -126,6 +136,8 @@ confirmed working MU1427 baseline**, rather than the earlier initial port.
 
 | Release | Published | Changes | Previous tag |
 | --- | --- | --- | --- |
+| [MU1367 / 791 v1.4.3-1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3-1) | 2026-11-04 | Stable release of the vehicle-confirmed v1.4.3-e reader fix, byte-identical ZIP (`3ecb5304…`). A 2 h 30 min guided drive recorded two automatic worker recoveries. | `MU1367-v1.4.3` |
+| [MU1367 / 791 v1.4.3-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3-e) (pre-release) | 2026-11-03 | Fix native guidance disappearing after extended operation: the capture showed the native guidance worker failing (`reason=3`). The reader now clears guidance, confirms the failed worker exited and starts a replacement, at most three times per boot after 1/2/4 s. It requires a fresh baseline and fresh phone data before guidance returns, and keeps a bounded first-failure record. Installed and rolled back with guidance in the same snapshot transaction; v1.4.3 runtime payloads unchanged. | `MU1367-v1.4.3` |
 | [MU1367 / 791 v1.4.3](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3) | 2026-11-02 | Recognize P4521 firmware and allow all current integrated features, retaining the v1.4.2 VW U-turn fix. **P4521 installation remains experimental**, following confirmed vehicle success of the earlier experimental build. Separate P4521 bundles upgrade through retained OEM reset + reboot; integrated v1.4.2 migration is recognized. Runtime payloads unchanged. | `MU1367-v1.4.2` |
 | [MU1367 / 791 v1.4.2](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.2) | 2026-11-02 | Fix U-turn lane direction bytes with VW left/right symbols (114/146), from [PR #8](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/pull/8). Rebuilt maintained guidance JAR; verified v1.4.1 update/reboot migration and retained snapshots. Factory MU1367 constants and serialization verified; U-turn vehicle result reported on MU1161 + AID 791, MU1367 rendering still awaits acceptance. | `MU1367-v1.4.1` |
 | [MU1367 / 791 v1.4.1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.1) | 2026-10-31 | Consolidated single install/update; road names, progressing native arrows, lane recommendations, audio metadata/artwork and reconnect recovery; 30 fps/IDR5 defaults; map-only base with optional card runtime + MU controls; archived settings reset, grouped diagnostics/recovery and independent OEM reset. Known test revisions migrate through a checked reboot boundary with snapshots retained. Normal safe area restored; Ottocast card override remains unresolved. Inactive lane blanks are OEM behavior. | `MU1367-v1.4.0` |
@@ -145,7 +157,7 @@ versioned release links above for downloads.
 
 ## Installation
 
-**MU1367:** follow the [complete v1.4.3 guide](./MU1367/integration/INSTALL.md). The steps below are
+**MU1367:** follow the [complete v1.4.3-1 guide](./MU1367/integration/INSTALL.md). The steps below are
 for **MU1427**.
 
 Use the **full native-guidance MQB Toolbox bundle** described above. The [full installation guide](./MU1427/route-guidance/INSTALL.md) includes recovery commands and the first installation check.

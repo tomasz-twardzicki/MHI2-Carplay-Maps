@@ -2,9 +2,9 @@
 
 Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
 
-Current development is **[v1.4.3-e experimental integration](./integration/README.md)**,
-based on the published v1.4.3 release, with reader recovery awaiting vehicle testing.
-Use the [experimental test guide](./integration/READER-RECOVERY.md) for the new candidate.
+The current stable release is **[v1.4.3-1](../releases/MU1367/v1.4.3-1/README.md)**,
+the vehicle-confirmed [v1.4.3-e integration](./integration/README.md) with guidance-reader
+recovery, published with a byte-identical ZIP. See [reader recovery](./integration/READER-RECOVERY.md).
 The complete integration supports
 K4525 or P4521 MU1367 + AID 791. P4521 installation remains experimental;
 the earlier experimental build has been confirmed working in a vehicle. It combines maps, native arrows/progress, current road,
