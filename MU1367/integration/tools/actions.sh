@@ -52,6 +52,7 @@ case "$ACTION" in
  status)
   /bin/ksh "$CUSTOM/carplay_mu1367_map_only/actions.sh" status "$CUSTOM/carplay_mu1367_map_only" || exit 1
   if regular "$M/ramdisk/carplay-route-guidance/reader-failure-first.txt";then cat "$M/ramdisk/carplay-route-guidance/reader-failure-first.txt";fi
+  if regular "$M/ramdisk/carplay-route-guidance/guidance-evidence.txt";then cat "$M/ramdisk/carplay-route-guidance/guidance-evidence.txt";fi
   for R in "$APP/carplay-mu1367-guidance-v3" "$APP/carplay-mu1367-turn-cards";do
    echo "LAYER=${R##*/}"
    for F in STATE VERSION;do regular "$R/$F" && cat "$R/$F";done

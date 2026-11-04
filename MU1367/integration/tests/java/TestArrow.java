@@ -29,7 +29,8 @@ public final class TestArrow {
         check(ArrowProgress.remaining(frame(1,13,-1,TestLive.clock),TestLive.clock)==-1,"unknown distance hidden");
         check(ArrowProgress.remaining(frame(1,13,Integer.MAX_VALUE,TestLive.clock),TestLive.clock)==-1,"large distance cannot overflow percentage");
         check(ArrowProgress.remaining(frame(1,13,20,1000),999)==-1,"clock reversal hides");
-        check(ArrowProgress.remaining(frame(1,13,20,1000),6000)==-1,"stale route hides");
+        check(ArrowProgress.remaining(frame(1,13,20,1000),6000)==10,"quiet route keeps its bar");
+        check(ArrowProgress.remaining(frame(1,13,20,1000),1000+LiveModel.HOLD_MS)==-1,"stale route hides");
         check(ArrowProgress.remaining(frame(1,13,20,-1),1000)==-1,"no accepted route timestamp hides");
     }
     static byte[] route(int... order){
@@ -62,8 +63,8 @@ public final class TestArrow {
         TestLive.accept=false;TestLive.clock+=250;b.incoming=frame(22,13,500,TestLive.clock);b.journalAt=TestLive.clock;b.tick(TestLive.clock);
         check((b.refreshPending&2)!=0,"factory queue rejection retains distance retry");
         TestLive.accept=true;TestLive.clock+=250;b.journalAt=TestLive.clock;b.tick(TestLive.clock);check((b.refreshPending&2)==0&&output().bargraphInfo.bargraph==25,"retry publishes latest countdown");
-        TestLive.clock=5999;b=TestLive.bridge();b.incoming=frame(1,13,100,1000);b.journalAt=TestLive.clock;b.tick(TestLive.clock);check(output().bargraphInfo.bargraphOnOff==1,"fresh at route deadline minus one");
-        int sent=TestLive.sent.size();TestLive.clock=6000;b.journalAt=TestLive.clock;b.tick(TestLive.clock);
+        TestLive.clock=1000+LiveModel.HOLD_MS-1;b=TestLive.bridge();b.incoming=frame(1,13,100,1000);b.journalAt=TestLive.clock;b.tick(TestLive.clock);check(output().bargraphInfo.bargraphOnOff==1,"fresh at route deadline minus one");
+        int sent=TestLive.sent.size();TestLive.clock=1000+LiveModel.HOLD_MS;b.journalAt=TestLive.clock;b.tick(TestLive.clock);
         check(b.owned&&TestLive.sent.size()==sent+1&&output().bargraphInfo.bargraphOnOff==0,"timer clears stale bar without new producer progress");
         TestLive.route=1;DistanceToNextManeuver_Status untouched=new DistanceToNextManeuver_Status();untouched.bargraphInfo.bargraph=71;
         check(!LiveBridge.distance(untouched)&&untouched.bargraphInfo.bargraph==71,"OEM takeover declines helper without touching stock output");TestLive.route=0;

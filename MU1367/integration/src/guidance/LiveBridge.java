@@ -94,7 +94,7 @@ public final class LiveBridge implements TimerNotifier, Runnable {
         if (selected==null) return null;
         try {
             long time=now();
-            if (!allowed(time) || factoryContext()!=0 || selected.active && (mode!=2 || time<selected.changed || time-selected.changed>=5000
+            if (!allowed(time) || factoryContext()!=0 || selected.active && (mode!=2 || time<selected.changed || time-selected.changed>=LiveModel.HOLD_MS
                     || journalAt<0 || time<journalAt || time-journalAt>=1500)) {
                 selected=null; refreshPending=127; return null;
             }
@@ -134,13 +134,13 @@ public final class LiveBridge implements TimerNotifier, Runnable {
         if (frame==null || c!=0 || !lease || mode==0 || !core) {
             if (frame!=null) floor=frame.progress;
         }
-        boolean fresh=frame!=null && frame.active && frame.progress>floor && frame.changed>=0 && time>=frame.changed && time-frame.changed<5000
+        boolean fresh=frame!=null && frame.active && frame.progress>floor && frame.changed>=0 && time>=frame.changed && time-frame.changed<LiveModel.HOLD_MS
             && journalAt>=0 && time>=journalAt && time-journalAt<1500;
         if (mode==1 && c==0 && fresh) proposals++;
         boolean take=mode==2 && c==0 && lease && fresh && core;
         ownershipReason=take?0:c!=0?1:!core?2:!lease?3:mode!=2?4:frame==null?5:
             journalAt<0 || time<journalAt || time-journalAt>=1500?6:
-            !frame.active?7:frame.changed<0 || time<frame.changed || time-frame.changed>=5000?8:9;
+            !frame.active?7:frame.changed<0 || time<frame.changed || time-frame.changed>=LiveModel.HOLD_MS?8:9;
         if(take)lastOwnedAt=time;
         if (!take) {
             if (owned) {
@@ -258,7 +258,7 @@ public final class LiveBridge implements TimerNotifier, Runnable {
     private static LiveModel.Frame laneFrame() {
         LiveModel.Frame f=INSTANCE.current();
         if(f==null || !f.active || f.laneAt<0)return null;
-        long time=now();return time>=f.laneAt && time-f.laneAt<5000?f:null;
+        long time=now();return time>=f.laneAt && time-f.laneAt<LiveModel.HOLD_MS?f:null;
     }
     public static java.util.Iterator laneIterator(NavigationService stock) {
         if(INSTANCE.current()==null)return stock.getLaneGuidance();
@@ -303,6 +303,7 @@ public final class LiveBridge implements TimerNotifier, Runnable {
             try { out.write(s.toString().getBytes("US-ASCII")); } finally { out.close(); }
             if (!temp.renameTo(target)) failures++;
             LaneEvidence.write(ROOT);
+            GuidanceEvidence.write(ROOT);
         } catch (IOException e) { failures++; }
     }
     public void run() {

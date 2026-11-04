@@ -157,3 +157,49 @@ P4521 identity/install/reset checks and factory-shell QNX transactions. Tests
 mock mounts and do not establish vehicle endurance or power-loss durability.
 The earlier v1.4.1-only standalone reader test is historical; this experimental
 release uses the integrated builder above.
+
+## Experimental v1.4.4-e guidance and reader
+
+Based on the published v1.4.3-e archive
+`3ecb5304c8a9e85c43a01dd532dfc5c920c3e1a866321a7c1d667d750260afa5`. Only the
+guidance JAR (`MU1367-guidance-v1.4.4-e`) and reader (`MU1367-reader-v1.4.4-e`)
+change; `RUNTIME.json` and `READER-RUNTIME.json` pin them, and `verify.py`
+requires the other five runtime payloads to match v1.4.3-e. The capture analysis
+is in `evidence/APP-GUIDANCE-2026-11-04.md`.
+
+- `LiveModel.HOLD_MS` (180 s) replaces every former 5-second guidance gate.
+  The reader's STALE record no longer invalidates the Java model. Producer
+  heartbeat (1.5 s), session, explicit-end and OEM gates are unchanged.
+- A semantic decode fault rejects that message only; an unreadable route update
+  invalidates route state. Envelope/order/overlap faults still fail the snapshot.
+- `GuidanceEvidence` writes `guidance-evidence.txt` from the background thread.
+- `reader.c` renews its three-attempt budget after `RESTART_WINDOW_MS`
+  (600,000 ms) without a fault since the latest replacement, bounded by
+  `MAX_TOTAL_RESTARTS` (64). Tests compile the same source with a 1.5 s window.
+- v1.4.3-e controllers/payloads are archived under
+  `tests/revisions/release-v1.4.3-e` and registered in `legacy-revisions.json`.
+
+macOS temporary-file cleanup had emptied the previous `/private/tmp` JDK, venv
+and host QNX sysroot. Reconstruct inputs in an ignored local directory:
+JDK 8 (Zulu 8.0.412), ASM 9.7, the converted stock JAR, QNX headers copied from
+the pinned `cpmap-qnx65-sdp` image (`93b565ff63ba`), `pyelftools` 0.31, the MU1367
+J9 boot fixture (`port/build-qnx-final/j9`), a reader setup with MU1367 factory
+libc/pipe, the firmware command set and the host-test OEM inputs/`verify.c`.
+Verify unchanged-source rebuilds reproduce the published pins before changing
+code: all six v1.4.3-e payloads and reader `b2d8d608…` were reproduced exactly.
+
+```sh
+python3 build.py --java-home "$JDK" --stock-jar "$STOCK" --asm-dir "$ASM" --toolchain "$QNX" --output "$RUNTIME"
+python3 tools/build-reader.py --setup "$READER_SETUP" --output "$READER"
+python3 tests/test-guidance.py --build "$RUNTIME" --java-home "$JDK" --stock-jar "$STOCK" --output "$GUIDANCE"
+python3 tests/test-guidance-qnx.py --build "$RUNTIME" --java-home "$JDK" --stock-jar "$STOCK" --asm-dir "$ASM" --sysroot "$QNX" --j9-setup "$J9" --output "$J9_OUT"
+python3 tests/test-reader.py --guidance "$RUNTIME/CarPlayMU1367Guidance.jar" --stock "$STOCK" --java "$JDK" --output reader-host.json
+python3 tests/test-reader-qnx.py --build "$READER" --setup "$PIPE_SETUP" --reader-setup "$READER_SETUP" --output "$READER_QNX"
+python3 package.py --runtime "$RUNTIME" --reader-build "$READER" --output "$PACKAGE"
+python3 tests/test-actions-qnx.py --package "$PACKAGE" --reader-setup "$READER_SETUP" --toolchain "$QNX" --firmware "$K4525_FIRMWARE" --firmware-commands "$COMMANDS" --output "$ACTIONS"
+```
+
+Run `test-package.py`, `test-release-reader-transaction.py`, `test-p4521.py` and
+`test-payload-checks.py` in the disposable Debian/ksh93 container without network,
+then `verify.py` with every proof. The factory-J9 guidance run now includes
+`TestQuietQnx`; the host programs include `TestQuietHold`.

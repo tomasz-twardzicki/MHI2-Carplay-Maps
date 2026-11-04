@@ -102,7 +102,7 @@ public final class TestLanes {
   check(((LaneGuidance_LaneGuidance)out.getArrayData().getFirst()).laneType==23,"factory hidden-left marker");
   boolean recommended=false;for(int i=0;i<6;i++)if(((LaneGuidance_LaneGuidance)out.getArrayData().get(i)).guidanceInfo==2)recommended=true;
   check(recommended,"factory window retains preferred lane");
-  TestLive.clock+=5001;b.lastTick=TestLive.clock;b.journalAt=TestLive.clock;
+  TestLive.clock+=LiveModel.HOLD_MS+1;b.lastTick=TestLive.clock;b.journalAt=TestLive.clock;
   b.incoming=new LiveModel.Frame(true,13,192,30,1000,60,frame.progress+1,TestLive.clock,frame.epoch,frame.lanes,frame.laneAt);b.tick(TestLive.clock);out=factory();
   check(out.laneGuidanceOnOff==0&&out.getArrayData().size()==0&&b.owned,"lane deadline independent of fresh arrow feed");
   TestLive.route=1;TestLive.clock+=250;b.tick(TestLive.clock);check(!b.owned&&b.selected==null&&factory().getArrayData().size()==0,"OEM priority");TestLive.route=0;

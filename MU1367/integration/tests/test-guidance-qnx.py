@@ -18,7 +18,7 @@ def main():
  shutil.copy2(a.build/'CarPlayMU1367Guidance.jar',w/'observer.jar')
  helpers=w/'helpers';helpers.mkdir();tools=w/'tools';tools.mkdir()
  cp=str(a.build.resolve()/'CarPlayMU1367Guidance.jar')+':'+str(a.stock_jar.resolve())
- sources=[HERE/'java'/n for n in ('TestUturnQnx.java','TestRoadQnx.java','TestArrowQnx.java')]
+ sources=[HERE/'java'/n for n in ('TestUturnQnx.java','TestRoadQnx.java','TestArrowQnx.java','TestQuietQnx.java')]
  subprocess.run([str(javac),'-source','7','-target','7','-Xlint:-options','-bootclasspath',str(a.stock_jar),'-cp',cp,'-d',str(helpers),*map(str,sources)],check=True)
  (w/'ProbeClasses.java').write_text('''import java.nio.file.*;import org.objectweb.asm.*;import org.objectweb.asm.tree.*;
 public class ProbeClasses implements Opcodes {public static void main(String[] a)throws Exception{Files.walk(Paths.get(a[0])).filter(p->p.toString().endsWith(".class")).forEach(p->{try{ClassNode c=new ClassNode();new ClassReader(Files.readAllBytes(p)).accept(c,ClassReader.SKIP_FRAMES);c.version=V1_2;for(MethodNode m:c.methods)for(AbstractInsnNode n:m.instructions.toArray()){if(n instanceof LdcInsnNode&&((LdcInsnNode)n).cst instanceof Type)throw new IllegalStateException("class literal");if(n instanceof InvokeDynamicInsnNode)throw new IllegalStateException("invokedynamic");if(n instanceof MethodInsnNode&&((MethodInsnNode)n).owner.equals("java/lang/StringBuilder"))throw new IllegalStateException("StringBuilder");}ClassWriter w=new ClassWriter(ClassWriter.COMPUTE_MAXS);c.accept(w);Files.write(p,w.toByteArray());}catch(Exception e){throw new RuntimeException(e);}});}}''')
@@ -90,7 +90,7 @@ mv ifs.bin fat/
    proc.terminate()
    try:proc.wait(timeout=5)
    except subprocess.TimeoutExpired:proc.kill();proc.wait()
- log=(w/'qemu.log').read_text(errors='replace');assert log.count('UTURN_FACTORY_J9_PASS cases=5')==2 and log.count('UTURN_J9_CHILD_STATUS=0')==2
+ log=(w/'qemu.log').read_text(errors='replace');assert log.count('UTURN_FACTORY_J9_PASS cases=5')==2 and log.count('UTURN_J9_CHILD_STATUS=0')==2 and log.count('QUIET_FACTORY_J9_PASS')==2
  r={'passed':True,'guidance_sha256':sha(w/'observer.jar'),'factory_arm_j9_verified':True,'modes':['noverify','verify'],'uturn_cases_per_mode':5,'actual_factory_builder':True,'factory_serializer':True,'road_and_arrow_regressions':True,'qemu_log_sha256':sha(w/'qemu.log'),'on_unit_validated':False,'test_sha256':sha(Path(__file__))}
  (w/'result.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(r))
 if __name__=='__main__':main()

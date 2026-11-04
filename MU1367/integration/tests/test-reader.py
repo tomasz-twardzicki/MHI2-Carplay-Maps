@@ -22,14 +22,20 @@ class Reader(original.Reader):
   obj=cls.base/'reader.o'
   subprocess.run(cls.cc+['-Dread=fault_read','-Dwrite=fault_write','-Dwaitpid=fault_waitpid','-Drename=fault_rename','-Dfopen=fault_fopen','-c',str(SRC),'-o',str(obj)],check=True)
   subprocess.run(cls.cc+[str(obj),str(HERE/'reader-faults.c'),'-o',str(cls.fault)],check=True)
+  # Same source with a short stable window (and lifetime ceilings) for timing tests.
+  cls.windowed={}
+  for name,total in (('window',64),('ceiling',2)):
+   wobj=cls.base/(name+'.o');cls.windowed[name]=cls.base/(name+'-reader')
+   subprocess.run(cls.cc+['-DRESTART_WINDOW_MS=1500u','-DMAX_TOTAL_RESTARTS=%du'%total,'-Dread=fault_read','-Dwrite=fault_write','-Dwaitpid=fault_waitpid','-Drename=fault_rename','-Dfopen=fault_fopen','-c',str(SRC),'-o',str(wobj)],check=True)
+   subprocess.run(cls.cc+[str(wobj),str(HERE/'reader-faults.c'),'-o',str(cls.windowed[name])],check=True)
   cls.cp=':'.join(map(str,[cls.base,ARGS.guidance.resolve(),ARGS.stock.resolve()]))
   subprocess.run([str(ARGS.java/'bin/javac'),'-cp',cls.cp,'-d',str(cls.base),str(RG/'release/TestMailbox.java'),str(HERE/'java/TestLive.java'),str(HERE/'java/TestReaderRecovery.java')],check=True)
  def setUp(self):
   super().setUp();self.trigger=self.work/'trigger'
- def fault_start(self,mode):
+ def fault_start(self,mode,binary=None):
   self.write_source()
   env=dict(os.environ,READER_TEST_MODE=mode,READER_TEST_TRIGGER=str(self.trigger))
-  p=subprocess.Popen([str(self.fault),'serve',str(self.source),str(self.out)],env=env)
+  p=subprocess.Popen([str(binary or self.fault),'serve',str(self.source),str(self.out)],env=env)
   def stop():
    if p.poll() is None:p.terminate();p.wait(timeout=4)
   self.addCleanup(stop);self.wait(lambda:(self.out/'latest.bin').is_file())
@@ -118,6 +124,32 @@ class Reader(original.Reader):
   os.kill(int(self.status()['worker_pid']),signal.SIGKILL)
   self.assertEqual(p.wait(timeout=4),1);self.assertEqual(self.status()['reason'],'4')
   self.assertEqual(self.status()['restarts'],'0')
+ def restarts_reach(self,count,seconds=10):
+  self.wait(lambda:int(self.status().get('restarts','-1'))==count and self.mailbox()[16]==1,seconds=seconds)
+ def test_production_budget_constants(self):
+  text=SRC.read_text()
+  self.assertIn('#define MAX_RESTARTS 3u',text);self.assertIn('#define RESTART_WINDOW_MS 600000u',text)
+  self.assertIn('#define MAX_TOTAL_RESTARTS 64u',text);self.assertIn('#define BACKOFF_MS 1000u',text)
+ def test_stable_window_restores_budget_and_backoff(self):
+  p=self.fault_start('eof',self.windowed['window'])
+  self.trigger.touch();self.restarts_reach(1)
+  time.sleep(1.7)
+  self.trigger.touch();t=time.monotonic()
+  self.wait(lambda:self.status().get('budget_resets')=='1' and self.status()['total_restarts']=='2' and self.status()['restarts']=='1' and self.mailbox()[16]==1,seconds=5)
+  self.assertLess(time.monotonic()-t,1.9,'reset budget restores the 1 s backoff')
+  # Rapid faults without a stable window still exhaust the restored budget.
+  self.trigger.touch();self.restarts_reach(2)
+  self.trigger.touch();self.restarts_reach(3,seconds=8)
+  self.trigger.touch();self.assertEqual(p.wait(timeout=8),1)
+  s=self.status();self.assertEqual(s['reason'],'3');self.assertEqual(s['budget_resets'],'1');self.assertEqual(s['total_restarts'],'4')
+  self.assertIn('total_restarts=0',self.first().read_text())
+ def test_lifetime_ceiling_stops_spaced_faults(self):
+  p=self.fault_start('eof',self.windowed['ceiling'])
+  self.trigger.touch();self.restarts_reach(1)
+  time.sleep(1.7);self.trigger.touch()
+  self.wait(lambda:self.status().get('total_restarts')=='2' and self.mailbox()[16]==1,seconds=5)
+  time.sleep(1.7);self.trigger.touch();self.assertEqual(p.wait(timeout=6),1)
+  s=self.status();self.assertEqual(s['reason'],'3');self.assertEqual(s['total_restarts'],'2');self.assertEqual(s['budget_resets'],'2')
  def test_daemon_and_output_directory_gate(self):
   self.write_source()
   r=subprocess.run([str(self.binary),'start-live',str(self.source),str(self.out)],capture_output=True,timeout=4)

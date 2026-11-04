@@ -5,7 +5,7 @@ import de.vw.mib.bap.mqbab2.generated.navsd.serializer.*;
 import de.vw.mib.bap.stream.BitStream;
 public final class TestUturnQnx {
  public static void main(String[] args)throws Exception {
-  TestRoadQnx.main(args);TestArrowQnx.main(args);
+  TestRoadQnx.main(args);TestArrowQnx.main(args);TestQuietQnx.main(args);
   int[] angles={-180,-170,170,179,180};int[] expected={114,114,146,146,114};
   int checks=0;TestRoadQnx.clock=2000;TestRoadQnx.route=0;
   for(int i=0;i<angles.length;i++) {

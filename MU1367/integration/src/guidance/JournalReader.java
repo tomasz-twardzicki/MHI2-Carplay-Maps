@@ -44,7 +44,7 @@ public final class JournalReader {
             else if (kind==4) LiveModel.require(n==0);
             else if (kind==5) { LiveModel.require(n==0 && detail<=4); ended=true; }
             else LiveModel.require(false);
-            if (kind!=4) model.invalidate();
+            if (kind!=4 && kind!=3) model.invalidate();
             result=model.frame();
         }
         offset+=32+n; elapsed=at; records++;

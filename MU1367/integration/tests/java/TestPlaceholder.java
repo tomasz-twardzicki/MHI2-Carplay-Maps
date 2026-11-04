@@ -26,7 +26,7 @@ public final class TestPlaceholder {
         check(LiveBridge.descriptor(out)&&out.maneuver_1.mainElement==0,"cancellation clear stays blank");
         b.selected=f;TestLive.route=1;out.maneuver_1.mainElement=11;
         check(!LiveBridge.descriptor(out)&&out.maneuver_1.mainElement==11,"OEM navigation wins between timer ticks");
-        TestLive.route=0;b.selected=f;TestLive.clock=f.changed+5000;b.lastTick=TestLive.clock;b.journalAt=TestLive.clock;
+        TestLive.route=0;b.selected=f;TestLive.clock=f.changed+LiveModel.HOLD_MS;b.lastTick=TestLive.clock;b.journalAt=TestLive.clock;
         check(!LiveBridge.descriptor(out),"stale route never gains placeholder");
         b.selected=f;TestLive.clock=f.changed;b.lastTick=TestLive.clock;b.journalAt=TestLive.clock;TestLive.connection=0;
         check(!LiveBridge.descriptor(out),"disconnect never gains placeholder");

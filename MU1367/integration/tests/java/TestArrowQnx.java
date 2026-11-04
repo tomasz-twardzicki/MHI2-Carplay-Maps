@@ -31,7 +31,7 @@ public final class TestArrowQnx {
         Object sink=Proxy.newProxyInstance(bits.getClassLoader(),new Class[]{bits},new InvocationHandler(){public Object invoke(Object p,Method m,Object[] a){if(m.getName().equals("pushByte"))raw[count[0]++]=((Byte)a[0]).byteValue();return null;}});
         latest().bargraphInfo.serialize((de.vw.mib.bap.stream.BitStream)sink);
         check(count[0]==2&&raw[0]==1&&raw[1]==50,"factory serialized enable and remaining percent bytes");
-        TestRoadQnx.clock+=5000;b.lastTick=TestRoadQnx.clock;b.journalAt=TestRoadQnx.clock;stage.process(-1);check(latest().bargraphInfo.bargraphOnOff==0,"stale helper output cannot animate");
+        TestRoadQnx.clock+=LiveModel.HOLD_MS;b.lastTick=TestRoadQnx.clock;b.journalAt=TestRoadQnx.clock;stage.process(-1);check(latest().bargraphInfo.bargraphOnOff==0,"stale helper output cannot animate");
         TestRoadQnx.prepare(b,frame(1,100));TestRoadQnx.route=1;DistanceToNextManeuver_Status original=new DistanceToNextManeuver_Status();original.bargraphInfo.bargraph=73;
         check(!LiveBridge.distance(original)&&original.bargraphInfo.bargraph==73,"OEM handback declines override");TestRoadQnx.route=0;
         TestRoadQnx.prepare(b,new LiveModel.Frame(false,0,0,-1,0,0,0));stage.process(-1);check(latest().bargraphInfo.bargraphOnOff==0,"explicit clearing");

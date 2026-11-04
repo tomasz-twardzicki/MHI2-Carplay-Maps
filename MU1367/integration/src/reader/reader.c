@@ -2,6 +2,7 @@
  * MU1367 reader-recovery test, forked from the pinned release reader
  * fa4b4ed62ab1969a9b32cdbeb78cdb01292b8c68d5f3ea7008b1a54d8cf2bc8d.
  * Wire format/validation unchanged. No driver writes or HMI output.
+ * v1.4.4-e: the replacement budget is restored after a stable window.
  */
 #define _POSIX_C_SOURCE 200809L
 #include <sys/types.h>
@@ -30,8 +31,17 @@
 #define STALE_MS 5000u
 #endif
 #define HEARTBEAT_MS 1000u
-#define BUILD "MU1367-reader-v1.4.3-e"
+#define BUILD "MU1367-reader-v1.4.4-e"
+/* At most MAX_RESTARTS replacements without RESTART_WINDOW_MS of fault-free
+ * operation since the latest one; the window then restores the budget and
+ * the 1 s backoff. MAX_TOTAL_RESTARTS bounds a reader lifetime regardless. */
 #define MAX_RESTARTS 3u
+#ifndef RESTART_WINDOW_MS
+#define RESTART_WINDOW_MS 600000u
+#endif
+#ifndef MAX_TOTAL_RESTARTS
+#define MAX_TOTAL_RESTARTS 64u
+#endif
 #define BACKOFF_MS 1000u
 
 /* RGJ1 records: snapshot, invalidate, stale, heartbeat, end. */
@@ -50,7 +60,8 @@ struct worker_state {
     int data, trace, phase, reaped, child_status, kill_error, wait_error;
 };
 static struct worker_state child_state;
-static unsigned restarts;
+static unsigned restarts, total_restarts, budget_resets;
+static uint64_t last_restart_at;
 static const char *last_failure="none";
 
 static uint32_t u32(const unsigned char *p) {
@@ -233,11 +244,11 @@ static int first_failure(const char *cause, int error, uint64_t time,
     FILE *f; int failed;
     if (!access("reader-failure-first.txt",F_OK)) return 0;
     f=fopen("reader-failure-first.tmp","w"); if (!f) return -1;
-    failed=fprintf(f,"format=1 build=%s cause=%s errno=%d at_ms=%llu last_response_ms=%llu response_age_ms=%llu partial_bytes=%u worker_pid=%ld phase=%d child_reaped=%d child_status=%d kill_errno=%d wait_errno=%d polls=%u valid=%u invalid=%u sequence=%u restarts=%u recovery_allowed=%d\n",
+    failed=fprintf(f,"format=1 build=%s cause=%s errno=%d at_ms=%llu last_response_ms=%llu response_age_ms=%llu partial_bytes=%u worker_pid=%ld phase=%d child_reaped=%d child_status=%d kill_errno=%d wait_errno=%d polls=%u valid=%u invalid=%u sequence=%u restarts=%u recovery_allowed=%d total_restarts=%u\n",
         BUILD,cause,error,(unsigned long long)time,(unsigned long long)received,
         (unsigned long long)(time>=received?time-received:0),(unsigned)partial,
         (long)child_state.pid,child_state.phase,child_state.reaped,child_state.child_status,
-        child_state.kill_error,child_state.wait_error,polls,good,bad,sequence,restarts,retry)<0;
+        child_state.kill_error,child_state.wait_error,polls,good,bad,sequence,restarts,retry,total_restarts)<0;
     if (fclose(f)) failed=1;
     if (failed) { unlink("reader-failure-first.tmp"); return -1; }
     return rename("reader-failure-first.tmp","reader-failure-first.txt");
@@ -248,9 +259,10 @@ static int status_file(const char *state, uint32_t polls,
                        uint32_t bytes, unsigned reason) {
     FILE *f=fopen("status.tmp","w"); int failed;
     if (!f) return -1;
-    failed=fprintf(f,"RG status=%s polls=%u valid=%u invalid=%u sequence=%u bytes=%u reason=%u build=%s restarts=%u last_failure=%s worker_pid=%ld phase=%d child_reaped=%d\n",
+    failed=fprintf(f,"RG status=%s polls=%u valid=%u invalid=%u sequence=%u bytes=%u reason=%u build=%s restarts=%u last_failure=%s worker_pid=%ld phase=%d child_reaped=%d total_restarts=%u budget_resets=%u\n",
                    state,polls,good,bad,seq,bytes,reason,BUILD,restarts,last_failure,
-                   (long)child_state.pid,child_state.phase,child_state.reaped)<0;
+                   (long)child_state.pid,child_state.phase,child_state.reaped,
+                   total_restarts,budget_resets)<0;
     if (fclose(f)) failed=1;
     return failed?-1:rename("status.tmp","status.txt");
 }
@@ -290,7 +302,7 @@ static int observe(const char *source, unsigned seconds, int ready) {
             retained_kind=INVALIDATE; retained_detail=SOURCE_OPEN; retained_size=0;
             memset(last_header,0,sizeof(last_header));
             if (start_worker(source,-1)) { fault="spawn"; fault_error=errno; goto fatal_worker; }
-            ++restarts; retry_at=0; have=0;
+            ++restarts; ++total_restarts; last_restart_at=now; retry_at=0; have=0;
             received=changed=heartbeat=now;
             invalid=1; stale=0; last_reason=last_error=-1; append=0;
             if (record(&j,INVALIDATE,SOURCE_OPEN,NULL,0,now) ||
@@ -372,7 +384,13 @@ worker_fault:
         }
         invalid=1;
         (void)reap_worker(); close_worker();
-        retryable=retryable && child_state.reaped && restarts<MAX_RESTARTS && !stopping;
+        /* A fault ends any stable period, so the latest replacement having
+         * run fault-free for the whole window is the only condition. */
+        if (restarts && now>=last_restart_at && now-last_restart_at>=RESTART_WINDOW_MS) {
+            restarts=0; ++budget_resets;
+        }
+        retryable=retryable && child_state.reaped && restarts<MAX_RESTARTS &&
+                  total_restarts<MAX_TOTAL_RESTARTS && !stopping;
         if (first_failure(fault,fault_error,now,received,have,polls,good,bad,sequence,retryable)) {
             reason=OUTPUT_FAILED; result=1; break;
         }

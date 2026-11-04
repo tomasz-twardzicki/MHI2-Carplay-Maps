@@ -35,9 +35,26 @@ work. It is not a missing-data fix or a release acceptance requirement.
   may show compass/blank instead.
 - Show the road/intersection name above the native arrow when supplied. The
   existing current-road name in the ETA bar is a separate implemented feature.
-- Add and validate Apple Maps and Waze behavior. Current vehicle feedback is
-  primarily Google Maps; app/route/adapter delivery can differ.
+- Validate Apple Maps and Waze with v1.4.4-e. See the section below.
 - Consider custom unused-lane outlines after the OEM rendering path is settled.
+
+## Apple Maps and Waze (v1.4.4-e, to be validated)
+
+Apple Maps sends sparse deltas; v1.4.3-e and earlier reset the route after 5 s
+of silence and lost the maneuver until the next one. v1.4.4-e holds the route
+for up to 3 minutes of silence. A phone app that stops guiding without sending
+a route-end state can therefore leave the last maneuver visible for at most
+that time; explicit end, disconnect and OEM navigation still clear immediately.
+
+Captured Waze sessions supplied only 2–3 iAP2 guidance messages in about
+7 minutes. v1.4.4-e no longer lets a malformed first message hide them, but if
+Waze does not send an active route and maneuvers, native cluster guidance is
+not possible for it through this path. `guidance-evidence.txt` will show this.
+
+Video: all captures deliver about 17–19 fps against the requested 30 fps, and
+each forced keyframe is followed by an 80–130 ms frame gap. The user reports
+Waze as slightly laggier than Google Maps at 30 fps / IDR 5. A 30 fps / IDR 20
+comparison has not been made yet. No video change is included in v1.4.4-e.
 
 ## Validation scope
 

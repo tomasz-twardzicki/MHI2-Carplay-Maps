@@ -3,7 +3,7 @@ package com.cpmap.rgi;
 
 /** Current-road text only. No maneuver-description or upcoming-road fallback. */
 public final class RoadName {
-    static final long MAX_AGE=5000;
+    static final long MAX_AGE=LiveModel.HOLD_MS;
     // Factory turnToInfo has a 76-byte BAP string including its length byte.
     static final int MAX_BYTES=75;
     static String decode(byte[] raw) throws java.io.IOException {

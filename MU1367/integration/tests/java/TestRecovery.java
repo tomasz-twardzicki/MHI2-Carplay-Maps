@@ -28,10 +28,11 @@ public final class TestRecovery {
   f.poll(4000);check(!f.live,"heartbeat lease expires");
   w.envelope(2,4,new byte[0]);f.poll(4100);check(!f.live,"invalidation clears");w.publish();f.poll(4200);check(!f.live,"old route cannot revive after invalidation");
   w.route(1);w.publish();f.poll(4300);check(f.live,"new route update revives");
-  byte[] bad=TestLanes.join(TestLanes.tlv(0,TestLanes.u16(16)),TestLanes.tlv(1,new byte[]{1,0}));w.add(0x5201,bad);w.publish();f.poll(4400);check(f.error==1&&!f.live,"semantic field width rejected");
+  byte[] bad=TestLanes.join(TestLanes.tlv(0,TestLanes.u16(16)),TestLanes.tlv(1,new byte[]{1,0}));w.add(0x5201,bad);w.publish();f.poll(4400);check(f.error==0&&!f.live&&f.errors==1,"invalid route message rejected alone and clears route");
   for(int i=0;i<500;i++){f.poll(4500+i*20);check(!f.live,"persistent bad input cannot revive");}
-  check(f.errors<13,"bad input retry bounded to one per second");check(LiveModel.equal(saved,read(first)),"first failure never overwritten");
-  Wire next=new Wire(root);next.nonce=2;next.route(0);next.publish();long time=f.retryAt;f.poll(time);check(!f.live,"new producer baseline");next.route(1);next.publish();f.poll(time+100);check(f.live&&f.recoveries==2,"new source recovers");
+  check(f.errors==1,"rejected message is not a feed error");check(LiveModel.equal(saved,read(first)),"first failure never overwritten");
+  w.route(1);w.publish();f.poll(14600);check(f.live&&f.error==0,"valid message after rejected one resumes in the same window");
+  Wire next=new Wire(root);next.nonce=2;next.route(0);next.publish();long time=15000;f.poll(time);check(!f.live,"new producer baseline");next.route(1);next.publish();f.poll(time+100);check(f.live&&f.recoveries==1,"new source starts without an error latch");
   check(new File(root,"latest.bin").delete(),"remove mailbox");f.poll(time+200);check(!f.live&&f.error==0,"normal disconnect clears without error latch");
   next.publish();f.poll(time+1200);check(!f.live,"reconnect baseline");next.route(1);next.publish();f.poll(time+1300);check(f.live,"cable after reconnect resumes");
   next.envelope(5,1,new byte[0]);f.poll(time+1400);check(!f.live,"terminal feed hides");
@@ -39,9 +40,12 @@ public final class TestRecovery {
   f.pause();check(!f.live&&f.recordAt<0,"manual disable clears");third.publish();f.poll(time+1700);check(!f.live,"re-enable needs baseline and fresh input");
  }
  static void firstFault(File root)throws Exception{
+  GuidanceEvidence.session=-1;
   Wire w=new Wire(root);w.add(0x5201,TestLanes.join(TestLanes.tlv(0,TestLanes.u16(16)),TestLanes.tlv(1,new byte[]{1,0})));w.publish();FeedRecovery f=new FeedRecovery(root.toString());f.poll(1000);
-  String s=new String(read(new File(root,"failure-first.txt")),"US-ASCII");check(s.indexOf("message=20993 field=1")>=0&&s.indexOf("sequence=1")>=0,"numeric offending message/field/sequence retained");
-  check(s.indexOf("serial=1 kind=1 nonce=1")>=0,"offending envelope retained");
+  check(!new File(root,"failure-first.txt").exists()&&f.error==0&&!f.live,"semantic rejection is message-scoped, not a feed failure");
+  String s=GuidanceEvidence.lastRejected;check(s.indexOf("seq=1 id=5201 field=1")>=0&&s.indexOf("shape=0:2=0010,1:2=0100")>=0,"numeric offending message/field/sequence and shape retained");
+  write(new File(root,"latest.bin"),new byte[]{1,2,3});f.poll(1100);
+  s=new String(read(new File(root,"failure-first.txt")),"US-ASCII");check(s.indexOf("serial=-1 kind=-1")>=0,"envelope faults still recorded");
   File fatal=new File(root,"fatal");fatal.mkdirs();f=new FeedRecovery(fatal.toString());f.failed(new LinkageError("secret fixture must not appear"),1000);
   f.poll(5000);check(f.fatal&&!f.live&&f.error==1,"unexpected VM errors remain stopped");
   s=new String(read(new File(fatal,"failure-first.txt")),"US-ASCII");check(s.indexOf("fatal=1")>=0&&s.indexOf("secret")<0,"no exception messages in diagnostics");

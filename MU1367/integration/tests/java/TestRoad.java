@@ -33,8 +33,9 @@ public final class TestRoad {
     static void model()throws Exception{
         TestLanes.Feed feed=new TestLanes.Feed();LiveModel.Frame f=update(feed,1,"Current Road");long at=f.roadAt;
         check(f.active&&f.currentRoad.equals("Current Road")&&at==f.changed,"fresh current road captured");
-        check(RoadName.current(f,at+4999).equals("Current Road"),"road valid before deadline");
-        check(RoadName.current(f,at+5000).equals(""),"road expires at deadline");
+        check(RoadName.current(f,at+5000).equals("Current Road"),"road held through a quiet period");
+        check(RoadName.current(f,at+LiveModel.HOLD_MS-1).equals("Current Road"),"road valid before deadline");
+        check(RoadName.current(f,at+LiveModel.HOLD_MS).equals(""),"road expires at deadline");
         check(RoadName.current(f,at-1).equals(""),"clock reversal clears");
         feed.now=at+4000;f=update(feed,1,null);check(f.roadAt==at&&RoadName.current(f,f.changed).equals("Current Road"),"absent delta retains within own lease");
         feed.now=at+5000;f=update(feed,1,null);check(f.active&&RoadName.current(f,f.changed).equals("Current Road")&&f.roadAt==at,"unchanged road survives fresh route deltas");
@@ -75,7 +76,7 @@ public final class TestRoad {
         int sent=TestLive.sent.size();TestLive.clock+=250;b.journalAt=TestLive.clock;b.tick(TestLive.clock);
         check(TestLive.sent.size()==sent,"unchanged name does not add timer traffic");
         // Maneuver-only activity cannot renew stale current-position context.
-        long oldRoute=f.laneAt;TestLive.clock=oldRoute+5000;
+        long oldRoute=f.laneAt;TestLive.clock=oldRoute+LiveModel.HOLD_MS;
         f=new LiveModel.Frame(true,13,192,30,1000,60,f.progress+1,TestLive.clock,f.epoch,LaneData.EMPTY,oldRoute,f.currentRoad,f.roadAt);
         b.lastTick=TestLive.clock;b.incoming=f;b.journalAt=TestLive.clock;b.tick(TestLive.clock);
         check(b.owned&&factory().turnToInfo.toString().equals(""),"road expires independently of active guidance");

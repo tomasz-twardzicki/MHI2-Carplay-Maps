@@ -144,7 +144,8 @@ public final class TestLive {
         b=bridge(); b.tick(clock); connection=0; clock+=250; b.tick(clock); check(!b.owned,"disconnect releases"); connection=2;
         b=bridge(); b.tick(clock); clock+=1500; b.tick(clock); check(!b.owned,"missed HMI lease");
         b=bridge(); b.tick(clock); b.journalAt=clock-1500; clock+=250; b.tick(clock); check(!b.owned,"recorder heartbeat lease");
-        b=bridge(); b.tick(clock); b.incoming=new LiveModel.Frame(true,13,64,20,2,clock-5000,1); clock+=250; b.tick(clock); check(!b.owned,"semantic stale deadline");
+        b=bridge(); b.tick(clock); b.incoming=new LiveModel.Frame(true,13,64,20,2,clock-5000,1); clock+=250; b.tick(clock); check(b.owned,"quiet active route held past 5 s");
+        b=bridge(); b.tick(clock); b.incoming=new LiveModel.Frame(true,13,64,20,2,clock-LiveModel.HOLD_MS,1); clock+=250; b.tick(clock); check(!b.owned,"semantic hold deadline");
         b=bridge(); status=1; b.tick(clock); check(!b.owned,"native error cannot imply idle"); status=0;
         b=bridge(); b.mode=1; sent.clear(); b.tick(clock); check(!b.owned && sent.size()==0,"shadow writes nothing");
         b=bridge(); b.mode=0; b.tick(clock); check(!b.owned,"off by default");

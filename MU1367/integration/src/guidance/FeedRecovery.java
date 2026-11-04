@@ -8,6 +8,7 @@ public final class FeedRecovery {
     static final long RETRY_MS=1000;
     static final class Fault extends IOException {
         final int message,field; long sequence=-1;
+        String shape="";
         Fault(int id,int key){super("Guidance field validation");message=id;field=key;}
     }
     final String root,path;
@@ -50,7 +51,7 @@ public final class FeedRecovery {
     private LiveModel.Frame accept(LiveModel.Frame frame,long now){
         // A valid unchanged mailbox is not a new producer heartbeat.
         if(frame!=null)last=frame;
-        boolean fresh=last!=null && last.active && last.progress>0 && last.changed>=0 && now>=last.changed && now-last.changed<5000
+        boolean fresh=last!=null && last.active && last.progress>0 && last.changed>=0 && now>=last.changed && now-last.changed<LiveModel.HOLD_MS
             && recordAt>=0 && now>=recordAt && now-recordAt<1500;
         live=!reader.ended && fresh;
         if(live && pending){recoveries++;pending=false;error=0;}

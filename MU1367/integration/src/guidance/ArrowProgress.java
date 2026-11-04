@@ -8,7 +8,7 @@ import de.vw.mib.bap.mqbab2.generated.navsd.serializer.DistanceToNextManeuver_St
  * Independent implementation using this adapter's validated CarPlay frames.
  */
 public final class ArrowProgress {
-    static final long ROUTE_AGE=5000;
+    static final long ROUTE_AGE=LiveModel.HOLD_MS;
     static int window(LiveModel.Frame f){
         // iAP2 maneuver types, not Android Auto's enum (whose 8 means exit).
         int t=f==null?-1:f.maneuverType;

@@ -9,6 +9,11 @@ import java.io.IOException;
 
 public final class LiveModel {
     static final int SNAP = 33088;
+    /* Phone apps send deltas: Apple Maps can stay silent while stopped or
+     * between distance steps. An active route is held while the producer
+     * heartbeat, session and route state remain valid, bounded by HOLD_MS of
+     * total message silence. Explicit state/session changes still clear it. */
+    static final long HOLD_MS = 180000;
     static final class Message {
         int id;
         long[] v = new long[21];
@@ -103,8 +108,24 @@ public final class LiveModel {
         int count=0;
         while (p<end) { require(end-p>=4 && ++count<=256); int n=be16(b,p); require(n>=4 && p+n<=end); p+=n; }
     }
+    // Bounded structural shape of a rejected message: keys and sizes only,
+    // plus component/state values. Never text content.
+    static String shape(byte[] b, int p, int length) {
+        StringBuffer s=new StringBuffer(); int end=p+length, count=0;
+        while (p<end && count<24) {
+            if (end-p<4) { s.append(count>0?",":"").append("tail:").append(end-p); break; }
+            int n=be16(b,p), key=be16(b,p+2);
+            if (count++>0) s.append(',');
+            s.append(key).append(':').append(n-4);
+            if (n<4 || p+n>end) { s.append("!"); break; }
+            if ((key==0 || key==1) && n-4<=8) { s.append('='); for (int i=p+4;i<p+n;i++) { int v=b[i]&255; s.append(Character.forDigit(v>>4,16)).append(Character.forDigit(v&15,16)); } }
+            p+=n;
+        }
+        if (length==0) s.append("empty");
+        return s.toString();
+    }
     static Message decode(int id, byte[] b, int p, int length) throws IOException {
-        int faultField=-1;
+        int faultField=-1, start=p;
         try {
         require(id==0x5201 || id==0x5202 || id==0x5204);
         Message m=new Message(); m.id=id; int end=p+length, count=0, angles=0, nestedCount=0;
@@ -154,7 +175,7 @@ public final class LiveModel {
         require(m.components!=null && m.components.length>0);
         for (int i=0;i<m.components.length;i++) for (int j=0;j<i;j++) require(m.components[i]!=m.components[j]);
         require(id==0x5201 || m.has[1]); return m;
-        }catch(java.io.IOException e){throw new FeedRecovery.Fault(id,faultField);}
+        }catch(java.io.IOException e){FeedRecovery.Fault f=new FeedRecovery.Fault(id,faultField);f.shape=shape(b,start,length);throw f;}
     }
     private void clearCache() {
         laneCache.clear();routeStatusAt=-1;currentRoad="";roadAt=-1;directRoad=false;
@@ -239,6 +260,7 @@ public final class LiveModel {
         require(count==Math.min(sequence,16) && (u32(b,36)!=0 || sequence==0) && (u32(b,36)==0 || session!=0));
         for (int i=48;i<64;i+=4) require(u32(b,i)==0);
         Message[] messages=new Message[(int)count]; byte[][] bytes=new byte[(int)count][];
+        FeedRecovery.Fault[] faults=new FeedRecovery.Fault[(int)count];
         int pos=64;
         boolean same=sec==s && nsec==ns && wireSession==session;
         if (same) require(sequence>=high);
@@ -247,7 +269,9 @@ public final class LiveModel {
             require(pos+16<=b.length); long seq=sequence-count+1+i;
             int id=u16(b,pos+4), length=u16(b,pos+6);
             require(u32(b,pos)==seq && u32(b,pos+8)==session && u32(b,pos+12)==0 && length<=2048 && pos+16+length<=b.length);
-            try {messages[i]=decode(id,b,pos+16,length);}catch(FeedRecovery.Fault e){e.sequence=seq;throw e;} bytes[i]=copy(b,pos,16+length);
+            // A semantically invalid message is rejected alone; the envelope,
+            // ordering and overlap checks above/below still fail the snapshot.
+            try {messages[i]=decode(id,b,pos+16,length);}catch(FeedRecovery.Fault e){e.sequence=seq;faults[i]=e;} bytes[i]=copy(b,pos,16+length);
             byte[] previous=retained[(int)((seq-1)&15)];
             if (same && seq<=high && previous!=null && u32(previous,0)==seq) require(equal(previous,bytes[i]));
             pos+=16+length;
@@ -260,8 +284,16 @@ public final class LiveModel {
         else for (int i=0;i<count;i++) {
             long seq=sequence-count+1+i;
             if (seq>seen) {
+                GuidanceEvidence.message(s*1000003L^ns*31L^session,seq,messages[i],faults[i],now);
+                if (messages[i]==null) {
+                    // An unreadable route update may have carried an end or
+                    // state change: drop route state rather than guess.
+                    if (faults[i].message==0x5201) invalidate();
+                    continue;
+                }
                 String passed=passedRoad(messages[i]);
                 boolean accepted=apply(messages[i]);
+                if (!accepted) GuidanceEvidence.notApplied();
                 if(accepted && messages[i].id==0x5204)
                     LaneEvidence.received(messages[i].lanes,(int)messages[i].v[1],messages[i].invalidLanes,now);
                 if (head()!=distanceHead || generation!=distanceGeneration || current()==null) distance=-1;

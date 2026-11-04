@@ -41,7 +41,7 @@ public final class TestRoadQnx {
         check(b.stages[6]==stage,"actual factory hook attach");stage.process(-1);
         check(((TurnToInfo_Status)sent.get(sent.size()-1)).turnToInfo.toString().equals(road),"actual patched factory output");
         accept=false;b.refreshPending=0;b.refreshing=true;stage.process(-1);check((b.refreshPending&64)!=0,"factory queue rejection tracked");accept=true;b.refreshing=false;
-        clock+=6000;prepare(b,frame(road,1000));stage.process(-1);check(((TurnToInfo_Status)sent.get(sent.size()-1)).turnToInfo.toString().equals(""),"independent road expiry");
+        clock+=LiveModel.HOLD_MS+1000;prepare(b,frame(road,1000));stage.process(-1);check(((TurnToInfo_Status)sent.get(sent.size()-1)).turnToInfo.toString().equals(""),"independent road expiry");
         prepare(b,frame(road,clock));route=1;stage.process(-1);check(((TurnToInfo_Status)sent.get(sent.size()-1)).turnToInfo.toString().equals("OEM Road"),"factory OEM priority");route=0;
         prepare(b,new LiveModel.Frame(false,0,0,-1,0,0,0));stage.process(-1);check(((TurnToInfo_Status)sent.get(sent.size()-1)).turnToInfo.toString().equals(""),"factory explicit clearing");
         StringBuffer longRoad=new StringBuffer();for(int i=0;i<128;i++)longRoad.append("ł");String limited=RoadName.decode(longRoad.toString().getBytes("UTF-8"));
