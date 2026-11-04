@@ -87,7 +87,14 @@ legacy_check(){
     menu_text=menu.read_text()
     old_banner='MU1367 / 791 v1.4.3 - P4521 experimental'
     assert old_banner in menu_text
-    menu.write_text(menu_text.replace(old_banner,'MU1367 / 791 v1.4.4-e - EXPERIMENTAL guidance'))
+    menu_text=menu_text.replace(old_banner,'MU1367 / 791 v1.4.4-e - EXPERIMENTAL guidance')
+    # GEM menus are static, so the reboot entry is permanent; the script refuses
+    # while an install runs and then uses the Toolbox's own reboot helper.
+    install_entry='    label "Reset saved MU UI settings (reboot)"\n'
+    assert menu_text.count(install_entry)==1
+    menu_text=menu_text.replace(install_entry,install_entry+'\nscript\n    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_reboot.sh"\n    label "Reboot unit (after install completes)"\n')
+    menu.write_text(menu_text)
+    shutil.copy2(HERE/'tools/cpmap_reboot.sh',sd/'Toolbox/scripts/cpmap_reboot.sh')
     (sd/'README.md').write_text('# MU1367 / 791 v1.4.4-e — EXPERIMENTAL\n\nBased on v1.4.3-e, including K4525/P4521 support, reader recovery and the U-turn lane fix.\n\nExperimental guidance changes for Apple Maps/Waze delivery and a renewable reader-recovery budget; vehicle testing is required. Start with [START_HERE.md](START_HERE.md), [RELEASE-NOTES.md](RELEASE-NOTES.md) and [READER-RECOVERY.md](READER-RECOVERY.md).\n')
     shutil.copy2(HERE/'NOTICE.md',sd/'NOTICE.md')
     manifest={'version':'1.4.4-e','experimental':True,'prerelease':True,'base_version':'1.4.3-e','base_archive_sha256':BASE_ARCHIVE_SHA256,'reader_build':'MU1367-reader-v1.4.4-e','guidance_hold_ms':180000,'reader_restart_budget':{'per_window':3,'stable_window_ms':600000,'lifetime_ceiling':64,'backoff_ms':[1000,2000,4000]},'reader_sha256':reader['sha256'],'reader_source_sha256':reader['source_sha256'],'experimental_fix':'Message-scoped guidance rejection, bounded quiet-route hold for sparse app updates, structural guidance evidence and a renewable reader-recovery budget; vehicle validation pending.','archive_name':ARCHIVE,'firmware':'K4525 / P4521 MU1367','supported_firmware':[{'train':'MHI2_ER_VWG13_K4525','experimental':False},{'train':'MHI2_ER_VWG13_P4521','experimental':True}],'p4521_prior_experimental_vehicle_tested':True,'p4521_final_package_vehicle_tested':False,'cluster':'791','variants':variants,'tuning_variants':tv,

@@ -49,8 +49,10 @@ with a dormant `VCMenu.jar`. Do not delete or edit version markers. An installed
 P4521 v1.4.1 settings layer is recognized and directs you to this recovery path
 before any installation writes.
 
-Select **Install / update CarPlay integration (reboot)**. This is the single
-installation path for video, guidance, native lanes, audio text and artwork,
+Select **Install / update CarPlay integration (reboot)**. The installer first
+prints `MU1367_INSTALL_STEPS=N`, then one numbered line per completed layer,
+for example `[3/9] MU1367_WIRELESS_INSTALLED`. **Do not reboot while it runs.**
+Only the final message asks for a reboot. This is the single installation path for video, guidance, native lanes, audio text and artwork,
 MU settings, road names, progressing arrows and reconnect recovery. No former
 numbered or experimental steps need to be selected separately.
 
@@ -58,7 +60,7 @@ numbered or experimental steps need to be selected separately.
   matching existing layers are checked and retained; missing layers are added.
 - **Lane-v2:** the release update is added directly.
 - **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
-  the first invocation checks the saved controller and every original backup,
+  this is the one case that needs two reboots. The first invocation (stage 1 of 2) checks the saved controller and every original backup,
   removes matching optional card tuning if present, and restores the lane-v2
   baseline through the saved controller. Expect
   `MU1367_RELEASE_MIGRATION_BASE_RESTORED_FULL_REBOOT_THEN_RUN_INSTALL_AGAIN`.
@@ -67,8 +69,11 @@ numbered or experimental steps need to be selected separately.
   The old removed snapshot is verified and archived, never overwritten.
 
 The final success message is
-**`MU1367_RELEASE_1_4_4_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`**. Fully reboot with the
-phone/adapter absent. Check OEM HMI, cluster and audio before reconnecting.
+**`MU1367_RELEASE_1_4_4_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
+`MU1367_INSTALL_COMPLETE=N/N`. Disconnect the phone/adapter, then select
+**Reboot unit (after install completes)** in the same menu. That entry refuses to
+reboot while an installation is still running and otherwise uses the Toolbox's
+own reboot helper. Toolbox **Coding > Reboot unit** is equivalent. Check OEM HMI, cluster and audio before reconnecting.
 If a stage fails, retain its complete output and use Recovery. Do not force
 version markers, delete recovery directories or continue through an error.
 Unknown, modified or interrupted installations are refused; recover their saved

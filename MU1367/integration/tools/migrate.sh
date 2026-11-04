@@ -22,7 +22,9 @@ if [ -d "$MAIN" ] && regular "$MAIN/STATE" && [ "$(cat "$MAIN/STATE")" = install
   fi
   /bin/ksh "$MAIN/control.sh" uninstall || fail LEGACY_REMOVAL_FAILED_USE_SAVED_RECOVER
   : > "$M/ramdisk/.cpmap-release-migration-reboot" || fail MIGRATION_REBOOT_MARKER
+  echo "MU1367_STAGE_1_OF_2_COMPLETE: previous revision removed, snapshots kept"
   echo MU1367_RELEASE_MIGRATION_BASE_RESTORED_FULL_REBOOT_THEN_RUN_INSTALL_AGAIN
+  echo "NEXT: disconnect phone/adapter, select Reboot unit, then run Install again (stage 2 of 2)"
   exit 0
  fi
 fi

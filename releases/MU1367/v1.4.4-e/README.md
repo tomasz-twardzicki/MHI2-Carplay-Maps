@@ -17,6 +17,9 @@ experimental status. This package has no vehicle result yet.
   records message structure, gaps and rejections, without road text.
 - The reader's three-attempt recovery budget renews after 10 fault-free minutes,
   with a lifetime ceiling of 64 replacements.
+- The installer numbers each completed layer (`[n/N]`) and asks for a single
+  reboot at the end; a new **Reboot unit (after install completes)** menu entry
+  refuses while an installation is still running.
 
 Only the guidance JAR and native reader change. Audio, driver, menu and video
 runtime match v1.4.3-e, including map-only and 30 fps / IDR5 defaults, the

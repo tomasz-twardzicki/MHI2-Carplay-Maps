@@ -7,6 +7,10 @@ M=${CPMAP_TEST_ROOT:-}
 APP=$M/mnt/app
 CUSTOM=${P%/*}
 LOCK=$M/ramdisk/.carplay-guidance-install-lock
+# Present only while the install action runs; the Reboot unit action refuses
+# while it exists. EXIT removes it (a power cycle clears the RAM disk).
+RUNNING=$M/ramdisk/.cpmap-install-running
+RUN_OWN=no
 OWN=no
 regular(){ [ -f "$1" ] && [ ! -L "$1" ]; }
 absent(){ [ ! -e "$1" ] && [ ! -L "$1" ]; }
@@ -17,7 +21,8 @@ cleanup(){
   rm -rf "$LOCK" || :
  fi
 }
-trap cleanup EXIT
+running_done(){ if [ "$RUN_OWN" = yes ];then rm -f "$RUNNING" || :;fi; }
+trap 'cleanup;running_done' EXIT
 trap 'fail INTERRUPTED_KEEP_SNAPSHOTS' HUP INT TERM
 parents(){
  D=${1%/*}
@@ -66,6 +71,11 @@ esac
 absent "$M/ramdisk/carplay-altstream.ready" || fail DISCONNECT_PHONE_AND_ADAPTER_FULL_REBOOT_FIRST
 if [ "$ACTION" = install ];then absent "$M/ramdisk/.cpmap-release-migration-reboot" || fail FULL_REBOOT_REQUIRED_BEFORE_RELEASE_INSTALL;fi
 parents "$LOCK" && absent "$LOCK" || fail INSTALLER_LOCKED_REBOOT_DISCONNECTED
+if [ "$ACTION" = install ];then
+ parents "$RUNNING" && absent "$RUNNING" || fail INSTALL_ALREADY_RUNNING_WAIT_OR_REBOOT
+ : > "$RUNNING" || fail RAMDISK_MARKER
+ RUN_OWN=yes
+fi
 . "$P/payload-check.sh" || fail SD_PAYLOAD_HASH
 
 # Removed sessions can be reused without deleting their first snapshots.
@@ -139,8 +149,48 @@ if [ -d "$CARDS" ];then
  regular "$CARDS/STATE" && [ "$(cat "$CARDS/STATE")" = removed ] || fail REMOVE_OR_RECOVER_TURN_CARD_TUNING_FIRST
 fi
 retain_removed "$MAIN"
-if ! regular "$APP/carplay-mu1367-map-only/STATE" || [ "$(cat "$APP/carplay-mu1367-map-only/STATE")" != installed ];then
- /bin/ksh "$CUSTOM/carplay_mu1367_map_only/actions.sh" install "$CUSTOM/carplay_mu1367_map_only" || fail BASE_INSTALL_FAILED_KEEP_SNAPSHOTS
+# Plan the steps from the same saved layer states the nested installers use:
+# video, five base layers, refinements and map-only when the base is not yet
+# installed, then this release's guidance layer.
+BASE=no
+if ! regular "$APP/carplay-mu1367-map-only/STATE" || [ "$(cat "$APP/carplay-mu1367-map-only/STATE")" != installed ];then BASE=yes;fi
+TOTAL=1
+if [ "$BASE" = yes ];then
+ TOTAL=$((TOTAL+2))
+ [ -d "$APP/carplaymaps" ] || TOTAL=$((TOTAL+1))
+ for L in carplay-mu1367 carplay-mu1367-settings carplay-mu1367-lanes carplay-mu1367-wireless carplay-mu1367-artwork;do
+  [ -d "$APP/$L" ] || TOTAL=$((TOTAL+1))
+ done
 fi
-/bin/ksh "$P/$VARIANT/control.sh" install "$P/$VARIANT" || fail MAP_ONLY_INSTALL_FAILED_USE_RECOVERY
+echo "MU1367_INSTALL_STEPS=$TOTAL (do not reboot until the final message)"
+install_steps(){
+ if [ "$BASE" = yes ];then
+  /bin/ksh "$CUSTOM/carplay_mu1367_map_only/actions.sh" install "$CUSTOM/carplay_mu1367_map_only" || { echo MU1367_GUIDANCE_V3_SUITE_FAIL=BASE_INSTALL_FAILED_KEEP_SNAPSHOTS;return 1; }
+ fi
+ /bin/ksh "$P/$VARIANT/control.sh" install "$P/$VARIANT" || { echo MU1367_GUIDANCE_V3_SUITE_FAIL=MAP_ONLY_INSTALL_FAILED_USE_RECOVERY;return 1; }
+}
+# Nested layer installers each report a reboot as if run alone. Number their
+# completions instead and request one reboot at the end. Shell builtins only;
+# the pipeline status is the final loop's, which returns the steps' status.
+progress(){
+ N=0;R=1
+ while IFS= read -r L;do
+  case "$L" in
+   __CPMAP_STEPS_RC=*) R=${L#__CPMAP_STEPS_RC=};;
+   "A full unit reboot is required."|MU1367_*SUITE_INSTALLED_FULL_REBOOT_REQUIRED) :;;
+   CPMAP_INSTALL_OK) N=$((N+1));echo "[$N/$TOTAL] MU1367_VIDEO_INSTALLED";;
+   MU1367_INSTALLED_REBOOT_REQUIRED) N=$((N+1));echo "[$N/$TOTAL] MU1367_NATIVE_BASE_INSTALLED";;
+   MU1367_ALREADY_INSTALLED) N=$((N+1));echo "[$N/$TOTAL] MU1367_NATIVE_BASE_ALREADY_INSTALLED";;
+   MU1367_*_INSTALLED_REBOOT_REQUIRED) N=$((N+1));echo "[$N/$TOTAL] ${L%_REBOOT_REQUIRED}";;
+   MU1367_*_ALREADY_INSTALLED) N=$((N+1));echo "[$N/$TOTAL] $L";;
+   *_REBOOT_REQUIRED) echo "${L%_REBOOT_REQUIRED}";;
+   *) echo "$L";;
+  esac
+ done
+ [ "$N" = "$TOTAL" ] || echo "MU1367_STEP_COUNT=$N/$TOTAL"
+ return "$R"
+}
+{ install_steps;echo "__CPMAP_STEPS_RC=$?"; } 2>&1 | progress || exit 1
+echo "MU1367_INSTALL_COMPLETE=$TOTAL/$TOTAL"
 echo MU1367_GUIDANCE_V3_SUITE_INSTALLED_FULL_REBOOT_REQUIRED
+echo "NEXT: disconnect phone/adapter, then select Reboot unit in this menu"

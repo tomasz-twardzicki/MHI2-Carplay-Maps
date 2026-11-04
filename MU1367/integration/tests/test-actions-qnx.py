@@ -74,7 +74,14 @@ echo 'Current train = "MHI2_ER_VWG13_P4521"' > "$CPMAP_TEST_ROOT/net/rcc/dev/shm
 echo RELEASE_FACTORY_TRAIN_RECOGNITION_PASS
 awk 'BEGIN {if(2+2!=4)exit 1}' || exit 80
 /bin/ksh "$P/6/control.sh" install "$P/6" || exit 81
-/bin/ksh "$P/actions.sh" install "$P" || exit 82
+/bin/ksh "$P/actions.sh" install "$P" > /ramdisk/install-out || exit 82
+grep '^MU1367_INSTALL_STEPS=1 ' /ramdisk/install-out || exit 86
+grep '^\\[1/1\\] MU1367_GUIDANCE_V3_ALREADY_INSTALLED$' /ramdisk/install-out || exit 86
+grep '^MU1367_INSTALL_COMPLETE=1/1$' /ramdisk/install-out || exit 86
+test ! -e "$CPMAP_TEST_ROOT/ramdisk/.cpmap-install-running" || exit 86
+if grep REBOOT_REQUIRED /ramdisk/install-out | grep -v RELEASE_1_4_4_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED;then exit 86;fi
+if echo x | { IFS= read -r L; exit 1; };then exit 87;fi
+echo RELEASE_FACTORY_PROGRESS_PASS
 /bin/ksh "$P/actions.sh" enable-cards "$P" || exit 83
 if /bin/ksh "$APP/carplay-mu1367-guidance-v3/control.sh" uninstall;then exit 84;fi
 /bin/ksh "$P/actions.sh" disable-cards "$P" || exit 85
@@ -103,7 +110,7 @@ test ! -e "$CPMAP_TEST_ROOT/ramdisk/.carplay-guidance-install-lock" || exit 91
  for n in ('reader-setup','toolchain','firmware-commands','output'):sys.argv+=['--'+n,str(getattr(a,n.replace('-','_')))]
  try:rc=factory_reset.main(script,extras,main/'COMMANDS.json')
  finally:sys.argv=old
- log=(a.output/'qemu.log').read_text(errors='replace');assert 'RELEASE_FACTORY_MIGRATION_PASS' in log and 'RELEASE_FACTORY_TRAIN_RECOGNITION_PASS' in log
- r=json.loads((a.output/'result.json').read_text());r.update(factory_migration_verified=True,firmware_train_recognition_verified=True,map_only_actions_sha256=sha((main/'actions.sh').read_bytes()),main_controller_sha256=sha((main/'6/control.sh').read_bytes()),tuning_controller_sha256=sha((tuning/'6/control.sh').read_bytes()),fixture_changes='Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host',map_only_and_optional_transactions_verified=True,sdk_utilities_injected=False)
+ log=(a.output/'qemu.log').read_text(errors='replace');assert 'RELEASE_FACTORY_MIGRATION_PASS' in log and 'RELEASE_FACTORY_TRAIN_RECOGNITION_PASS' in log and 'RELEASE_FACTORY_PROGRESS_PASS' in log
+ r=json.loads((a.output/'result.json').read_text());r.update(factory_progress_verified=True,factory_migration_verified=True,firmware_train_recognition_verified=True,map_only_actions_sha256=sha((main/'actions.sh').read_bytes()),main_controller_sha256=sha((main/'6/control.sh').read_bytes()),tuning_controller_sha256=sha((tuning/'6/control.sh').read_bytes()),fixture_changes='Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host',map_only_and_optional_transactions_verified=True,sdk_utilities_injected=False)
  (a.output/'result.json').write_text(json.dumps(r,indent=2)+'\n');return rc
 if __name__=='__main__':raise SystemExit(main())

@@ -5,9 +5,9 @@
   "prerelease": true,
   "base_version": "1.4.3-e",
   "base_archive_sha256": "3ecb5304c8a9e85c43a01dd532dfc5c920c3e1a866321a7c1d667d750260afa5",
-  "archive_sha256": "6b9e390458aa64646b8e843ee4c6bd7330ac6b324873e8ae6c4288d518cec02c",
-  "archive_bytes": 14442338,
-  "inventory_checks": 611,
+  "archive_sha256": "264c298ff67ad9bfb4e19793800e1d754942c81c50931b4f5b33caa9e5a2b99f",
+  "archive_bytes": 14444364,
+  "inventory_checks": 612,
   "supported_firmware": [
     {
       "train": "MHI2_ER_VWG13_K4525",
@@ -115,10 +115,12 @@
     "START_HERE.md",
     "Toolbox/GEM/carplay-maps-vc.esd"
   ],
-  "added_files": [],
+  "added_files": [
+    "Toolbox/scripts/cpmap_reboot.sh"
+  ],
   "oem_reset_sha256": "0f53d6454db562139e978057e58551a018243e3a86829fe90364adf98d660725",
   "tests": {
-    "filesystem_cases": 11,
+    "filesystem_cases": 13,
     "migration_combinations": 40,
     "p4521_cases": 3,
     "reader_host_cases": 20,
@@ -138,23 +140,23 @@
   "proofs": {
     "filesystem": {
       "path": "build/results/filesystem-linux.json",
-      "sha256": "f1ab3db78a622a0b5d08c634771a70f2c56ecf8a6781a8b485e75b878f25e650",
+      "sha256": "982358e5e49dd1013b7e5a24ec280c9ac5e7350b7ddda1e537f79a3a4b23169b",
       "result": {
         "passed": true,
-        "tests": 11,
-        "inventory_checks": 611,
-        "archive_sha256": "6b9e390458aa64646b8e843ee4c6bd7330ac6b324873e8ae6c4288d518cec02c",
+        "tests": 13,
+        "inventory_checks": 612,
+        "archive_sha256": "264c298ff67ad9bfb4e19793800e1d754942c81c50931b4f5b33caa9e5a2b99f",
         "mounts_and_sync_mocked_on_host": true,
         "on_unit_validated": false
       }
     },
     "p4521": {
       "path": "build/results/p4521-linux.json",
-      "sha256": "437b119b8767ea22ed6f265b09823242a25912e9edfeb613b9586ba359e9a766",
+      "sha256": "a91995e306794e72cbe57db4c10f5c3feaafc933547bd74af17f0d4f2d8a061e",
       "result": {
         "passed": true,
         "tests": 3,
-        "archive_sha256": "6b9e390458aa64646b8e843ee4c6bd7330ac6b324873e8ae6c4288d518cec02c",
+        "archive_sha256": "264c298ff67ad9bfb4e19793800e1d754942c81c50931b4f5b33caa9e5a2b99f",
         "p4521_hardware_variants": [
           "50",
           "70"
@@ -166,7 +168,7 @@
     },
     "qnx": {
       "path": "build/actions-qnx/result.json",
-      "sha256": "770fbfed4b9a3ab05bde03bac10ff07ad9af2b946f1b8b976df18a08a965bebf",
+      "sha256": "147a9bdd73b73d240d2573d1c3ede8c823959df48932ba5c3cd98534d30ca3c1",
       "result": {
         "passed": true,
         "controller_sha256": "0f53d6454db562139e978057e58551a018243e3a86829fe90364adf98d660725",
@@ -199,11 +201,12 @@
         "sdk_utilities_injected": false,
         "rmdir_absent_factory_gawk_present": true,
         "lock_cleanup_verified": true,
-        "qemu_log_sha256": "f31cca65e26ccfe3638c46b77a27bca84e07739508993fc2ebf344b11d1732e2",
+        "qemu_log_sha256": "f93bf1e82bd9b34c92e9682aa232073d9047234937f302c7e5bc34b002eb1946",
         "test_sha256": "87df42ae82a558cf298312f969b49561fa86f41ebdb4cc006169b57e9079f983",
+        "factory_progress_verified": true,
         "factory_migration_verified": true,
         "firmware_train_recognition_verified": true,
-        "map_only_actions_sha256": "196ca2ef69c3eb02ece86113c03818fb513566acac5e52e284193e4477cfb50b",
+        "map_only_actions_sha256": "f32c5bbe4d0f7a67a9eac127b6b87c3edac1aa47e5cd8e4f02af7b868479428a",
         "main_controller_sha256": "60b0c18ccf34e750b6746eb6e83544a1a62ebb3369ce87ee8b133cb702ff0f37",
         "tuning_controller_sha256": "1ba20bcef9396746141f701b755ffb4a672f63b0db1c0732f63ce14c89ba9858",
         "fixture_changes": "Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host",
@@ -243,11 +246,11 @@
     },
     "reader_transactions": {
       "path": "build/results/reader-transactions-linux.json",
-      "sha256": "4e75de3d203fa31bd978bd2993106ec51929fa9dea0e2516ff9b1c05cfd8a918",
+      "sha256": "eb577193d61a470daf2144e706b7f28e1461a49d482a7d5922a9bba4c6e8ae9d",
       "result": {
         "passed": true,
         "tests": 3,
-        "archive_sha256": "6b9e390458aa64646b8e843ee4c6bd7330ac6b324873e8ae6c4288d518cec02c",
+        "archive_sha256": "264c298ff67ad9bfb4e19793800e1d754942c81c50931b4f5b33caa9e5a2b99f",
         "reader_sha256": "3dc291619a06f2894dc1258135586431693078d9b3bc254fe78ca0bf71555073",
         "mounts_and_sync_mocked_on_host": true,
         "on_unit_validated": false
@@ -461,12 +464,13 @@
     "tools/PatchSettings.java": "cf98cc660709624e017c643619d81a8319f015e707bc105e66acc45d36120304",
     "tools/PatchText.java": "ef91ce8d771024e7236ce64e629b733208774be7b5c957db1c02e5893cf8e720",
     "tools/PatchTextObserver.java": "53b6c3627df8fe79a003bd795eb29f3349739c8e70967ecea39762c9ff0082b7",
-    "tools/actions.sh": "731e1c883d883fdeaf516c2f47eeca3c934a5b108e7e85257301c79725e4971f",
+    "tools/actions.sh": "e358847e26877768260f20995a59dc196fe29ebea3c51b4fc99aeeaf85efe54f",
     "tools/build-driver.py": "fac7ec47a78cfdf993e131647abb75ce8616ffb04bbd8ad3870ed0cb03a3494d",
     "tools/build-fetch.py": "9c2ed76e83f85a7dbce5a5b865bd3ad39be76b498572047577c285a5c19d549a",
     "tools/build-reader.py": "86ac3c41d228df81777b4c131f64c38887a552d74e907146d536c317339f55dc",
+    "tools/cpmap_reboot.sh": "3adbc5a7105f1d5c016bdbf91c935c229ea691d601b6836d80b02d2906a3f312",
     "tools/legacy-revisions.json": "65800245552d545749e822aa7bb82b7337dea371a1c67c3f954cbe6d98d6bdff",
-    "tools/migrate.sh": "febf1066c745d45c05a944cbb62f1153b0ca7dd37d608b4bd028e27a45393348",
+    "tools/migrate.sh": "7b512415e604726c54eac8979be9d6f84dda828b9a99f93d68457dbbe9b26193",
     "tools/payload_checks.py": "3a11e4a8767cf2e2f75a1af91c00ec85efe55f2f4245549c3c1a09cbaf1c7c4c",
     "tools/toolbox-attributes.txt": "1e14f852197e492cbc6fddc6b71854ffabfe001a8a2fa93c249e8fe579ce4f93",
     "tools/transaction.py": "74b2c17d49773a99eda2b4d5fd7889baf9fedd16c72fc7fc42919a514bb57521",
@@ -921,11 +925,11 @@
     "tests/revisions/safe-area/carplay_mu1367_v3_turn_cards/7-road/core.so": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
     "tests/revisions/safe-area/carplay_mu1367_v3_turn_cards/7-road/guard": "d55543d66665bfbfdf7cc444e30018a971810cef86c372856541cc0f46f70ca9",
     "tests/revisions/safe-area/carplay_mu1367_v3_turn_cards/7-road/manifest.json": "adadc24126044997f4ca67261aec488fa60c065148f128e0a777e3be67543a2a",
-    "tests/test-actions-qnx.py": "86337c3ebdc46af2d3245b0ed1b41f38c1b5c953406515de6e5af5d80825bb3f",
+    "tests/test-actions-qnx.py": "a3234134b247d83f99a4da847eb11a88be8e6acab84f42f0d281c9cee2d0c3c0",
     "tests/test-guidance-qnx.py": "a9f57c4d6e959485e44bd4ee4c7b703ce0755e921141f313d8bd95d2f3b68866",
     "tests/test-guidance.py": "8ab691056e02c6d252e668b5ef61d0d0754b8d61cc21b33dbf405af3d03ce820",
     "tests/test-p4521.py": "34d0a205836461b8d91035e2ea6a42f1c5fa882651c770447d34973e3cfb1971",
-    "tests/test-package.py": "41e86665f97882648ef1471b6cfdd4fda389a369642988714ba0f2afd0d4dca0",
+    "tests/test-package.py": "f7cac55491f4417b91bb4b75b703290402535c2d168cd1a80b5bfafc6de66c41",
     "tests/test-payload-checks.py": "46889d7d094f8a982b4382a07d94626d95d6ba0278bc4b90400f7457e95b30db",
     "tests/test-reader-qnx.py": "16f454ea4656f3873eb69f42f3946f175bfc4d2be307bcca2a3ae0984cd2f81b",
     "tests/test-reader.py": "78fb1a0b4e401ac79174b705350c1173aa4ae17fbfadd3f98beef5ca2ce488ad",
@@ -934,5 +938,5 @@
     "tests/test_display.c": "8d7c1dd67414555829ddd34a6b736e64b93ab94bd13b7d133e3d4980ce8d62ef",
     "tests/test_runtime.c": "fff4af5cf9dbc593b93d1eb40fc7e2803f3adff29b83633f257de2ae5f6b3045"
   },
-  "verification_script_sha256": "79979d3114fd581706ff1245de84c25d517b2ef38da3706b433bc886e6077fe5"
+  "verification_script_sha256": "7a8df1d43dad607955b3f228f2b0fc2a6c9157484b80c36801e26a95fd1da1f9"
 }

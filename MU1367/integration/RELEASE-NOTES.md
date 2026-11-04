@@ -44,6 +44,15 @@ A lifetime ceiling of **64** replacements bounds a reader regardless. Status
 adds `total_restarts` and `budget_resets`; the first-failure record is unchanged
 apart from an appended `total_restarts` field.
 
+## Installer output and reboot
+
+The installer no longer shows a "reboot required" line after every internal
+layer. It prints the planned step count, one numbered `[n/N]` line per completed
+layer and a single reboot request at the end. A new **Reboot unit (after install
+completes)** entry in the main menu refuses while an installation runs, then
+uses the Toolbox's own reboot helper. Migration from an older integrated
+revision still needs the existing reboot between its two stages.
+
 ## Install
 
 Use the normal **Install / update CarPlay integration (reboot)** action.

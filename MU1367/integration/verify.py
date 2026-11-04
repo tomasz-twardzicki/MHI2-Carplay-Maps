@@ -24,7 +24,7 @@ def main():
  names=('filesystem','p4521','qnx','reader_host','reader_qnx','reader_transactions','guidance','guidance_rebuild','guidance_qnx','preflight','p4521_native')
  proofs={n:read(getattr(a,n)) for n in names}
  for n,r in proofs.items():assert r['passed'],n
- assert proofs['filesystem']['tests']>=11 and proofs['p4521']['tests']==3 and proofs['reader_host']['tests']==20 and proofs['reader_transactions']['tests']==3
+ assert proofs['filesystem']['tests']>=13 and proofs['p4521']['tests']==3 and proofs['reader_host']['tests']==20 and proofs['reader_transactions']['tests']==3
  for n in ('filesystem','p4521','reader_transactions'):assert proofs[n]['archive_sha256']==m['archive_sha256'],n
  build=read(a.reader_build/'manifest.json');assert build['passed'] and build['sha256']==m['reader_sha256']==sha(a.reader_build/'rgi-observer')
  assert build['source_sha256']==proofs['reader_host']['reader_source_sha256']==m['reader_source_sha256']
@@ -36,7 +36,7 @@ def main():
  assert sha(HERE/'tests/test-reader.py')==proofs['reader_host']['test_sha256']
  assert sha(HERE/'tests/test-reader-qnx.py')==proofs['reader_qnx']['test_sha256']
  assert proofs['qnx']['factory_migration_verified'] and proofs['qnx']['firmware_train_recognition_verified'] and proofs['qnx']['actual_qnx_ksh']
- assert proofs['qnx']['sdk_utilities_injected'] is False
+ assert proofs['qnx']['sdk_utilities_injected'] is False and proofs['qnx']['factory_progress_verified']
  main=sd/'Custom/carplay_mu1367_guidance_v3';tuning=sd/'Custom/carplay_mu1367_v3_turn_cards'
  assert proofs['qnx']['map_only_actions_sha256']==sha(main/'actions.sh')
  assert proofs['qnx']['main_controller_sha256']==sha(main/'6/control.sh')
@@ -81,7 +81,9 @@ def main():
     if layer=='carplay_mu1367_guidance_v3':allowed.update('Custom/'+layer+'/'+v+'/'+n for n in ('CarPlayMU1367Guidance.jar','rgi-observer'))
   assert set(changed)<=allowed, set(changed)-allowed
   added=set(z.namelist())-set(base.namelist())
-  assert added==set() and set(base.namelist())<=set(z.namelist()),added
+  assert added=={'Toolbox/scripts/cpmap_reboot.sh'} and set(base.namelist())<=set(z.namelist()),added
+  assert z.read('Toolbox/scripts/cpmap_reboot.sh')==(HERE/'tools/cpmap_reboot.sh').read_bytes()
+  assert 'cpmap_reboot.sh' in z.read('Toolbox/GEM/carplay-maps-vc.esd').decode()
   for n in ('README.md','START_HERE.md','RELEASE-NOTES.md','READER-RECOVERY.md'):
    assert 'experimental' in z.read(n).decode().lower(),n
   assert 'v1.4.4-e - EXPERIMENTAL guidance' in z.read('Toolbox/GEM/carplay-maps-vc.esd').decode()

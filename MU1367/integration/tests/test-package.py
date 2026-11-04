@@ -33,9 +33,21 @@ class Suite(parent.Suite):
         self.run_script(self.parentp/'actions.sh',['install',self.parentp])
     def compare_without_v3(self,before):
         after=self.runtime(self.root);after.pop('carplay-mu1367-guidance-v3/control.sh');before=dict(before);before.pop('carplay-mu1367-guidance-v3/control.sh');self.assertEqual(after,before)
+    def progress(self,out,total=None):
+        # One numbered line per completed layer, no reboot request before the end.
+        lines=out.splitlines()
+        planned=int(next(l for l in lines if l.startswith('MU1367_INSTALL_STEPS=')).split('=')[1].split()[0])
+        if total is not None:self.assertEqual(planned,total)
+        steps=[l.split(']')[0][1:] for l in lines if re.match(r'^\[\d+/\d+\] MU1367_',l)]
+        self.assertEqual(steps,['%d/%d'%(i,planned) for i in range(1,planned+1)],out)
+        self.assertIn('MU1367_INSTALL_COMPLETE=%d/%d'%(planned,planned),lines)
+        self.assertEqual([l for l in lines if 'REBOOT_REQUIRED' in l],['MU1367_RELEASE_1_4_4_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED'],out)
+        self.assertEqual(lines[-1],'NEXT: disconnect phone/adapter, then select Reboot unit in this menu')
+        self.assertFalse((self.root/'ramdisk/.cpmap-install-running').exists())
+        return planned
     def test_v3_fresh_repeat_optional_and_oem(self):
-        self.action('install');self.expected();after=self.runtime(self.root)
-        self.action('install');self.assertEqual(self.runtime(self.root),after)
+        self.progress(self.action('install'));self.expected();after=self.runtime(self.root)
+        self.progress(self.action('install'),1);self.assertEqual(self.runtime(self.root),after)
         self.action('enable-cards');self.assertIn('REMOVE_CHILD_FIRST',self.saved('uninstall',False))
         self.action('disable-cards');self.assertEqual(self.runtime(self.root),after)
         self.action('enable-cards');self.action('disable-cards')
@@ -96,7 +108,8 @@ class Suite(parent.Suite):
                 for name in ('carplay_mu1367','carplay_mu1367_settings','carplay_mu1367_lanes','carplay_mu1367_wireless','carplay_mu1367_artwork')[:min(count,5)]:
                     layer=custom/name;self.run_script(layer/'control.sh',['install',layer])
                 if count==6:self.old_install()
-                self.assertIn('RELEASE_1_4_4_E_EXPERIMENTAL_INSTALLED',self.action('install'));self.expected()
+                out=self.action('install');self.assertIn('RELEASE_1_4_4_E_EXPERIMENTAL_INSTALLED',out);self.expected()
+                self.progress(out,3+5-min(count,5))
 
     def revision(self, revision, variant='6', tuning=False):
         old=self.revisions/revision
@@ -120,15 +133,39 @@ class Suite(parent.Suite):
                 r=self.app/'carplay-mu1367-guidance-v3'
                 version=(r/'VERSION').read_text()
                 backups={f.name:sha(f.read_bytes()) for f in (r/'backup').iterdir()}
-                self.assertIn('MIGRATION_BASE_RESTORED',self.action('install'))
+                stage=self.action('install');self.assertIn('MIGRATION_BASE_RESTORED',stage);self.assertIn('MU1367_STAGE_1_OF_2_COMPLETE',stage)
+                self.assertNotIn('MU1367_INSTALL_STEPS=',stage)
                 before=self.runtime(self.root)
                 self.assertIn('FULL_REBOOT_REQUIRED',self.action('install',False))
                 self.assertEqual(before,self.runtime(self.root))
-                self.reboot();self.assertIn('RELEASE_1_4_4_E_EXPERIMENTAL_INSTALLED',self.action('install'));self.expected(variant)
+                self.reboot();out=self.action('install');self.assertIn('RELEASE_1_4_4_E_EXPERIMENTAL_INSTALLED',out);self.expected(variant);self.progress(out,1)
                 archives=list(self.app.glob('carplay-mu1367-guidance-v3.removed-*'))
                 self.assertEqual(len(archives),1);self.assertEqual((archives[0]/'VERSION').read_text(),version)
                 self.assertEqual({f.name:sha(f.read_bytes()) for f in (archives[0]/'backup').iterdir()},backups)
                 after=self.runtime(self.root);self.action('install');self.assertEqual(after,self.runtime(self.root))
+    def test_install_running_marker_and_reboot_unit(self):
+        script=ARGS.package/'sd-card/Toolbox/scripts/cpmap_reboot.sh'
+        helper=Path(self.tmp.name)/'fake-reboot.sh';helper.write_text('echo FAKE_REBOOT_HELPER_RAN\n')
+        env=dict(self.env,CPMAP_REBOOT_HELPER=str(helper))
+        marker=self.root/'ramdisk/.cpmap-install-running';marker.touch()
+        before=self.runtime(self.root)
+        self.assertIn('INSTALL_ALREADY_RUNNING',self.action('install',False));self.assertTrue(marker.exists());self.assertEqual(before,self.runtime(self.root))
+        out=self.run_script(script,[],False,env);self.assertIn('MU1367_REBOOT_REFUSED_INSTALL_STILL_RUNNING',out);self.assertNotIn('FAKE_REBOOT',out)
+        marker.unlink();lock=self.root/'ramdisk/.carplay-guidance-install-lock';lock.mkdir()
+        self.assertIn('MU1367_REBOOT_REFUSED_INSTALL_STILL_RUNNING',self.run_script(script,[],False,env));lock.rmdir()
+        out=self.run_script(script,[],True,env);self.assertIn('MU1367_REBOOT_REQUESTED',out);self.assertIn('FAKE_REBOOT_HELPER_RAN',out)
+        self.assertIn('MU1367_REBOOT_HELPER_MISSING',self.run_script(script,[],False,dict(self.env,CPMAP_REBOOT_HELPER=str(helper)+'.absent')))
+        menu=(ARGS.package/'sd-card/Toolbox/GEM/carplay-maps-vc.esd').read_text()
+        self.assertIn('"/eso/hmi/engdefs/scripts/mqb/cpmap_reboot.sh"',menu);self.assertIn('Reboot unit (after install completes)',menu)
+        self.assertTrue((ARGS.package/'sd-card/Toolbox/scripts/util_reboot.sh').is_file())
+    def test_failed_step_stops_progress_and_clears_marker(self):
+        self.v2();before=self.runtime(self.root)
+        tools=Path(self.tmp.name)/'fault-progress';tools.mkdir();once=tools/'once';target=self.app/'carplaymaps/core.so'
+        (tools/'mv').write_text('#!/bin/ksh\nif [ "$2" = '+shlex.quote(str(target))+' ] && [ ! -f '+shlex.quote(str(once))+' ];then : > '+shlex.quote(str(once))+';exit 1;fi\nexec '+shlex.quote(shutil.which('mv'))+' "$@"\n');(tools/'mv').chmod(0o755)
+        out=self.run_script(self.p/'actions.sh',['install',self.p],False,dict(self.env,PATH=str(tools)+':'+self.env['PATH']))
+        self.assertIn('SNAPSHOT_RESTORED',out);self.assertIn('MU1367_GUIDANCE_V3_SUITE_FAIL=MAP_ONLY_INSTALL_FAILED_USE_RECOVERY',out)
+        self.assertNotIn('MU1367_INSTALL_COMPLETE',out);self.assertNotIn('RELEASE_1_4_4_E',out);self.assertNotIn('NEXT: disconnect',out)
+        self.assertFalse((self.root/'ramdisk/.cpmap-install-running').exists());self.compare_without_v3(before)
     def test_release_unknown_or_corrupt_legacy_refused_before_writes(self):
         self.v2();self.revision('release-v1.4.1');r=self.app/'carplay-mu1367-guidance-v3'
         control=(r/'control.sh').read_bytes();(r/'control.sh').write_bytes(control+b'\n# changed\n')
