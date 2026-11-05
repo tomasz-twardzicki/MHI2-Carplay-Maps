@@ -35,6 +35,21 @@ Fresh installation internally uses the established transactional baselines.
 This preserves compatibility with v1.4.0 backups instead of converting their
 formats. There is one user-facing install action, not one unprotected bulk copy.
 
+## Optional artwork test
+
+`src/artwork-test` holds the R3 refresh sources separately from `src/audio` and
+`src/artwork-native`, which remain pinned by `RUNTIME.json`. The JAR's pin is
+`ARTWORK-R3-RUNTIME.json`. `tools/package-artwork.py` is a post-processor over the
+published v1.4.5-e archive: it adds one Tuning layer and leaves every release payload
+byte-identical. Build with `tools/build-audio.py` and `tools/build-artwork-native.py`,
+test with `tests/test-artwork-native.py`, `test-audio.py`, `test-audio-qnx.py`, then
+package and run `test-audio-package-qnx.py` and `test-audio-package.py`. Those tools
+need `pyelftools`, the pinned QNX image and the retained R1/R2 test packages.
+
+Later layers' install branches gate on the exact release audio JAR, so they refuse
+while this test is active. Promoting it means updating those pins and `RUNTIME.json`.
+See [ARTWORK-R3.md](ARTWORK-R3.md).
+
 ## Build
 
 `RUNTIME.json` pins the six accepted v1.4.3 runtime payloads (the same
