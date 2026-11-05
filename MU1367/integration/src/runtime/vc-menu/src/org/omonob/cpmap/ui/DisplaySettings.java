@@ -21,11 +21,11 @@ public final class DisplaySettings {
         String path=System.getProperty("cpmap.ui.stateDir");
         return new DisplaySettings(new File(path==null||path.length()==0?"/mnt/icab/persistent/cpmap-ui":path));
     }
-    public static int count(int field){if(field!=STREAM&&field!=LAYOUT)throw new IllegalArgumentException("Unknown display setting");return 4;}
+    public static int count(int field){if(field!=STREAM&&field!=LAYOUT)throw new IllegalArgumentException("Unknown display setting");return field==STREAM?5:4;}
     public static String name(int field){count(field);return field==STREAM?"Map stream (reconnect)":"Turn-card layout (reconnect)";}
     public static String label(int field,int choice){
         if(choice<0||choice>=count(field))throw new IllegalArgumentException("Invalid display choice");
-        String[] stream={"30 fps / IDR 20","40 fps / IDR 5","30 fps / IDR 5","40 fps / IDR 20"};
+        String[] stream={"30 fps / IDR 20","40 fps / IDR 5","30 fps / IDR 5","40 fps / IDR 20","25 fps / IDR 5 (test)"};
         String[] layout={"Existing narrow","Existing wide","Compact, below route bar","Upstream compact"};
         return field==STREAM?stream[choice]:layout[choice];
     }
@@ -77,7 +77,7 @@ public final class DisplaySettings {
         if(pos!=text.length()||!lines[0].equals("format=1")||lines[1].length()!=8||!lines[1].startsWith("stream=")||lines[2].length()!=8||!lines[2].startsWith("layout=")||!lines[3].startsWith("generation="))return null;
         int stream=lines[1].charAt(7)-'0',layout=lines[2].charAt(7)-'0';long gen;
         try{gen=Long.parseLong(lines[3].substring(11));}catch(NumberFormatException bad){return null;}
-        if(stream<0||stream>3||layout<0||layout>3||gen<1)return null;
+        if(stream<0||stream>4||layout<0||layout>3||gen<1)return null;
         State state=new State(stream,layout,gen,source);
         return text.equals(new String(encode(state),"US-ASCII"))?state:null;
     }

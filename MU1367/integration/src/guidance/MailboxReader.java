@@ -50,7 +50,7 @@ public final class MailboxReader {
             else LiveModel.require(false);
             // STALE only reports 5 s without a new phone message. Silence is
             // bounded by HOLD_MS in the model and bridge, not a reset.
-            if (kind==3) GuidanceEvidence.quiet(now); else model.invalidate();
+            if (kind==3) { GuidanceEvidence.quiet(now); model.quiet(); } else model.invalidate();
             frame=model.frame();
         }
         serial=number; previous=complete; records++; return frame;

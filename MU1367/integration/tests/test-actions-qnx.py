@@ -15,7 +15,7 @@ def main():
  controller=(main/'6/control.sh').read_text().replace(real,fake)
  card=(tuning/'6/control.sh').read_text().replace(real,fake).replace(sha((main/'6/control.sh').read_bytes()),sha(controller.encode()))
  extras={'main-actions':actions,'main-control':controller,'tuning-control':card,'legacy-check':main/'legacy-check.sh','release-versions':main/'release-versions.sh'}
- old=HERE/'revisions/release-v1.4.3-e/carplay_mu1367_guidance_v3/6'
+ old=HERE/'revisions/release-v1.4.4-e/carplay_mu1367_guidance_v3/6'
  legacy=(old/'control.sh').read_text().replace(real,fake)
  legacy_check=(main/'legacy-check.sh').read_text().replace(sha((old/'control.sh').read_bytes()),sha(legacy.encode()))
  extras.update({'legacy-control':legacy,'legacy-check':legacy_check})
@@ -79,7 +79,7 @@ grep '^MU1367_INSTALL_STEPS=1 ' /ramdisk/install-out || exit 86
 grep '^\\[1/1\\] MU1367_GUIDANCE_V3_ALREADY_INSTALLED$' /ramdisk/install-out || exit 86
 grep '^MU1367_INSTALL_COMPLETE=1/1$' /ramdisk/install-out || exit 86
 test ! -e "$CPMAP_TEST_ROOT/ramdisk/.cpmap-install-running" || exit 86
-if grep REBOOT_REQUIRED /ramdisk/install-out | grep -v RELEASE_1_4_4_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED;then exit 86;fi
+if grep REBOOT_REQUIRED /ramdisk/install-out | grep -v RELEASE_1_4_5_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED;then exit 86;fi
 if echo x | { IFS= read -r L; exit 1; };then exit 87;fi
 echo RELEASE_FACTORY_PROGRESS_PASS
 /bin/ksh "$P/actions.sh" enable-cards "$P" || exit 83
@@ -95,7 +95,7 @@ test ! -e "$CPMAP_TEST_ROOT/ramdisk/.carplay-guidance-install-lock" || exit 91
 '''
  for dest,src in paths.items():script+='"$P/verify" "$APP/'+dest+'" '+sha(src.read_bytes())+' || exit 92\n'
 
- script+='\n# Install actual published v1.4.3-e release, then exercise release\'s two-stage migration.\nOLD=/ramdisk/legacy\nmkdir -p "$OLD"\ncp /proc/boot/legacy-control "$OLD/control.sh"\ncp /proc/boot/verify "$OLD/verify"\nchmod 755 "$OLD/verify"\nmv "$APP/carplay-mu1367-guidance-v3" "$APP/carplay-mu1367-guidance-v3.removed-fixture"\n'
+ script+='\n# Install actual published v1.4.4-e release, then exercise release\'s two-stage migration.\nOLD=/ramdisk/legacy\nmkdir -p "$OLD"\ncp /proc/boot/legacy-control "$OLD/control.sh"\ncp /proc/boot/verify "$OLD/verify"\nchmod 755 "$OLD/verify"\nmv "$APP/carplay-mu1367-guidance-v3" "$APP/carplay-mu1367-guidance-v3.removed-fixture"\n'
  for name in ('guard','VERSION','core.so','VCMenu.jar','CarPlayMU1367Guidance.jar','rgi-observer'):script+='cp /proc/boot/legacy-'+name+' "$OLD/'+name+'"\n'
  script+='/bin/ksh "$OLD/control.sh" install "$OLD" || exit 95\n/bin/ksh "$P/actions.sh" install "$P" || exit 96\ntest -f "$CPMAP_TEST_ROOT/ramdisk/.cpmap-release-migration-reboot" || exit 97\nif /bin/ksh "$P/actions.sh" install "$P";then exit 98;fi\nrm "$CPMAP_TEST_ROOT/ramdisk/.cpmap-release-migration-reboot"\n/bin/ksh "$P/actions.sh" install "$P" || exit 99\n/bin/ksh "$P/actions.sh" uninstall "$P" || exit 100\necho RELEASE_FACTORY_MIGRATION_PASS\n'
  script+='echo RELEASE_FACTORY_ACTIONS_PASS main_install=1 repeat=1 optional_install_remove=2 guard=1 retain_removed=1 rollback_hashes=1\n'

@@ -23,7 +23,9 @@ public final class TestArrow {
             }
         }
         for(int main=0;main<=40;main++){
-            boolean allowed=main>=3&&main<=5 || main>=13&&main<=27 || main>=32&&main<=35;
+            // Main 9 is only ever a held reroute; the factory whitelist itself is unchanged.
+            boolean allowed=main>=3&&main<=5 || main>=13&&main<=27 || main>=32&&main<=35 || main==LiveModel.MAIN_RECALCULATING;
+            check(ArrowProgress.supported(main)==(allowed&&main!=LiveModel.MAIN_RECALCULATING),"factory whitelist");
             check((ArrowProgress.remaining(frame(1,main,100,TestLive.clock),TestLive.clock)>=0)==allowed,"factory maneuver whitelist");
         }
         check(ArrowProgress.remaining(frame(1,13,-1,TestLive.clock),TestLive.clock)==-1,"unknown distance hidden");
@@ -48,7 +50,8 @@ public final class TestArrow {
         feed.add(0x5201,route(20));f=feed.read();check(!f.validDistance&&ArrowProgress.remaining(f,f.changed)==-1,"new head cannot inherit old countdown");
         feed.add(0x5201,TestLanes.join(route(20),TestLanes.tlv(10,new byte[]{0,0,0,100})));f=feed.read();
         check(f.maneuverType==1&&ArrowProgress.remaining(f,f.changed)==50,"next ordinary turn has its own 200m window");
-        for(int phase:new int[]{5,0,2}){feed.state(phase,65535,false);f=feed.model.frame();check(!f.validDistance||!f.active,"stop/reroute cannot animate old turn");}
+        feed.state(5,65535,false);f=feed.model.frame();check(f.active&&f.main==9&&ArrowProgress.remaining(f,f.changed)==50,"reroute holds the bar on the calculating symbol, never on the old turn");
+        feed.state(2,65535,false);f=feed.model.frame();check(!f.active&&!f.validDistance,"arrival ends the reroute and cannot animate an old turn");
     }
     static void factory()throws Exception{
         TestLive.installMocks();TestLive.clock=1000;LiveBridge b=TestLive.bridge();TestLive.sent.clear();

@@ -43,9 +43,9 @@ public final class TestRoad {
         f=update(feed,1,"");check(f.currentRoad.equals("")&&RoadName.current(f,f.changed).equals(""),"explicit empty clears");
         byte[] maneuver=TestLanes.join(TestLanes.tlv(0,TestLanes.u16(16)),TestLanes.join(TestLanes.tlv(1,TestLanes.u16(1)),TestLanes.tlv(4,bytes("Upcoming Road"))));
         feed.add(0x5202,maneuver);f=feed.read();check(f.currentRoad.equals(""),"upcoming road is not current road");
-        update(feed,1,"Before Reroute");f=update(feed,5,null);check(f.currentRoad.equals("")&&f.roadAt<0,"reroute clears");
-        f=update(feed,1,null);check(f.currentRoad.equals(""),"reroute cannot resurrect");
-        for(int phase=0;phase<=6;phase++)if(phase!=1&&phase!=6){update(feed,1,"Before phase");f=update(feed,phase,null);check(f.currentRoad.equals("")&&f.roadAt<0,"non-guiding phase clears");}
+        update(feed,1,"Before Reroute");f=update(feed,5,null);check(f.active&&f.main==9&&f.currentRoad.equals("Before Reroute")&&f.roadAt>=0,"reroute keeps the road");
+        f=update(feed,1,null);check(f.currentRoad.equals("Before Reroute"),"road survives until the phone replaces it");
+        for(int phase=0;phase<=6;phase++)if(phase!=1&&phase!=6){update(feed,1,"Before phase");f=update(feed,phase,null);check(phase==3||phase==5?f.currentRoad.equals("Before phase"):f.currentRoad.equals("")&&f.roadAt<0,"only a reroute keeps the road");}
         update(feed,1,"Before session reset");feed.model.invalidate();check(feed.model.frame().currentRoad.equals(""),"session invalidation clears");
         feed=new TestLanes.Feed();feed.add(0x5201,TestLanes.join(road(1,"Old app road"),TestLanes.tlv(19,bytes("source-one"))));feed.read();
         feed.add(0x5201,TestLanes.join(road(1,null),TestLanes.tlv(19,bytes("source-two"))));f=feed.read();check(f.currentRoad.equals(""),"source switch clears");
@@ -61,7 +61,7 @@ public final class TestRoad {
         check(feed.model.frame().currentRoad.equals(""),"upcoming street still withheld");
         feed.add(0x5201,TestLanes.join(active,TestLanes.tlv(13,TestLanes.u16(20))));f=feed.read();
         check(f.currentRoad.equals("Passed Road"),"proven passed maneuver supplies absent current road");
-        f=update(feed,5,null);check(f.currentRoad.equals(""),"reroute clears passed-road fallback");
+        f=update(feed,5,null);check(f.currentRoad.equals("Passed Road"),"the car is still on that road during a reroute");
     }
     static TurnToInfo_Status factory()throws Exception{
         Function stage=LiveBridge.INSTANCE.stages[6];

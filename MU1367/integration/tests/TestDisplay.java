@@ -10,7 +10,7 @@ public final class TestDisplay {
         File root=new File(args[0]);DisplaySettings store=new DisplaySettings(root);
         if(args.length>1){store.select(DisplaySettings.STREAM,Integer.parseInt(args[1]));store.select(DisplaySettings.LAYOUT,Integer.parseInt(args[2]));DisplaySettings.State s=store.read();System.out.println(s.stream+","+s.layout+","+s.generation);return;}
         check(store.read().stream==2&&store.read().layout==0&&store.read().generation==0);
-        for(int s=0;s<4;s++)for(int l=0;l<4;l++){
+        for(int s=0;s<5;s++)for(int l=0;l<4;l++){
             int previous=store.read().layout;
             store.select(DisplaySettings.STREAM,s);check(store.read().layout==previous);
             store.select(DisplaySettings.LAYOUT,l);
@@ -23,7 +23,8 @@ public final class TestDisplay {
         try{store.read();}catch(IOException expected){failed=true;}check(failed);
         failed=false;try{store.select(6,1);}catch(IOException expected){failed=true;}check(failed);
         write(primary,good);write(previous,backup);
-        for(int field=6;field<8;field++)for(int choice=-1;choice<=4;choice+=5){
+        check(DisplaySettings.label(6,4).startsWith("25 fps / IDR 5"));
+        for(int field=6;field<8;field++)for(int choice=-1;choice<=DisplaySettings.count(field);choice+=DisplaySettings.count(field)+1){
             failed=false;try{store.select(field,choice);}catch(IllegalArgumentException expected){failed=true;}check(failed);
             check(new String(read(primary),"US-ASCII").equals(new String(good,"US-ASCII")));
         }

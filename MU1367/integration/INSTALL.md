@@ -1,4 +1,4 @@
-# MU1367 / 791 v1.4.4-e — complete installation and update
+# MU1367 / 791 v1.4.5-e — complete installation and update
 
 For **MHI2_ER_VWG13_K4525 or MHI2_ER_VWG13_P4521 MU1367 + AID 791
 (12.3 inch)**. **P4521 installation remains experimental**, following a successful
@@ -9,19 +9,18 @@ The installer reports `MU1367_FIRMWARE_TYPE=P4521_EXPERIMENTAL` or `K4525` when
 RCC train information is available. Without it, the shared exact firmware hash
 is reported as `K4525_OR_P4521_HASH_MATCH`; it cannot distinguish these trains.
 
-**Experimental guidance update — to be tested.** Based on the vehicle-confirmed
-v1.4.3-e, including the U-turn fix, P4521 recognition and reader recovery. It
-holds quiet Apple Maps routes, rejects a malformed phone message without
-blocking later ones, records structural guidance evidence and renews the reader
-recovery budget after 10 stable minutes. The normal install action replaces the
-guidance JAR and native reader and saves their originals for rollback. See
-[RELEASE-NOTES.md](RELEASE-NOTES.md) and [READER-RECOVERY.md](READER-RECOVERY.md).
+**Experimental update — to be tested.** Based on the stable v1.4.4, including the
+U-turn fix, P4521 recognition, reader recovery and quiet-route hold. It shows the
+factory calculating symbol during a reroute and keeps the countdown, uses a straight
+placeholder arrow and adds an optional 25 fps / IDR 5 map stream. The normal install
+action replaces the guidance JAR, map core and menu and saves their originals for
+rollback. See [RELEASE-NOTES.md](RELEASE-NOTES.md).
 
 If the previous standalone reader test is installed, restore it first using
 its saved controller and fully reboot. Audio R1/R2 test layers must be restored
 before a base upgrade because the release retains the original audio runtime.
 
-Verify `CarPlay_Maps_VC_MU1367_791_v1.4.4-e.zip` with the adjacent `SHA256SUMS.txt`.
+Verify `CarPlay_Maps_VC_MU1367_791_v1.4.5-e.zip` with the adjacent `SHA256SUMS.txt`.
 Extract to a clean FAT32 SD root; do not merge older SD contents. Keep this SD
 and copy all recovery snapshots off the unit after a successful installation.
 
@@ -35,7 +34,7 @@ menus and scripts** from this SD. The established refresh command on MMX is:
 
 Use `/fs/sdb0` throughout if appropriate. From RCC enter MMX with `on -f mmx`.
 Under **MQB Coding > Customization > CarPlay Maps VC**, verify the banner reads
-**MU1367 / 791 v1.4.4-e - EXPERIMENTAL guidance**. Do not use scripts left from an earlier SD.
+**MU1367 / 791 v1.4.5-e - EXPERIMENTAL**. Do not use scripts left from an earlier SD.
 
 ## Install / update
 
@@ -59,7 +58,7 @@ numbered or experimental steps need to be selected separately.
 - **Stock OEM, v1.3.0, v1.4.0, supported step-6/step-8 and Integrated Arrows:**
   matching existing layers are checked and retained; missing layers are added.
 - **Lane-v2:** the release update is added directly.
-- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
+- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e/v1.4.4 or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
   this is the one case that needs two reboots. The first invocation (stage 1 of 2) checks the saved controller and every original backup,
   removes matching optional card tuning if present, and restores the lane-v2
   baseline through the saved controller. Expect
@@ -69,7 +68,7 @@ numbered or experimental steps need to be selected separately.
   The old removed snapshot is verified and archived, never overwritten.
 
 The final success message is
-**`MU1367_RELEASE_1_4_4_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
+**`MU1367_RELEASE_1_4_5_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
 `MU1367_INSTALL_COMPLETE=N/N`. Disconnect the phone/adapter, then select
 **Reboot unit (after install completes)** in the same menu. That entry refuses to
 reboot while an installation is still running and otherwise uses the Toolbox's
@@ -88,6 +87,8 @@ canvas. The failed right-edge layout experiment is not applied.
 Fresh settings use **30 fps / IDR5**, turn cards OFF and the standard map layout.
 Valid existing stream/map/mirror choices are preserved. Adjust them under
 **App-Connect > Virtual Cockpit settings**. Reconnect after stream/layout changes.
+The **25 fps / IDR 5 (test)** map stream is optional. Before rolling back to v1.4.4
+or older, select another map stream, because older menus do not recognize it.
 **Reset saved MU UI settings (reboot)** archives the entire old preference store
 as `/mnt/icab/persistent/cpmap-ui.saved-*`; it does not erase the archive.
 Reboot disconnected after resetting.
@@ -105,7 +106,7 @@ for that adapter-generated behavior. See [KNOWN-ISSUES.md](KNOWN-ISSUES.md).
 
 ## Checks and diagnostics
 
-Guidance status must show **`MU1367-guidance-v1.4.4-e`**; the reader status shows
+Guidance status must show **`MU1367-guidance-v1.4.5-e`**; the reader is unchanged from v1.4.4 and its status shows
 `MU1367-reader-v1.4.4-e` with `total_restarts` and `budget_resets`. The U-turn
 lane bytes (114/146) are unchanged. **Diagnostics > Show integration + guidance + card status**
 also reports the release controller version. The release manifest pins all files.
@@ -119,6 +120,12 @@ does not draw additional outline arrows. Google Maps is the exercised navigation
 app; this build targets Apple Maps and Waze delivery and needs their acceptance.
 Test Apple Maps with stops longer than 5 s (for example at lights) and Waze with
 an active route. `guidance-evidence.txt` names the phone app in each export.
+
+For this build, leave a route on purpose so the phone reroutes. The right dial should
+show the arrow with the calculating text while distance and arrival data keep their
+values, and the normal arrow should return with the phone's new distance. Please
+report whether the progress bar stays visible during that phase, and compare stutter
+and map smoothness at 30 and 25 fps with the same app and route.
 
 Export **Diagnostics > Export diagnostics to SD** while connected, actively
 guiding and displaying the issue. A later disconnect or cable reconnect can

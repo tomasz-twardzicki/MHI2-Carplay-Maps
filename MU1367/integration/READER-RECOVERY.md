@@ -8,9 +8,9 @@ fix for every long-run dropout.
 
 ## Install and test
 
-Use `CarPlay_Maps_VC_MU1367_791_v1.4.4-e.zip`. This is the complete v1.4.3-e-based
+Use `CarPlay_Maps_VC_MU1367_791_v1.4.5-e.zip`. This is the complete v1.4.4-based
 release for K4525 and P4521 MU1367/AID 791, with **experimental guidance and
-reader changes, to be tested**. P4521 support retains the exact shared-firmware gates and its
+stream changes, to be tested**. The reader itself is unchanged from v1.4.4. P4521 support retains the exact shared-firmware gates and its
 experimental status. The v1.4.2 U-turn fix is included.
 
 Disconnect the phone and wireless adapter, fully reboot, refresh Toolbox menus

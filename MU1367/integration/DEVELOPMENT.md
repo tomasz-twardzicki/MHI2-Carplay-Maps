@@ -158,6 +158,28 @@ mock mounts and do not establish vehicle endurance or power-loss durability.
 The earlier v1.4.1-only standalone reader test is historical; this experimental
 release uses the integrated builder above.
 
+## Experimental v1.4.5-e reroute handling and stream option
+
+Based on the published v1.4.4 archive
+`264c298ff67ad9bfb4e19793800e1d754942c81c50931b4f5b33caa9e5a2b99f`. The guidance JAR
+(`MU1367-guidance-v1.4.5-e`) and both base and tuning `core.so` and `VCMenu.jar` change.
+`verify.py` requires the audio JAR and reader to match v1.4.4. The reader keeps its
+`MU1367-reader-v1.4.4-e` identity. The reroute analysis is in
+`evidence/REROUTE-2026-11-05.md`.
+
+- `LiveModel` treats a transition from guiding to loading or rerouting, with the same
+  source and destination, as one episode. Maneuvers and lanes are dropped because the
+  new route reuses indexes; counters are held until the first nonzero distance.
+- `STOP_GRACE_MS` (1.5 s) makes a stop inside that episode provisional. `RECOVER_MS`
+  (20 s) and the reader's STALE record bound the wait.
+- `ArrowProgress` keeps the bar on `CALC_ROUTE`; the factory whitelist is unchanged.
+- Stream choice 4 is 25 fps / IDR 5 in `DisplaySettings` and `display_settings.h`.
+- v1.4.4 controllers/payloads are archived under `tests/revisions/release-v1.4.4-e`,
+  named after the byte-identical ZIP's original build, and registered in
+  `legacy-revisions.json`.
+
+The input reconstruction and test sequence below still apply.
+
 ## Experimental v1.4.4-e guidance and reader
 
 Based on the published v1.4.3-e archive

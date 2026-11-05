@@ -4,8 +4,8 @@ import argparse, hashlib, importlib.util, json, re, shutil, subprocess, zipfile
 from pathlib import Path
 from tools.payload_checks import write_payload_checks
 HERE=Path(__file__).resolve().parent
-ARCHIVE='CarPlay_Maps_VC_MU1367_791_v1.4.4-e.zip'
-BASE_ARCHIVE_SHA256='3ecb5304c8a9e85c43a01dd532dfc5c920c3e1a866321a7c1d667d750260afa5'
+ARCHIVE='CarPlay_Maps_VC_MU1367_791_v1.4.5-e.zip'
+BASE_ARCHIVE_SHA256='264c298ff67ad9bfb4e19793800e1d754942c81c50931b4f5b33caa9e5a2b99f'
 def sha(f): return hashlib.sha256(f.read_bytes()).hexdigest()
 def toolbox_input(name):
     # The SD's upstream Git attributes belong to its distribution, not this
@@ -39,7 +39,7 @@ def main():
         payload={k:(a.runtime/'tuning'/name,name) for k,name in [('core','core.so'),('menu','VCMenu.jar')]}
         tv[v]=tx.transaction(sd,tuning,v,payload,before,'carplay-mu1367-guidance-v3','turn-cards','MU1367_TURN_CARDS',variants[v]['build_id'])
     actions=(HERE/'tools/actions.sh').read_text()
-    # Main snapshots that own the reader: this release and archived v1.4.3-e.
+    # Main snapshots that own the reader: this release and archived v1.4.3-e and v1.4.4-e.
     legacy=json.loads((HERE/'tools/legacy-revisions.json').read_text())
     owners=[m['build_id'] for m in variants.values()]+sorted(m['build_id'] for m in legacy.values() if 'reader' in m['before'])
     actions=actions.replace('@READER_VERSIONS@','|'.join(owners))
@@ -51,7 +51,7 @@ def main():
     actions=actions[:pos]+'. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n'+actions[pos:]
     # migrate.sh handles both latest and old tuning; the existing gate runs afterwards.
     actions=actions.replace('. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n','. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n'+code+'\n')
-    actions=actions.replace('echo MU1367_GUIDANCE_V3_SUITE_INSTALLED_FULL_REBOOT_REQUIRED','echo MU1367_RELEASE_1_4_4_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED')
+    actions=actions.replace('echo MU1367_GUIDANCE_V3_SUITE_INSTALLED_FULL_REBOOT_REQUIRED','echo MU1367_RELEASE_1_4_5_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED')
     (root/'actions.sh').write_text(actions)
     sh='''# Generated exact identities of supported local revisions. No saved code runs before this gate.
 legacy_check(){
@@ -87,7 +87,7 @@ legacy_check(){
     menu_text=menu.read_text()
     old_banner='MU1367 / 791 v1.4.3 - P4521 experimental'
     assert old_banner in menu_text
-    menu_text=menu_text.replace(old_banner,'MU1367 / 791 v1.4.4-e - EXPERIMENTAL guidance')
+    menu_text=menu_text.replace(old_banner,'MU1367 / 791 v1.4.5-e - EXPERIMENTAL')
     # GEM menus are static, so the reboot entry is permanent; the script refuses
     # while an install runs and then uses the Toolbox's own reboot helper.
     install_entry='    label "Reset saved MU UI settings (reboot)"\n'
@@ -95,11 +95,11 @@ legacy_check(){
     menu_text=menu_text.replace(install_entry,install_entry+'\nscript\n    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_reboot.sh"\n    label "Reboot unit (after install completes)"\n')
     menu.write_text(menu_text)
     shutil.copy2(HERE/'tools/cpmap_reboot.sh',sd/'Toolbox/scripts/cpmap_reboot.sh')
-    (sd/'README.md').write_text('# MU1367 / 791 v1.4.4-e — EXPERIMENTAL\n\nBased on v1.4.3-e, including K4525/P4521 support, reader recovery and the U-turn lane fix.\n\nExperimental guidance changes for Apple Maps/Waze delivery and a renewable reader-recovery budget; vehicle testing is required. Start with [START_HERE.md](START_HERE.md), [RELEASE-NOTES.md](RELEASE-NOTES.md) and [READER-RECOVERY.md](READER-RECOVERY.md).\n')
+    (sd/'README.md').write_text('# MU1367 / 791 v1.4.5-e — EXPERIMENTAL\n\nBased on stable v1.4.4.\n\nExperimental reroute handling, a straight placeholder arrow and an optional 25 fps / IDR 5 map stream; vehicle testing is required. Start with [START_HERE.md](START_HERE.md) and [RELEASE-NOTES.md](RELEASE-NOTES.md).\n')
     shutil.copy2(HERE/'NOTICE.md',sd/'NOTICE.md')
-    manifest={'version':'1.4.4-e','experimental':True,'prerelease':True,'base_version':'1.4.3-e','base_archive_sha256':BASE_ARCHIVE_SHA256,'reader_build':'MU1367-reader-v1.4.4-e','guidance_hold_ms':180000,'reader_restart_budget':{'per_window':3,'stable_window_ms':600000,'lifetime_ceiling':64,'backoff_ms':[1000,2000,4000]},'reader_sha256':reader['sha256'],'reader_source_sha256':reader['source_sha256'],'experimental_fix':'Message-scoped guidance rejection, bounded quiet-route hold for sparse app updates, structural guidance evidence and a renewable reader-recovery budget; vehicle validation pending.','archive_name':ARCHIVE,'firmware':'K4525 / P4521 MU1367','supported_firmware':[{'train':'MHI2_ER_VWG13_K4525','experimental':False},{'train':'MHI2_ER_VWG13_P4521','experimental':True}],'p4521_prior_experimental_vehicle_tested':True,'p4521_final_package_vehicle_tested':False,'cluster':'791','variants':variants,'tuning_variants':tv,
+    manifest={'version':'1.4.5-e','experimental':True,'prerelease':True,'base_version':'1.4.4','base_archive_sha256':BASE_ARCHIVE_SHA256,'reader_build':'MU1367-reader-v1.4.4-e','guidance_hold_ms':180000,'reader_restart_budget':{'per_window':3,'stable_window_ms':600000,'lifetime_ceiling':64,'backoff_ms':[1000,2000,4000]},'reader_sha256':reader['sha256'],'reader_source_sha256':reader['source_sha256'],'experimental_fix':'Reroute handling with held counters, straight direction placeholder and an optional 25 fps / IDR 5 stream; vehicle validation pending.','guidance_recover_ms':20000,'guidance_stop_grace_ms':1500,'archive_name':ARCHIVE,'firmware':'K4525 / P4521 MU1367','supported_firmware':[{'train':'MHI2_ER_VWG13_K4525','experimental':False},{'train':'MHI2_ER_VWG13_P4521','experimental':True}],'p4521_prior_experimental_vehicle_tested':True,'p4521_final_package_vehicle_tested':False,'cluster':'791','variants':variants,'tuning_variants':tv,
         'files':variants['6']['files'],'defaults':{'fps':30,'idr':5,'cards':False,'safe_area':[200,96,400,364]},
-        'guidance_build':'MU1367-guidance-v1.4.4-e','mini_pico_card_suppression':False,'inactive_lane_blanks':'OEM behavior',
+        'stream_choices':['30 fps / IDR 20','40 fps / IDR 5','30 fps / IDR 5','40 fps / IDR 20','25 fps / IDR 5 (test)'],'guidance_build':'MU1367-guidance-v1.4.5-e','mini_pico_card_suppression':False,'inactive_lane_blanks':'OEM behavior',
         'release_package_vehicle_tested':False,'feature_vehicle_results':'See KNOWN-ISSUES.md; final packaging and migration verified off-unit.'}
     (sd/'MU1367_RELEASE_MANIFEST.json').write_text(json.dumps(manifest,indent=2)+'\n')
     # Check every CarPlay migration/recovery payload before persistent writes.

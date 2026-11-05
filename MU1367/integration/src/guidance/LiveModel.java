@@ -14,6 +14,12 @@ public final class LiveModel {
      * heartbeat, session and route state remain valid, bounded by HOLD_MS of
      * total message silence. Explicit state/session changes still clear it. */
     static final long HOLD_MS = 180000;
+    /* A captured reroute is 1,5,0,3,1 within about 0.5 s. The list then restarts
+     * at a start-route maneuver reporting 0 m for up to 15 s. The whole episode
+     * is one route: it shows CALC_ROUTE and keeps the last counters until the
+     * phone reports a real distance again. */
+    static final int MAIN_RECALCULATING = 9;
+    static final long STOP_GRACE_MS = 1500, RECOVER_MS = 20000;
     static final class Message {
         int id;
         long[] v = new long[21];
@@ -65,6 +71,9 @@ public final class LiveModel {
     private long age;
     private byte[] source, destination;
     private byte[][] retained=new byte[16][];
+    private boolean rerouting;
+    private int reroutingType=-1;
+    private long clock, stopAt=-1, recoverAt=-1;
 
     static void require(boolean condition) throws IOException {
         if (!condition) throw new IOException("RGI structural validation failed");
@@ -182,6 +191,22 @@ public final class LiveModel {
         cache=new Message[32]; ages=new long[32]; order=new int[0];
         distance=-1; distanceHead=-1; distanceGeneration=-1; generation++;
         remainingMeters=remainingSeconds=-1;
+        rerouting=false;reroutingType=-1;stopAt=recoverAt=-1;
+    }
+    // Indexes are reused by the new route, so its maneuvers and lanes must go.
+    private void dropManeuvers() {
+        laneCache.clear();cache=new Message[32];ages=new long[32];order=new int[0];
+    }
+    private boolean guiding(int phase) { return phase==1 || phase==6; }
+    private void endStop() { clearCache();destination=null;state=0; }
+    /** The phone has been silent for 5 s: stop waiting for what it has not sent. */
+    public void quiet() {
+        if(stopAt>=0)endStop();
+        else if(rerouting && guiding(state))rerouting=false;
+    }
+    private void expire(long now) {
+        if(stopAt>=0 && (now<stopAt || now-stopAt>=STOP_GRACE_MS))endStop();
+        else if(rerouting && recoverAt>=0 && (now<recoverAt || now-recoverAt>=RECOVER_MS))rerouting=false;
     }
     public void invalidate() { clearCache(); state=-1; source=destination=null; seen=0; changed=-1; epoch++; }
     private int head() { return order.length>0?order[0]:-1; }
@@ -236,19 +261,29 @@ public final class LiveModel {
         int next=m.has[1]?(int)m.v[1]:state;
         boolean sourceChange=m.has[19] && source!=null && !equal(source,m.raw[19]);
         boolean destChange=m.has[4] && destination!=null && destination.length>0 && m.raw[4].length>0 && !equal(destination,m.raw[4]);
-        if (next==0 && state!=0 || next>0 && state<=0 || (next==3 || next==5) && state>0 && state!=next || sourceChange || destChange || next>6) {
+        boolean sameRoute=!sourceChange && !destChange;
+        // A stop inside a reroute is provisional; a real one ends it after the grace period.
+        if (next==0 && rerouting && !guiding(state) && sameRoute) { if(stopAt<0)stopAt=clock; return true; }
+        stopAt=-1;
+        if(next!=3 && next!=5 && !guiding(next) && next!=0)rerouting=false;
+        if (sameRoute && (next==3 || next==5) && guiding(state)) {
+            reroutingType=maneuverType();rerouting=true;recoverAt=-1;dropManeuvers();
+        } else if (sameRoute && (next==3 || next==5) && rerouting) {
+            if(state!=next)dropManeuvers();
+        } else if (next==0 && state!=0 || next>0 && state<=0 || (next==3 || next==5) && state>0 && state!=next || sourceChange || destChange || next>6) {
             clearCache(); destination=null; if (sourceChange) source=null;
         }
+        if(rerouting && guiding(next) && !guiding(state))recoverAt=clock;
         state=next;
         if (m.has[19]) source=m.raw[19];
         if (next>=1 && next<=6) {
             if (m.has[4]) destination=m.raw[4];
             if (m.has[13]) order=m.order;
         }
-        if (next!=1 && next!=6) {remainingMeters=remainingSeconds=-1;currentRoad="";roadAt=-1;directRoad=false;}
+        if (!guiding(next) && !rerouting) {remainingMeters=remainingSeconds=-1;currentRoad="";roadAt=-1;directRoad=false;}
         if(m.has[16])laneCache.selected=(int)m.v[16];
         if(m.has[18])laneCache.showing=m.v[18]==1;
-        if(next!=1 && next!=6){laneCache.showing=false;routeStatusAt=-1;}
+        if(!guiding(next)){laneCache.showing=false;if(!rerouting)routeStatusAt=-1;}
         if (next==2) { cache=new Message[32]; distance=-1;laneCache.clear(); }
         return true;
     }
@@ -259,6 +294,7 @@ public final class LiveModel {
         require(u32(b,28)<=1 && u32(b,32)==0 && u32(b,36)<=1 && ns<1000000000L);
         require(count==Math.min(sequence,16) && (u32(b,36)!=0 || sequence==0) && (u32(b,36)==0 || session!=0));
         for (int i=48;i<64;i+=4) require(u32(b,i)==0);
+        clock=now;
         Message[] messages=new Message[(int)count]; byte[][] bytes=new byte[(int)count][];
         FeedRecovery.Fault[] faults=new FeedRecovery.Fault[(int)count];
         int pos=64;
@@ -296,14 +332,14 @@ public final class LiveModel {
                 if (!accepted) GuidanceEvidence.notApplied();
                 if(accepted && messages[i].id==0x5204)
                     LaneEvidence.received(messages[i].lanes,(int)messages[i].v[1],messages[i].invalidLanes,now);
-                if (head()!=distanceHead || generation!=distanceGeneration || current()==null) distance=-1;
+                if (!rerouting && (head()!=distanceHead || generation!=distanceGeneration || current()==null)) distance=-1;
                 distanceHead=current()==null?-1:head(); distanceGeneration=generation;
                 if (accepted && seq>oldHigh && !bootstrap) {
                     progress++; changed=now;
                     Message m=messages[i];
                     if(m.id==0x5201 && m.has[3]){roadFields++;if(RoadName.decode(m.raw[3]).length()>0)roadNonempty++;}
                     if(m.id==0x5204){laneMessages++;for(int j=0;j<m.lanes.length;j++)if(m.lanes[j].recommendation==0){neutralLanes++;neutralBranches+=m.lanes[j].sides.length();}}
-                    if (m.id==0x5201 && (state==1 || state==6)) {
+                    if (m.id==0x5201 && (guiding(state) || rerouting)) {
                         routeStatusAt=now;
                         if(m.has[3]){currentRoad=RoadName.decode(m.raw[3]);roadAt=now;directRoad=currentRoad.length()>0;}
                         else if(passed!=null && !directRoad){currentRoad=passed;roadAt=now;}
@@ -311,18 +347,22 @@ public final class LiveModel {
                         // Unsigned u64 input, bounded to factory RTT's 99h59m.
                         if (m.has[6]) remainingSeconds=m.v[6]>=0 && m.v[6]<=359940?(int)m.v[6]:-1;
                     }
-                    if (m.id==0x5201 && m.has[10] && current()!=null) distance=m.v[10]<=Integer.MAX_VALUE?(int)m.v[10]:-1;
+                    if (m.id==0x5201 && m.has[10] && current()!=null && !(rerouting && m.v[10]==0)) {
+                        distance=m.v[10]<=Integer.MAX_VALUE?(int)m.v[10]:-1;
+                        rerouting=false;
+                    }
                 }
             }
         }
         for (int i=0;i<count;i++) retained[(int)((sequence-count+i)&15)]=bytes[i];
         high=sequence; seen=sequence;
+        expire(now);
         return frame();
     }
     private int maneuverType(){Message m=current();return m!=null && m.has[3]?(int)m.v[3]:-1;}
     public Frame frame() {
-        int[] symbol=map(current());
-        return new Frame((state==1 || state==6) && changed>=0,symbol[0],symbol[1],distance,remainingMeters,remainingSeconds,progress,changed,epoch,laneCache.current(),routeStatusAt,currentRoad,roadAt,maneuverType());
+        int[] symbol=rerouting?symbol(MAIN_RECALCULATING,0):map(current());
+        return new Frame((guiding(state) || rerouting) && changed>=0,symbol[0],symbol[1],distance,remainingMeters,remainingSeconds,progress,changed,epoch,laneCache.current(),routeStatusAt,currentRoad,roadAt,rerouting?reroutingType:maneuverType());
     }
     static int turn(int a) { int n=Math.abs(a); return n<=22?0:n<=67?(a<0?32:224):n<=112?(a<0?64:192):(a<0?96:160); }
     static int[] symbol(int main,int direction) { return new int[]{main,direction}; }

@@ -33,13 +33,13 @@ static void card_file(const char *root,int pos){
  n=snprintf(body,sizeof(body),"format=1\nposition=%d\ngeneration=1\n",pos);fputs(body,f);fprintf(f,"crc32=%x\n",(unsigned)cpmap_card_crc((unsigned char *)body,(size_t)n));assert(!fclose(f));
 }
 int main(int argc,char **argv){
- const int fps[4]={30,40,30,40},idr[4]={20,5,5,20};
+ const int fps[5]={30,40,30,40,25},idr[5]={20,5,5,20,5};
  char root[]="/tmp/guidance-v3-XXXXXX",path[512];int s,l,pos,before;FILE *f;Obj *d,*views,*safe,*session;
  if(argc==2){struct cpvc_display_settings state;assert(cpvc_display_read(argv[1],&state)>=0);printf("%d,%d,%llu\n",state.stream,state.layout,(unsigned long long)state.generation);return 0;}
  assert(mkdtemp(root));setenv("CPVC_DISPLAY_STATE_DIR",root,1);setenv("CPMAP_CARD_STATE_DIR",root,1);setenv("CARPLAY_ALTSCREEN_LOG","/dev/null",1);
  assert(cpvc_display_fps()==30&&cpvc_display_idr()==5);
  d=create_alt_display();assert(d&&number(d,"maxFPS")==30&&cpvc_display_idr()==5);drop(d);assert(live==0);
- for(s=0;s<4;s++)for(l=0;l<4;l++)for(pos=0;pos<4;pos++){
+ for(s=0;s<5;s++)for(l=0;l<4;l++)for(pos=0;pos<4;pos++){
   write_display(root,s,l,(unsigned)(s*16+l*4+pos+1));card_file(root,pos);
   d=create_alt_display();assert(d&&number(d,"maxFPS")==fps[s]&&cpvc_display_idr()==idr[s]);
   assert(number(d,"widthPixels")==800&&number(d,"heightPixels")==480);
@@ -70,5 +70,5 @@ int main(int argc,char **argv){
  f=fopen(path,"wb");assert(f);fputs("state::0\n",f);fclose(f);card_runtime_poll();usleep(450000);card_runtime_poll();assert(pending);ack(-7);
  before=wire_sends;for(s=0;s<16;s++)card_runtime_poll();assert(!pending&&g_card_policy.blocked&&wire_sends==before);
  forget_viewarea_session(session);drop(session);assert(live==0);
- printf("GUIDANCE_V3_CF_PASS map_only=%d matrix=64 default_30_5=1 saved_choices=1 unscoped_requestUI=1 single_inflight=1 bounded_route_edge=1 leaks=0\n",MAP_ONLY);return 0;
+ printf("GUIDANCE_V3_CF_PASS map_only=%d matrix=80 default_30_5=1 saved_choices=1 unscoped_requestUI=1 single_inflight=1 bounded_route_edge=1 leaks=0\n",MAP_ONLY);return 0;
 }

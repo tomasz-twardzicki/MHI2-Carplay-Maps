@@ -13,7 +13,7 @@ public final class TestPlaceholder {
         LiveModel.Frame f=feed.read();TestLive.clock=f.changed;
         b.incoming=f;b.journalAt=TestLive.clock;b.lastTick=TestLive.clock;b.tick(TestLive.clock);
         check(b.owned&&f.main==0,"real active route without a maneuver can acquire guidance");
-        check(LiveBridge.descriptor(out)&&out.maneuver_1.mainElement==13&&out.maneuver_1.direction==0,"straight placeholder for missing pictogram");
+        check(LiveBridge.descriptor(out)&&out.maneuver_1.mainElement==2&&out.maneuver_1.direction==0,"straight DIRECTION_TO_DESTINATION placeholder for missing pictogram");
         DistanceToNextManeuver_Status distance=new DistanceToNextManeuver_Status();
         b.selected=new LiveModel.Frame(true,0,0,50,1000,60,1,TestLive.clock,1,LaneData.EMPTY,TestLive.clock);
         check(LiveBridge.distance(distance)&&!distance.validityInformation.distanceToNextManeuverValid&&distance.bargraphInfo.bargraphOnOff==0,"placeholder has no fabricated distance or countdown");

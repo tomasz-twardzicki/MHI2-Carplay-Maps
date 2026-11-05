@@ -1,4 +1,51 @@
-# MU1367 v1.4.4-e — experimental Apple Maps / Waze guidance handling
+# MU1367 v1.4.5-e — experimental reroute handling and 25 fps test option
+
+**EXPERIMENTAL — TO BE TESTED.** Based on the stable v1.4.4 release, for
+**K4525 / P4521 MU1367 + AID 791**. P4521 installation remains experimental. This
+package has no vehicle result yet. Use v1.4.4 for a stable installation.
+
+The guidance JAR, map core and MU menu change, in both the base and the optional
+turn-card runtime. Audio, reader, driver and other runtime bytes match v1.4.4.
+
+## Reroute handling
+
+- **"Calculating route" during a reroute.** A reroute now shows the factory
+  calculating symbol (`CALC_ROUTE`, main element 9) with its text in the car's
+  language. Previously the output was released and came back with a placeholder.
+- **The countdown no longer restarts.** In every reroute in the available captures,
+  the phone sends states 1, 5, 0, 3, 1 within about half a second, then restarts
+  its maneuver list at a start-route step reporting 0 m. That was treated as a new
+  trip. It is now one episode: distance, progress bar, current road and arrival data
+  keep their values until the phone reports a real distance again. See
+  [the capture analysis](evidence/REROUTE-2026-11-05.md).
+- **Bounds.** The wait ends after 20 s or 5 s of phone silence. A stop inside a
+  reroute ends guidance within 1.5 s of the next phone message, or at that 5 s
+  silence. A normal route end, a new destination, disconnect and OEM navigation still
+  clear immediately.
+
+## Placeholder arrow
+
+With an active route and no maneuver yet, the cluster now shows the straight
+`DIRECTION_TO_DESTINATION` arrow instead of a straight turn arrow. It always points
+straight: iAP2 supplies no destination position or bearing, so the true direction
+cannot be calculated.
+
+## 25 fps test option
+
+**App-Connect > Virtual Cockpit settings > Map stream** has a new choice,
+**25 fps / IDR 5 (test)**. Reconnect after changing it. **30 fps / IDR 5 stays the
+default**, and saved choices are preserved.
+
+Captures show the phone delivering about 17–19 fps when 30 is requested, close to the
+link's bandwidth at peaks. Requesting 25 may remove the occasional stutter. It may
+also lower the delivered rate, because two captures requesting 40 fps reached about
+27. Please compare the same app and route at both settings.
+
+**Before rolling back to v1.4.4 or older, select another map stream.** Older menus
+do not recognize this choice and can refuse the saved settings. If that happens, use
+**Reset saved MU UI settings (reboot)**.
+
+# Earlier: v1.4.4-e — experimental Apple Maps / Waze guidance handling
 
 **EXPERIMENTAL — TO BE TESTED.** Based on the vehicle-confirmed v1.4.3-e release,
 for **K4525 / P4521 MU1367 + AID 791**. P4521 installation remains experimental.
@@ -59,7 +106,7 @@ Use the normal **Install / update CarPlay integration (reboot)** action.
 v1.4.3-e is recognised by its exact saved controller and backups and uses the
 established two-stage retirement/reboot/install path, preserving its snapshot.
 All earlier supported revisions are unchanged. Expect
-`MU1367_RELEASE_1_4_4_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`.
+`MU1367_RELEASE_1_4_4_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED` in that package.
 
 Test Apple Maps and Waze with active routes, including stops at lights, then
 Google Maps for regression. Export diagnostics while guiding and record which

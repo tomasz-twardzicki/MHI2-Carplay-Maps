@@ -1,0 +1,15 @@
+{
+  "build_id": "mu1367-turn-cards-51aea523b369",
+  "before": {
+    "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+    "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+    "parent": "8115ff927d262d2d0d3d40838db05225102670740d8dd7b3e0909f36e0350285"
+  },
+  "files": {
+    "core": "74ab9299cb22a1be29ad7697f6920330c6c07e416aebc7e68fa42ace2cdb30e6",
+    "menu": "8e628647fedc4d798aeecb0c41ac0d17a4d575d9bf559c439565b5989046487d"
+  },
+  "parent": "carplay-mu1367-guidance-v3",
+  "variant": "7-road",
+  "on_unit_validated": false
+}

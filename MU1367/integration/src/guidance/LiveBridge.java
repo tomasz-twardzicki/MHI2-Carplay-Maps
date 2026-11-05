@@ -186,10 +186,11 @@ public final class LiveBridge implements TimerNotifier, Runnable {
     public static boolean descriptor(ManeuverDescriptor_Status out) {
         LiveModel.Frame f=INSTANCE.current(); if (f==null) return false;
         out.reset(); // Includes all three directions/z-level/side-street strings.
-        // Only an owned, fresh active route may use the placeholder. Clearing,
-        // cancellation, OEM ownership and missing/stale route data stay blank.
+        // Only an owned, fresh active route may use the placeholder: the straight
+        // DIRECTION_TO_DESTINATION arrow. No bearing is known, so it never turns.
+        // Clearing, cancellation, OEM ownership and missing/stale route data stay blank.
         boolean placeholder=f.active && f.main==0;
-        out.maneuver_1.mainElement=placeholder?13:f.main;
+        out.maneuver_1.mainElement=placeholder?2:f.main;
         out.maneuver_1.direction=placeholder?0:f.direction;
         INSTANCE.writes++; return true;
     }

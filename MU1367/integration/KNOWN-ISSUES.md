@@ -28,11 +28,15 @@ work. It is not a missing-data fix or a release acceptance requirement.
 
 ## Navigation TODO
 
-- Refine native maneuver symbols and use suitable OEM symbols for the initial
-  guidance phase and a Maps instruction with no directional arrow. The current
-  guarded straight-ahead fallback is a placeholder, not the final design.
-- Display the OEM “recalculating…” state during rerouting; current transitions
-  may show compass/blank instead.
+- Refine native maneuver symbols for the initial guidance phase. The fallback
+  with no maneuver is now the straight DIRECTION_TO_DESTINATION arrow. It cannot
+  point at the destination: iAP2 supplies no destination position or bearing.
+- v1.4.5-e reroute handling awaits a vehicle check: a reroute (captured as states
+  1, 5, 0, 3, 1) shows CALC_ROUTE and holds the distance, bar, road and route totals
+  until the phone reports a nonzero distance. That wait is capped at 20 s, or 5 s of
+  phone silence, so the calculating text can outlast the phone's real calculation.
+  Whether the AID draws the bar on that symbol and how Apple Maps reroutes are both
+  unconfirmed.
 - Show the road/intersection name above the native arrow when supplied. The
   existing current-road name in the ETA bar is a separate implemented feature.
 - Validate Apple Maps and Waze with v1.4.4-e. See the section below.
@@ -54,7 +58,9 @@ not possible for it through this path. `guidance-evidence.txt` will show this.
 Video: all captures deliver about 17–19 fps against the requested 30 fps, and
 each forced keyframe is followed by an 80–130 ms frame gap. The user reports
 Waze as slightly laggier than Google Maps at 30 fps / IDR 5. A 30 fps / IDR 20
-comparison has not been made yet. No video change is included in v1.4.4-e.
+comparison has not been made yet. v1.4.5-e adds an optional 25 fps / IDR 5 choice
+to compare. Requesting less may not help: two captures requesting 40 fps reached about
+27, so the delivered rate may follow the request.
 
 ## Validation scope
 

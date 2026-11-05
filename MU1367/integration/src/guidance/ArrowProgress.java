@@ -9,6 +9,8 @@ import de.vw.mib.bap.mqbab2.generated.navsd.serializer.DistanceToNextManeuver_St
  */
 public final class ArrowProgress {
     static final long ROUTE_AGE=LiveModel.HOLD_MS;
+    // A reroute keeps the bar it had, so the countdown does not restart afterwards.
+    static boolean shown(int main){return supported(main) || main==LiveModel.MAIN_RECALCULATING;}
     static int window(LiveModel.Frame f){
         // iAP2 maneuver types, not Android Auto's enum (whose 8 means exit).
         int t=f==null?-1:f.maneuverType;
@@ -19,7 +21,7 @@ public final class ArrowProgress {
         return main>=3 && main<=5 || main>=13 && main<=27 || main>=32 && main<=35;
     }
     static int remaining(LiveModel.Frame f,long now){
-        if(f==null || !f.active || !f.validDistance || !supported(f.main)
+        if(f==null || !f.active || !f.validDistance || !shown(f.main)
             || f.laneAt<0 || now<f.laneAt || now-f.laneAt>=ROUTE_AGE)return -1;
         int limit=window(f);
         return f.meters>limit?-1:(int)((long)f.meters*100/limit);

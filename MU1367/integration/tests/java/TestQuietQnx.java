@@ -37,6 +37,15 @@ public final class TestQuietQnx {
         String s=GuidanceEvidence.snapshot();
         check(s.length()<4096&&s.indexOf("hold_ms=180000")>=0&&s.indexOf("2:1")>=0,"evidence snapshot");
         check(LiveModel.HOLD_MS==180000L,"hold constant");
+        // A captured reroute, on the factory VM.
+        add(0x5201,join(tlv(0,u16(16)),tlv(1,new byte[]{5})));f=model.snapshot(window(),61200,false);
+        check(f.active&&f.main==9&&f.direction==0&&f.meters==120,"rerouting keeps the counter");
+        add(0x5201,join(tlv(0,u16(16)),tlv(1,new byte[]{0})));f=model.snapshot(window(),61300,false);
+        check(f.active&&f.main==9&&f.meters==120,"stop inside a reroute is provisional");
+        add(0x5201,join(tlv(0,u16(16)),tlv(1,new byte[]{3})));add(0x5202,maneuver(0,11));add(0x5201,route(1,0,0));f=model.snapshot(window(),61400,false);
+        check(f.active&&f.main==9&&f.meters==120,"start maneuver at 0 m keeps the counter");
+        add(0x5202,maneuver(1,2));add(0x5201,route(1,1,90));f=model.snapshot(window(),61500,false);
+        check(f.active&&f.main==13&&f.direction==192&&f.meters==90,"real distance resumes guidance");
         System.out.println(new StringBuffer("QUIET_FACTORY_J9_PASS checks=").append(checks).toString());
     }
 }

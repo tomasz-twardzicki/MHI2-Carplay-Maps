@@ -8,11 +8,11 @@ static void write_display(const char *root,int stream,int layout,unsigned genera
 }
 int main(int argc,char **argv){
  static const int areas[4][4]={{200,96,400,364},{160,96,480,364},{220,96,360,348},{220,65,360,348}};
- static const int fps[4]={30,40,30,40},idr[4]={20,5,5,20};
+ static const int fps[5]={30,40,30,40,25},idr[5]={20,5,5,20,5};
  char root[]="/tmp/mu1367-display-XXXXXX",path[512];int s,l,checks=0;Obj *d,*v,*safe;FILE *f;
  if(argc==2){struct cpvc_display_settings state;int rc=cpvc_display_read(argv[1],&state);if(rc<0)return 2;printf("%d,%d,%llu\n",state.stream,state.layout,(unsigned long long)state.generation);return 0;}
  assert(mkdtemp(root));assert(!setenv("CPVC_DISPLAY_STATE_DIR",root,1));assert(!setenv("CPMAP_CARD_STATE_DIR",root,1));assert(!setenv("CARPLAY_ALTSCREEN_LOG","/dev/null",1));
- for(s=0;s<4;s++)for(l=0;l<4;l++){
+ for(s=0;s<5;s++)for(l=0;l<4;l++){
   write_display(root,s,l,(unsigned)(s*4+l+1));d=create_alt_display();assert(d);
   assert(number(d,"maxFPS")==fps[s]);assert(cpvc_display_idr()==idr[s]);
   assert(number(d,"widthPixels")==800&&number(d,"heightPixels")==480);
@@ -25,7 +25,7 @@ int main(int argc,char **argv){
  }
  /* Corrupt input retains the last accepted session configuration. */
  snprintf(path,sizeof(path),"%s/display.state",root);f=fopen(path,"wb");assert(f);fputs("corrupt\n",f);assert(!fclose(f));
- cpvc_display_refresh();assert(cpvc_display_snapshot().stream==3&&cpvc_display_snapshot().layout==3);checks++;
+ cpvc_display_refresh();assert(cpvc_display_snapshot().stream==4&&cpvc_display_snapshot().layout==3);checks++;
  fail_number=1;assert(!create_alt_display());assert(live==0);checks++;
- printf("DISPLAY_NATIVE_CF_PASS checks=%d matrix=16 canvas=800x480 retained_on_corrupt=1 leaks=0\n",checks);return 0;
+ printf("DISPLAY_NATIVE_CF_PASS checks=%d matrix=20 canvas=800x480 retained_on_corrupt=1 leaks=0\n",checks);return 0;
 }

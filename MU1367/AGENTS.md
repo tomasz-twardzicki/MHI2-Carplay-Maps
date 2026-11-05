@@ -3,7 +3,8 @@
 Current development is based on the published v1.4.3 integration, including
 P4521 recognition and the v1.4.2 U-turn fix. v1.4.3-e adds experimental reader
 recovery to that baseline (vehicle-confirmed); v1.4.4-e builds on v1.4.3-e with
-Apple Maps/Waze guidance handling and a renewable reader-recovery budget. Use the current integration sources and release
+Apple Maps/Waze guidance handling and a renewable reader-recovery budget, published
+as stable v1.4.4 with the same ZIP. v1.4.5-e adds reroute handling and a 25 fps option. Use the current integration sources and release
 manifests for further changes; the v1.4.1-only reader add-on is historical.
 Keep both K4525 and P4521 support, exact firmware gates and snapshot recovery.
 

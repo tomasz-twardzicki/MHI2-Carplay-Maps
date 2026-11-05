@@ -2,6 +2,9 @@
 
 Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
 
+**Pre-release to test: [v1.4.5-e](../releases/MU1367/v1.4.5-e/README.md)** adds reroute
+handling and an optional 25 fps / IDR 5 map stream.
+
 The current stable release is **[v1.4.4](../releases/MU1367/v1.4.4/README.md)**, the
 [v1.4.4-e integration](./integration/README.md) published with a byte-identical ZIP. It
 holds quiet Apple Maps routes and renews the reader-recovery budget. Apple Maps results
