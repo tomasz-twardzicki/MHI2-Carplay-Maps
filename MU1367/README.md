@@ -2,9 +2,10 @@
 
 Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
 
-Current development is **[v1.4.4-e experimental integration](./integration/README.md)**,
-based on the vehicle-confirmed v1.4.3-e. It targets Apple Maps and Waze native
-guidance and renews the reader-recovery budget; vehicle testing is pending. See the
+The current stable release is **[v1.4.4](../releases/MU1367/v1.4.4/README.md)**, the
+[v1.4.4-e integration](./integration/README.md) published with a byte-identical ZIP. It
+holds quiet Apple Maps routes and renews the reader-recovery budget. Apple Maps results
+vary and Waze has no vehicle result; see the release page. See the
 [release notes](./integration/RELEASE-NOTES.md) and [install guide](./integration/INSTALL.md).
 The complete integration supports
 K4525 or P4521 MU1367 + AID 791. P4521 installation remains experimental;
@@ -22,7 +23,7 @@ planned navigation/app improvements.
 The `port`, `settings-v2` and `lanes` directories document published v1.3.0/v1.4.0
 baselines. Their source and original assets remain for compatibility and recovery;
 new development belongs in `integration`. The standalone profiles below are
-historical video baselines, not the v1.4.3 complete installation package.
+historical video baselines, not the v1.4.4 complete installation package.
 
 | Cluster | Profile files | Display baseline |
 | --- | --- | --- |
