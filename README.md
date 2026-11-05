@@ -30,7 +30,7 @@ It combines the phone-rendered CarPlay map and optional turn card with the cockp
 
 The baseline project is by **omonob (QCDWJ)**. **tomasz-twardzicki** developed the firmware adaptations and native guidance additions.
 
-![MU1427 CarPlay map, native maneuver guidance and route totals on AID, with guidance projected on the HUD](./assets/mu1427-native-guidance-collage.png)
+![MU1367 CarPlay map, native maneuver arrow, current road, lane guidance and route totals on AID, with guidance projected on the HUD](./assets/mu1367-native-guidance-collage.png)
 
 *AID and HUD navigation — edited photo collage.*
 
