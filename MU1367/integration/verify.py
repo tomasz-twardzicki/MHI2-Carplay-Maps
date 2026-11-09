@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Verify experimental v1.4.5-e, its v1.4.4 baseline and exact tested artifacts."""
+"""Verify experimental v1.4.6-e, its v1.4.5 baseline and exact tested artifacts."""
 import argparse,hashlib,json,zipfile
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
-BASE_SHA='264c298ff67ad9bfb4e19793800e1d754942c81c50931b4f5b33caa9e5a2b99f'
-# The runtime payload that v1.4.5-e must leave byte-identical; the reader is pinned separately.
+BASE_SHA='80e38ec252a8bf84af628e450af80e6a992319315aa8e4be4c66837fb61f4826'
+# The runtime payload that v1.4.6-e must leave byte-identical; the reader is pinned separately.
 UNCHANGED={'CarPlayMU1367Audio.jar':'c5a0f63c22b8f9b10fc4b54b8239bea57e2693cbecc15d7d71119e999feefff3'}
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def read(p):return json.loads(p.read_text())
@@ -12,16 +12,16 @@ def main():
  p=argparse.ArgumentParser(description=__doc__)
  for n in ('package','base-archive','filesystem','p4521','p4521-inputs','p4521-native','qnx','reader-build','reader-host','reader-qnx','reader-transactions','guidance','guidance-rebuild','guidance-qnx','preflight'):p.add_argument('--'+n,type=Path,required=True)
  a=p.parse_args();sd=a.package/'sd-card';m=read(a.package/'manifest.json');runtime=read(HERE/'RUNTIME.json')['rebuild'];reader_pin=read(HERE/'READER-RUNTIME.json')
- assert m['version']=='1.4.5-e' and m['experimental'] and m['prerelease'] and m['base_version']=='1.4.4'
+ assert m['version']=='1.4.6-e' and m['experimental'] and m['prerelease'] and m['base_version']=='1.4.5'
  for name,h in UNCHANGED.items():assert runtime[name]==h,name
  assert sha(a.base_archive)==m['base_archive_sha256']==BASE_SHA
- assert m['guidance_build']=='MU1367-guidance-v1.4.5-e' and m['reader_build']=='MU1367-reader-v1.4.4-e'
- assert m['stream_choices'][4].startswith('25 fps / IDR 5') and m['guidance_recover_ms']==20000 and m['guidance_stop_grace_ms']==1500
+ assert m['guidance_build']=='MU1367-guidance-v1.4.6-e' and m['reader_build']=='MU1367-reader-v1.4.4-e'
+ assert m['stream_choices'][1].startswith('25 fps / IDR 5') and len(m['stream_choices'])==5 and not any('IDR 20' in c for c in m['stream_choices']) and m['stream_values']==[5,4,6,2,1] and m['guidance_recover_ms']==20000 and m['guidance_stop_grace_ms']==1500
  assert m['guidance_hold_ms']==180000 and m['reader_restart_budget']=={'per_window':3,'stable_window_ms':600000,'lifetime_ceiling':64,'backoff_ms':[1000,2000,4000]}
  assert m['reader_sha256']==reader_pin['sha256'] and m['reader_source_sha256']==sha(HERE/'src/reader/reader.c')==reader_pin['source_sha256']
  assert m['supported_firmware']==[{'train':'MHI2_ER_VWG13_K4525','experimental':False},{'train':'MHI2_ER_VWG13_P4521','experimental':True}]
  assert m['release_package_vehicle_tested'] is False and m['p4521_final_package_vehicle_tested'] is False
- assert m['defaults']=={'fps':30,'idr':5,'cards':False,'safe_area':[200,96,400,364]}
+ assert m['defaults']=={'fps':25,'idr':5,'cards':False,'safe_area':[200,96,400,364]}
  names=('filesystem','p4521','qnx','reader_host','reader_qnx','reader_transactions','guidance','guidance_rebuild','guidance_qnx','preflight','p4521_native')
  proofs={n:read(getattr(a,n)) for n in names}
  for n,r in proofs.items():assert r['passed'],n
@@ -32,7 +32,7 @@ def main():
  assert proofs['reader_qnx']['reader_sha256']==m['reader_sha256'] and proofs['reader_qnx']['native_timeout_and_recovery'] and proofs['reader_qnx']['new_nonce_verified']
  assert proofs['reader_host']['guidance_sha256']==proofs['guidance']['guidance_sha256']==proofs['guidance_rebuild']['guidance_sha256']==proofs['guidance_qnx']['guidance_sha256']==runtime['CarPlayMU1367Guidance.jar']
  assert proofs['guidance_qnx']['factory_arm_j9_verified'] and proofs['guidance_qnx']['modes']==['noverify','verify']
- assert 'TestQuietHold' in proofs['guidance']['results'] and 'TestReroute' in proofs['guidance']['results']
+ assert 'TestQuietHold' in proofs['guidance']['results'] and 'TestReroute' in proofs['guidance']['results'] and 'TestSourceName' in proofs['guidance']['results'] and 'TestUturnSide' in proofs['guidance']['results']
  for name,h in proofs['guidance_rebuild']['source_sha256'].items():assert sha(HERE/name)==h,name
  assert sha(HERE/'tests/test-reader.py')==proofs['reader_host']['test_sha256']
  assert sha(HERE/'tests/test-reader-qnx.py')==proofs['reader_qnx']['test_sha256']
@@ -43,7 +43,7 @@ def main():
  assert proofs['qnx']['main_controller_sha256']==sha(main/'6/control.sh')
  assert proofs['qnx']['tuning_controller_sha256']==sha(tuning/'6/control.sh')
  assert proofs['qnx']['controller_sha256']==sha(sd/'Custom/carplay_mu1367_oem_reset/control.sh')
- assert '1_4_5_E_EXPERIMENTAL_INSTALLED' in (main/'actions.sh').read_text()
+ assert '1_4_6_E_EXPERIMENTAL_INSTALLED' in (main/'actions.sh').read_text()
  assert 'guidance-evidence.txt' in (main/'actions.sh').read_text()
  assert '@READER_VERSIONS@' not in (main/'actions.sh').read_text()
  factory=read(HERE/'evidence/p4521-factory.json');extracted=read(a.p4521_inputs/'metadata.json');commands=read(HERE/'evidence/p4521-commands.json')
@@ -63,7 +63,7 @@ def main():
   for name in ('core.so','VCMenu.jar'):assert sha(tuning/v/name)==runtime['tuning/'+name]
  assert sha(sd/'Custom/carplay_mu1367_artwork/CarPlayMU1367Audio.jar')==runtime['CarPlayMU1367Audio.jar']
  legacy=read(HERE/'tools/legacy-revisions.json')
- for version in ('1.4.1','1.4.2','1.4.3','1.4.3-e','1.4.4-e'):
+ for version in ('1.4.1','1.4.2','1.4.3','1.4.3-e','1.4.4-e','1.4.5-e'):
   rows=[(h,r) for h,r in legacy.items() if r['revision']=='release-v'+version];assert len(rows)==8
   for h,r in rows:
    fixture=HERE/'tests/revisions'/r['revision']/r['layer']/r['variant']
@@ -88,7 +88,7 @@ def main():
   assert 'cpmap_reboot.sh' in z.read('Toolbox/GEM/carplay-maps-vc.esd').decode()
   for n in ('README.md','START_HERE.md','RELEASE-NOTES.md','READER-RECOVERY.md'):
    assert 'experimental' in z.read(n).decode().lower(),n
-  assert 'v1.4.5-e - EXPERIMENTAL' in z.read('Toolbox/GEM/carplay-maps-vc.esd').decode()
- result={'passed':True,'version':'1.4.5-e','experimental':True,'prerelease':True,'base_version':'1.4.4','base_archive_sha256':BASE_SHA,'archive_sha256':sha(archive),'archive_bytes':archive.stat().st_size,'inventory_checks':len(inventory),'supported_firmware':m['supported_firmware'],'runtime_rebuild':runtime,'runtime_changed':['guidance JAR','base and tuning core.so','base and tuning VCMenu.jar'],'reader_sha256':m['reader_sha256'],'reader_source_sha256':m['reader_source_sha256'],'guidance_build':m['guidance_build'],'reader_build':m['reader_build'],'audio_and_reader_unchanged_from_v144':True,'stream_choices':m['stream_choices'],'guidance_fresh_source_rebuild':True,'factory_arm_j9_guidance_rerun':True,'guidance_hold_ms':m['guidance_hold_ms'],'reader_restart_budget':m['reader_restart_budget'],'p4521_factory_variants_verified':['50','70'],'release_package_vehicle_tested':False,'vehicle_endurance_verified':False,'defaults':m['defaults'],'new_unit_commands':[],'baseline_changed_files':changed,'added_files':sorted(added),'oem_reset_sha256':sha(sd/'Custom/carplay_mu1367_oem_reset/control.sh'),'tests':{'filesystem_cases':proofs['filesystem']['tests'],'migration_combinations':48,'p4521_cases':3,'reader_host_cases':20,'reader_transaction_cases':3,'guidance_programs':len(proofs['guidance']['results']),'payload_integrity_cases':proofs['preflight']['tests']},'validation_environment':'Host reader/Java tests on macOS; full transactions in disposable Debian 12 aarch64/Python 3.11/ksh93 container without network; native and real firmware shell checks on QNX/QEMU. Mounts mocked.','limits':['No vehicle result for this package; reroute handling is inferred from captures and replays.','Whether the AID draws the bar on CALC_ROUTE and how Apple Maps reroutes are unconfirmed.','Whether 25 fps reduces stutter is untested; the delivered frame rate may fall with the request.','The 3-minute quiet hold can show a last maneuver for at most that time if an app stops without a route-end state.','P4521 installation remains experimental.','Physical remount/storage and power-loss durability are not established.'],'proofs':{n:{'path':str(getattr(a,n)),'sha256':sha(getattr(a,n)),'result':r} for n,r in proofs.items()},'source_sha256':{str(f.relative_to(HERE)):sha(f) for top in ('src','tools','tests') for f in sorted((HERE/top).rglob('*')) if f.is_file() and f.name!='verify' and '__pycache__' not in f.parts},'verification_script_sha256':sha(Path(__file__))}
- (HERE/'VERIFICATION.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({'passed':True,'version':'1.4.5-e','archive_sha256':sha(archive),'inventory_checks':len(inventory)}))
+  assert 'v1.4.6-e - EXPERIMENTAL' in z.read('Toolbox/GEM/carplay-maps-vc.esd').decode()
+ result={'passed':True,'version':'1.4.6-e','experimental':True,'prerelease':True,'base_version':'1.4.5','base_archive_sha256':BASE_SHA,'archive_sha256':sha(archive),'archive_bytes':archive.stat().st_size,'inventory_checks':len(inventory),'supported_firmware':m['supported_firmware'],'runtime_rebuild':runtime,'runtime_changed':['guidance JAR','base and tuning core.so','base and tuning VCMenu.jar'],'reader_sha256':m['reader_sha256'],'reader_source_sha256':m['reader_source_sha256'],'guidance_build':m['guidance_build'],'reader_build':m['reader_build'],'audio_and_reader_unchanged_from_v145':True,'stream_choices':m['stream_choices'],'guidance_fresh_source_rebuild':True,'factory_arm_j9_guidance_rerun':True,'guidance_hold_ms':m['guidance_hold_ms'],'reader_restart_budget':m['reader_restart_budget'],'p4521_factory_variants_verified':['50','70'],'release_package_vehicle_tested':False,'vehicle_endurance_verified':False,'defaults':m['defaults'],'new_unit_commands':[],'baseline_changed_files':changed,'added_files':sorted(added),'oem_reset_sha256':sha(sd/'Custom/carplay_mu1367_oem_reset/control.sh'),'tests':{'filesystem_cases':proofs['filesystem']['tests'],'migration_combinations':48,'p4521_cases':3,'reader_host_cases':20,'reader_transaction_cases':3,'guidance_programs':len(proofs['guidance']['results']),'payload_integrity_cases':proofs['preflight']['tests']},'validation_environment':'Host reader/Java tests on macOS; full transactions in disposable Debian 12 aarch64/Python 3.11/ksh93 container without network; native and real firmware shell checks on QNX/QEMU. Mounts mocked.','limits':['No vehicle result for this package.','Driving-side U-turn lanes are tested off-unit only; no left-hand-traffic capture exists.','The Apple Maps name merge covers names containing the word Apple; flip timing within a route is not captured.','Whether 25 fps reduces stutter is untested; the delivered frame rate may fall with the request.','Stream values 5 and 6 (20 and 27 fps) are unknown to v1.4.5 and older menus.','The 3-minute quiet hold can show a last maneuver for at most that time if an app stops without a route-end state.','P4521 installation remains experimental.','Physical remount/storage and power-loss durability are not established.'],'proofs':{n:{'path':str(getattr(a,n)),'sha256':sha(getattr(a,n)),'result':r} for n,r in proofs.items()},'source_sha256':{str(f.relative_to(HERE)):sha(f) for top in ('src','tools','tests') for f in sorted((HERE/top).rglob('*')) if f.is_file() and f.name!='verify' and '__pycache__' not in f.parts},'verification_script_sha256':sha(Path(__file__))}
+ (HERE/'VERIFICATION.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({'passed':True,'version':'1.4.6-e','archive_sha256':sha(archive),'inventory_checks':len(inventory)}))
 if __name__=='__main__':main()

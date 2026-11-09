@@ -6,12 +6,18 @@ import java.util.zip.CRC32;
 /** Bounded atomic settings shared with the MU1367 native core. */
 public final class DisplaySettings {
     public static final int STREAM=6, LAYOUT=7;
+    /* Menu position -> stored value shared with display_settings.h. Stored
+     * values keep their meaning across versions: 0 and 3 were IDR-20 choices
+     * and now show as 30 / 40 fps (IDR 5); 4 is 25 fps, the default. */
+    private static final int[] STREAM_VALUE={5,4,6,2,1};
+    private static final int[] STREAM_POSITION={3,4,3,4,1,0,2};
+    public static final int DEFAULT_STREAM=4;
     private static final Object LOCK=new Object();
     private final File root;
     public static final class State {
         public final int stream,layout; public final long generation; public final String source;
         State(int s,int l,long g,String origin){stream=s;layout=l;generation=g;source=origin;}
-        public int choice(int field){if(field==STREAM)return stream;if(field==LAYOUT)return layout;throw new IllegalArgumentException("Unknown display setting");}
+        public int choice(int field){if(field==STREAM)return STREAM_POSITION[stream];if(field==LAYOUT)return layout;throw new IllegalArgumentException("Unknown display setting");}
     }
     public DisplaySettings(File directory)throws IOException {
         if(directory==null)throw new IOException("Missing settings directory");
@@ -21,11 +27,13 @@ public final class DisplaySettings {
         String path=System.getProperty("cpmap.ui.stateDir");
         return new DisplaySettings(new File(path==null||path.length()==0?"/mnt/icab/persistent/cpmap-ui":path));
     }
-    public static int count(int field){if(field!=STREAM&&field!=LAYOUT)throw new IllegalArgumentException("Unknown display setting");return field==STREAM?5:4;}
+    public static int count(int field){if(field!=STREAM&&field!=LAYOUT)throw new IllegalArgumentException("Unknown display setting");return field==STREAM?STREAM_VALUE.length:4;}
+    /** Stored value for a menu position. */
+    public static int streamValue(int position){if(position<0||position>=STREAM_VALUE.length)throw new IllegalArgumentException("Invalid display choice");return STREAM_VALUE[position];}
     public static String name(int field){count(field);return field==STREAM?"Map stream (reconnect)":"Turn-card layout (reconnect)";}
     public static String label(int field,int choice){
         if(choice<0||choice>=count(field))throw new IllegalArgumentException("Invalid display choice");
-        String[] stream={"30 fps / IDR 20","40 fps / IDR 5","30 fps / IDR 5","40 fps / IDR 20","25 fps / IDR 5 (test)"};
+        String[] stream={"20 fps / IDR 5","25 fps / IDR 5 (default)","27 fps / IDR 5","30 fps / IDR 5","40 fps / IDR 5"};
         String[] layout={"Existing narrow","Existing wide","Compact, below route bar","Upstream compact"};
         return field==STREAM?stream[choice]:layout[choice];
     }
@@ -40,7 +48,7 @@ public final class DisplaySettings {
         State state=decode(main,"saved");if(state!=null)return state;
         state=decode(previous,"recovered");if(state!=null)return state;
         if(main.exists()||previous.exists())throw new IOException("Damaged display preferences");
-        return new State(2,0,0,"default");
+        return new State(DEFAULT_STREAM,0,0,"default");
     }
     public State select(int field,int choice)throws IOException {
         label(field,choice);
@@ -48,7 +56,7 @@ public final class DisplaySettings {
             State old=readLocked();
             if(old.generation==Long.MAX_VALUE)throw new IOException("Generation overflow");
             if(!root.isDirectory()&&!root.mkdirs())throw new IOException("Settings directory unavailable");
-            State next=new State(field==STREAM?choice:old.stream,field==LAYOUT?choice:old.layout,old.generation+1,"saved");
+            State next=new State(field==STREAM?STREAM_VALUE[choice]:old.stream,field==LAYOUT?choice:old.layout,old.generation+1,"saved");
             File pending=file("display.pending"),main=file("display.state"),previous=file("display.previous");
             FileOutputStream out=new FileOutputStream(pending);
             try{out.write(encode(next));out.flush();out.getFD().sync();}finally{out.close();}
@@ -77,7 +85,7 @@ public final class DisplaySettings {
         if(pos!=text.length()||!lines[0].equals("format=1")||lines[1].length()!=8||!lines[1].startsWith("stream=")||lines[2].length()!=8||!lines[2].startsWith("layout=")||!lines[3].startsWith("generation="))return null;
         int stream=lines[1].charAt(7)-'0',layout=lines[2].charAt(7)-'0';long gen;
         try{gen=Long.parseLong(lines[3].substring(11));}catch(NumberFormatException bad){return null;}
-        if(stream<0||stream>4||layout<0||layout>3||gen<1)return null;
+        if(stream<0||stream>6||layout<0||layout>3||gen<1)return null;
         State state=new State(stream,layout,gen,source);
         return text.equals(new String(encode(state),"US-ASCII"))?state:null;
     }

@@ -1,4 +1,60 @@
-# MU1367 v1.4.5-e — experimental reroute handling and 25 fps test option
+# MU1367 v1.4.6-e — experimental U-turn lanes, Apple Maps languages and 25 fps default
+
+**EXPERIMENTAL — TO BE TESTED.** Based on the stable v1.4.5 release, for
+**K4525 / P4521 MU1367 + AID 791**. P4521 installation remains experimental. This
+package has no vehicle result yet. Use v1.4.5 for a stable installation.
+
+The guidance JAR, map core and MU menu change, in both the base and the optional
+turn-card runtime. Audio, reader, driver and other runtime bytes match v1.4.5.
+
+## U-turn lanes by driving side
+
+A lane at exactly 180° carries no side, and was always drawn as the left U-turn
+(byte 114). That is right for right-hand traffic but wrong in the UK and other
+left-hand-traffic countries, where the main arrow was already correct. Such a lane now
+follows the driving side the phone sends with each maneuver: the right U-turn (146) in
+left-hand traffic, unchanged otherwise. A signed angle (for example −175°) keeps its own
+side, and with no driving side known the previous behavior stays. The main arrow uses
+the same rule for an exact ±180° angle.
+
+## Apple Maps with any phone language
+
+Some phones alternate between two names for Apple Maps within one session, for example
+"Apple Maps" and "Mapy Apple". Each change was taken as a switch to another app and
+cleared the stored maneuvers and lanes. Apple Maps does not resend them, so arrows and
+lanes updated only from a later turn. Names containing the word "Apple" now count as the
+same app. Switching to Google Maps or Waze, a new destination or a route end still
+clears. `guidance-evidence.txt` adds `route_clears source=… destination=…` and a bounded
+`source_flips` log (time, route state and what each message carried), with no road or
+destination text.
+
+## Map stream
+
+**25 fps / IDR 5 is the default.** **App-Connect > Virtual Cockpit settings > Map
+stream** offers 20, 25, 27, 30 and 40 fps, all with IDR 5. The IDR 20 choices are gone;
+a saved 30 or 40 fps / IDR 20 choice runs at the same frame rate with IDR 5. Saved
+30 fps / IDR 5 and other choices are kept. Reconnect after changing it.
+
+**Before rolling back, select 30 fps / IDR 5 or 40 fps / IDR 5.** v1.4.5 and older
+menus do not recognize 20 or 27 fps, and v1.4.4 and older also not 25 fps. If an older
+menu refuses the saved settings, use **Reset saved MU UI settings (reboot)**.
+
+## Optional compressed album artwork
+
+**Tuning > Enable compressed album artwork (reboot)** replaces only the artwork helper.
+The cover stays a lossless 256 × 256 PNG with identical pixels, compressed with the
+factory zlib: usually 1–100 KB instead of 197 KB. It is off by default and keeps a
+snapshot of the original helper. **Disable it before** a later update, removing the
+integration or the OEM reset. This is the compression part of the earlier artwork R3
+test only; cover polling is unchanged.
+
+## Known issues
+
+- **Wheel-arrow zoom over a wireless adapter also opens the factory cluster menu.**
+  Not changed in this release; see KNOWN-ISSUES.md.
+- Reroute handling from v1.4.5 and Waze still have no vehicle result.
+
+# Earlier: v1.4.5-e — experimental reroute handling and 25 fps test option
 
 **EXPERIMENTAL — TO BE TESTED.** Based on the stable v1.4.4 release, for
 **K4525 / P4521 MU1367 + AID 791**. P4521 installation remains experimental. This

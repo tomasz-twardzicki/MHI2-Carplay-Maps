@@ -72,6 +72,8 @@ public final class LiveModel {
     private byte[] source, destination;
     private byte[][] retained=new byte[16][];
     private boolean rerouting;
+    // Driving side of the last maneuver that carried one: 0 right-hand, 1 left-hand traffic.
+    private int drivingSide=-1;
     private int reroutingType=-1;
     private long clock, stopAt=-1, recoverAt=-1;
 
@@ -91,6 +93,23 @@ public final class LiveModel {
         if (a.length!=b.length) return false;
         for (int i=0;i<a.length;i++) if (a[i]!=b[i]) return false;
         return true;
+    }
+    /* A source name is display text, not an identity. Apple Maps alternates
+     * "Apple Maps" and a localized form ("Mapy Apple") within one session. Taken
+     * as an app switch, that drops maneuver records the phone may not resend,
+     * so guidance stays lost until it reaches a record it has not sent yet. */
+    static boolean sameSource(byte[] a, byte[] b) { return equal(a,b) || apple(a) && apple(b); }
+    private static boolean letter(int c) { c|=32; return c>='a' && c<='z'; }
+    // "Apple" as a whole word, any case. UTF-8 neighbours are not ASCII letters.
+    private static boolean apple(byte[] b) {
+        if (b==null) return false;
+        String word="apple";
+        for (int p=0;p+5<=b.length;p++) {
+            int i=0;
+            while (i<5 && (b[p+i]|32)==word.charAt(i)) i++;
+            if (i==5 && (p==0 || !letter(b[p-1])) && (p+5==b.length || !letter(b[p+5]))) return true;
+        }
+        return false;
     }
     // Strict UTF-8, optional one trailing NUL, no embedded/control characters.
     static void text(byte[] b, int p, int n, int max) throws IOException {
@@ -208,7 +227,7 @@ public final class LiveModel {
         if(stopAt>=0 && (now<stopAt || now-stopAt>=STOP_GRACE_MS))endStop();
         else if(rerouting && recoverAt>=0 && (now<recoverAt || now-recoverAt>=RECOVER_MS))rerouting=false;
     }
-    public void invalidate() { clearCache(); state=-1; source=destination=null; seen=0; changed=-1; epoch++; }
+    public void invalidate() { clearCache(); drivingSide=-1; state=-1; source=destination=null; seen=0; changed=-1; epoch++; }
     private int head() { return order.length>0?order[0]:-1; }
     private Message current() {
         if (state!=1 && state!=6) return null;
@@ -220,7 +239,7 @@ public final class LiveModel {
         // a maneuver road is now behind us. An upcoming road is never enough.
         if(m.id!=0x5201 || !m.has[13] || m.order.length==0 || (state!=1 && state!=6)
             || m.has[1] && m.v[1]!=1 && m.v[1]!=6
-            || m.has[19] && source!=null && !equal(source,m.raw[19])
+            || m.has[19] && source!=null && !sameSource(source,m.raw[19])
             || m.has[4] && destination!=null && !equal(destination,m.raw[4]))return null;
         for(int j=1;j<order.length;j++)if(order[j]==m.order[0]){
             int passed=order[j-1];
@@ -256,10 +275,13 @@ public final class LiveModel {
                 if (slot<0) for (int i=0;i<cache.length;i++) if (cache[i].v[1]==order[furthest]) slot=i;
             }
             if (slot<0) return false;
-            cache[slot]=m; ages[slot]=++age; return true;
+            cache[slot]=m; ages[slot]=++age;
+            if (m.has[8] && (m.v[8]==0 || m.v[8]==1)) drivingSide=(int)m.v[8];
+            return true;
         }
         int next=m.has[1]?(int)m.v[1]:state;
-        boolean sourceChange=m.has[19] && source!=null && !equal(source,m.raw[19]);
+        boolean sourceChange=m.has[19] && source!=null && !sameSource(source,m.raw[19]);
+        if(m.has[19] && source!=null && !equal(source,m.raw[19]))GuidanceEvidence.flip(clock,state,next,m.has[13],m.has[4],m.has[10],current()!=null,sourceChange);
         boolean destChange=m.has[4] && destination!=null && destination.length>0 && m.raw[4].length>0 && !equal(destination,m.raw[4]);
         boolean sameRoute=!sourceChange && !destChange;
         // A stop inside a reroute is provisional; a real one ends it after the grace period.
@@ -271,6 +293,7 @@ public final class LiveModel {
         } else if (sameRoute && (next==3 || next==5) && rerouting) {
             if(state!=next)dropManeuvers();
         } else if (next==0 && state!=0 || next>0 && state<=0 || (next==3 || next==5) && state>0 && state!=next || sourceChange || destChange || next>6) {
+            if(sourceChange)GuidanceEvidence.sourceClears++;else if(destChange)GuidanceEvidence.destinationClears++;
             clearCache(); destination=null; if (sourceChange) source=null;
         }
         if(rerouting && guiding(next) && !guiding(state))recoverAt=clock;
@@ -359,10 +382,12 @@ public final class LiveModel {
         expire(now);
         return frame();
     }
+    /** The current maneuver's side, else the last one seen; -1 when the phone never sent one. */
+    private int side(){Message m=current();return m!=null && m.has[8] && (m.v[8]==0 || m.v[8]==1)?(int)m.v[8]:drivingSide;}
     private int maneuverType(){Message m=current();return m!=null && m.has[3]?(int)m.v[3]:-1;}
     public Frame frame() {
         int[] symbol=rerouting?symbol(MAIN_RECALCULATING,0):map(current());
-        return new Frame((guiding(state) || rerouting) && changed>=0,symbol[0],symbol[1],distance,remainingMeters,remainingSeconds,progress,changed,epoch,laneCache.current(),routeStatusAt,currentRoad,roadAt,rerouting?reroutingType:maneuverType());
+        return new Frame((guiding(state) || rerouting) && changed>=0,symbol[0],symbol[1],distance,remainingMeters,remainingSeconds,progress,changed,epoch,LaneData.forSide(laneCache.current(),side()),routeStatusAt,currentRoad,roadAt,rerouting?reroutingType:maneuverType());
     }
     static int turn(int a) { int n=Math.abs(a); return n<=22?0:n<=67?(a<0?32:224):n<=112?(a<0?64:192):(a<0?96:160); }
     static int[] symbol(int main,int direction) { return new int[]{main,direction}; }
@@ -395,7 +420,8 @@ public final class LiveModel {
             return symbol(13,d);
         }
         if (t==4 || t==18 || t==26) {
-            if (angle && a!=0) return symbol(25,a<0?64:192);
+            // ±180 carries no side; the driving side decides when it is known.
+            if (angle && a!=0 && !(sideKnown && (a==180 || a==-180))) return symbol(25,a<0?64:192);
             return sideKnown?symbol(25,side==1?192:64):symbol(0,0);
         }
         if ((t==8 || t==9) && angle && a!=0) return symbol(13,a<0?32:224);
