@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "test_build": true,
+  "revision": "artwork-r3",
+  "on_unit_validated": false,
+  "jar_sha256": "1f575110dbfeeb839cc29908d400c873a400bbf2d938cf1c1b7f055437119d30",
+  "factory_classes": {
+    "de/vw/mib/asl/internal/carplay/target/HsmTarget.class": "aa0af288a8670f977093f3415f3effdc24617d54f1a43193b85e9cbad77a9ea8",
+    "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationInfo.class": "1dda7c3a59f4202edf2b252d2487ea1b486629390ea86490ebf56663a170f1de",
+    "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationHandle.class": "9fbbc62918c60b6e99b43f783f16e6d4170f4323d1c97196be7e71f16aad62e0",
+    "de/vw/mib/asl/internal/kombipictureserver/usecaces/CoverArt.class": "319027dfaa3f39948bb8039a01ad4dbacaba8e9ecde71d91c30bc39ca83d0962"
+  },
+  "source_sha256": {
+    "src/artwork-test/audio/BuildInfo.java": "fee2ad9d7cc4a6a3f5689e181f10f52e357e033e1db2d44530431716aacace8b",
+    "src/artwork-test/audio/CoverBridge.java": "456070751c8c4ad9ccaf79c2402243eb239f70155a5e0ba3bc5e8ab64badab91",
+    "src/artwork-test/audio/CoverMeta.java": "663502d801f6e0596c23f80aae0ee873bd0ecca4026b8de6b17d45f2a6c2dd8d",
+    "src/artwork-test/audio/CoverTiming.java": "210608d44761b60f4f7250f08824656cbbcb806bf23b603b39a535c6978a6685",
+    "src/artwork-test/audio/FetchTiming.java": "cf436bf95b2532001b3f50fc59c47b78c3609f24fa90ea555d329bd95e56f78b",
+    "src/artwork-test/audio/TextBridge.java": "484ffe0ec9d379cf694bd181fd147cd51ac8267c52bb506f0fe1e27e079087aa",
+    "src/artwork-test/audio/TextModel.java": "b3371d170113c27d28591cfa2a45954e25ad0672ab9eac17cbfab2c537cfebb1",
+    "tools/PatchTextObserver.java": "53b6c3627df8fe79a003bd795eb29f3349739c8e70967ecea39762c9ff0082b7",
+    "tools/PatchText.java": "ef91ce8d771024e7236ce64e629b733208774be7b5c957db1c02e5893cf8e720",
+    "tools/PatchCover.java": "ab041a5e8e012bdbc716712f8f5852dbd17748e152a1d0935ecf6193ca025150"
+  },
+  "fetch_sha256": "363a8eca3152429e883e8f8f3520f60827ed02b027d93c0bba0c06d07c08ac34",
+  "factory_libraries": {
+    "libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+    "libz.so.2": "2fd9ce7b0616f325417ad6ca8c58e2e840f05e215fe8acdcc2506111a150617e"
+  },
+  "native_source_sha256": {
+    "src/artwork-test/native/fetch.c": "f1c3ccde326d2f99d816c33b90edbfdcd18403239da2666bbe25a23bf70df6da",
+    "src/artwork-test/native/image.c": "e44a004027d934ad4b04bda8fbbb4a6f74145872dc5df2a5f36c0cdf4223c95c",
+    "src/artwork-test/native/vendor/stb_image.h": "594c2fe35d49488b4382dbfaec8f98366defca819d916ac95becf3e75f4200b3",
+    "tools/build-artwork-native.py": "6515125edaae2dfd24771b3f33d210a4e5f24a6ba0867ecb01028f22f7e6661f"
+  },
+  "base_archive_sha256": "80e38ec252a8bf84af628e450af80e6a992319315aa8e4be4c66837fb61f4826",
+  "rpath": "/proc/boot",
+  "png_stored_flag": "/ramdisk/cpmap-artwork-png-stored"
+}

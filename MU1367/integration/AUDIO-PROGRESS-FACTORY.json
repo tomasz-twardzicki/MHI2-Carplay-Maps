@@ -1,0 +1,25 @@
+{
+  "firmware": "K4525 MU1367",
+  "jxe_sha256": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a",
+  "classes": {
+    "de/vw/mib/asl/internal/carplay/target/HsmTarget.class": "aa0af288a8670f977093f3415f3effdc24617d54f1a43193b85e9cbad77a9ea8",
+    "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationInfo.class": "1dda7c3a59f4202edf2b252d2487ea1b486629390ea86490ebf56663a170f1de",
+    "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationHandle.class": "9fbbc62918c60b6e99b43f783f16e6d4170f4323d1c97196be7e71f16aad62e0",
+    "de/vw/mib/asl/internal/kombipictureserver/usecaces/CoverArt.class": "319027dfaa3f39948bb8039a01ad4dbacaba8e9ecde71d91c30bc39ca83d0962",
+    "de/vw/mib/bap/mqbab2/generated/audiosd/BAPAudioSDDataPool.class": "e0e46c6756992fc774af5229f62e38629fa29a5abf574d5c23344e9865dc93b7",
+    "de/vw/mib/bap/mqbab2/audiosd/functions/FunctionList.class": "3da6953b3564dd5bff40586b33bc158948f072123a053d561daf62c20f770562",
+    "de/vw/mib/bap/mqbab2/common/marshalling/BAPServiceProxy.class": "0d8c347dcadd77538f5ebd88691500e5757af88b3dbd30ef5cc7b52d3d0c501c",
+    "de/vw/mib/bap/internal/dispatcher/BAPDispatcherTarget.class": "75e8ad0af11e11c626ed67f2b04a92e26b4d9a72a1c2ed7c1bc9da3c4be40bae"
+  },
+  "function_id": 52,
+  "native_time_unit": "milliseconds",
+  "bap_time_unit": "seconds; unsigned 16-bit, capped below 0xffff",
+  "native_time_basis": {
+    "iap2_fields": [
+      "MediaItemPlaybackDurationInMilliseconds",
+      "PlaybackElapsedTimeInMilliseconds"
+    ],
+    "duration_parser": "Exact K4525 dio_manager setDuration at 0x17d0d8; decimal conversion return stored unchanged at track-info offset 0x28 (0x17d13c-0x17d140).",
+    "validation_limit": "Live DSI values and physical cluster rendering must still be compared to the phone in the vehicle."
+  }
+}
