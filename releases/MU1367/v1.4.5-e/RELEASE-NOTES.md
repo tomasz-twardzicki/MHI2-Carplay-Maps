@@ -142,3 +142,7 @@ and reboot. Separate older P4521 bundles use the documented OEM reset first.
 
 The user later confirmed v1.4.3-e working in a vehicle; a 2 h 30 min drive with
 active guidance recorded two worker replacements.
+
+## Optional artwork refresh test
+
+Not part of the normal install. **Tuning > Install artwork test** speeds up cover refresh and compresses the cover PNG. See [ARTWORK-R3.md](ARTWORK-R3.md).

@@ -27,3 +27,7 @@ and route. Export diagnostics while the issue is on screen.
 
 Still open from v1.4.4: Apple Maps results vary and Waze has no vehicle result. See the
 [v1.4.4 known issues](../v1.4.4/README.md).
+
+## Optional artwork refresh test
+
+Not part of the normal install. **Tuning > Install artwork test** speeds up cover refresh and compresses the cover PNG. No vehicle result yet. See [ARTWORK-R3.md](ARTWORK-R3.md).

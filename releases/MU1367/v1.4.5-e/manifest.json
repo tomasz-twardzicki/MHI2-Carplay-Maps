@@ -205,6 +205,14 @@
   "inactive_lane_blanks": "OEM behavior",
   "release_package_vehicle_tested": false,
   "feature_vehicle_results": "See KNOWN-ISSUES.md; final packaging and migration verified off-unit.",
-  "archive_sha256": "80e38ec252a8bf84af628e450af80e6a992319315aa8e4be4c66837fb61f4826",
-  "archive_bytes": 14449771
+  "archive_sha256": "aa2a3dcef305431a461e442fba25991c7a806a1352fd905afa2fafbb0cb3533e",
+  "archive_bytes": 14544493,
+  "previous_archive_sha256": "80e38ec252a8bf84af628e450af80e6a992319315aa8e4be4c66837fb61f4826",
+  "optional_artwork_test": {
+    "build_id": "MU1367-artwork-r3-7a761b2a3037",
+    "audio_sha256": "1f575110dbfeeb839cc29908d400c873a400bbf2d938cf1c1b7f055437119d30",
+    "fetch_sha256": "363a8eca3152429e883e8f8f3520f60827ed02b027d93c0bba0c06d07c08ac34",
+    "installed_by_default": false,
+    "on_unit_validated": false
+  }
 }

@@ -5,8 +5,8 @@
   "prerelease": true,
   "base_version": "1.4.4",
   "base_archive_sha256": "264c298ff67ad9bfb4e19793800e1d754942c81c50931b4f5b33caa9e5a2b99f",
-  "archive_sha256": "80e38ec252a8bf84af628e450af80e6a992319315aa8e4be4c66837fb61f4826",
-  "archive_bytes": 14449771,
+  "archive_sha256": "aa2a3dcef305431a461e442fba25991c7a806a1352fd905afa2fafbb0cb3533e",
+  "archive_bytes": 14544493,
   "inventory_checks": 612,
   "supported_firmware": [
     {
@@ -1013,5 +1013,104 @@
     "tests/test_display.c": "c911d83f65ef6f0746470ed4b7331a1384e563df9f3be343ae88054e12646b62",
     "tests/test_runtime.c": "d69fa8c9a0a98ac942989ed5dc2677f9c64bf8c799ace49e18e43d3668bdbd3b"
   },
-  "verification_script_sha256": "1a2b0a80126e218fe1b568243082facd9e58ffec5c664d40b0630049b1df386f"
+  "verification_script_sha256": "1a2b0a80126e218fe1b568243082facd9e58ffec5c664d40b0630049b1df386f",
+  "previous_archive_sha256": "80e38ec252a8bf84af628e450af80e6a992319315aa8e4be4c66837fb61f4826",
+  "optional_artwork_test": {
+    "build_id": "MU1367-artwork-r3-7a761b2a3037",
+    "archive_sha256": "aa2a3dcef305431a461e442fba25991c7a806a1352fd905afa2fafbb0cb3533e",
+    "base_archive_sha256": "80e38ec252a8bf84af628e450af80e6a992319315aa8e4be4c66837fb61f4826",
+    "audio_sha256": "1f575110dbfeeb839cc29908d400c873a400bbf2d938cf1c1b7f055437119d30",
+    "fetch_sha256": "363a8eca3152429e883e8f8f3520f60827ed02b027d93c0bba0c06d07c08ac34",
+    "controller_sha256": "f8af7a7215d76f8eb12e01421a1001bebe22b6007ddf3829aa9b4a62d22948f1",
+    "installed_by_default": false,
+    "on_unit_validated": false,
+    "baseline_changed_files": [
+      "Custom/carplay_mu1367_guidance_v3/payload-check.sh",
+      "Custom/carplay_mu1367_map_only/payload-check.sh",
+      "Custom/carplay_mu1367_refinements/payload-check.sh",
+      "FILES_SHA256.json",
+      "README.md",
+      "RELEASE-NOTES.md",
+      "Toolbox/GEM/carplay-maps-vc-tuning.esd"
+    ],
+    "added_files": [
+      "ARTWORK-R3.md",
+      "Custom/carplay_mu1367_artwork_r3/CarPlayMU1367Audio.jar",
+      "Custom/carplay_mu1367_artwork_r3/VERSION",
+      "Custom/carplay_mu1367_artwork_r3/artwork-fetch",
+      "Custom/carplay_mu1367_artwork_r3/control.sh",
+      "Custom/carplay_mu1367_artwork_r3/guard",
+      "Custom/carplay_mu1367_artwork_r3/verify",
+      "Toolbox/scripts/cpmap_artwork_r3_install.sh",
+      "Toolbox/scripts/cpmap_artwork_r3_png-compressed.sh",
+      "Toolbox/scripts/cpmap_artwork_r3_png-stored.sh",
+      "Toolbox/scripts/cpmap_artwork_r3_recover.sh",
+      "Toolbox/scripts/cpmap_artwork_r3_status.sh",
+      "Toolbox/scripts/cpmap_artwork_r3_uninstall.sh"
+    ],
+    "verified_files": 625,
+    "native_host": {
+      "passed": true,
+      "sanitizers": [
+        "address",
+        "undefined"
+      ],
+      "images": {
+        "flat": {
+          "stored_bytes": 196947,
+          "compressed_bytes": 1319,
+          "identical_pixels": true
+        },
+        "gradient": {
+          "stored_bytes": 196947,
+          "compressed_bytes": 2082,
+          "identical_pixels": true
+        },
+        "noise": {
+          "stored_bytes": 196947,
+          "compressed_bytes": 196987,
+          "identical_pixels": true
+        },
+        "jpeg": {
+          "stored_bytes": 196947,
+          "compressed_bytes": 1510,
+          "identical_pixels": true
+        },
+        "png": {
+          "stored_bytes": 196947,
+          "compressed_bytes": 1533,
+          "identical_pixels": true
+        }
+      },
+      "compressor_budget_refusal_clean": true,
+      "runtime_ab_switch_verified": true
+    },
+    "java_host_passed": true,
+    "factory_j9": {
+      "passed": true,
+      "factory_j9_verified": true,
+      "verified_and_noverify": true,
+      "class49_negative_rejected": true,
+      "fetch_sha256": "363a8eca3152429e883e8f8f3520f60827ed02b027d93c0bba0c06d07c08ac34",
+      "factory_zlib_sha256": "2fd9ce7b0616f325417ad6ca8c58e2e840f05e215fe8acdcc2506111a150617e"
+    },
+    "factory_library_path_tested": "/ifs/jre/bin:/mnt/app/root/lib-target:/eso/lib:/mnt/app/usr/lib:/mnt/app/armle/lib:/mnt/app/armle/lib/dll:/mnt/app/armle/usr/lib",
+    "transactions": {
+      "passed": true,
+      "actual_qnx_ksh": true,
+      "sdk_utilities_injected": false,
+      "mounts_mocked": true,
+      "r2_upgrade_verified": true,
+      "two_file_restore_verified": true
+    },
+    "release_suites_on_this_archive": [
+      "test-package (13)",
+      "test-release-reader-transaction (3)",
+      "test-p4521 (3)",
+      "test-payload-checks (3)",
+      "test-actions-qnx"
+    ],
+    "not_measured": "When the cluster displays the picture; helper compression time on the real unit."
+  },
+  "archive_replacement_note": "The archive was replaced to add the optional Tuning artwork test. Every release payload is byte-identical. Nested proofs that name previous_archive_sha256 ran on that archive; optional_artwork_test records the checks run on this one."
 }
