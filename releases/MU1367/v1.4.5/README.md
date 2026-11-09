@@ -10,9 +10,12 @@ P4521 installation retains its experimental status.
 [Known issues](../v1.4.5-e/KNOWN-ISSUES.md) · [SHA-256](SHA256SUMS.txt) ·
 [Verification](../v1.4.5-e/VERIFICATION.json).
 
-The ZIP is **byte-identical** to v1.4.5-e
-(`80e38ec252a8bf84af628e450af80e6a992319315aa8e4be4c66837fb61f4826`); it was not
-rebuilt, so its menu banner, documents and completion message still read
+The ZIP is **byte-identical** to the current v1.4.5-e asset
+(`aa2a3dcef305431a461e442fba25991c7a806a1352fd905afa2fafbb0cb3533e`). That asset adds
+the optional **artwork refresh test** under **Tuning** (`ARTWORK-R3.md` in the ZIP),
+which is not installed by default; every release payload matches the original
+v1.4.5-e ZIP (`80e38ec252a8bf84af628e450af80e6a992319315aa8e4be4c66837fb61f4826`).
+It was not rebuilt, so its menu banner, documents and completion message still read
 "v1.4.5-e" / "experimental". Those labels refer to this same package.
 
 ## What changed since v1.4.4
