@@ -36,26 +36,23 @@ The baseline project is by **omonob (QCDWJ)**. **tomasz-twardzicki** developed t
 
 ## Latest MU1367 / 791 changes
 
-**[MU1367 v1.4.4](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.4)** is the stable release of the
-v1.4.4-e build. The ZIP is byte-identical to v1.4.4-e, so its menu banner, documents
-and completion message still read "v1.4.4-e" / "experimental".
+**[MU1367 v1.4.5](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.5)** is the stable release of the
+v1.4.5-e build. The ZIP is byte-identical to v1.4.5-e, so its menu banner, documents
+and completion message still read "v1.4.5-e" / "experimental".
 
-- **Apple Maps guidance:** a quiet route is now held for up to 3 minutes of phone
-  silence instead of being reset after 5 s. A malformed phone message is rejected
-  on its own instead of blocking guidance until 16 more messages arrive.
-- **Reader recovery:** the three-attempt worker-recovery budget renews after
-  10 fault-free minutes, up to 64 replacements per boot.
-- **Installer:** numbered `[n/N]` progress, one reboot request at the end, and a new
-  **Reboot unit (after install completes)** menu entry.
+- **Reroutes:** the factory calculating symbol shows instead of guidance dropping, and
+  distance, progress bar, road name and arrival data keep their values until the phone
+  reports a real distance again.
+- **Placeholder arrow:** before the first maneuver, the straight direction-to-destination
+  arrow.
+- **Map stream:** a new **25 fps / IDR 5 (test)** choice. 30 fps / IDR 5 stays the default.
 
-**Known issue:** Apple Maps results vary. One tester reports it working; in another
-test ETA and road names worked but arrows and lanes did not. That test's phone
-switched between source names ("Mapy Apple", "Apple Maps"), and each switch clears
-stored maneuvers and lanes. An offline replay reproduces this symptom; a fix is not
-in this release. Waze has no vehicle result yet.
+**Known issues:** U-turn lane arrows point left in left-hand traffic (the main arrow is
+correct), and Apple Maps on some phone languages starts updating arrows and lanes a few
+turns late. Both are fixed in v1.4.6-e. Zooming with the wheel arrows over a wireless
+adapter also opens the factory cluster menu. Waze has no vehicle result yet.
 
-[MU1367 v1.4.3-1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3-1) is the previous stable release, with the
-vehicle-confirmed guidance-reader recovery.
+[MU1367 v1.4.4](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.4) is the previous stable release.
 
 **[MU1367 v1.4.3](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3)**
 adds **experimental P4521 installation** with all current features, retaining the
@@ -82,7 +79,7 @@ unverified and no adapter firmware patch is included. Blank unused-lane slots
 match OEM behavior. Refined symbols, OEM recalculation messages, names above the
 arrow, and Apple Maps/Waze support remain planned. See [known issues and TODOs](./MU1367/integration/KNOWN-ISSUES.md).
 
-Use the [stable v1.4.4 installation and recovery guide](./releases/MU1367/v1.4.4-e/START_HERE.md)
+Use the [stable v1.4.5 installation and recovery guide](./releases/MU1367/v1.4.5-e/START_HERE.md)
 and [maintained source/build guide](./MU1367/integration/DEVELOPMENT.md).
 Earlier packages and tags remain unchanged. These changes apply to exact
 **K4525 or P4521 MU1367 + AID 791 (P4521 experimental)**, separately from the MU1427 release below.
@@ -122,16 +119,17 @@ The original standalone profiles remain available ([see below](#origin-and-upstr
 
 ## Download
 
-**MU1367 / AID 791 — v1.4.4 complete integration:**
-[Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.4) ·
-[Full Toolbox ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.4/CarPlay_Maps_VC_MU1367_791_v1.4.4-e.zip) ·
-[SHA-256](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.4/SHA256SUMS.txt).
+**MU1367 / AID 791 — v1.4.5 complete integration:**
+[Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.5) ·
+[Full Toolbox ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.5/CarPlay_Maps_VC_MU1367_791_v1.4.5-e.zip) ·
+[SHA-256](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.5/SHA256SUMS.txt).
 Read [installation, migration and recovery](./MU1367/integration/INSTALL.md).
 Supports K4525 and **P4521 (experimental installation)**; the earlier P4521
 experimental build has been confirmed working in a vehicle.
 The same SD includes the complete fresh-install path and independent OEM reset.
 
-Previous [v1.4.3-1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3-1),
+Previous [v1.4.4](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.4),
+[v1.4.3-1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3-1),
 [v1.4.2](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.2),
 [v1.4.1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.1),
 [v1.4.0](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.0)
@@ -145,6 +143,8 @@ confirmed working MU1427 baseline**, rather than the earlier initial port.
 
 | Release | Published | Changes | Previous tag |
 | --- | --- | --- | --- |
+| [MU1367 / 791 v1.4.5](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.5) | 2026-11-09 | Stable release of v1.4.5-e, byte-identical ZIP (`80e38ec2…`). Known issues: U-turn lane arrows point left in left-hand traffic; Apple Maps on some phone languages updates arrows and lanes a few turns late; wheel-arrow zoom over a wireless adapter also opens the factory menu. | `MU1367-v1.4.4` |
+| [MU1367 / 791 v1.4.5-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.5-e) (pre-release) | 2026-11-05 | Show the factory calculating symbol during reroutes and keep distance, bar, road and arrival data; straight direction-to-destination placeholder; optional 25 fps / IDR 5 map stream. | `MU1367-v1.4.4` |
 | [MU1367 / 791 v1.4.4](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.4) | 2026-11-05 | Stable release of v1.4.4-e, byte-identical ZIP (`264c298f…`). Known issue: Apple Maps arrows and lanes were lost in one test whose phone switched source names; one other tester reports Apple Maps working. Waze has no vehicle result. | `MU1367-v1.4.3-1` |
 | [MU1367 / 791 v1.4.4-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.4-e) (pre-release) | 2026-11-04 | Hold quiet Apple Maps routes for up to 3 minutes of phone silence instead of resetting after 5 s. Reject a malformed phone message on its own. Add `guidance-evidence.txt` diagnostics. Renew the reader-recovery budget after 10 fault-free minutes (ceiling 64 per boot). Installer shows numbered progress and one final reboot request, and adds a **Reboot unit** menu entry. | `MU1367-v1.4.3-1` |
 | [MU1367 / 791 v1.4.3-1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3-1) | 2026-11-04 | Stable release of the vehicle-confirmed v1.4.3-e reader fix, byte-identical ZIP (`3ecb5304…`). A 2 h 30 min guided drive recorded two automatic worker recoveries. | `MU1367-v1.4.3` |
@@ -168,7 +168,7 @@ versioned release links above for downloads.
 
 ## Installation
 
-**MU1367:** follow the [complete v1.4.4 guide](./MU1367/integration/INSTALL.md). The steps below are
+**MU1367:** follow the [complete v1.4.5 guide](./MU1367/integration/INSTALL.md). The steps below are
 for **MU1427**.
 
 Use the **full native-guidance MQB Toolbox bundle** described above. The [full installation guide](./MU1427/route-guidance/INSTALL.md) includes recovery commands and the first installation check.
@@ -189,7 +189,7 @@ Optional: **Customization → Navigation → Ignore navigation-active status fro
 
 ## Display options
 
-**MU1367 v1.4.4:** use **App-Connect → Virtual Cockpit settings** for stream/map/mirror
+**MU1367 v1.4.5:** use **App-Connect → Virtual Cockpit settings** for stream/map/mirror
 choices. Card controls appear only after installing optional card support through
 **Tuning**. The base ignores old card-ON preferences. The options below apply to **MU1427**.
 
@@ -207,7 +207,7 @@ The iPhone decides the card's size, and it grows with the guidance content (for 
 
 ## Diagnostics and restore
 
-**MU1367 v1.4.4:** use its dedicated **Diagnostics** and **Recovery** submenus.
+**MU1367 v1.4.5:** use its dedicated **Diagnostics** and **Recovery** submenus.
 The independent OEM reset retains snapshots and restores matching firmware files
 directly; see [MU1367 recovery](./MU1367/integration/RECOVERY.md). The descriptions
 below refer to the **MU1427** package.
@@ -226,7 +226,7 @@ Native guidance does not create the earlier research captures. If the menu is un
 | Path | Contents |
 | --- | --- |
 | [`MU1367/lanes/`](./MU1367/lanes/) | Native lane decoder/adapter, card-OFF defaults, build tools, verification and fourth-layer recovery |
-| [`MU1367/integration/`](./MU1367/integration/) | Maintained v1.4.4 sources, complete Toolbox, migration, diagnostics and OEM recovery |
+| [`MU1367/integration/`](./MU1367/integration/) | Maintained v1.4.5 sources, complete Toolbox, migration, diagnostics and OEM recovery |
 | [`MU1367/settings-v2/`](./MU1367/settings-v2/) | Native App-Connect settings, paired map/mirror runtime and v1.3.0 user results |
 | [`MU1367/port/`](./MU1367/port/) | Exact MU1367 native guidance/audio/NAI adapters and integration tooling |
 | [`releases/MU1367/`](./releases/MU1367/) | Versioned ready-to-use MU1367 bundles, checksums and validation records |

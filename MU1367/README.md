@@ -2,13 +2,11 @@
 
 Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
 
-**Pre-release to test: [v1.4.5-e](../releases/MU1367/v1.4.5-e/README.md)** adds reroute
-handling and an optional 25 fps / IDR 5 map stream.
-
-The current stable release is **[v1.4.4](../releases/MU1367/v1.4.4/README.md)**, the
-[v1.4.4-e integration](./integration/README.md) published with a byte-identical ZIP. It
-holds quiet Apple Maps routes and renews the reader-recovery budget. Apple Maps results
-vary and Waze has no vehicle result; see the release page. See the
+The current stable release is **[v1.4.5](../releases/MU1367/v1.4.5/README.md)**, the
+[v1.4.5-e integration](./integration/README.md) published with a byte-identical ZIP. It
+adds reroute handling, a straight placeholder arrow and an optional 25 fps / IDR 5 map
+stream. U-turn lanes in left-hand traffic and Apple Maps on some phone languages are
+known issues; see the release page. See the
 [release notes](./integration/RELEASE-NOTES.md) and [install guide](./integration/INSTALL.md).
 The complete integration supports
 K4525 or P4521 MU1367 + AID 791. P4521 installation remains experimental;
@@ -26,7 +24,7 @@ planned navigation/app improvements.
 The `port`, `settings-v2` and `lanes` directories document published v1.3.0/v1.4.0
 baselines. Their source and original assets remain for compatibility and recovery;
 new development belongs in `integration`. The standalone profiles below are
-historical video baselines, not the v1.4.4 complete installation package.
+historical video baselines, not the v1.4.5 complete installation package.
 
 | Cluster | Profile files | Display baseline |
 | --- | --- | --- |
