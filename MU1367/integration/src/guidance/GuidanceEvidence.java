@@ -21,7 +21,11 @@ public final class GuidanceEvidence {
     static final String[] sourceNames=new String[SOURCES];
     static final long[] sourceMessages=new long[SOURCES];
     static int source=-1;
-    static long sourceChanges;
+    static long sourceChanges, sourceClears, destinationClears;
+    // First and most recent name changes; never any text. Slot refers to the sources list.
+    static final int FLIPS=16,FIRST_FLIPS=8;
+    static final String[] flips=new String[FLIPS];
+    static long flipCount;
 
     static void message(long wire,long seq,LiveModel.Message m,FeedRecovery.Fault fault,long now){
         // A feed rebase replays the retained window; count each message once.
@@ -58,6 +62,12 @@ public final class GuidanceEvidence {
         countSource();
     }
     static void notApplied(){notApplied++;}
+    static void flip(long now,int from,int to,boolean order,boolean destination,boolean distance,boolean arrow,boolean cleared){
+        String text=new StringBuffer().append(now).append(':').append(source).append(':').append(from).append(':').append(to)
+            .append(':').append(order?1:0).append(destination?1:0).append(distance?1:0).append(arrow?1:0).append(cleared?1:0).toString();
+        int at=flipCount<FIRST_FLIPS?(int)flipCount:FIRST_FLIPS+(int)((flipCount-FIRST_FLIPS)%(FLIPS-FIRST_FLIPS));
+        flips[at]=text;flipCount++;
+    }
     static void quiet(long now){quiet++;}
     static void component(int id){
         for(int i=0;i<components.length;i++){
@@ -104,6 +114,17 @@ public final class GuidanceEvidence {
         for(int i=0;i<SOURCES;i++)if(sourceNames[i]!=null){if(any)s.append(';');s.append(sourceNames[i]).append(':').append(sourceMessages[i]);any=true;}
         if(!any)s.append('-');
         s.append(" current=").append(source<0?"-":sourceNames[source]).append(" changes=").append(sourceChanges).append('\n');
+        s.append("route_clears source=").append(sourceClears).append(" destination=").append(destinationClears).append('\n');
+        // at_ms:to_slot:from_state:to_state:order,destination,distance,arrow_known,cleared
+        s.append("source_flips count=").append(flipCount).append(' ');any=false;
+        for(int i=0;i<FIRST_FLIPS;i++)if(flips[i]!=null){if(any)s.append(';');s.append(flips[i]);any=true;}
+        int kept=flipCount>FLIPS?FLIPS-FIRST_FLIPS:flipCount>FIRST_FLIPS?(int)flipCount-FIRST_FLIPS:0;
+        for(int i=0;i<kept;i++){
+            int at=FIRST_FLIPS+(int)((flipCount-kept+i-FIRST_FLIPS)%(FLIPS-FIRST_FLIPS));
+            if(any)s.append(';');s.append(flips[at]);any=true;
+        }
+        if(!any)s.append('-');
+        s.append('\n');
         s.append("first_rejected ").append(firstRejected).append('\n');
         s.append("last_rejected ").append(lastRejected).append('\n');
         return s.toString();

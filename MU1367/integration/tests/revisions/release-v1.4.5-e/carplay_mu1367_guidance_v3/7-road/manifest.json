@@ -1,0 +1,19 @@
+{
+  "build_id": "mu1367-guidance-v3-b857d5604dfd",
+  "before": {
+    "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+    "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+    "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+    "parent": "c661f88ab651f9624c7a5a47e2895b2eb84bc5c7f19cdfa6decd6f83c4aebcc0",
+    "reader": "b683cef78828bfab2b8cdf43e4ea82e5d7c16d0d47730936d936e82af6ee08ac"
+  },
+  "files": {
+    "core": "dfd435f19ad24851634150f42633db4e8d0f780c18345c4d77f7418580768327",
+    "menu": "59e536db5adb3c3477ed52dd8c96f9ccf1acc5fe3605f4fd18224ec3eefe3c63",
+    "guidance": "64a11ade1476ef0e0d6e87e7852ec24d98f1962ef81148f7b230304ce7cf2bfb",
+    "reader": "3dc291619a06f2894dc1258135586431693078d9b3bc254fe78ca0bf71555073"
+  },
+  "parent": "carplay-mu1367-map-only",
+  "variant": "7-road",
+  "on_unit_validated": false
+}

@@ -80,7 +80,7 @@ def main():
             lib+'/crti.o',lib+'/crtbegin.o','/w/core.o','-lsocket','-lc',lib+'/crtend.o',lib+'/crtn.o','-o','/w/core.so')
     expected=json.loads((HERE/'RUNTIME.json').read_text())
     for name,h in expected['rebuild'].items(): assert sha(out/name)==h, name
-    (out/'manifest.json').write_text(json.dumps({'passed':True,'version':'1.4.5-e','files':expected['rebuild'],
+    (out/'manifest.json').write_text(json.dumps({'passed':True,'version':'1.4.6','files':expected['rebuild'],
         'source_sha256':{str(f.relative_to(HERE)):sha(f) for f in (HERE/'src').rglob('*') if f.is_file()}},indent=2)+'\n')
     print('Canonical source rebuild matches all six validated runtime payloads.')
 if __name__=='__main__': main()

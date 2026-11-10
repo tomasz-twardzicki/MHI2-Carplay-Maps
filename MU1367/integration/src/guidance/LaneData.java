@@ -16,10 +16,15 @@ public final class LaneData implements NavigationLaneGuidanceElement {
     final String sides;
     final int sourceStatus,sourceHighlight;
     final String sourceAngles;
+    /* Exactly ±180° has no side. The byte stays the left U-turn until the
+     * driving side is known: bit 16 is the main direction, bits 0-15 the
+     * matching characters of sides. */
+    final int unsided;
     LaneData(int p,int d,int r,String s){this(p,d,r,s,-1,1000,"-");}
-    LaneData(int p,int d,int r,String s,int status,int highlight,String angles){
+    LaneData(int p,int d,int r,String s,int status,int highlight,String angles){this(p,d,r,s,status,highlight,angles,0);}
+    LaneData(int p,int d,int r,String s,int status,int highlight,String angles,int unsidedMask){
         position=p;direction=d;recommendation=r;sides=s;
-        sourceStatus=status;sourceHighlight=highlight;sourceAngles=angles;
+        sourceStatus=status;sourceHighlight=highlight;sourceAngles=angles;unsided=unsidedMask;
     }
     public int getDirection(){return direction;}
     public String getSideStreets(){return sides;}
@@ -32,7 +37,7 @@ public final class LaneData implements NavigationLaneGuidanceElement {
     static int direction(int degrees){
         if(degrees < -180 || degrees > 180)return 255;
         // U-turn lanes: the factory VW lane bytes NAV_UTURN_LEFT_DIRECTION=114 / NAV_UTURN_RIGHT_DIRECTION=146
-        // (no 128 U-turn symbol in the HMI); exactly 180 has no side, taken as left (right-hand traffic)
+        // (no 128 U-turn symbol in the HMI); exactly 180 has no side: left here, see forSide()
         if(degrees <= -170 || degrees == 180)return 114;
         if(degrees >= 170)return 146;
         int sector=(Math.abs(degrees)*16+180)/360;
@@ -43,7 +48,7 @@ public final class LaneData implements NavigationLaneGuidanceElement {
         boolean hasPosition=false,hasStatus=false,hasHighlight=false;
         int sourceStatus=-1,sourceHighlight=1000;
         StringBuffer sourceAngles=new StringBuffer();
-        int[] plain=new int[16];int count=0,angles=0;
+        int[] plain=new int[16];boolean[] open=new boolean[16];int count=0,angles=0;boolean openHighlight=false;
         while(p<end){
             if(end-p<4 || ++fields>256)return null;
             int n=LiveModel.be16(data,p),key=LiveModel.be16(data,p+2);
@@ -58,11 +63,12 @@ public final class LaneData implements NavigationLaneGuidanceElement {
                 if(n!=6 || ++angles>16)return null;
                 int degrees=(short)LiveModel.be16(data,p+4);
                 if(sourceAngles.length()>0)sourceAngles.append(',');sourceAngles.append(degrees);
-                int d=direction(degrees);boolean seen=false;
-                for(int i=0;i<count;i++)if(plain[i]==d)seen=true;
-                if(d!=255 && !seen)plain[count++]=d;
+                int d=direction(degrees);boolean seen=false,sideless=degrees==180 || degrees==-180;
+                // A signed angle on the same byte settles its side.
+                for(int i=0;i<count;i++)if(plain[i]==d){seen=true;if(!sideless)open[i]=false;}
+                if(d!=255 && !seen){open[count]=sideless;plain[count++]=d;}
             }else if(key==3){
-                if(n!=6 || hasHighlight)return null;hasHighlight=true;sourceHighlight=(short)LiveModel.be16(data,p+4);highlight=direction(sourceHighlight);
+                if(n!=6 || hasHighlight)return null;hasHighlight=true;sourceHighlight=(short)LiveModel.be16(data,p+4);highlight=direction(sourceHighlight);openHighlight=sourceHighlight==180 || sourceHighlight==-180;
             }
             p+=n;
         }
@@ -71,15 +77,39 @@ public final class LaneData implements NavigationLaneGuidanceElement {
         // supplied branches even when the phone did not select one of them.
         boolean certain=highlight!=255 || count==1;
         int main=highlight!=255?highlight:count>0?plain[0]:255;
+        int unsided=(highlight!=255?openHighlight:count>0 && open[0])?1<<16:0;
+        for(int i=0;i<count;i++)if(plain[i]==main && !open[i])unsided=0;
         if(!certain || main==255)recommendation=0;
         // One real primary direction plus the OTHER supplied branches.
         // Recommendation 0 stays unlit; duplicating the primary in the side
         // list is not a distinct outline command. Match the factory contract
         // and sibling reference, without inventing lane availability/type.
         char[] other=new char[count];int used=0;
-        for(int i=0;i<count;i++)if(plain[i]!=main)other[used++]=(char)plain[i];
+        for(int i=0;i<count;i++)if(plain[i]!=main){if(open[i])unsided|=1<<used;other[used++]=(char)plain[i];}
         return new LaneData(pos,main,recommendation,new String(other,0,used),sourceStatus,sourceHighlight,
-            sourceAngles.length()==0?"-":sourceAngles.toString());
+            sourceAngles.length()==0?"-":sourceAngles.toString(),unsided);
+    }
+    static final int LEFT_HAND_TRAFFIC=1, UTURN_LEFT=114, UTURN_RIGHT=146;
+    /** In left-hand traffic a U-turn goes clockwise: a sideless 180° lane becomes the right U-turn. */
+    LaneData forSide(int drivingSide){
+        if(drivingSide!=LEFT_HAND_TRAFFIC || unsided==0)return this;
+        int main=(unsided&1<<16)!=0 && direction==UTURN_LEFT?UTURN_RIGHT:direction;
+        char[] other=new char[sides.length()];int used=0;
+        for(int i=0;i<sides.length();i++){
+            int d=sides.charAt(i);if((unsided&1<<i)!=0 && d==UTURN_LEFT)d=UTURN_RIGHT;
+            boolean seen=d==main;for(int j=0;j<used;j++)if(other[j]==d)seen=true;
+            if(!seen)other[used++]=(char)d;
+        }
+        return new LaneData(position,main,recommendation,new String(other,0,used),sourceStatus,sourceHighlight,sourceAngles,0);
+    }
+    static LaneData[] forSide(LaneData[] lanes,int drivingSide){
+        if(drivingSide!=LEFT_HAND_TRAFFIC)return lanes;
+        LaneData[] result=lanes;
+        for(int i=0;i<lanes.length;i++){
+            LaneData next=lanes[i].forSide(drivingSide);
+            if(next!=lanes[i]){if(result==lanes){result=new LaneData[lanes.length];System.arraycopy(lanes,0,result,0,lanes.length);}result[i]=next;}
+        }
+        return result;
     }
     static LaneData[] ordered(LaneData[] input,boolean invalid){
         if(invalid || input.length==0 || input.length>16)return EMPTY;

@@ -25,7 +25,7 @@ def main():
         r=subprocess.run(['docker','--context','colima-cpmap-rgi','run','--rm','--pull=never','--network=none','-v',str(out)+':/w','-v',str(a.build.resolve())+':'+str(a.build.resolve())+':ro','cpvc-settings-host-tests','sh','/w/'+mode+'/run.sh'],capture_output=True,text=True)
         (work/'run.log').write_text(r.stdout+r.stderr)
         if r.returncode:raise RuntimeError(r.stdout+r.stderr)
-        assert 'GUIDANCE_V3_CF_PASS' in r.stdout and r.stdout.strip().endswith('0,2,2')
+        assert 'GUIDANCE_V3_CF_PASS' in r.stdout and r.stdout.strip().endswith('5,2,2')
         code=subprocess.check_output([str(a.java_home/'bin/javap'),'-p','-c','-classpath',str(build/'VCMenu.jar'),'org.omonob.cpmap.ui.IndependentMenuViewBridge'],text=True)
         rows=code[code.index('static {};'):];assert ('iconst_4' if mode=='base' else 'bipush        6') in rows
         results[mode]={'java':text,'native':r.stdout.strip(),'core_sha256':sha(build/'core.so'),'menu_sha256':sha(build/'VCMenu.jar')}

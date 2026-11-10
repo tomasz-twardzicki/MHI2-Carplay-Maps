@@ -64,6 +64,10 @@ case "$ACTION" in
   done
   exit 0;;
  check-tools|reset-settings|restore-oem)
+  # The OEM reset predates default compressed artwork: switch it off first so no stale layer stays behind.
+  if [ "$ACTION" = restore-oem ] && [ "$(cat "$APP/carplay-mu1367-artwork-png/STATE" 2>/dev/null)" = installed ];then
+   /bin/ksh "$APP/carplay-mu1367-artwork-png/control.sh" uninstall || fail ARTWORK_PNG_REMOVAL_FAILED_RUN_RECOVER
+  fi
   exec /bin/ksh "$CUSTOM/carplay_mu1367_map_only/actions.sh" "$ACTION" "$CUSTOM/carplay_mu1367_map_only";;
  install|uninstall|recover|enable-cards|disable-cards|recover-cards) ;;
  *) fail INVALID_ACTION;;
@@ -123,8 +127,21 @@ if [ "$ACTION" = install ] && [ -d "$APP/carplay-mu1367-reader-recovery" ];then
 fi
 CARDS=$APP/carplay-mu1367-turn-cards
 MAIN=$APP/carplay-mu1367-guidance-v3
+PNG=$APP/carplay-mu1367-artwork-png
+# Since v1.4.6 compressed artwork is installed by default. Removal and recovery take it out first,
+# from its saved controller; a user who disabled it keeps it disabled (state removed).
+png_remove(){
+ [ -d "$PNG" ] || return 0
+ parents "$PNG/control.sh" && regular "$PNG/control.sh" || fail NO_SAVED_ARTWORK_PNG_CONTROLLER
+ case "$(cat "$PNG/STATE" 2>/dev/null)" in
+  removed) return 0;;
+  installed) /bin/ksh "$PNG/control.sh" "$1" || fail ARTWORK_PNG_REMOVAL_FAILED_RUN_RECOVER;;
+  *) /bin/ksh "$PNG/control.sh" recover || fail ARTWORK_PNG_RECOVERY_FAILED;;
+ esac
+}
 case "$ACTION" in
  uninstall|recover)
+  png_remove uninstall
   regular "$MAIN/control.sh" || fail NO_SAVED_V3_CONTROLLER
   exec /bin/ksh "$MAIN/control.sh" "$ACTION";;
  disable-cards|recover-cards)
@@ -155,6 +172,10 @@ retain_removed "$MAIN"
 BASE=no
 if ! regular "$APP/carplay-mu1367-map-only/STATE" || [ "$(cat "$APP/carplay-mu1367-map-only/STATE")" != installed ];then BASE=yes;fi
 TOTAL=1
+# Compressed artwork (default since v1.4.6) unless the user disabled it.
+PNG_STEP=yes
+[ "$(cat "$PNG/STATE" 2>/dev/null)" = removed ] && PNG_STEP=no
+[ "$PNG_STEP" = yes ] && TOTAL=$((TOTAL+1))
 if [ "$BASE" = yes ];then
  TOTAL=$((TOTAL+2))
  [ -d "$APP/carplaymaps" ] || TOTAL=$((TOTAL+1))
@@ -168,6 +189,15 @@ install_steps(){
   /bin/ksh "$CUSTOM/carplay_mu1367_map_only/actions.sh" install "$CUSTOM/carplay_mu1367_map_only" || { echo MU1367_GUIDANCE_V3_SUITE_FAIL=BASE_INSTALL_FAILED_KEEP_SNAPSHOTS;return 1; }
  fi
  /bin/ksh "$P/$VARIANT/control.sh" install "$P/$VARIANT" || { echo MU1367_GUIDANCE_V3_SUITE_FAIL=MAP_ONLY_INSTALL_FAILED_USE_RECOVERY;return 1; }
+ if [ "$PNG_STEP" = yes ];then
+  # A layer left "installed" by an OEM reset run without the menu no longer has the compressed helper in place:
+  # keep its record as a stale archive and install afresh (its snapshot is the original helper, kept).
+  if [ "$(cat "$PNG/STATE" 2>/dev/null)" = installed ] && ! "$P/verify" "$APP/carplay-mu1367-artwork/artwork-fetch" "$("$P/verify" "$CUSTOM/carplay_mu1367_artwork_png/artwork-fetch")";then
+   absent "$PNG.stale-$$" && mount -uw /mnt/app && mv "$PNG" "$PNG.stale-$$" && sync || { echo MU1367_GUIDANCE_V3_SUITE_FAIL=STALE_ARTWORK_PNG_ARCHIVE_FAILED;return 1; }
+   echo "MU1367_STALE_ARTWORK_PNG_RETAINED=$PNG.stale-$$"
+  fi
+  /bin/ksh "$CUSTOM/carplay_mu1367_artwork_png/control.sh" install "$CUSTOM/carplay_mu1367_artwork_png" || { echo MU1367_GUIDANCE_V3_SUITE_FAIL=ARTWORK_PNG_INSTALL_FAILED_CARPLAY_INSTALLED_USE_RECOVERY;return 1; }
+ else echo MU1367_COMPRESSED_ARTWORK_KEPT_DISABLED;fi
 }
 # Nested layer installers each report a reboot as if run alone. Number their
 # completions instead and request one reboot at the end. Shell builtins only;

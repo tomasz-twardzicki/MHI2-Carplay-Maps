@@ -35,7 +35,9 @@ class Suite(unittest.TestCase):
         cls.seed = cls.work / 'seed'
         for dest, name in [('ifs/lsd.jxe', 'lsd.jxe'), ('mnt/app/armle/lib/dll/ipod-drvr-iap2.so', 'driver'),
                            ('mnt/system/etc/mm/iap2.cfg', 'iap2.cfg'), ('mnt/app/eso/hmi/lsd/lsd.sh', 'boot'),
-                           ('mnt/app/eso/bin/apps/dio_manager', 'dio')]:
+                           ('mnt/app/eso/bin/apps/dio_manager', 'dio'),
+                           # v1.4.6: compressed artwork (default) checks the factory zlib
+                           ('proc/boot/libz.so.2', 'libz.so.2')]:
             p = cls.seed / dest
             p.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ARGS.inputs / name, p)

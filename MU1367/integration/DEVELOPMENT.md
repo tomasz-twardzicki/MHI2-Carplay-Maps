@@ -173,6 +173,47 @@ mock mounts and do not establish vehicle endurance or power-loss durability.
 The earlier v1.4.1-only standalone reader test is historical; this experimental
 release uses the integrated builder above.
 
+## Stable v1.4.6
+
+Built from v1.4.6-e (verified package `a33c03d4…`, published ZIP `d38a53b3…`).
+
+- `display_settings.h` (base and tuning) and `DisplaySettings.DEFAULT_STREAM` use stream
+  value 6, 27 fps / IDR 5, when nothing is saved. Stored values keep their meaning.
+  Guidance, audio and reader are byte-identical to v1.4.6-e (`verify.py` pins them).
+- Compressed artwork is built into the package: `package.py --artwork-png-build
+  --artwork-png-host` calls `tools/package-artwork-png.py:add_layer`. The suite install
+  runs that layer after the main layer unless its state is `removed` (user opt-out);
+  uninstall/recover and the menu OEM reset remove it first; an install archives a layer
+  left `installed` without its helper (OEM reset run outside the menu).
+- v1.4.6-e controllers are migration fixtures (`tests/revisions/release-v1.4.6-e`).
+- The test fixture needs the factory `proc/boot/libz.so.2` in its inputs.
+
+## Experimental v1.4.6-e U-turn side, Apple names, streams and artwork
+
+Based on the published v1.4.5 archive
+`80e38ec252a8bf84af628e450af80e6a992319315aa8e4be4c66837fb61f4826`. The guidance JAR
+(`MU1367-guidance-v1.4.6-e`) and both base and tuning `core.so` and `VCMenu.jar` change;
+the audio JAR and reader match v1.4.5.
+
+- `LaneData` marks lanes and branches decoded from exactly ±180° as unsided (byte 114).
+  `LiveModel.frame()` resolves them with `forSide()` from the current maneuver's
+  driving side (`0x5202` key 8: 0 right-hand, 1 left-hand traffic), else the last one
+  seen. `map()` applies the same rule to an exact ±180° U-turn angle. `TestUturnSide`.
+- `LiveModel.sameSource()` merges source names containing the word "Apple";
+  `GuidanceEvidence` reports clears by cause and the first/latest name flips.
+  `TestSourceName`.
+- Stored stream values keep their meaning: 0 and 3 (former IDR 20) now use IDR 5, 4 is
+  25 fps and the default, 5 is 20 fps and 6 is 27 fps. `DisplaySettings` maps menu
+  positions 20/25/27/30/40 to values 5/4/6/2/1.
+- `src/artwork-png` is the release `fetch.c` with the R3 lossless zlib writer; build it
+  with `tools/build-artwork-png.py` (needs `pyelftools` and the K4525 firmware image) and
+  test with `tests/test-artwork-png-native.py`. After `package.py` and `verify.py`,
+  `tools/package-artwork-png.py` adds the optional Tuning layer and the final archive is
+  checked again with `tests/test-artwork-png-qnx.py`, the host suites and the
+  firmware-shell actions. The pinned base `src/artwork-native` is unchanged.
+- v1.4.5 controllers/payloads are archived under `tests/revisions/release-v1.4.5-e` and
+  registered in `legacy-revisions.json`.
+
 ## Experimental v1.4.5-e reroute handling and stream option
 
 Based on the published v1.4.4 archive
