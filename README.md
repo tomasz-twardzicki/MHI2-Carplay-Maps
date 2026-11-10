@@ -36,23 +36,20 @@ The baseline project is by **omonob (QCDWJ)**. **tomasz-twardzicki** developed t
 
 ## Latest MU1367 / 791 changes
 
-**[MU1367 v1.4.5](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.5)** is the stable release of the
-v1.4.5-e build. The ZIP is byte-identical to v1.4.5-e, so its menu banner, documents
-and completion message still read "v1.4.5-e" / "experimental".
+**[MU1367 v1.4.6](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.6)** is the stable release of the
+v1.4.6-e build, with two new defaults.
 
-- **Reroutes:** the factory calculating symbol shows instead of guidance dropping, and
-  distance, progress bar, road name and arrival data keep their values until the phone
-  reports a real distance again.
-- **Placeholder arrow:** before the first maneuver, the straight direction-to-destination
-  arrow.
-- **Map stream:** a new **25 fps / IDR 5 (test)** choice. 30 fps / IDR 5 stays the default.
+- **U-turn lanes in left-hand traffic** (UK and similar) show the right U-turn arrow.
+- **Apple Maps with any phone language:** arrows and lanes update from the first turn.
+- **Map stream:** **27 fps / IDR 5 is the default**; the MU menu offers 20, 25, 27, 30 and
+  40 fps, all with IDR 5. A saved choice is kept.
+- **Compressed album artwork is installed by default** (lossless, usually 1–100 KB
+  instead of 197 KB); **Tuning** switches it off.
 
-**Known issues:** U-turn lane arrows point left in left-hand traffic (the main arrow is
-correct), and Apple Maps on some phone languages starts updating arrows and lanes a few
-turns late. Both are fixed in v1.4.6-e. Zooming with the wheel arrows over a wireless
-adapter also opens the factory cluster menu. Waze has no vehicle result yet.
+**Known issues:** zooming with the wheel arrows over a wireless adapter also opens the
+factory cluster menu. Waze has no vehicle result yet.
 
-[MU1367 v1.4.4](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.4) is the previous stable release.
+[MU1367 v1.4.5](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.5) is the previous stable release.
 
 **[MU1367 v1.4.3](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3)**
 adds **experimental P4521 installation** with all current features, retaining the
@@ -60,7 +57,7 @@ v1.4.2 U-turn lane fix using the factory VW left/right direction bytes
 (114/146), incorporating [PR #8](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/pull/8).
 It includes maps, native arrows with distance progress, current road in the ETA
 bar, native lane recommendations, audio metadata/artwork and reconnect recovery.
-Fresh MU settings default to **30 fps / IDR5**. The base disables turn cards and
+Fresh MU settings default to **27 fps / IDR 5** with compressed album artwork. The base disables turn cards and
 removes their MU controls; the **Tuning** submenu adds/removes both together.
 
 The earlier P4521 experimental build has been confirmed working in a vehicle.
@@ -79,7 +76,7 @@ unverified and no adapter firmware patch is included. Blank unused-lane slots
 match OEM behavior. Refined symbols, OEM recalculation messages, names above the
 arrow, and Apple Maps/Waze support remain planned. See [known issues and TODOs](./MU1367/integration/KNOWN-ISSUES.md).
 
-Use the [stable v1.4.5 installation and recovery guide](./releases/MU1367/v1.4.5-e/START_HERE.md)
+Use the [stable v1.4.6 installation and recovery guide](./releases/MU1367/v1.4.6/START_HERE.md)
 and [maintained source/build guide](./MU1367/integration/DEVELOPMENT.md).
 Earlier packages and tags remain unchanged. These changes apply to exact
 **K4525 or P4521 MU1367 + AID 791 (P4521 experimental)**, separately from the MU1427 release below.
@@ -119,16 +116,17 @@ The original standalone profiles remain available ([see below](#origin-and-upstr
 
 ## Download
 
-**MU1367 / AID 791 — v1.4.5 complete integration:**
-[Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.5) ·
-[Full Toolbox ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.5/CarPlay_Maps_VC_MU1367_791_v1.4.5-e.zip) ·
-[SHA-256](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.5/SHA256SUMS.txt).
+**MU1367 / AID 791 — v1.4.6 complete integration:**
+[Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.6) ·
+[Full Toolbox ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.6/CarPlay_Maps_VC_MU1367_791_v1.4.6.zip) ·
+[SHA-256](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.6/SHA256SUMS.txt).
 Read [installation, migration and recovery](./MU1367/integration/INSTALL.md).
 Supports K4525 and **P4521 (experimental installation)**; the earlier P4521
 experimental build has been confirmed working in a vehicle.
 The same SD includes the complete fresh-install path and independent OEM reset.
 
-Previous [v1.4.4](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.4),
+Previous [v1.4.5](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.5),
+[v1.4.4](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.4),
 [v1.4.3-1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3-1),
 [v1.4.2](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.2),
 [v1.4.1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.1),
@@ -143,6 +141,8 @@ confirmed working MU1427 baseline**, rather than the earlier initial port.
 
 | Release | Published | Changes | Previous tag |
 | --- | --- | --- | --- |
+| [MU1367 / 791 v1.4.6](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.6) | 2026-11-10 | Stable release of v1.4.6-e (ZIP `91d2530c…`). New defaults: 27 fps / IDR 5 map stream (20/25/27/30/40 fps choices kept) and compressed album artwork installed by default. Guidance, audio and reader byte-identical to v1.4.6-e. Known issue: wheel-arrow zoom over a wireless adapter also opens the factory menu. | `MU1367-v1.4.5` |
+| [MU1367 / 791 v1.4.6-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.6-e) (pre-release) | 2026-11-09 | Right U-turn lane arrows in left-hand traffic; Apple Maps guidance kept when the phone alternates app names; 25 fps / IDR 5 default with 20/25/27/30/40 fps choices; optional compressed album artwork. | `MU1367-v1.4.5` |
 | [MU1367 / 791 v1.4.5](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.5) | 2026-11-09 | Stable release of v1.4.5-e, byte-identical to its current ZIP (`aa2a3dce…`, with the optional artwork refresh test under Tuning). Known issues: U-turn lane arrows point left in left-hand traffic; Apple Maps on some phone languages updates arrows and lanes a few turns late; wheel-arrow zoom over a wireless adapter also opens the factory menu. | `MU1367-v1.4.4` |
 | [MU1367 / 791 v1.4.5-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.5-e) (pre-release) | 2026-11-05 | Show the factory calculating symbol during reroutes and keep distance, bar, road and arrival data; straight direction-to-destination placeholder; optional 25 fps / IDR 5 map stream. | `MU1367-v1.4.4` |
 | [MU1367 / 791 v1.4.4](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.4) | 2026-11-05 | Stable release of v1.4.4-e, byte-identical ZIP (`264c298f…`). Known issue: Apple Maps arrows and lanes were lost in one test whose phone switched source names; one other tester reports Apple Maps working. Waze has no vehicle result. | `MU1367-v1.4.3-1` |
