@@ -11,8 +11,8 @@
 struct cpvc_display_settings {int stream,layout;uint64_t generation;};
 static pthread_mutex_t cpvc_display_lock=PTHREAD_MUTEX_INITIALIZER;
 /* Stored stream values: 0 and 3 are retired IDR-20 choices and now run at
- * their fps with IDR 5; 4 (25 fps) is the default. */
-static struct cpvc_display_settings cpvc_display_cached={4,0,0};
+ * their fps with IDR 5; 6 (27 fps) is the default since v1.4.6. */
+static struct cpvc_display_settings cpvc_display_cached={6,0,0};
 static uint32_t cpvc_display_crc(const unsigned char *s,size_t n){
  uint32_t crc=0xffffffffu;size_t i;int bit;
  for(i=0;i<n;i++){crc^=s[i];for(bit=0;bit<8;bit++)crc=(crc>>1)^(0xedb88320u&(uint32_t)-(int)(crc&1));}
@@ -38,7 +38,7 @@ static int cpvc_display_read(const char *root,struct cpvc_display_settings *out)
  if(snprintf(path,sizeof(path),"%s/display.previous",root)>=(int)sizeof(path))return -1;
  b=cpvc_display_file(path,out);if(b==1)return 2;
  if(a||b)return -1;
- out->stream=4;out->layout=0;out->generation=0;return 0;
+ out->stream=6;out->layout=0;out->generation=0;return 0;
 }
 static struct cpvc_display_settings cpvc_display_snapshot(void){
  struct cpvc_display_settings result;pthread_mutex_lock(&cpvc_display_lock);result=cpvc_display_cached;pthread_mutex_unlock(&cpvc_display_lock);return result;
@@ -48,7 +48,7 @@ static void cpvc_display_refresh(void){
  if(!root||!root[0])root="/mnt/icab/persistent/cpmap-ui";
  if(cpvc_display_read(root,&next)>=0){pthread_mutex_lock(&cpvc_display_lock);cpvc_display_cached=next;pthread_mutex_unlock(&cpvc_display_lock);}
 }
-static int cpvc_display_fps(void){static const int fps[7]={30,40,30,40,25,20,27};int s=cpvc_display_snapshot().stream;return s>=0&&s<7?fps[s]:25;}
+static int cpvc_display_fps(void){static const int fps[7]={30,40,30,40,25,20,27};int s=cpvc_display_snapshot().stream;return s>=0&&s<7?fps[s]:27;}
 static int cpvc_display_idr(void){return 5;}
 static void cpvc_display_area(int *x,int *y,int *w,int *h){
  static const int rect[4][4]={{200,96,400,364},{160,96,480,364},{220,96,360,348},{220,65,360,348}};

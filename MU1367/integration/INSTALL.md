@@ -1,4 +1,4 @@
-# MU1367 / 791 v1.4.6-e — complete installation and update
+# MU1367 / 791 v1.4.6 — complete installation and update
 
 For **MHI2_ER_VWG13_K4525 or MHI2_ER_VWG13_P4521 MU1367 + AID 791
 (12.3 inch)**. **P4521 installation remains experimental**, following a successful
@@ -9,11 +9,11 @@ The installer reports `MU1367_FIRMWARE_TYPE=P4521_EXPERIMENTAL` or `K4525` when
 RCC train information is available. Without it, the shared exact firmware hash
 is reported as `K4525_OR_P4521_HASH_MATCH`; it cannot distinguish these trains.
 
-**Experimental update — to be tested.** Based on the stable v1.4.5, including the
-U-turn fix, P4521 recognition, reader recovery, quiet-route hold and reroute handling.
-It draws U-turn lanes by driving side, keeps Apple Maps guidance when the phone
-alternates between app names, makes 25 fps / IDR 5 the default map stream and adds
-optional compressed album artwork. The normal install action replaces the guidance
+**Stable release** of the v1.4.6-e build, including the U-turn fix, P4521 recognition,
+reader recovery, quiet-route hold and reroute handling. It draws U-turn lanes by driving
+side, keeps Apple Maps guidance when the phone alternates between app names, makes
+27 fps / IDR 5 the default map stream and installs lossless compressed album artwork by
+default. The normal install action replaces the guidance
 JAR, map core and menu and saves their originals for rollback. See [RELEASE-NOTES.md](RELEASE-NOTES.md).
 
 If the previous standalone reader test is installed, restore it first using
@@ -21,7 +21,7 @@ its saved controller and fully reboot. Audio R1/R2 test layers and the artwork
 refresh test from v1.4.5 (**Tuning > Remove artwork test**) must be removed before a
 base upgrade, because the release retains the original audio runtime.
 
-Verify `CarPlay_Maps_VC_MU1367_791_v1.4.6-e.zip` with the adjacent `SHA256SUMS.txt`.
+Verify `CarPlay_Maps_VC_MU1367_791_v1.4.6.zip` with the adjacent `SHA256SUMS.txt`.
 Extract to a clean FAT32 SD root; do not merge older SD contents. Keep this SD
 and copy all recovery snapshots off the unit after a successful installation.
 
@@ -35,7 +35,7 @@ menus and scripts** from this SD. The established refresh command on MMX is:
 
 Use `/fs/sdb0` throughout if appropriate. From RCC enter MMX with `on -f mmx`.
 Under **MQB Coding > Customization > CarPlay Maps VC**, verify the banner reads
-**MU1367 / 791 v1.4.6-e - EXPERIMENTAL**. Do not use scripts left from an earlier SD.
+**MU1367 / 791 v1.4.6**. Do not use scripts left from an earlier SD.
 
 ## Install / update
 
@@ -59,7 +59,7 @@ numbered or experimental steps need to be selected separately.
 - **Stock OEM, v1.3.0, v1.4.0, supported step-6/step-8 and Integrated Arrows:**
   matching existing layers are checked and retained; missing layers are added.
 - **Lane-v2:** the release update is added directly.
-- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e/v1.4.4/v1.4.5 or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
+- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e/v1.4.4/v1.4.5/v1.4.6-e or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
   this is the one case that needs two reboots. The first invocation (stage 1 of 2) checks the saved controller and every original backup,
   removes matching optional card tuning if present, and restores the lane-v2
   baseline through the saved controller. Expect
@@ -69,7 +69,7 @@ numbered or experimental steps need to be selected separately.
   The old removed snapshot is verified and archived, never overwritten.
 
 The final success message is
-**`MU1367_RELEASE_1_4_6_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
+**`MU1367_RELEASE_1_4_6_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
 `MU1367_INSTALL_COMPLETE=N/N`. Disconnect the phone/adapter, then select
 **Reboot unit (after install completes)** in the same menu. That entry refuses to
 reboot while an installation is still running and otherwise uses the Toolbox's
@@ -85,7 +85,7 @@ canvas. The failed right-edge layout experiment is not applied.
 
 ## Defaults, settings and optional tuning
 
-Fresh settings use **25 fps / IDR 5**, turn cards OFF and the standard map layout.
+Fresh settings use **27 fps / IDR 5**, turn cards OFF and the standard map layout.
 Valid existing stream/map/mirror choices are preserved. Adjust them under
 **App-Connect > Virtual Cockpit settings**. Reconnect after stream/layout changes.
 **Map stream** offers 20, 25, 27, 30 and 40 fps, all with IDR 5. A saved
@@ -104,15 +104,15 @@ Card ON if desired. **Remove turn-card support + settings** restores the base
 runtime/menu, retaining preferences and snapshots; fully reboot. An old saved
 ON preference can become effective when optional tuning is deliberately added.
 
-**Tuning > Enable compressed album artwork (reboot)** replaces the artwork helper
-with one that writes the same lossless 256 × 256 cover PNG compressed with the
-factory zlib: usually 1–100 KB instead of 197 KB, with identical pixels. It is off by
-default and saves the original helper. **Disable compressed album artwork (reboot)**
-restores it; fully reboot after either. **Disable it before** installing a later
-update, removing the integration or running the OEM reset: those check the artwork
-helper and stop if it has changed. If you forget before an OEM reset, its folder
-`/mnt/app/carplay-mu1367-artwork-png` stays behind and does nothing. Without the SD,
-run on MMX:
+**Compressed album artwork is installed by default** (step `MU1367_ARTWORK_PNG_INSTALLED`).
+It replaces the artwork helper with one that writes the same lossless 256 × 256 cover
+PNG compressed with the factory zlib: usually 1–100 KB instead of 197 KB, with identical
+pixels, and saves the original helper. **Tuning > Disable compressed album artwork
+(reboot)** restores the original; a later install keeps it disabled
+(`MU1367_COMPRESSED_ARTWORK_KEPT_DISABLED`). **Remove latest update only** and
+**RESTORE OEM** from the menu switch it off first. Only if you run the OEM reset without
+the menu does its folder `/mnt/app/carplay-mu1367-artwork-png` stay behind; the next
+install archives it. To switch it off without the SD, run on MMX:
 
 ```sh
 /bin/ksh /mnt/app/carplay-mu1367-artwork-png/control.sh uninstall
@@ -124,7 +124,7 @@ for that adapter-generated behavior. See [KNOWN-ISSUES.md](KNOWN-ISSUES.md).
 
 ## Checks and diagnostics
 
-Guidance status must show **`MU1367-guidance-v1.4.6-e`**; the reader is unchanged from v1.4.4 and its status shows
+Guidance status must show **`MU1367-guidance-v1.4.6-e`** (unchanged in v1.4.6); the reader is unchanged from v1.4.4 and its status shows
 `MU1367-reader-v1.4.4-e` with `total_restarts` and `budget_resets`. The U-turn
 lane bytes (114/146) are unchanged. **Diagnostics > Show integration + guidance + card status**
 also reports the release controller version. The release manifest pins all files.
@@ -142,8 +142,8 @@ an active route. `guidance-evidence.txt` names the phone app in each export.
 For this build: in left-hand traffic, check that a U-turn lane shows the right U-turn
 arrow. With Apple Maps and a non-English phone language, check that arrows and lanes
 update from the first turn; `guidance-evidence.txt` then shows `route_clears source=0`
-and a `source_flips` line. Compare stutter and smoothness at 25 fps against your
-previous setting, and covers with compressed artwork on and off.
+and a `source_flips` line. Compare stutter and smoothness at the 27 fps default against
+your previous setting.
 
 Export **Diagnostics > Export diagnostics to SD** while connected, actively
 guiding and displaying the issue. A later disconnect or cable reconnect can
@@ -152,7 +152,8 @@ available in the same submenu. The runtime uses bounded diagnostic files.
 
 ## Recovery and full return to OEM
 
-**Recovery > Remove latest update only** restores the pre-release lane-v2 snapshot;
+**Recovery > Remove latest update only** switches compressed artwork off, then restores
+the pre-release lane-v2 snapshot;
 remove optional turn-card tuning first. The saved reader is restored in the
 same transaction. Fully reboot. Recovery for a failed or
 interrupted latest update is also in this submenu. On MMX, without SD/HMI:

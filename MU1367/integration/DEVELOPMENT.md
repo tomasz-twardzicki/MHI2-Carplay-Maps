@@ -158,6 +158,21 @@ mock mounts and do not establish vehicle endurance or power-loss durability.
 The earlier v1.4.1-only standalone reader test is historical; this experimental
 release uses the integrated builder above.
 
+## Stable v1.4.6
+
+Built from v1.4.6-e (verified package `a33c03d4…`, published ZIP `d38a53b3…`).
+
+- `display_settings.h` (base and tuning) and `DisplaySettings.DEFAULT_STREAM` use stream
+  value 6, 27 fps / IDR 5, when nothing is saved. Stored values keep their meaning.
+  Guidance, audio and reader are byte-identical to v1.4.6-e (`verify.py` pins them).
+- Compressed artwork is built into the package: `package.py --artwork-png-build
+  --artwork-png-host` calls `tools/package-artwork-png.py:add_layer`. The suite install
+  runs that layer after the main layer unless its state is `removed` (user opt-out);
+  uninstall/recover and the menu OEM reset remove it first; an install archives a layer
+  left `installed` without its helper (OEM reset run outside the menu).
+- v1.4.6-e controllers are migration fixtures (`tests/revisions/release-v1.4.6-e`).
+- The test fixture needs the factory `proc/boot/libz.so.2` in its inputs.
+
 ## Experimental v1.4.6-e U-turn side, Apple names, streams and artwork
 
 Based on the published v1.4.5 archive

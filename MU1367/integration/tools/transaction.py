@@ -11,7 +11,7 @@ def change(s,old,new):
 def transaction(sd,root,variant,payloads,old,parent,layer,prefix,parent_build):
     p=root/variant;p.mkdir()
     template=(HERE/'transaction.sh').read_text()
-    template=template.replace('# SPDX-License-Identifier: GPL-3.0-or-later','# SPDX-License-Identifier: GPL-3.0-or-later\n# MU1367 integration release 1.4.6-e (experimental)')
+    template=template.replace('# SPDX-License-Identifier: GPL-3.0-or-later','# SPDX-License-Identifier: GPL-3.0-or-later\n# MU1367 integration release 1.4.6')
     c=template.replace('carplay-mu1367-lanes','carplay-mu1367-'+layer).replace('MU1367_LANES',prefix).replace('.lanes-new','.'+layer+'-new').replace('for K in parent settings;','for K in parent;')
     c=change(c,'  echo "Cards: App-Connect > Virtual Cockpit settings > navigation card ON/OFF; reconnect after changing"','  echo "See START_HERE.md for map-only and optional turn-card tuning"')
     guard='''# Preserve the child layer snapshot before removing its parent.

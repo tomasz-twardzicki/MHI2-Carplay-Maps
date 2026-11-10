@@ -2,21 +2,17 @@
 
 Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
 
-**Pre-release to test: [v1.4.6-e](../releases/MU1367/v1.4.6-e/README.md)** fixes U-turn
-lanes in left-hand traffic and Apple Maps on some phone languages, makes 25 fps / IDR 5
-the default and adds optional compressed album artwork.
+**Current stable release: [v1.4.6](../releases/MU1367/v1.4.6/README.md)** — U-turn
+lanes in left-hand traffic, Apple Maps on any phone language, 27 fps / IDR 5 by default
+and compressed album artwork by default.
 
-The current stable release is **[v1.4.5](../releases/MU1367/v1.4.5/README.md)**, the
-[v1.4.5-e integration](./integration/README.md) published with a byte-identical ZIP. It
-adds reroute handling, a straight placeholder arrow and an optional 25 fps / IDR 5 map
-stream. U-turn lanes in left-hand traffic and Apple Maps on some phone languages are
-known issues; see the release page. See the
+The previous stable release is **[v1.4.5](../releases/MU1367/v1.4.5/README.md)**. See the
 [release notes](./integration/RELEASE-NOTES.md) and [install guide](./integration/INSTALL.md).
 The complete integration supports
 K4525 or P4521 MU1367 + AID 791. P4521 installation remains experimental;
 the earlier experimental build has been confirmed working in a vehicle. It combines maps, native arrows/progress, current road,
-lanes with corrected VW U-turn symbols, music metadata/artwork and reconnect recovery. Fresh defaults are 30 fps /
-IDR5 and cards OFF; optional tuning adds card support and its MU controls.
+lanes with corrected VW U-turn symbols, music metadata/artwork and reconnect recovery. Fresh defaults are 27 fps /
+IDR 5, compressed artwork and cards OFF; optional tuning adds card support and its MU controls.
 
 The [single install/update guide](./integration/INSTALL.md) covers OEM, v1.4.0, v1.4.1 and
 known later test states, with retained snapshots and a reboot boundary for v3

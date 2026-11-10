@@ -6,6 +6,8 @@ layer that swaps only the artwork helper. Every release payload stays byte-ident
 """
 import argparse,hashlib,json,shutil,subprocess,zipfile
 from pathlib import Path
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parent))
 from payload_checks import write_payload_checks
 HERE=Path(__file__).resolve().parent.parent
 CUSTOM='carplay_mu1367_artwork_png'
@@ -14,23 +16,14 @@ ARTWORK_PARENT='MU1367-artwork-f353117dbe5c'
 LABELS={'install':'Enable compressed album artwork (reboot)','uninstall':'Disable compressed album artwork (reboot)',
         'status':'Show compressed artwork status','recover':'Recover interrupted artwork change (reboot)'}
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
-def main():
- p=argparse.ArgumentParser(description=__doc__)
- for n in ('package','native','native-host','output'):p.add_argument('--'+n,type=Path,required=True)
- a=p.parse_args()
- base=json.loads((a.package/'manifest.json').read_text());source=a.package/base['archive_name']
- assert sha(source)==base['archive_sha256'],'package archive changed after packaging'
- nm=json.loads((a.native/'manifest.json').read_text());fetch=a.native/'artwork-fetch';f=sha(fetch)
+def add_layer(sd,native,native_host,default=True):
+ """Build the compressed-artwork layer into an SD tree; returns its manifest record.
+ Since v1.4.6 the suite install action installs it by default; the Tuning entries switch it."""
+ nm=json.loads((native/'manifest.json').read_text());fetch=native/'artwork-fetch';f=sha(fetch)
  assert nm['passed'] and nm['sha256']==f
  for name,digest in nm['sources'].items():assert sha(HERE/name)==digest,name
- nh=json.loads(a.native_host.read_text());assert nh['passed']
+ nh=json.loads(native_host.read_text());assert nh['passed']
  for name,digest in nh['source_sha256'].items():assert sha(HERE/name)==digest,name
- out=a.output.resolve();out.mkdir(parents=True,exist_ok=False);sd=out/'sd-card';sd.mkdir()
- with zipfile.ZipFile(source) as z:
-  for name in z.namelist():
-   dest=sd/name;assert dest.resolve().is_relative_to(sd)
-   if name.endswith('/'):dest.mkdir(parents=True,exist_ok=True);continue
-   dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(z.read(name));dest.chmod((z.getinfo(name).external_attr>>16)&0o777 or 0o644)
  art=sd/'Custom/carplay_mu1367_artwork';root=sd/'Custom'/CUSTOM;root.mkdir()
  assert (art/'VERSION').read_text().strip()==ARTWORK_PARENT
  control=(HERE/'tools/transaction.sh').read_text()
@@ -63,11 +56,26 @@ def main():
   assert '"$P/control.sh" '+action+' "$P"' in code and CUSTOM+'/control.sh' in code
   wrapper=sd/'Toolbox/scripts'/('cpmap_artwork_png_'+action+'.sh');wrapper.write_text(code);wrapper.chmod(0o755)
   with tuning.open('a') as menu:menu.write('\nscript\n    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/'+wrapper.name+'"\n    label "'+label+'"\n')
+
+ for script in [root/'control.sh',*(sd/'Toolbox/scripts').glob('cpmap_artwork_png_*.sh')]:subprocess.run(['/bin/ksh','-n',str(script)],check=True);script.chmod(0o755)
+ return {'layer':CUSTOM,'build_id':build,'fetch_sha256':f,'replaces_fetch_sha256':sha(art/'artwork-fetch'),'factory_zlib_sha256':nm['factory_libraries']['libz.so.2'],'installed_by_default':default,'lossless':True,'on_unit_validated':False}
+def main():
+ """Historical v1.4.6-e flow: add the layer (not installed by default) to an already built archive."""
+ p=argparse.ArgumentParser(description=__doc__)
+ for n in ('package','native','native-host','output'):p.add_argument('--'+n,type=Path,required=True)
+ a=p.parse_args()
+ base=json.loads((a.package/'manifest.json').read_text());source=a.package/base['archive_name']
+ assert sha(source)==base['archive_sha256'],'package archive changed after packaging'
+ out=a.output.resolve();out.mkdir(parents=True,exist_ok=False);sd=out/'sd-card';sd.mkdir()
+ with zipfile.ZipFile(source) as z:
+  for name in z.namelist():
+   dest=sd/name;assert dest.resolve().is_relative_to(sd)
+   if name.endswith('/'):dest.mkdir(parents=True,exist_ok=True);continue
+   dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(z.read(name));dest.chmod((z.getinfo(name).external_attr>>16)&0o777 or 0o644)
  release=json.loads((sd/'MU1367_RELEASE_MANIFEST.json').read_text())
- release['optional_artwork_png']={'layer':CUSTOM,'build_id':build,'fetch_sha256':f,'replaces_fetch_sha256':sha(art/'artwork-fetch'),'factory_zlib_sha256':nm['factory_libraries']['libz.so.2'],'installed_by_default':False,'lossless':True,'on_unit_validated':False}
+ record=release['optional_artwork_png']=add_layer(sd,a.native,a.native_host,False)
  (sd/'MU1367_RELEASE_MANIFEST.json').write_text(json.dumps(release,indent=2)+'\n')
  write_payload_checks(sd/'Custom')
- for script in [root/'control.sh',*(sd/'Toolbox/scripts').glob('cpmap_artwork_png_*.sh')]:subprocess.run(['/bin/ksh','-n',str(script)],check=True);script.chmod(0o755)
  inv={str(q.relative_to(sd)):sha(q) for q in sorted(sd.rglob('*')) if q.is_file() and q.name!='FILES_SHA256.json'};(sd/'FILES_SHA256.json').write_text(json.dumps(inv,indent=2)+'\n')
  archive=out/base['archive_name']
  with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:
@@ -75,5 +83,5 @@ def main():
    if q.is_file():z.write(q,q.relative_to(sd))
  manifest=dict(release,archive_sha256=sha(archive),archive_bytes=archive.stat().st_size,verified_package_archive_sha256=base['archive_sha256'])
  (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n');(out/'SHA256SUMS.txt').write_text(sha(archive)+'  '+base['archive_name']+'\n')
- print(json.dumps({'passed':True,'archive_sha256':manifest['archive_sha256'],'build_id':build,'fetch_sha256':f,'controller_sha256':sha(root/'control.sh')}))
+ print(json.dumps({'passed':True,'archive_sha256':manifest['archive_sha256'],'build_id':record['build_id']}))
 if __name__=='__main__':main()

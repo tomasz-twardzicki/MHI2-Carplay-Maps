@@ -1,4 +1,23 @@
-# MU1367 v1.4.6-e — experimental U-turn lanes, Apple Maps languages and 25 fps default
+# MU1367 v1.4.6 — stable: U-turn lanes, Apple Maps languages, 27 fps and compressed artwork
+
+Stable release of the v1.4.6-e build for **K4525 / P4521 MU1367 + AID 791**. P4521
+installation remains experimental. Everything in v1.4.6-e below is included, with two
+new defaults:
+
+- **27 fps / IDR 5 is the default map stream** (was 25 fps in v1.4.6-e). The MU menu
+  still offers 20, 25, 27, 30 and 40 fps, all with IDR 5. A saved choice is kept; only
+  units without a saved choice use the new default.
+- **Compressed album artwork is installed by default.** It is lossless: the cover stays
+  a 256 × 256 PNG with identical pixels, usually 1–100 KB instead of 197 KB. **Tuning >
+  Disable compressed album artwork** switches it off, and later installs respect that.
+  **Remove latest update only** and the menu's **RESTORE OEM** switch it off first.
+
+Guidance, audio and reader are byte-identical to v1.4.6-e; only the map core and MU
+menu change. An installed v1.4.6-e uses the checked removal, full reboot and install
+sequence. Before rolling back to v1.4.5 or older, select **30 fps / IDR 5** or
+**40 fps / IDR 5**: older menus do not recognize 27 fps.
+
+# Earlier: v1.4.6-e — experimental U-turn lanes, Apple Maps languages and 25 fps default
 
 **EXPERIMENTAL — TO BE TESTED.** Based on the stable v1.4.5 release, for
 **K4525 / P4521 MU1367 + AID 791**. P4521 installation remains experimental. This

@@ -37,8 +37,8 @@ int main(int argc,char **argv){
  char root[]="/tmp/guidance-v3-XXXXXX",path[512];int s,l,pos,before;FILE *f;Obj *d,*views,*safe,*session;
  if(argc==2){struct cpvc_display_settings state;assert(cpvc_display_read(argv[1],&state)>=0);printf("%d,%d,%llu\n",state.stream,state.layout,(unsigned long long)state.generation);return 0;}
  assert(mkdtemp(root));setenv("CPVC_DISPLAY_STATE_DIR",root,1);setenv("CPMAP_CARD_STATE_DIR",root,1);setenv("CARPLAY_ALTSCREEN_LOG","/dev/null",1);
- assert(cpvc_display_fps()==25&&cpvc_display_idr()==5);
- d=create_alt_display();assert(d&&number(d,"maxFPS")==25&&cpvc_display_idr()==5);drop(d);assert(live==0);
+ assert(cpvc_display_fps()==27&&cpvc_display_idr()==5);
+ d=create_alt_display();assert(d&&number(d,"maxFPS")==27&&cpvc_display_idr()==5);drop(d);assert(live==0);
  for(s=0;s<7;s++)for(l=0;l<4;l++)for(pos=0;pos<4;pos++){
   write_display(root,s,l,(unsigned)(s*16+l*4+pos+1));card_file(root,pos);
   d=create_alt_display();assert(d&&number(d,"maxFPS")==fps[s]&&cpvc_display_idr()==idr[s]);
@@ -57,7 +57,7 @@ int main(int argc,char **argv){
   drop(d);assert(live==0);
  }
  /* Fresh/reset missing stores return 25/5; every saved selection was preserved. */
- snprintf(path,sizeof(path),"%s/display.state",root);assert(!unlink(path));cpvc_display_refresh();assert(cpvc_display_fps()==25&&cpvc_display_idr()==5);
+ snprintf(path,sizeof(path),"%s/display.state",root);assert(!unlink(path));cpvc_display_refresh();assert(cpvc_display_fps()==27&&cpvc_display_idr()==5);
  if(!MAP_ONLY)card_file(root,3);
  card_refresh_preference();session=new_obj(DICT);g_viewarea_worker_started=1;remember_viewarea_session(session);
  card_runtime_poll();assert(!pending);card_signal_ready(session);card_runtime_poll();assert(pending);

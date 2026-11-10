@@ -9,7 +9,7 @@ public final class TestDisplay {
     public static void main(String[] args)throws Exception{
         File root=new File(args[0]);DisplaySettings store=new DisplaySettings(root);
         if(args.length>1){store.select(DisplaySettings.STREAM,Integer.parseInt(args[1]));store.select(DisplaySettings.LAYOUT,Integer.parseInt(args[2]));DisplaySettings.State s=store.read();System.out.println(s.stream+","+s.layout+","+s.generation);return;}
-        check(store.read().stream==4&&store.read().choice(6)==1&&store.read().layout==0&&store.read().generation==0);
+        check(store.read().stream==6&&store.read().choice(6)==2&&store.read().layout==0&&store.read().generation==0);
         int[] values={5,4,6,2,1};
         for(int s=0;s<5;s++)for(int l=0;l<4;l++){
             int previous=store.read().layout;
@@ -24,7 +24,7 @@ public final class TestDisplay {
         try{store.read();}catch(IOException expected){failed=true;}check(failed);
         failed=false;try{store.select(6,1);}catch(IOException expected){failed=true;}check(failed);
         write(primary,good);write(previous,backup);
-        check(DisplaySettings.label(6,1).startsWith("25 fps / IDR 5"));
+        check(DisplaySettings.label(6,1).startsWith("25 fps / IDR 5"));check(DisplaySettings.label(6,2).equals("27 fps / IDR 5 (default)"));
         for(int i=0;i<5;i++)check(DisplaySettings.label(6,i).indexOf("IDR 20")<0);
         // Retired IDR-20 values stay readable and show as the same fps with IDR 5.
         for(int legacy=0;legacy<4;legacy+=3){
