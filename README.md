@@ -51,7 +51,7 @@ factory cluster menu. Waze has no vehicle result yet.
 
 [MU1367 v1.4.5](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.5) is the previous stable release.
 
-**Pre-release to test: [MU1367 v1.5.0-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.0-e)** adds
+**Pre-release to test: [MU1367 v1.5.1-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.1-e)** adds
 **Android Auto** to the same installation: the Google Maps picture from an Android phone
 on the AID and native VW turn arrows, next to every v1.4.6 CarPlay feature. No vehicle
 result yet; its source is on the `feature/mu1367-v1.5.0-e-android-auto` branch.
@@ -146,7 +146,7 @@ confirmed working MU1427 baseline**, rather than the earlier initial port.
 
 | Release | Published | Changes | Previous tag |
 | --- | --- | --- | --- |
-| [MU1367 / 791 v1.5.0-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.0-e) (pre-release) | 2026-11-10 | Android Auto on the AID, installed by the same action as CarPlay: Google Maps picture over the head unit's MOST path and native VW turn arrows with distance; menu entries to switch the Android Auto map off and on. Based on stable v1.4.6; only the guidance JAR changes in the CarPlay runtime. No vehicle result yet. | `MU1367-v1.4.6` |
+| [MU1367 / 791 v1.5.1-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.1-e) (pre-release) | 2026-11-10 | Android Auto on the AID, installed by the same action as CarPlay: Google Maps picture over the head unit's MOST path and native VW turn arrows with distance; menu entries to switch the Android Auto map off and on. Replaces v1.5.0-e (same day, withdrawn): its cluster map froze after a stream hiccup until a reconnect; Android Auto now uses its own bridge build that keeps showing frames, and the diagnostics export includes the Android Auto status files. Based on stable v1.4.6. No vehicle result for this package yet. | `MU1367-v1.4.6` |
 | [MU1367 / 791 v1.4.6](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.6) | 2026-11-10 | Stable release of v1.4.6-e (ZIP `91d2530c…`). New defaults: 27 fps / IDR 5 map stream (20/25/27/30/40 fps choices kept) and compressed album artwork installed by default. Guidance, audio and reader byte-identical to v1.4.6-e. Known issue: wheel-arrow zoom over a wireless adapter also opens the factory menu. | `MU1367-v1.4.5` |
 | [MU1367 / 791 v1.4.6-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.6-e) (pre-release) | 2026-11-09 | Right U-turn lane arrows in left-hand traffic; Apple Maps guidance kept when the phone alternates app names; 25 fps / IDR 5 default with 20/25/27/30/40 fps choices; optional compressed album artwork. | `MU1367-v1.4.5` |
 | [MU1367 / 791 v1.4.5](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.5) | 2026-11-09 | Stable release of v1.4.5-e, byte-identical to its current ZIP (`aa2a3dce…`, with the optional artwork refresh test under Tuning). Known issues: U-turn lane arrows point left in left-hand traffic; Apple Maps on some phone languages updates arrows and lanes a few turns late; wheel-arrow zoom over a wireless adapter also opens the factory menu. | `MU1367-v1.4.4` |
