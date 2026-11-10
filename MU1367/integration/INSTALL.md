@@ -1,4 +1,4 @@
-# MU1367 / 791 v1.5.0-e — complete installation and update
+# MU1367 / 791 v1.5.1-e — complete installation and update
 
 For **MHI2_ER_VWG13_K4525 or MHI2_ER_VWG13_P4521 MU1367 + AID 791
 (12.3 inch)**. **P4521 installation remains experimental**, following a successful
@@ -21,7 +21,7 @@ its saved controller and fully reboot. Audio R1/R2 test layers and the artwork
 refresh test from v1.4.5 (**Tuning > Remove artwork test**) must be removed before a
 base upgrade, because the release retains the original audio runtime.
 
-Verify `CarPlay_Maps_VC_MU1367_791_v1.5.0-e.zip` with the adjacent `SHA256SUMS.txt`.
+Verify `CarPlay_Maps_VC_MU1367_791_v1.5.1-e.zip` with the adjacent `SHA256SUMS.txt`.
 Extract to a clean FAT32 SD root; do not merge older SD contents. Keep this SD
 and copy all recovery snapshots off the unit after a successful installation.
 
@@ -35,7 +35,7 @@ menus and scripts** from this SD. The established refresh command on MMX is:
 
 Use `/fs/sdb0` throughout if appropriate. From RCC enter MMX with `on -f mmx`.
 Under **MQB Coding > Customization > CarPlay Maps VC**, verify the banner reads
-**MU1367 / 791 v1.5.0-e - EXPERIMENTAL (CarPlay + Android Auto)**. Do not use scripts left from an earlier SD.
+**MU1367 / 791 v1.5.1-e - EXPERIMENTAL (CarPlay + Android Auto)**. Do not use scripts left from an earlier SD.
 
 ## Install / update
 
@@ -69,7 +69,7 @@ numbered or experimental steps need to be selected separately.
   The old removed snapshot is verified and archived, never overwritten.
 
 The final success message is
-**`MU1367_RELEASE_1_5_0_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
+**`MU1367_RELEASE_1_5_1_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
 `MU1367_INSTALL_COMPLETE=N/N`. Disconnect the phone/adapter, then select
 **Reboot unit (after install completes)** in the same menu. That entry refuses to
 reboot while an installation is still running and otherwise uses the Toolbox's
@@ -89,6 +89,8 @@ The last install step is `MU1367_ANDROID_AUTO_INSTALLED`. It checks the factory
 Android Auto receiver `/mnt/app/eso/bin/apps/gal` by hash, saves it under
 `/mnt/app/carplay-mu1367-android-auto/backup`, and puts a small wrapper in its place.
 The hook runtime goes to `/mnt/app/carplaymaps/aa`. Nothing in `/mnt/system` changes.
+Updating from v1.5.0-e shows `MU1367_ANDROID_AUTO_PREVIOUS_BUILD_REMOVED_UPGRADING`: the
+factory `gal` is restored from the old snapshot (kept), then the new layer is installed.
 
 After the reboot, connect an Android phone by cable and start a route in Google Maps.
 The picture appears on the AID about 5 s after connecting. **Android Auto cluster map:
@@ -142,7 +144,7 @@ for that adapter-generated behavior. See [KNOWN-ISSUES.md](KNOWN-ISSUES.md).
 
 ## Checks and diagnostics
 
-Guidance status must show **`MU1367-guidance-v1.5.0-e`**; the reader is unchanged from v1.4.4 and its status shows
+Guidance status must show **`MU1367-guidance-v1.5.0-e`** (unchanged in v1.5.1-e); the reader is unchanged from v1.4.4 and its status shows
 `MU1367-reader-v1.4.4-e` with `total_restarts` and `budget_resets`. The U-turn
 lane bytes (114/146) are unchanged. **Diagnostics > Show integration + guidance + card status**
 also reports the release controller version. The release manifest pins all files.

@@ -18,7 +18,7 @@ STATE=
 test -r $L/STATE && read STATE < $L/STATE
 if test "$STATE" = installed && test ! -e $L/DISABLED && test ! -e /mnt/app/carplaymaps/stock_first/DISABLED \
     && test -r $AA/libgal_hook.so && test -r $AA/libdmdt_flush.so && test -r $AA/gal-hook.conf \
-    && test -r $AA/feeder.conf && test -x $AA/aa-most-feeder && test -x /mnt/app/carplaymaps/altscreen-most-bridge; then
+    && test -r $AA/feeder.conf && test -x $AA/aa-most-feeder && test -x $AA/altscreen-most-bridge-aa; then
     USE=yes
 fi
 echo "hook=$USE state=$STATE" > /ramdisk/carplay-aa-last 2>/dev/null

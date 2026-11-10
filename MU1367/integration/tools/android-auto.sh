@@ -143,11 +143,20 @@ for N in $RUNTIME;do check "$P/$N" "$(expected "$N")" || fail "PAYLOAD_HASH_$N";
 if regular "$ROOT/STATE";then
  case "$(cat "$ROOT/STATE")" in
   installed)
-   [ "$(cat "$ROOT/VERSION" 2>/dev/null)" = "$BUILD" ] || fail OTHER_ANDROID_AUTO_VERSION_UNINSTALL_FIRST
-   if runtime_ok;then echo MU1367_ANDROID_AUTO_ALREADY_INSTALLED;exit 0;fi
+   case "$(cat "$ROOT/VERSION" 2>/dev/null)" in
+    "$BUILD") :;;
+    # Earlier Android Auto builds of this release series: back to the factory gal, then install afresh.
+    @AA_PREVIOUS@)
+     restore >/dev/null || fail PREVIOUS_ANDROID_AUTO_RESTORE_FAILED_RUN_RECOVER
+     echo MU1367_ANDROID_AUTO_PREVIOUS_BUILD_REMOVED_UPGRADING;;
+    *) fail OTHER_ANDROID_AUTO_VERSION_UNINSTALL_FIRST;;
+   esac
+   if [ "$(cat "$ROOT/STATE" 2>/dev/null)" = installed ] && runtime_ok;then echo MU1367_ANDROID_AUTO_ALREADY_INSTALLED;exit 0;fi
    # e.g. after an OEM reset archived /mnt/app/carplaymaps: restore, then install afresh.
-   restore >/dev/null || fail REPAIR_RESTORE_FAILED_RUN_RECOVER
-   echo MU1367_ANDROID_AUTO_INCOMPLETE_RUNTIME_RESTORED_REINSTALLING;;
+   if [ "$(cat "$ROOT/STATE" 2>/dev/null)" = installed ];then
+    restore >/dev/null || fail REPAIR_RESTORE_FAILED_RUN_RECOVER
+    echo MU1367_ANDROID_AUTO_INCOMPLETE_RUNTIME_RESTORED_REINSTALLING
+   fi;;
   removed) :;;
   *) fail INTERRUPTED_INSTALL_RUN_RECOVER;;
  esac

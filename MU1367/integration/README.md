@@ -1,6 +1,9 @@
-# MU1367 / 791 integration v1.5.0-e — experimental
+# MU1367 / 791 integration v1.5.1-e — experimental
 
-This release builds on stable **v1.4.6**. It is **experimental, to be tested**.
+This release updates v1.5.0-e, based on stable **v1.4.6**. It is **experimental, to be tested**.
+
+- **v1.5.1-e:** the Android Auto cluster map no longer freezes after a stream hiccup, and
+  the diagnostics export includes the Android Auto status files.
 
 - **Android Auto on the AID:** the Google Maps picture from an Android phone and
   native VW turn arrows with distance, installed by the same install action as
@@ -16,7 +19,7 @@ experimental status. Only the guidance JAR changes in the CarPlay runtime.
 - [Reader recovery behavior](READER-RECOVERY.md)
 - [Reroute capture analysis](evidence/REROUTE-2026-11-05.md)
 - [Apple Maps / Waze capture analysis](evidence/APP-GUIDANCE-2026-11-04.md)
-- [Release files](../../releases/MU1367/v1.5.0-e/README.md)
+- [Release files](../../releases/MU1367/v1.5.1-e/README.md)
 - [Known issues](KNOWN-ISSUES.md)
 - [Independent OEM reset](RECOVERY.md)
 - [Source, builds and verification](DEVELOPMENT.md)

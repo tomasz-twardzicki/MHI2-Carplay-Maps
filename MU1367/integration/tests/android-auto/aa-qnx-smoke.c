@@ -99,7 +99,7 @@ int main(int argc, char **argv)
     slurp("/ramdisk/status.txt", b, sizeof b);
     printf("--- map on: rc=%d\n%s--- dmdt:\n%s", rc, b, d);
     check(rc == 2, "map on: feeder ran on QNX and ended on the unreachable stream (2)");
-    check(strstr(b, "PMCP AA FEEDER v10-mu1367.1 mode=most") != NULL, "map on: release version, most mode");
+    check(strstr(b, "PMCP AA FEEDER v10-mu1367.2 mode=most") != NULL, "map on: release version, most mode");
     check(strstr(b, "prefs=0 map_mask=1 auto_enable=1 -> map") != NULL, "map on: policy");
     check(strstr(b, "przejety gen=1") != NULL || strstr(b, "oddawane") != NULL, "map on: ring mapped from /dev/shmem");
     check(strcmp(d, "dc 72\nsc 4 72\ndc 70 33\nsc 4 70\n") == 0, "map on: MOST released, then VW restored by the guardian");
@@ -110,6 +110,26 @@ int main(int argc, char **argv)
     printf("--- map off: rc=%d\n%s", rc, b);
     check(strstr(b, "mode=analyze") != NULL && strstr(b, "map_mask=0 auto_enable=1 -> vw") != NULL, "map off: analyze, VW kept");
     check(d[0] == 0 && access(RING, F_OK) != 0, "map off: no dmdt, no ring");
+    /* v1.5.1-e: the Android Auto bridge build loads with the factory libraries and runs to its own exit. Its output
+     * goes to the console (test-aa-feeder-qnx.py checks it): this fixture's RAM disk is smaller than the 16 MB ring,
+     * so it stops at the ring (ENOSPC) and logs its normal completion line; the unit's /ramdisk is 20 MB. */
+    printf("@@AA-BRIDGE-START@@\n"); fflush(stdout);
+    {
+        pid_t c = fork();
+        int st, lfd;
+        if (c == 0) {
+            lfd = -1; (void)lfd;
+            execl("/proc/boot/altscreen-most-bridge-aa", "altscreen-most-bridge-aa", "/ramdisk/bridge-out.ts", (char *)NULL);
+            _exit(126);
+        }
+        ms(1500);
+        kill(c, SIGTERM);
+        for (i = 0; i < 50 && waitpid(c, &st, WNOHANG) == 0; ++i) ms(100);
+        if (i == 50) { kill(c, SIGKILL); waitpid(c, &st, 0); }
+        printf("@@AA-BRIDGE-END@@\n");
+        check(WIFEXITED(st) || WIFSIGNALED(st), "AA bridge: ran and exited");
+        unlink("/ramdisk/carplay-alt-ring.bin");
+    }
     printf(fails ? "AA_FEEDER_QNX_FAIL %d\n" : "AA_FEEDER_QNX_PASS\n", fails);
     return fails != 0;
 }

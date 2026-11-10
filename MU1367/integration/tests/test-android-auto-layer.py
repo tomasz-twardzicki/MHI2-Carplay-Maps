@@ -91,8 +91,8 @@ rc, out, last = wrapper(); check(last.startswith('hook=no'), 'wrapper: CarPlay M
 shutil.rmtree(APP / 'carplaymaps/stock_first')
 os.rename(AA / 'aa-most-feeder', AA / 'x'); rc, out, last = wrapper(); check(last.startswith('hook=no') and 'PRELOAD=factory.so' in out, 'wrapper: missing feeder -> factory gal')
 os.rename(AA / 'x', AA / 'aa-most-feeder')
-os.rename(APP / 'carplaymaps/altscreen-most-bridge', APP / 'carplaymaps/b'); rc, out, last = wrapper(); check(last.startswith('hook=no'), 'wrapper: missing CarPlay bridge -> factory gal')
-os.rename(APP / 'carplaymaps/b', APP / 'carplaymaps/altscreen-most-bridge')
+os.rename(AA / 'altscreen-most-bridge-aa', AA / 'b'); rc, out, last = wrapper(); check(last.startswith('hook=no'), 'wrapper: missing Android Auto bridge -> factory gal')
+os.rename(AA / 'b', AA / 'altscreen-most-bridge-aa')
 os.rename(L / 'gal.real', L / 'g'); bk = (L / 'backup/gal').read_bytes(); stub_real(L / 'backup/gal')
 rc, out, last = wrapper(); check(rc == 0 and 'ARGS=a b c' in out, 'wrapper: run copy missing -> snapshot copy runs')
 (L / 'backup/gal').write_bytes(bk); os.rename(L / 'g', L / 'gal.real')
@@ -123,6 +123,19 @@ check(rc == 0 and sha(GAL) == FACTORY and not (APP / 'carplaymaps').exists(), 'O
 fresh(); ctl('install'); oem_reset(); oem_reinstall_base()
 rc, out = ctl('install'); check(rc == 0 and 'INCOMPLETE_RUNTIME_RESTORED_REINSTALLING' in out and 'INSTALLED_REBOOT_REQUIRED' in out
                                 and all(sha(AA / n) == h for n, h in MAN['files'].items()), 'reinstall after OEM reset repairs the runtime')
+
+# 4b. in-place upgrade of a layer installed by the published v1.5.0-e controller (car units already have one)
+OLD = Path(__file__).resolve().parent / 'revisions/release-v1.5.0-e/carplay_mu1367_android_auto'
+fresh(); OSD = Path('/aa-old-sd'); shutil.rmtree(OSD, ignore_errors=True); shutil.copytree(OLD, OSD); shutil.copy2(A.verifier, OSD / 'verify')
+rc, out = ctl('install', ctl=OSD / 'control.sh')
+old_build = (OSD / 'VERSION').read_text().strip()
+check(rc == 0 and (L / 'VERSION').read_text().strip() == old_build and sha(GAL) != WRAP and sha(GAL) != FACTORY, 'published v1.5.0-e layer installed (old wrapper)')
+rc, out = ctl('install')
+check(rc == 0 and 'PREVIOUS_BUILD_REMOVED_UPGRADING' in out and 'RETAINED_SESSION' in out and 'INSTALLED_REBOOT_REQUIRED' in out
+      and sha(GAL) == WRAP and (L / 'VERSION').read_text().strip() == MAN['build_id'] and all(sha(AA / n) == h for n, h in MAN['files'].items()),
+      'v1.5.0-e layer upgraded in place: factory gal restored first, old snapshot retained')
+check(any(sha(q / 'backup/gal') == FACTORY for q in APP.glob('carplay-mu1367-android-auto.removed-*')), 'old factory snapshot kept')
+rc, out = ctl('uninstall', ctl=L / 'control.sh'); check(rc == 0 and sha(GAL) == FACTORY and runtime_absent(), 'upgraded layer removes cleanly')
 
 # 5. gates change nothing
 fresh(); GAL.write_bytes(b'other'); rc, out = ctl('install')

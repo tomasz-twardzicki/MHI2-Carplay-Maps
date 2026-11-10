@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
-"""Verify experimental v1.5.0-e, its stable v1.4.6 baseline and exact tested artifacts."""
+"""Verify experimental v1.5.1-e, its v1.5.0-e baseline and exact tested artifacts."""
 import argparse,hashlib,json,os,zipfile
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
-# Published stable v1.4.6 ZIP; it is also its verified package.
-BASE_SHA='91d2530c851f086dddc3c30c3ae4faa459ddb3cc7a67b9e802a5120d04b5c96b'
+# Published experimental v1.5.0-e ZIP; it is also its verified package.
+BASE_SHA='497b7cef90074e93f0b2a49899144f55163bca9c0ef421c89e34c75ba063fd47'
+# Main-layer builds of published v1.5.0-e: unchanged, so an installed v1.5.0-e needs no migration.
+V150_MAIN=['mu1367-guidance-v3-02dff707ddd2','mu1367-guidance-v3-6f2421b0eced','mu1367-guidance-v3-aed3f0d88907','mu1367-guidance-v3-2231214c28de']
 BASE_PUBLISHED_SHA=BASE_SHA
-# Runtime payloads v1.5.0-e must leave byte-identical to v1.4.6; the reader is pinned separately.
+# All six runtime payloads stay byte-identical to v1.5.0-e; the reader is pinned separately.
 UNCHANGED={'CarPlayMU1367Audio.jar':'c5a0f63c22b8f9b10fc4b54b8239bea57e2693cbecc15d7d71119e999feefff3',
+ 'CarPlayMU1367Guidance.jar':'0fd03cd1ad9b811553764d35d476408c44da6e7aef4c0a1a2efa48acd71e0f04',
  'base/core.so':'d28b6b71ff83a98e43280a943cf56bd3bc52ee236fc4ed3aa9e1a97fc73e5979','base/VCMenu.jar':'ed60cd274415a13c64ee68819596950ab987bcd462bd0c5aa66a8000edcc6942',
  'tuning/core.so':'cb4468b9d32c7c3787cce278542c19d79bc6e19f36d74a3f5bebdc82579adf39','tuning/VCMenu.jar':'a9c922415596656623f00bd7530bfb42a289bf4bff7da3d3df70cdc562c6674f'}
 AA_PROOFS=('aa_guidance','aa_layer','aa_e2e','aa_feeder_qnx','aa_feeder_host','aa_hook')
@@ -17,7 +20,7 @@ def main():
  p=argparse.ArgumentParser(description=__doc__)
  for n in ('package','base-archive','filesystem','p4521','p4521-inputs','p4521-native','qnx','reader-build','reader-host','reader-qnx','reader-transactions','guidance','guidance-rebuild','guidance-qnx','preflight','png-native','png-tx','aa-feeder-build')+tuple(n.replace('_','-') for n in AA_PROOFS):p.add_argument('--'+n,type=Path,required=True)
  a=p.parse_args();sd=a.package/'sd-card';m=read(a.package/'manifest.json');runtime=read(HERE/'RUNTIME.json')['rebuild'];reader_pin=read(HERE/'READER-RUNTIME.json')
- assert m['version']=='1.5.0-e' and m['experimental'] and m['prerelease'] and m['base_version']=='1.4.6'
+ assert m['version']=='1.5.1-e' and m['experimental'] and m['prerelease'] and m['base_version']=='1.5.0-e' and m['stable_base_version']=='1.4.6'
  for name,h in UNCHANGED.items():assert runtime[name]==h,name
  assert sha(a.base_archive)==m['base_verified_package_sha256']==BASE_SHA and m['base_archive_sha256']==BASE_PUBLISHED_SHA
  assert m['guidance_build']=='MU1367-guidance-v1.5.0-e' and m['reader_build']=='MU1367-reader-v1.4.4-e'
@@ -48,7 +51,8 @@ def main():
  assert proofs['qnx']['main_controller_sha256']==sha(main/'6/control.sh')
  assert proofs['qnx']['tuning_controller_sha256']==sha(tuning/'6/control.sh')
  assert proofs['qnx']['controller_sha256']==sha(sd/'Custom/carplay_mu1367_oem_reset/control.sh')
- assert '1_5_0_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT' in (main/'actions.sh').read_text() and 'carplay_mu1367_artwork_png/control.sh" install' in (main/'actions.sh').read_text()
+ assert '1_5_1_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT' in (main/'actions.sh').read_text()
+ assert [e['build_id'] for e in m['variants'].values()]==V150_MAIN and 'carplay_mu1367_artwork_png/control.sh" install' in (main/'actions.sh').read_text()
  png=sd/'Custom/carplay_mu1367_artwork_png';pm=m['artwork_png']
  assert pm['installed_by_default'] and pm['lossless'] and (png/'VERSION').read_text().strip()==pm['build_id'] and sha(png/'artwork-fetch')==pm['fetch_sha256']
  assert pm['replaces_fetch_sha256']==sha(sd/'Custom/carplay_mu1367_artwork/artwork-fetch')
@@ -64,6 +68,11 @@ def main():
  assert proofs['aa_layer']['controller_sha256']==sha(aa/'control.sh')==proofs['qnx']['android_auto_controller_sha256'] and proofs['qnx']['android_auto_layer_verified']
  assert am['main_versions']==[e['build_id'] for e in m['variants'].values()]
  assert proofs['aa_guidance']['guidance_sha256']==runtime['CarPlayMU1367Guidance.jar'] and proofs['aa_e2e']['acks']==proofs['aa_e2e']['frames_sent']
+ # v1.5.1-e: the Android Auto bridge build keeps delivering after a gap; the CarPlay build waits for a keyframe.
+ rec=proofs['aa_e2e']['bridge_recovery'];assert rec['passed'] and rec['aa_p_slices']>=rec['p_slices_sent']-2 and not rec['aa_idr_request'] and rec['carplay_idr_request']
+ assert am['files']['altscreen-most-bridge-aa']==fb['bridge_sha256']==proofs['aa_feeder_qnx']['bridge_sha256'] and proofs['aa_feeder_qnx']['aa_bridge_ran_on_qnx']
+ assert fb['bridge_source_sha256']==sha(HERE/'src/runtime/vc-runtime/runtime/altscreen_most_bridge.c') and fb['bridge_flags']==['-DALTSCREEN_AA_SINGLE_IDR']
+ assert am['replaces_builds']==['mu1367-android-auto-ee74f406dd94','mu1367-android-auto-e3e4e1ce3a73'] and 'pmcp-aa*' in (sd/'Toolbox/scripts/cpmap_diag.sh').read_text()
  assert 'guidance-evidence.txt' in (main/'actions.sh').read_text()
  assert '@READER_VERSIONS@' not in (main/'actions.sh').read_text()
  factory=read(HERE/'evidence/p4521-factory.json');extracted=read(a.p4521_inputs/'metadata.json');commands=read(HERE/'evidence/p4521-commands.json')
@@ -83,8 +92,8 @@ def main():
   for name in ('core.so','VCMenu.jar'):assert sha(tuning/v/name)==runtime['tuning/'+name]
  assert sha(sd/'Custom/carplay_mu1367_artwork/CarPlayMU1367Audio.jar')==runtime['CarPlayMU1367Audio.jar']
  legacy=read(HERE/'tools/legacy-revisions.json')
- for version in ('1.4.1','1.4.2','1.4.3','1.4.3-e','1.4.4-e','1.4.5-e','1.4.6-e','1.4.6'):
-  rows=[(h,r) for h,r in legacy.items() if r['revision']=='release-v'+version];assert len(rows)==8
+ for version in ('1.4.1','1.4.2','1.4.3','1.4.3-e','1.4.4-e','1.4.5-e','1.4.6-e','1.4.6','test-1.5.0-e-pre'):
+  rows=[(h,r) for h,r in legacy.items() if r['revision']==('test-v1.5.0-e-pre' if version.startswith('test-') else 'release-v'+version)];assert len(rows)==8
   for h,r in rows:
    fixture=HERE/'tests/revisions'/r['revision']/r['layer']/r['variant']
    assert sha(fixture/'control.sh')==h and h in (main/'legacy-check.sh').read_text()
@@ -93,7 +102,7 @@ def main():
   assert z.testzip() is None and len(z.namelist())==len(inventory)+1
   for n,h in inventory.items():assert sha(sd/n)==h==hashlib.sha256(z.read(n)).hexdigest(),n
   changed=[n for n in base.namelist() if base.read(n)!=z.read(n)]
-  allowed={'DEVELOPMENT.md','FILES_SHA256.json','MU1367_RELEASE_MANIFEST.json','README.md','START_HERE.md','RELEASE-NOTES.md','READER-RECOVERY.md','KNOWN-ISSUES.md','NOTICE.md','Toolbox/GEM/carplay-maps-vc.esd','Toolbox/GEM/carplay-maps-vc-tuning.esd'}
+  allowed={'Toolbox/scripts/cpmap_diag.sh',}|{'Custom/carplay_mu1367_android_auto/'+n for n in os.listdir(aa)}|{'DEVELOPMENT.md','FILES_SHA256.json','MU1367_RELEASE_MANIFEST.json','README.md','START_HERE.md','RELEASE-NOTES.md','READER-RECOVERY.md','KNOWN-ISSUES.md','NOTICE.md','Toolbox/GEM/carplay-maps-vc.esd','Toolbox/GEM/carplay-maps-vc-tuning.esd'}
   allowed.update('Custom/'+n+'/payload-check.sh' for n in ('carplay_mu1367_map_only','carplay_mu1367_refinements','carplay_mu1367_guidance_v3'))
   allowed.update('Custom/carplay_mu1367_guidance_v3/'+n for n in ('actions.sh','legacy-check.sh','release-versions.sh'))
   for layer in ('carplay_mu1367_guidance_v3','carplay_mu1367_v3_turn_cards'):
@@ -103,12 +112,12 @@ def main():
     if layer=='carplay_mu1367_guidance_v3':allowed.add('Custom/'+layer+'/'+v+'/CarPlayMU1367Guidance.jar')
   assert set(changed)<=allowed, set(changed)-allowed
   added=set(z.namelist())-set(base.namelist())
-  expected_added={'Custom/carplay_mu1367_android_auto/'+n for n in os.listdir(aa)}|{'Toolbox/scripts/cpmap_suite_aa-disable.sh','Toolbox/scripts/cpmap_suite_aa-enable.sh'}
+  expected_added={'Custom/carplay_mu1367_android_auto/altscreen-most-bridge-aa'}
   assert added==expected_added and set(base.namelist())<=set(z.namelist()),added^expected_added
   assert z.read('Toolbox/scripts/cpmap_reboot.sh')==(HERE/'tools/cpmap_reboot.sh').read_bytes()
   assert 'cpmap_reboot.sh' in z.read('Toolbox/GEM/carplay-maps-vc.esd').decode()
   esd=z.read('Toolbox/GEM/carplay-maps-vc.esd').decode()
-  assert 'v1.5.0-e - EXPERIMENTAL' in esd and 'cpmap_suite_aa-disable.sh' in esd
- result={'passed':True,'version':'1.5.0-e','experimental':True,'prerelease':True,'base_version':'1.4.6','android_auto':am,'base_archive_sha256':BASE_PUBLISHED_SHA,'base_verified_package_sha256':BASE_SHA,'artwork_png':pm,'archive_sha256':sha(archive),'archive_bytes':archive.stat().st_size,'inventory_checks':len(inventory),'supported_firmware':m['supported_firmware'],'runtime_rebuild':runtime,'runtime_changed':['guidance JAR'],'runtime_added':['Android Auto layer: gal wrapper, hook, dmdt_flush, feeder, settings'],'reader_sha256':m['reader_sha256'],'reader_source_sha256':m['reader_source_sha256'],'guidance_build':m['guidance_build'],'reader_build':m['reader_build'],'core_menu_audio_artwork_and_reader_unchanged_from_v146':True,'stream_choices':m['stream_choices'],'guidance_fresh_source_rebuild':True,'factory_arm_j9_guidance_rerun':True,'guidance_hold_ms':m['guidance_hold_ms'],'reader_restart_budget':m['reader_restart_budget'],'p4521_factory_variants_verified':['50','70'],'release_package_vehicle_tested':False,'vehicle_endurance_verified':False,'defaults':m['defaults'],'new_unit_commands':[],'baseline_changed_files':changed,'added_files':sorted(added),'oem_reset_sha256':sha(sd/'Custom/carplay_mu1367_oem_reset/control.sh'),'tests':{'filesystem_cases':proofs['filesystem']['tests'],'migration_combinations':64,'android_auto_layer_checks':proofs['aa_layer']['checks'],'android_auto_e2e_checks':proofs['aa_e2e']['checks'],'android_auto_feeder_qnx_checks':proofs['aa_feeder_qnx']['checks'],'android_auto_feeder_host_checks':proofs['aa_feeder_host']['checks'],'android_auto_mailbox_java_checks':proofs['aa_guidance']['java_checks'],'p4521_cases':3,'reader_host_cases':20,'reader_transaction_cases':3,'guidance_programs':len(proofs['guidance']['results']),'payload_integrity_cases':proofs['preflight']['tests']},'validation_environment':'Host reader/Java tests on macOS; full transactions in disposable Debian 12 aarch64/Python 3.11/ksh93 container without network; native and real firmware shell checks on QNX/QEMU. Mounts mocked.','limits':['No vehicle result for this package, including Android Auto on MU1367.','Android Auto: the hook binary is the pinned upstream build (car-tested on MU1161); the MU1367 feeder, wrapper and layer are tested off-unit only.','Android Auto: no first-step arrow, no remaining distance/time, lanes or road name; 30 fps; a lost picture returns only after the phone reconnects.','An OEM reset run outside the menu leaves the gal wrapper in place (it then runs the factory gal); the saved Android Auto controller restores the file.','Driving-side U-turn lanes are tested off-unit only; no left-hand-traffic capture exists.','The Apple Maps name merge covers names containing the word Apple; flip timing within a route is not captured.','Whether 25 fps reduces stutter is untested; the delivered frame rate may fall with the request.','Stream values 5 and 6 (20 and 27 fps) are unknown to v1.4.5 and older menus.','The 3-minute quiet hold can show a last maneuver for at most that time if an app stops without a route-end state.','P4521 installation remains experimental.','Physical remount/storage and power-loss durability are not established.'],'proofs':{n:{'path':str(getattr(a,n)),'sha256':sha(getattr(a,n)),'result':r} for n,r in proofs.items()},'source_sha256':{str(f.relative_to(HERE)):sha(f) for top in ('src','tools','tests') for f in sorted((HERE/top).rglob('*')) if f.is_file() and f.name!='verify' and '__pycache__' not in f.parts},'verification_script_sha256':sha(Path(__file__))}
- (HERE/'VERIFICATION.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({'passed':True,'version':'1.5.0-e','archive_sha256':sha(archive),'inventory_checks':len(inventory)}))
+  assert 'v1.5.1-e - EXPERIMENTAL' in esd and 'cpmap_suite_aa-disable.sh' in esd
+ result={'passed':True,'version':'1.5.1-e','experimental':True,'prerelease':True,'base_version':'1.5.0-e','android_auto':am,'base_archive_sha256':BASE_PUBLISHED_SHA,'base_verified_package_sha256':BASE_SHA,'artwork_png':pm,'archive_sha256':sha(archive),'archive_bytes':archive.stat().st_size,'inventory_checks':len(inventory),'supported_firmware':m['supported_firmware'],'runtime_rebuild':runtime,'runtime_changed':[],'android_auto_changed':['feeder 10-mu1367.2','own bridge build altscreen-most-bridge-aa (no keyframe wait)','wrapper checks the AA bridge','in-place upgrade of v1.5.0-e layers'],'diagnostics_changed':['export includes /ramdisk/pmcp-aa*'],'reader_sha256':m['reader_sha256'],'reader_source_sha256':m['reader_source_sha256'],'guidance_build':m['guidance_build'],'reader_build':m['reader_build'],'runtime_and_main_layer_unchanged_from_v150e':True,'stream_choices':m['stream_choices'],'guidance_fresh_source_rebuild':True,'factory_arm_j9_guidance_rerun':True,'guidance_hold_ms':m['guidance_hold_ms'],'reader_restart_budget':m['reader_restart_budget'],'p4521_factory_variants_verified':['50','70'],'release_package_vehicle_tested':False,'vehicle_endurance_verified':False,'defaults':m['defaults'],'new_unit_commands':[],'baseline_changed_files':changed,'added_files':sorted(added),'oem_reset_sha256':sha(sd/'Custom/carplay_mu1367_oem_reset/control.sh'),'tests':{'filesystem_cases':proofs['filesystem']['tests'],'migration_combinations':72,'android_auto_layer_checks':proofs['aa_layer']['checks'],'android_auto_e2e_checks':proofs['aa_e2e']['checks'],'android_auto_feeder_qnx_checks':proofs['aa_feeder_qnx']['checks'],'android_auto_feeder_host_checks':proofs['aa_feeder_host']['checks'],'android_auto_mailbox_java_checks':proofs['aa_guidance']['java_checks'],'p4521_cases':3,'reader_host_cases':20,'reader_transaction_cases':3,'guidance_programs':len(proofs['guidance']['results']),'payload_integrity_cases':proofs['preflight']['tests']},'validation_environment':'Host reader/Java tests on macOS; full transactions in disposable Debian 12 aarch64/Python 3.11/ksh93 container without network; native and real firmware shell checks on QNX/QEMU. Mounts mocked.','limits':['No vehicle result for this package, including Android Auto on MU1367.','Android Auto: the hook binary is the pinned upstream build (car-tested on MU1161); the v1.5.0-e feeder and hook were tried in one MU1367 car (map froze, guidance worked); the v1.5.1-e bridge build is tested off-unit only.','The freeze diagnosis rests on code and a host reproduction; the car export lacked the AA bridge counters.','Android Auto: no first-step arrow, no remaining distance/time, lanes or road name; 30 fps; a lost picture returns only after the phone reconnects.','An OEM reset run outside the menu leaves the gal wrapper in place (it then runs the factory gal); the saved Android Auto controller restores the file.','Driving-side U-turn lanes are tested off-unit only; no left-hand-traffic capture exists.','The Apple Maps name merge covers names containing the word Apple; flip timing within a route is not captured.','Whether 25 fps reduces stutter is untested; the delivered frame rate may fall with the request.','Stream values 5 and 6 (20 and 27 fps) are unknown to v1.4.5 and older menus.','The 3-minute quiet hold can show a last maneuver for at most that time if an app stops without a route-end state.','P4521 installation remains experimental.','Physical remount/storage and power-loss durability are not established.'],'proofs':{n:{'path':str(getattr(a,n)),'sha256':sha(getattr(a,n)),'result':r} for n,r in proofs.items()},'source_sha256':{str(f.relative_to(HERE)):sha(f) for top in ('src','tools','tests') for f in sorted((HERE/top).rglob('*')) if f.is_file() and f.name!='verify' and '__pycache__' not in f.parts},'verification_script_sha256':sha(Path(__file__))}
+ (HERE/'VERIFICATION.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({'passed':True,'version':'1.5.1-e','archive_sha256':sha(archive),'inventory_checks':len(inventory)}))
 if __name__=='__main__':main()

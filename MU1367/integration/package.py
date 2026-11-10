@@ -4,10 +4,12 @@ import argparse, hashlib, importlib.util, json, re, shlex, shutil, subprocess, z
 from pathlib import Path
 from tools.payload_checks import write_payload_checks
 HERE=Path(__file__).resolve().parent
-ARCHIVE='CarPlay_Maps_VC_MU1367_791_v1.5.0-e.zip'
-# Published stable v1.4.6 ZIP (its verified package: compressed artwork is built in).
-BASE_ARCHIVE_SHA256='91d2530c851f086dddc3c30c3ae4faa459ddb3cc7a67b9e802a5120d04b5c96b'
+ARCHIVE='CarPlay_Maps_VC_MU1367_791_v1.5.1-e.zip'
+# Published experimental v1.5.0-e ZIP (its verified package).
+BASE_ARCHIVE_SHA256='497b7cef90074e93f0b2a49899144f55163bca9c0ef421c89e34c75ba063fd47'
 BASE_VERIFIED_SHA256=BASE_ARCHIVE_SHA256
+# Android Auto layer builds replaced in place: published v1.5.0-e and the car-tested pre-release build.
+AA_PREVIOUS=('mu1367-android-auto-ee74f406dd94','mu1367-android-auto-e3e4e1ce3a73')
 def sha(f): return hashlib.sha256(f.read_bytes()).hexdigest()
 def toolbox_input(name):
     # The SD's upstream Git attributes belong to its distribution, not this
@@ -19,23 +21,24 @@ def android_auto(sd,custom,feeder_build,main_versions):
     fm=json.loads((feeder_build/'manifest.json').read_text())
     assert fm['passed'] and fm['reproducible'] and sha(feeder_build/'aa-most-feeder')==fm['sha256']
     assert fm['source_sha256']==sha(src/'feeder/aa_most_feeder.c') and fm['aeabi_conv_sha256']==sha(src/'feeder/aeabi_conv.c')
+    assert fm['bridge_sha256']==sha(feeder_build/'altscreen-most-bridge-aa') and fm['bridge_source_sha256']==sha(HERE/'src/runtime/vc-runtime/runtime/altscreen_most_bridge.c')
     runtime={'libgal_hook.so':(src/'prebuilt/libgal_hook.so','644'),'libdmdt_flush.so':(src/'prebuilt/libdmdt_flush.so','644'),
-             'aa-most-feeder':(feeder_build/'aa-most-feeder','755'),'gal-hook.conf':(src/'unit/gal-hook.conf','644'),'feeder.conf':(src/'unit/feeder.conf','644')}
+             'aa-most-feeder':(feeder_build/'aa-most-feeder','755'),'altscreen-most-bridge-aa':(feeder_build/'altscreen-most-bridge-aa','755'),'gal-hook.conf':(src/'unit/gal-hook.conf','644'),'feeder.conf':(src/'unit/feeder.conf','644')}
     for n in ('libgal_hook.so','libdmdt_flush.so'):assert sha(runtime[n][0])==pin[n]['sha256'],n
     files={n:sha(f) for n,(f,_) in runtime.items()};wrapper=src/'unit/gal.wrapper.sh'
     table='FACTORY_GAL='+pin['factory_gal']['sha256']+'\nWRAPPER='+sha(wrapper)+'\nRUNTIME='+shlex.quote(' '.join(runtime))+'\n'
     table+='expected(){ case "$1" in\n'+''.join(' '+n+') echo '+h+';;\n' for n,h in files.items())+' *) return 1;;esac; }\n'
     table+='mode(){ case "$1" in\n'+''.join(' '+n+') echo '+m+';;\n' for n,(_,m) in runtime.items())+' *) return 1;;esac; }\n'
-    code=(HERE/'tools/android-auto.sh').read_text().replace('@TABLE@',table).replace('@MAIN_VERSIONS@','|'.join(main_versions))
+    code=(HERE/'tools/android-auto.sh').read_text().replace('@TABLE@',table).replace('@MAIN_VERSIONS@','|'.join(main_versions)).replace('@AA_PREVIOUS@','|'.join(AA_PREVIOUS))
     build='mu1367-android-auto-'+sha_text(json.dumps({'controller':code,'wrapper':sha(wrapper),'files':files},sort_keys=True))[:12]
-    code=code.replace('@BUILD@',build);assert '@BUILD@' not in code and '@TABLE@' not in code and '@MAIN_VERSIONS@' not in code
+    code=code.replace('@BUILD@',build);assert '@BUILD@' not in code and '@TABLE@' not in code and '@MAIN_VERSIONS@' not in code and '@AA_PREVIOUS@' not in code
     root=custom/'carplay_mu1367_android_auto';root.mkdir()
     (root/'control.sh').write_text(code);(root/'VERSION').write_text(build+'\n')
     shutil.copy2(custom/'carplay_mu1367_artwork/verify',root/'verify');shutil.copy2(wrapper,root/'gal.wrapper.sh')
     for n,(f,_) in runtime.items():shutil.copy2(f,root/n)
     result={'build_id':build,'factory_gal':pin['factory_gal'],'wrapper_sha256':sha(wrapper),'files':files,'main_versions':main_versions,
             'hook':{k:pin['libgal_hook.so'][k] for k in ('sha256','build_tag','vehicle_tested')},'hook_profile':pin['profile']['name'],
-            'feeder_version':'10-mu1367.1','source':{k:pin[k] for k in ('source_repository','source_commit','hook_upstream','hook_upstream_commit')},
+            'feeder_version':'10-mu1367.2','bridge':{'build':'altscreen_most_bridge.c -DALTSCREEN_AA_SINGLE_IDR','sha256':fm['bridge_sha256']},'replaces_builds':list(AA_PREVIOUS),'source':{k:pin[k] for k in ('source_repository','source_commit','hook_upstream','hook_upstream_commit')},
             'on_unit_validated':False}
     (root/'manifest.json').write_text(json.dumps(result,indent=2)+'\n');return result
 def sha_text(t):return hashlib.sha256(t.encode()).hexdigest()
@@ -83,7 +86,7 @@ def main():
     actions=actions[:pos]+'. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n'+actions[pos:]
     # migrate.sh handles both latest and old tuning; the existing gate runs afterwards.
     actions=actions.replace('. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n','. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n'+code+'\n')
-    actions=actions.replace('echo MU1367_GUIDANCE_V3_SUITE_INSTALLED_FULL_REBOOT_REQUIRED','echo MU1367_RELEASE_1_5_0_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED')
+    actions=actions.replace('echo MU1367_GUIDANCE_V3_SUITE_INSTALLED_FULL_REBOOT_REQUIRED','echo MU1367_RELEASE_1_5_1_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED')
     (root/'actions.sh').write_text(actions)
     sh='''# Generated exact identities of supported local revisions. No saved code runs before this gate.
 legacy_check(){
@@ -119,7 +122,7 @@ legacy_check(){
     menu_text=menu.read_text()
     old_banner='MU1367 / 791 v1.4.3 - P4521 experimental'
     assert old_banner in menu_text
-    menu_text=menu_text.replace(old_banner,'MU1367 / 791 v1.5.0-e - EXPERIMENTAL (CarPlay + Android Auto)')
+    menu_text=menu_text.replace(old_banner,'MU1367 / 791 v1.5.1-e - EXPERIMENTAL (CarPlay + Android Auto)')
     # GEM menus are static, so the reboot entry is permanent; the script refuses
     # while an install runs and then uses the Toolbox's own reboot helper.
     install_entry='    label "Reset saved MU UI settings (reboot)"\n'
@@ -135,9 +138,9 @@ legacy_check(){
     wrapper=(sd/'Toolbox/scripts/cpmap_suite_install.sh').read_text()
     assert wrapper.count(' install "$P"')==2
     for act in ('aa-disable','aa-enable'):(sd/'Toolbox/scripts'/('cpmap_suite_'+act+'.sh')).write_text(wrapper.replace(' install "$P"',' '+act+' "$P"'))
-    (sd/'README.md').write_text('# MU1367 / 791 v1.5.0-e — EXPERIMENTAL\n\nBased on stable v1.4.6.\n\nAdds Android Auto to the same installation: the Google Maps picture from an Android phone on the AID and native VW turn arrows with distance, next to every CarPlay feature of v1.4.6. Not yet tested in a car. Start with [START_HERE.md](START_HERE.md) and [RELEASE-NOTES.md](RELEASE-NOTES.md).\n')
+    (sd/'README.md').write_text('# MU1367 / 791 v1.5.1-e — EXPERIMENTAL\n\nBased on stable v1.4.6 and v1.5.0-e.\n\nFixes the Android Auto cluster map freezing until a reconnect. Adds Android Auto to the same installation: the Google Maps picture from an Android phone on the AID and native VW turn arrows with distance, next to every CarPlay feature of v1.4.6. Not yet tested in a car. Start with [START_HERE.md](START_HERE.md) and [RELEASE-NOTES.md](RELEASE-NOTES.md).\n')
     shutil.copy2(HERE/'NOTICE.md',sd/'NOTICE.md')
-    manifest={'version':'1.5.0-e','experimental':True,'prerelease':True,'base_version':'1.4.6','base_archive_sha256':BASE_ARCHIVE_SHA256,'base_verified_package_sha256':BASE_VERIFIED_SHA256,'artwork_png':artwork_png,'android_auto':aa,'reader_build':'MU1367-reader-v1.4.4-e','guidance_hold_ms':180000,'reader_restart_budget':{'per_window':3,'stable_window_ms':600000,'lifetime_ceiling':64,'backoff_ms':[1000,2000,4000]},'reader_sha256':reader['sha256'],'reader_source_sha256':reader['source_sha256'],'experimental_fix':'Android Auto on the AID (Google Maps picture and native VW arrows) in the same installation as CarPlay; vehicle validation pending.','guidance_recover_ms':20000,'guidance_stop_grace_ms':1500,'archive_name':ARCHIVE,'firmware':'K4525 / P4521 MU1367','supported_firmware':[{'train':'MHI2_ER_VWG13_K4525','experimental':False},{'train':'MHI2_ER_VWG13_P4521','experimental':True}],'p4521_prior_experimental_vehicle_tested':True,'p4521_final_package_vehicle_tested':False,'cluster':'791','variants':variants,'tuning_variants':tv,
+    manifest={'version':'1.5.1-e','experimental':True,'prerelease':True,'base_version':'1.5.0-e','stable_base_version':'1.4.6','base_archive_sha256':BASE_ARCHIVE_SHA256,'base_verified_package_sha256':BASE_VERIFIED_SHA256,'artwork_png':artwork_png,'android_auto':aa,'reader_build':'MU1367-reader-v1.4.4-e','guidance_hold_ms':180000,'reader_restart_budget':{'per_window':3,'stable_window_ms':600000,'lifetime_ceiling':64,'backoff_ms':[1000,2000,4000]},'reader_sha256':reader['sha256'],'reader_source_sha256':reader['source_sha256'],'experimental_fix':'Android Auto cluster map no longer freezes after a stream hiccup (own bridge build without keyframe wait); diagnostics export includes the Android Auto status files. Vehicle validation pending.','guidance_recover_ms':20000,'guidance_stop_grace_ms':1500,'archive_name':ARCHIVE,'firmware':'K4525 / P4521 MU1367','supported_firmware':[{'train':'MHI2_ER_VWG13_K4525','experimental':False},{'train':'MHI2_ER_VWG13_P4521','experimental':True}],'p4521_prior_experimental_vehicle_tested':True,'p4521_final_package_vehicle_tested':False,'cluster':'791','variants':variants,'tuning_variants':tv,
         'files':variants['6']['files'],'defaults':{'fps':27,'idr':5,'cards':False,'compressed_artwork':True,'safe_area':[200,96,400,364]},
         'stream_choices':['20 fps / IDR 5','25 fps / IDR 5','27 fps / IDR 5 (default)','30 fps / IDR 5','40 fps / IDR 5'],'stream_values':[5,4,6,2,1],'guidance_build':'MU1367-guidance-v1.5.0-e','mini_pico_card_suppression':False,'inactive_lane_blanks':'OEM behavior',
         'release_package_vehicle_tested':False,'feature_vehicle_results':'See KNOWN-ISSUES.md; final packaging and migration verified off-unit.'}

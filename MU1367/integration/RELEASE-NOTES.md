@@ -1,4 +1,32 @@
-# MU1367 v1.5.0-e — experimental Android Auto on the AID
+# MU1367 v1.5.1-e — experimental: Android Auto cluster map no longer freezes
+
+**EXPERIMENTAL — TO BE TESTED.** Update of v1.5.0-e for **K4525 / P4521 MU1367 + AID
+791**. Use v1.4.6 for a stable CarPlay installation.
+
+- **The Android Auto map on the AID no longer freezes after a hiccup.** The first car
+  test showed native guidance working but the cluster map freezing. The CarPlay map
+  bridge, which v1.5.0-e also used for Android Auto, stops showing new frames after a
+  gap in the stream or a short MOST backlog until the phone sends a new keyframe.
+  CarPlay sends one on request; an Android phone sends only one per connection, so the
+  map stayed frozen until a reconnect. Android Auto now runs its own build of the same
+  bridge that keeps showing frames; CarPlay keeps its bridge unchanged.
+- **Diagnostics export** (Diagnostics > Export diagnostics to SD) now includes the
+  Android Auto feeder, bridge and session summaries (`pmcp-aa-*`) and the Android Auto
+  layer state.
+- **Updating from v1.5.0-e** replaces only the Android Auto files: the factory `gal`
+  comes back from its snapshot first, then the new layer is installed. The CarPlay
+  layers are already up to date, so no extra reboot stage is needed. An installed
+  pre-release test build of v1.5.0-e goes through the usual removal → full reboot →
+  install sequence.
+
+The car log also showed USB errors (`CRC_ERR|STALL`) that disconnected the phone twice,
+and the phone's main-screen Android Auto video ran at 13–17 fps. Use a short, good data
+cable; a weak USB link can make the picture stutter on its own.
+
+CarPlay runtime, guidance, compressed artwork and the main layers are byte-identical to
+v1.5.0-e.
+
+# Earlier: v1.5.0-e — experimental Android Auto on the AID
 
 **EXPERIMENTAL — TO BE TESTED.** Based on stable v1.4.6, for **K4525 / P4521 MU1367 +
 AID 791**. P4521 installation remains experimental. This package has **no vehicle

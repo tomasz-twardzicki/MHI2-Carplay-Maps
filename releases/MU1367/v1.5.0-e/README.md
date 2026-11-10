@@ -1,5 +1,7 @@
 # MU1367 v1.5.0-e — experimental Android Auto on the AID
 
+**Replaced by [v1.5.1-e](../v1.5.1-e/README.md)**, which fixes the Android Auto cluster map freezing; this release is no longer offered for download.
+
 **EXPERIMENTAL — TO BE TESTED.** Based on stable **v1.4.6**, for **K4525 / P4521 MU1367 +
 AID 791**. P4521 installation retains its experimental status. This package has **no
 vehicle result yet**. Use v1.4.6 for a stable CarPlay installation.

@@ -2,8 +2,8 @@
 
 Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
 
-**Pre-release to test: [v1.5.0-e](../releases/MU1367/v1.5.0-e/README.md)** adds
-**Android Auto** to the same installation: the Google Maps picture from an Android phone
+**Pre-release to test: [v1.5.1-e](../releases/MU1367/v1.5.1-e/README.md)** adds
+**Android Auto** (with the cluster-map freeze of v1.5.0-e fixed) to the same installation: the Google Maps picture from an Android phone
 on the AID and native VW turn arrows, next to every CarPlay feature of v1.4.6.
 
 **Current stable release: [v1.4.6](../releases/MU1367/v1.4.6/README.md)** — U-turn

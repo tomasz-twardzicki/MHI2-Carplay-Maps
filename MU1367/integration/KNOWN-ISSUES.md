@@ -6,9 +6,12 @@
   trains' factory `gal` exactly and was car-tested upstream; the hook + feeder +
   route path was car-tested on MU1161 / AID 791 by chrzanowy/mhi2-aid-carplay.
 - The stream starts about 5 s after the phone connects. The phone sends one key
-  frame per session, so a picture the AID loses (dark start, loading screen) stays
-  lost until the phone reconnects. Asking the phone for a new key frame breaks its
-  session, so the feeder does not do it.
+  frame per session and asking for another breaks its session. v1.5.1-e's Android
+  Auto bridge therefore keeps showing frames after a gap or MOST backlog instead of
+  waiting for a key frame (v1.5.0-e froze there until a reconnect); such a moment may
+  show brief artifacts instead. A dark start still needs a reconnect.
+- First car test (Huawei VOG-L29): USB `CRC_ERR|STALL` disconnects and 13–17 fps on
+  the main screen. A weak USB link limits both Android Auto video streams.
 - No VW arrow for the first ("depart") step; no remaining distance, arrival time,
   lanes or road name from Android Auto. Track title and artwork stay CarPlay-only.
 - The MU menu frame-rate and turn-card settings do not apply to Android Auto

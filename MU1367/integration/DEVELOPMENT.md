@@ -158,6 +158,22 @@ mock mounts and do not establish vehicle endurance or power-loss durability.
 The earlier v1.4.1-only standalone reader test is historical; this experimental
 release uses the integrated builder above.
 
+## Experimental v1.5.1-e Android Auto bridge
+
+Car test 2026-11-10 (`Logs/AA`): guidance worked, the cluster map froze. The MU1367
+bridge's `process_frame` enters low-latency recovery on a source-sequence gap or a backlog
+over `TS_LOW_LATENCY_LIMIT_PACKETS`, then discards frames until a keyframe and requests one;
+the AA feeder never forwards that request. `-DALTSCREEN_AA_SINGLE_IDR` builds
+`altscreen-most-bridge-aa` (by `tools/build-aa-feeder.py`), which logs and counts
+(`aa-chain-gap-kept`, `aa-backlog-kept`) and keeps forwarding. The feeder (v10-mu1367.2)
+starts it from `carplaymaps/aa`, and matches CarPlay's bridge by exact program name.
+`tests/android-auto/e2e/bridge_recovery.py` runs both builds after a sequence gap
+(CarPlay 29/89 P slices and an IDR request; AA 89/89, none). `cpmap_diag.sh` exports
+`/ramdisk/pmcp-aa*`. The AA controller upgrades layers of the builds in `AA_PREVIOUS`
+(published v1.5.0-e and the car-tested pre-release build, whose main controllers are
+`tests/revisions/test-v1.5.0-e-pre`) in place. Main layers and all six runtime payloads are
+unchanged from v1.5.0-e.
+
 ## Experimental v1.5.0-e Android Auto
 
 Based on the published stable v1.4.6 archive `91d2530c…`. Analysis of chrzanowy/mhi2-aid-carplay `af98480` for MU1367:

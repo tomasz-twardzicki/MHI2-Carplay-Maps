@@ -121,7 +121,7 @@ echo RELEASE_FACTORY_ANDROID_AUTO_INSTALL_PASS
 "$P/verify" "$APP/carplay-mu1367-artwork/artwork-fetch" @PNG_FETCH@ || exit 86
 echo RELEASE_FACTORY_DEFAULT_ARTWORK_PNG_PASS
 test ! -e "$CPMAP_TEST_ROOT/ramdisk/.cpmap-install-running" || exit 86
-if grep REBOOT_REQUIRED /ramdisk/install-out | grep -v RELEASE_1_5_0_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED;then exit 86;fi
+if grep REBOOT_REQUIRED /ramdisk/install-out | grep -v RELEASE_1_5_1_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED;then exit 86;fi
 if echo x | { IFS= read -r L; exit 1; };then exit 87;fi
 echo RELEASE_FACTORY_PROGRESS_PASS
 /bin/ksh "$P/actions.sh" enable-cards "$P" || exit 83

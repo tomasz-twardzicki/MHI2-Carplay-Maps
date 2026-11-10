@@ -352,6 +352,13 @@ static int request_fresh_idr(void)
     return 0;
 }
 
+#ifdef ALTSCREEN_AA_SINGLE_IDR
+/* Android Auto build (v1.5.0-e): the phone sends one IDR per connection and cannot be asked for another
+ * without breaking its session, so waiting for a keyframe freezes the cluster map until a reconnect.
+ * The feeder paces its input below the MOST rate; a gap or backlog is counted and logged, frames keep flowing. */
+static unsigned long g_aa_gaps, g_aa_backlogs;
+#endif
+
 static void enter_low_latency_recovery(size_t queued_packets,
                                        uint32_t sequence,
                                        uint64_t now_us)
@@ -1094,6 +1101,19 @@ static int process_frame(AvcConfig *config, const uint8_t *data, size_t size,
     sequence_restart = sequence <= 2U && g_last_sequence > 100U;
     sequence_gap = g_last_sequence != 0U && !sequence_restart &&
                    sequence != g_last_sequence + 1U;
+#ifdef ALTSCREEN_AA_SINGLE_IDR
+    if (sequence_restart || sequence_gap) {
+        ++g_aa_gaps;
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                "bridge: aa-chain-gap-kept previous=%u current=%u restart=%d gaps=%lu\n",
+                g_last_sequence, sequence, sequence_restart, g_aa_gaps);
+    }
+    if (queued_packets > TS_LOW_LATENCY_LIMIT_PACKETS && (g_aa_backlogs++ % 30U) == 0U)
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                "bridge: aa-backlog-kept sequence=%u queued=%lu limit=%u backlogs=%lu\n",
+                sequence, (unsigned long)queued_packets,
+                (unsigned)TS_LOW_LATENCY_LIMIT_PACKETS, g_aa_backlogs);
+#else
     if (!g_waiting_for_keyframe && (sequence_restart || sequence_gap)) {
         cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
                 "bridge: predictive-chain-gap previous=%u current=%u restart=%d\n",
@@ -1105,6 +1125,7 @@ static int process_frame(AvcConfig *config, const uint8_t *data, size_t size,
         queued_packets > TS_LOW_LATENCY_LIMIT_PACKETS) {
         enter_low_latency_recovery(queued_packets, sequence, now_us);
     }
+#endif
     if (g_waiting_for_keyframe && !writer_recovered_after_reset()) {
         ++g_latency_frames_discarded;
         g_last_sequence = sequence;

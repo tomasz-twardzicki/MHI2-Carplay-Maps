@@ -23,6 +23,8 @@ def main():
     assert sha(out / 'libc.so.3') == m['factory_libraries']['proc/boot/libc.so.3']
     assert sha(out / 'libsocket.so.3') == m['factory_libraries']['lib/libsocket.so.3']
     shutil.copy2(feeder, out / 'aa-most-feeder')
+    shutil.copy2(a.build / 'altscreen-most-bridge-aa', out / 'altscreen-most-bridge-aa')
+    assert sha(out / 'altscreen-most-bridge-aa') == m['bridge_sha256']
     body = b'format=3\nvc_map_mask=0\nvc_mirror_mask=0\ncarplay_information=0\ngeneration=7\n'
     flags = ['--target=armv7-none-eabi', '-D__QNXNTO__', '-D__QNX__', '-D__ARM__', '-D__LITTLEENDIAN__', '--sysroot=' + str(a.build.resolve()),
              '-isystem', str(a.build.resolve() / 'sdk-include'), '-march=armv7-a', '-mfloat-abi=softfp', '-mno-unaligned-access',
@@ -40,7 +42,7 @@ def main():
     t = t.replace(' display_msg "@@C4-START@@"\n /proc/boot/c4-smoke\n display_msg "@@C4-END@@"\n',
                   ' display_msg "@@C4-START@@"\n /proc/boot/aa-qnx-smoke\n display_msg "@@C4-END@@"\n')
     assert '/proc/boot/aa-qnx-smoke' in t and 'c4-smoke' in t
-    t = t.replace('\nc4-smoke\nrgi-observer\n', '\nc4-smoke\naa-qnx-smoke\naa-dmdt-stub\naa-bridge-stub\naa-most-feeder\nlibsocket.so.3\n')
+    t = t.replace('\nc4-smoke\nrgi-observer\n', '\nc4-smoke\naa-qnx-smoke\naa-dmdt-stub\naa-bridge-stub\naa-most-feeder\naltscreen-most-bridge-aa\nlibsocket.so.3\n')
     t = t.replace('[type=link] /usr/lib/ldqnx.so.2=/proc/boot/libc.so.3\n',
                   '[type=link] /usr/lib/ldqnx.so.2=/proc/boot/libc.so.3\n[type=link] /lib/libsocket.so.3=/proc/boot/libsocket.so.3\n')
     assert 'aa-most-feeder' in t and 'rgi-observer' not in t
@@ -78,8 +80,10 @@ mv ifs.bin fat/
             except subprocess.TimeoutExpired: proc.kill(); proc.wait()
     log = logpath.read_text(errors='replace')
     assert 'AA_FEEDER_QNX_PASS' in log, log[-5000:]
-    r = {'passed': True, 'feeder_sha256': sha(feeder), 'factory_libc_sha256': sha(out / 'libc.so.3'),
-         'factory_libsocket_sha256': sha(out / 'libsocket.so.3'), 'checks': log.count('ok    '),
+    seg = log[log.index('@@AA-BRIDGE-START@@'):log.index('@@AA-BRIDGE-END@@')]
+    assert 'bridge: complete frames=0' in seg and ('bridge: shared ring /ramdisk/carplay-alt-ring.bin' in seg or 'No space left on device' in seg), seg
+    r = {'passed': True, 'feeder_sha256': sha(feeder), 'bridge_sha256': m['bridge_sha256'], 'factory_libc_sha256': sha(out / 'libc.so.3'),
+         'factory_libsocket_sha256': sha(out / 'libsocket.so.3'), 'checks': log.count('ok    '), 'aa_bridge_ran_on_qnx': True, 'aa_bridge_console': seg.strip().splitlines(),
          'qemu_log_sha256': sha(logpath), 'test_sha256': sha(Path(__file__)), 'on_unit_validated': False}
     (out / 'result.json').write_text(json.dumps(r, indent=2) + '\n'); print(json.dumps(r))
 

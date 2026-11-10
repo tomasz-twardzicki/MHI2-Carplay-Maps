@@ -91,6 +91,9 @@
  *     lock on /ramdisk/cpmap-video-cache.lock (PMCP_AA_CACHE_LOCK), as the MU1367 bridge and CarPlay producer do.
  *     The MU1367 cluster supervisor removes the 16 MB ring only under the exclusive lock while CarPlay is idle,
  *     so it can never unlink the ring between this feeder's reset/map and the bridge's own lease.
+ *   - v10-mu1367.2: starts its own bridge build, /mnt/app/carplaymaps/aa/altscreen-most-bridge-aa
+ *     (altscreen_most_bridge.c with ALTSCREEN_AA_SINGLE_IDR): a sequence gap or MOST backlog no longer makes it
+ *     wait for a keyframe the phone never sends (the cluster map froze until a reconnect, car test 2026-11-10).
  *   - cluster map policy: MOST is taken only when the MU menu requests the cluster map (the supervisor's
  *     cpvc_video_requested() rules: valid preferences with map bit 1 and CLUSTER_AUTO_ENABLE present). Otherwise
  *     the session runs as "analyze" and the AID keeps its VW content. PMCP_AA_PREF_DIR / PMCP_AA_AUTO_ENABLE are
@@ -131,7 +134,7 @@
 #define CPVC_PREF_DIR "/mnt/icab/persistent/cpmap-ui"   /* cpvc_authorized_runtime.h */
 #endif
 
-#define FEEDER_VERSION "10-mu1367.1"
+#define FEEDER_VERSION "10-mu1367.2"
 
 #define RING_MAGIC      0x43505247u
 #define RING_VERSION    1u
@@ -711,7 +714,11 @@ static int pid_is(long pid, const char *name)
     close(fd);
     if (n <= 0) return -1;
     exe[n] = '\0';
-    return strstr(exe, name) != NULL;
+    while (n > 0 && (exe[n - 1] == '\n' || exe[n - 1] == '\0')) exe[--n] = '\0';
+    {   /* MU1367: exact program name, so the Android Auto bridge (altscreen-most-bridge-aa) is not CarPlay's */
+        const char *base = strrchr(exe, '/');
+        return strcmp(base != NULL ? base + 1 : exe, name) == 0;
+    }
 }
 
 /* A live altscreen-most-bridge other than pid `ours`? 1 yes, 0 no, -1 unknown (no /proc). */
@@ -1545,7 +1552,7 @@ int main(int argc, char **argv)
     if (strcmp(g_mode, "most") == 0 && !map_requested()) g_mode = "analyze";   /* MU1367: MU menu map off */
     g_status_path = env_or("PMCP_AA_STATUS", "/ramdisk/pmcp-aa-feeder.txt");
     g_ring_path = env_or("PMCP_AA_RING", "/ramdisk/carplay-alt-ring.bin");
-    g_bridge_path = env_or("PMCP_AA_BRIDGE", "/mnt/app/carplaymaps/altscreen-most-bridge");
+    g_bridge_path = env_or("PMCP_AA_BRIDGE", "/mnt/app/carplaymaps/aa/altscreen-most-bridge-aa");
     g_dmdt_path = env_or("PMCP_AA_DMDT", "/eso/bin/apps/dmdt");
     g_ack_path = env_or("PMCP_AA_ACK", "/tmp/gal_ack.sock");
     g_flush_dev = env_or("PMCP_AA_FLUSH_DEV", "/dev/mlb/debug/isoTX2");

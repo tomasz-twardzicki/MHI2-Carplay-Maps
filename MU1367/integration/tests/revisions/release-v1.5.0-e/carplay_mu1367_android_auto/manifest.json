@@ -1,0 +1,39 @@
+{
+  "build_id": "mu1367-android-auto-ee74f406dd94",
+  "factory_gal": {
+    "sha256": "f84722179cbfb3c0bb92589e0fc58ffcfc3cc0860fabcdf426955e58d900daa0",
+    "size": 1269211,
+    "trains": [
+      "MHI2_ER_VWG13_K4525",
+      "MHI2_ER_VWG13_P4521"
+    ]
+  },
+  "wrapper_sha256": "7483fd2637f6c6ea892dde1cd042695b58419c9d93ec802bc60571b41adda972",
+  "files": {
+    "libgal_hook.so": "bdd76a85f22319c9750f7c55849b4053d4ce365446559025195673677bc73b05",
+    "libdmdt_flush.so": "4e3202f0f41b5ad5a96d86ff49adbe574ce550f7b168c9a5f385069ca0e5222f",
+    "aa-most-feeder": "416fc266867dca79a2e47203f543a303d3a584b8b847c70a420beadc10000570",
+    "gal-hook.conf": "716516eb36b50f7b7230ff36ad8057713ba2b1c97c2fd0b55afe2c8f17559173",
+    "feeder.conf": "ac7157dabd7ae3ec61e8b9c453451b5716154b2b068d552dd96a94a83852e75d"
+  },
+  "main_versions": [
+    "mu1367-guidance-v3-02dff707ddd2",
+    "mu1367-guidance-v3-6f2421b0eced",
+    "mu1367-guidance-v3-aed3f0d88907",
+    "mu1367-guidance-v3-2231214c28de"
+  ],
+  "hook": {
+    "sha256": "bdd76a85f22319c9750f7c55849b4053d4ce365446559025195673677bc73b05",
+    "build_tag": "07361db-pmcp-g2",
+    "vehicle_tested": "MU1161 / P4512, AID 791 (upstream); not on MU1367"
+  },
+  "hook_profile": "MHI2_ER_VWG13_P4521",
+  "feeder_version": "10-mu1367.1",
+  "source": {
+    "source_repository": "https://github.com/chrzanowy/mhi2-aid-carplay",
+    "source_commit": "af98480112937b908b7604379fa35e0ddd64fcb4",
+    "hook_upstream": "https://github.com/MacsInSpace/mib-cluster-map",
+    "hook_upstream_commit": "07361db860b1d09e3901e9002b4222889a8a8c18"
+  },
+  "on_unit_validated": false
+}
