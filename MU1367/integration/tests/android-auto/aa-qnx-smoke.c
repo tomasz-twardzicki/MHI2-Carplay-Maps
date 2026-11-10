@@ -113,22 +113,30 @@ int main(int argc, char **argv)
     /* v1.5.1-e: the Android Auto bridge build loads with the factory libraries and runs to its own exit. Its output
      * goes to the console (test-aa-feeder-qnx.py checks it): this fixture's RAM disk is smaller than the 16 MB ring,
      * so it stops at the ring (ENOSPC) and logs its normal completion line; the unit's /ramdisk is 20 MB. */
-    printf("@@AA-BRIDGE-START@@\n"); fflush(stdout);
+    /* v1.5.1-e: the CarPlay build of the same source (boot-time MOST reclaim) as well. */
     {
-        pid_t c = fork();
-        int st, lfd;
-        if (c == 0) {
-            lfd = -1; (void)lfd;
-            execl("/proc/boot/altscreen-most-bridge-aa", "altscreen-most-bridge-aa", "/ramdisk/bridge-out.ts", (char *)NULL);
-            _exit(126);
+        static const char *const names[2] = {"altscreen-most-bridge-aa", "altscreen-most-bridge"};
+        static const char *const tags[2] = {"AA", "CP"};
+        unsigned int k;
+        for (k = 0; k < 2U; ++k) {
+            char path[96];
+            pid_t c;
+            int st = 0;
+            snprintf(path, sizeof path, "/proc/boot/%s", names[k]);
+            printf("@@%s-BRIDGE-START@@\n", tags[k]); fflush(stdout);
+            c = fork();
+            if (c == 0) {
+                execl(path, names[k], "/ramdisk/bridge-out.ts", (char *)NULL);
+                _exit(126);
+            }
+            ms(1500);
+            kill(c, SIGTERM);
+            for (i = 0; i < 50 && waitpid(c, &st, WNOHANG) == 0; ++i) ms(100);
+            if (i == 50) { kill(c, SIGKILL); waitpid(c, &st, 0); }
+            printf("@@%s-BRIDGE-END@@\n", tags[k]);
+            check((WIFEXITED(st) && WEXITSTATUS(st) != 126) || WIFSIGNALED(st), k ? "CarPlay bridge: ran and exited" : "AA bridge: ran and exited");
+            unlink("/ramdisk/carplay-alt-ring.bin");
         }
-        ms(1500);
-        kill(c, SIGTERM);
-        for (i = 0; i < 50 && waitpid(c, &st, WNOHANG) == 0; ++i) ms(100);
-        if (i == 50) { kill(c, SIGKILL); waitpid(c, &st, 0); }
-        printf("@@AA-BRIDGE-END@@\n");
-        check(WIFEXITED(st) || WIFSIGNALED(st), "AA bridge: ran and exited");
-        unlink("/ramdisk/carplay-alt-ring.bin");
     }
     printf(fails ? "AA_FEEDER_QNX_FAIL %d\n" : "AA_FEEDER_QNX_PASS\n", fails);
     return fails != 0;

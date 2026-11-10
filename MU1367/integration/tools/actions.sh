@@ -104,6 +104,10 @@ retain_removed(){
  case "$(cat "$R/VERSION")" in
  @READER_VERSIONS@) KEYS="$KEYS reader";;
  esac
+ # v1.5.1-e main snapshots also own the CarPlay video bridge.
+ case "$(cat "$R/VERSION")" in
+ @BRIDGE_VERSIONS@) KEYS="$KEYS bridge";;
+ esac
  for K in $KEYS;do
   regular "$R/backup/$K" && regular "$R/backup/$K.sha256" || fail SNAPSHOT_HASH_MISSING
   "$P/verify" "$R/backup/$K" "$(cat "$R/backup/$K.sha256")" || fail REMOVED_SNAPSHOT_DAMAGED

@@ -21,11 +21,17 @@ class Suite(parent.Suite):
         values['carplay-mu1367-guidance-v3/control.sh']=(sha(p.read_bytes()),p.stat().st_mode&0o777) if p.is_file() else None
         p=root/'mnt/app/carplay-mu1367/rgi-observer'
         values['carplay-mu1367/rgi-observer']=(sha(p.read_bytes()),p.stat().st_mode&0o777) if p.is_file() else None
+        # v1.5.1-e: the main layer owns the CarPlay video bridge.
+        p=root/'mnt/app/carplaymaps/altscreen-most-bridge'
+        values['carplaymaps/altscreen-most-bridge']=(sha(p.read_bytes()),p.stat().st_mode&0o777) if p.is_file() else None
         return values
     def expected(self,variant='6'):
         super().expected(variant)
         m=json.loads((self.p/variant/'manifest.json').read_text())
         self.assertEqual(sha((self.app/'carplay-mu1367/rgi-observer').read_bytes()),m['files']['reader'])
+        b=self.app/'carplaymaps/altscreen-most-bridge'
+        self.assertEqual(sha(b.read_bytes()),m['files']['bridge']);self.assertEqual(b.stat().st_mode&0o777,0o755)
+        self.assertEqual(m['before']['bridge'],'6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35')
     def saved(self,action,success=True,name='guidance-v3'):
         return self.run_script(self.app/('carplay-mu1367-'+name)/'control.sh',[action],success)
     def v2(self,v='6'):
@@ -66,7 +72,7 @@ class Suite(parent.Suite):
                 self.saved('uninstall',name='android-auto');self.saved('uninstall');self.compare_without_v3(before)
     def test_v3_commit_faults_restore_parent_and_runtime(self):
         self.v2();before=self.runtime(self.root)
-        for dest in ('carplaymaps/core.so','eso/hmi/lsd/jars/CarPlayMU1367Guidance.jar','eso/hmi/lsd/jars/VCMenu.jar','carplay-mu1367/rgi-observer','carplay-mu1367-map-only/control.sh'):
+        for dest in ('carplaymaps/core.so','eso/hmi/lsd/jars/CarPlayMU1367Guidance.jar','eso/hmi/lsd/jars/VCMenu.jar','carplay-mu1367/rgi-observer','carplaymaps/altscreen-most-bridge','carplay-mu1367-map-only/control.sh'):
             with self.subTest(target=dest):
                 tools=Path(self.tmp.name)/('fault-'+str(abs(hash(dest))));tools.mkdir();once=tools/'once';target=self.app/dest
                 (tools/'mv').write_text('#!/bin/ksh\nif [ "$2" = '+shlex.quote(str(target))+' ] && [ ! -f '+shlex.quote(str(once))+' ];then : > '+shlex.quote(str(once))+';exit 1;fi\nexec '+shlex.quote(shutil.which('mv'))+' "$@"\n');(tools/'mv').chmod(0o755)
@@ -124,7 +130,7 @@ class Suite(parent.Suite):
         f=self.root/'ramdisk/.cpmap-release-migration-reboot'
         if f.exists():f.unlink()
     def test_release_supported_revision_migrations(self):
-        cases=[(release,v,t) for release in ('release-v1.4.1','release-v1.4.2','release-v1.4.3','release-v1.4.3-e','release-v1.4.4-e','release-v1.4.5-e','release-v1.4.6-e','release-v1.4.6','test-v1.5.0-e-pre') for v in ('6','7','6-road','7-road') for t in (False,True)]+[('guidance-v3','6',False),('lane-window','6',False),('lane-type','6',False),
+        cases=[(release,v,t) for release in ('release-v1.4.1','release-v1.4.2','release-v1.4.3','release-v1.4.3-e','release-v1.4.4-e','release-v1.4.5-e','release-v1.4.6-e','release-v1.4.6','test-v1.5.0-e-pre','release-v1.5.0-e') for v in ('6','7','6-road','7-road') for t in (False,True)]+[('guidance-v3','6',False),('lane-window','6',False),('lane-type','6',False),
                ('safe-area','6',False),('safe-area','7',False),('safe-area','6-road',False),
                ('safe-area','7-road',False),('safe-area','6',True)]
         for revision,variant,tuning in cases:
@@ -144,6 +150,26 @@ class Suite(parent.Suite):
                 self.assertEqual(len(archives),1);self.assertEqual((archives[0]/'VERSION').read_text(),version)
                 self.assertEqual({f.name:sha(f.read_bytes()) for f in (archives[0]/'backup').iterdir()},backups)
                 after=self.runtime(self.root);self.action('install');self.assertEqual(after,self.runtime(self.root))
+    def test_release_published_v151e_with_android_auto_migrates(self):
+        # Units on the first published v1.5.1-e: its main layer (= v1.5.0-e) plus its Android Auto layer.
+        for variant in ('6','7-road'):
+            with self.subTest(variant=variant):
+                shutil.rmtree(self.root);shutil.copytree(self.seed,self.root)
+                self.v2(variant);self.revision('release-v1.5.0-e',variant)
+                bridge=self.app/'carplaymaps/altscreen-most-bridge';old_bridge=sha(bridge.read_bytes())
+                self.assertEqual(old_bridge,'6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35')
+                gal=self.app/'eso/bin/apps/gal';factory_gal=sha(gal.read_bytes())
+                aa=self.revisions/'release-v1.5.1-e/carplay_mu1367_android_auto'
+                self.run_script(aa/'control.sh',['install',aa])
+                layer=self.app/'carplay-mu1367-android-auto'
+                self.assertEqual((layer/'STATE').read_text().strip(),'installed');self.assertNotEqual(sha(gal.read_bytes()),factory_gal)
+                stage=self.action('install');self.assertIn('MIGRATION_BASE_RESTORED',stage)
+                self.assertEqual((layer/'STATE').read_text().strip(),'removed');self.assertEqual(sha(gal.read_bytes()),factory_gal)
+                self.assertEqual(sha(bridge.read_bytes()),old_bridge)
+                self.reboot();out=self.action('install');self.assertIn('RELEASE_1_5_1_E_EXPERIMENTAL_INSTALLED',out);self.expected(variant);self.progress(out,3)
+                self.assertEqual((self.app/'carplay-mu1367-android-auto/STATE').read_text().strip(),'installed')
+                # Removal in the documented order restores the upstream bridge and the factory gal.
+                self.action('uninstall');self.assertEqual(sha(bridge.read_bytes()),old_bridge);self.assertEqual(sha(gal.read_bytes()),factory_gal)
     def test_install_running_marker_and_reboot_unit(self):
         script=ARGS.package/'sd-card/Toolbox/scripts/cpmap_reboot.sh'
         helper=Path(self.tmp.name)/'fake-reboot.sh';helper.write_text('echo FAKE_REBOOT_HELPER_RAN\n')

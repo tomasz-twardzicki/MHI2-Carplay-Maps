@@ -69,22 +69,30 @@ def main():
     (out / 'aa-most-feeder').write_bytes(built[0]); (out / 'aa-most-feeder').chmod(0o755)
     needed, imports = check(built[0], libs)
     # v1.5.0-e: the Android Auto build of the MU1367 bridge (no keyframe wait, ALTSCREEN_AA_SINGLE_IDR).
+    # v1.5.1-e: the CarPlay build of the same source (boot-time MOST reclaim), installed by the main layer.
     bsrc = HERE / 'src/runtime/vc-runtime/runtime/altscreen_most_bridge.c'
-    bridge = []
-    for n in (1, 2):
-        subprocess.run(['clang', *flags, '-DALTSCREEN_AA_SINGLE_IDR', '-c', str(bsrc), '-o', str(out / ('bridge%d.o' % n))], check=True)
-        subprocess.run(['clang', *flags, '-c', str(conv), '-o', str(out / ('bconv%d.o' % n))], check=True)
-        subprocess.run(docker + ['run', '--rm', '--pull=never', '--network=none', '-v', str(out) + ':/w', image, 'sh', '-c',
-                       'arm-unknown-nto-qnx6.5.0eabi-ld -m armnto -Qy --dynamic-linker /usr/lib/ldqnx.so.2 -L%s %s/crt1.o '
-                       '%s/crti.o %s/crtbegin.o /w/bridge%d.o /w/bconv%d.o -lsocket -lc %s/crtend.o %s/crtn.o -o /w/altscreen-most-bridge-aa.%d && '
-                       'arm-unknown-nto-qnx6.5.0eabi-strip /w/altscreen-most-bridge-aa.%d' % (lib, lib, lib, lib, n, n, lib, lib, n, n)], check=True)
-        bridge.append((out / ('altscreen-most-bridge-aa.%d' % n)).read_bytes())
-    assert bridge[0] == bridge[1], 'two bridge builds differ'
-    (out / 'altscreen-most-bridge-aa').write_bytes(bridge[0]); (out / 'altscreen-most-bridge-aa').chmod(0o755)
-    bneeded, bimports = check(bridge[0], libs)
+    def build_bridge(name, extra):
+        built = []
+        for n in (1, 2):
+            subprocess.run(['clang', *flags, *extra, '-c', str(bsrc), '-o', str(out / ('%s%d.o' % (name, n)))], check=True)
+            subprocess.run(['clang', *flags, '-c', str(conv), '-o', str(out / ('%s-conv%d.o' % (name, n)))], check=True)
+            subprocess.run(docker + ['run', '--rm', '--pull=never', '--network=none', '-v', str(out) + ':/w', image, 'sh', '-c',
+                           'arm-unknown-nto-qnx6.5.0eabi-ld -m armnto -Qy --dynamic-linker /usr/lib/ldqnx.so.2 -L%s %s/crt1.o '
+                           '%s/crti.o %s/crtbegin.o /w/%s%d.o /w/%s-conv%d.o -lsocket -lc %s/crtend.o %s/crtn.o -o /w/%s.%d && '
+                           'arm-unknown-nto-qnx6.5.0eabi-strip /w/%s.%d' % (lib, lib, lib, lib, name, n, name, n, lib, lib, name, n, name, n)], check=True)
+            built.append((out / ('%s.%d' % (name, n))).read_bytes())
+        assert built[0] == built[1], 'two %s builds differ' % name
+        (out / name).write_bytes(built[0]); (out / name).chmod(0o755)
+        return built[0]
+    bridge = build_bridge('altscreen-most-bridge-aa', ['-DALTSCREEN_AA_SINGLE_IDR'])
+    bneeded, bimports = check(bridge, libs)
+    cp_bridge = build_bridge('altscreen-most-bridge', [])
+    cneeded, cimports = check(cp_bridge, libs)
     r = {'passed': True, 'sha256': sha(built[0]), 'size': len(built[0]), 'source_sha256': sha(src.read_bytes()), 'aeabi_conv_sha256': sha(conv.read_bytes()),
-         'bridge_sha256': sha(bridge[0]), 'bridge_size': len(bridge[0]), 'bridge_source_sha256': sha(bsrc.read_bytes()), 'bridge_needed': bneeded,
+         'bridge_sha256': sha(bridge), 'bridge_size': len(bridge), 'bridge_source_sha256': sha(bsrc.read_bytes()), 'bridge_needed': bneeded,
          'bridge_imports': bimports, 'bridge_flags': ['-DALTSCREEN_AA_SINGLE_IDR'],
+         'carplay_bridge_sha256': sha(cp_bridge), 'carplay_bridge_size': len(cp_bridge), 'carplay_bridge_needed': cneeded,
+         'carplay_bridge_imports': cimports, 'carplay_bridge_flags': [],
          'needed': needed, 'imports': imports, 'factory_libraries': LIBS, 'image_id': image, 'reproducible': True,
          'on_unit_validated': False}
     (out / 'manifest.json').write_text(json.dumps(r, indent=2) + '\n'); print(json.dumps({k: r[k] for k in ('sha256', 'size', 'needed')}))

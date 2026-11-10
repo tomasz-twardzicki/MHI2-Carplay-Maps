@@ -8,8 +8,8 @@ ARCHIVE='CarPlay_Maps_VC_MU1367_791_v1.5.1-e.zip'
 # Published experimental v1.5.0-e ZIP (its verified package).
 BASE_ARCHIVE_SHA256='497b7cef90074e93f0b2a49899144f55163bca9c0ef421c89e34c75ba063fd47'
 BASE_VERIFIED_SHA256=BASE_ARCHIVE_SHA256
-# Android Auto layer builds replaced in place: published v1.5.0-e and the car-tested pre-release build.
-AA_PREVIOUS=('mu1367-android-auto-ee74f406dd94','mu1367-android-auto-e3e4e1ce3a73')
+# Android Auto layer builds replaced in place: published v1.5.0-e, the car-tested pre-release build and the first published v1.5.1-e.
+AA_PREVIOUS=('mu1367-android-auto-ee74f406dd94','mu1367-android-auto-e3e4e1ce3a73','mu1367-android-auto-c1f4833dac00')
 def sha(f): return hashlib.sha256(f.read_bytes()).hexdigest()
 def toolbox_input(name):
     # The SD's upstream Git attributes belong to its distribution, not this
@@ -59,12 +59,19 @@ def main():
     parent=custom/'carplay_mu1367_map_only'
     for n in ('verify','COMMANDS.json'):shutil.copy2(parent/n,root/n)
     spec=importlib.util.spec_from_file_location('transactions',HERE/'tools/transaction.py');tx=importlib.util.module_from_spec(spec);spec.loader.exec_module(tx)
+    fm=json.loads((a.aa_feeder_build/'manifest.json').read_text());cp_bridge=a.aa_feeder_build.resolve()/'altscreen-most-bridge'
+    assert fm['passed'] and fm['reproducible'] and sha(cp_bridge)==fm['carplay_bridge_sha256'] and fm['carplay_bridge_flags']==[]
+    assert fm['bridge_source_sha256']==sha(HERE/'src/runtime/vc-runtime/runtime/altscreen_most_bridge.c')
+    assert sha(custom/'carplay_mu1367_settings/altscreen-most-bridge')=='6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35'
     variants={};tv={}
     for v in ('6','7','6-road','7-road'):
         pm=json.loads((parent/v/'manifest.json').read_text());before=dict(pm['files']);before['parent']=sha(parent/v/'control.sh')
         before['reader']=sha(custom/'carplay_mu1367/rgi-observer')
         payload={k:(a.runtime/path,name) for k,path,name in [('core','base/core.so','core.so'),('menu','base/VCMenu.jar','VCMenu.jar'),('guidance','CarPlayMU1367Guidance.jar','CarPlayMU1367Guidance.jar')]}
         payload['reader']=(a.reader_build/'rgi-observer','rgi-observer')
+        # v1.5.1-e: the CarPlay video bridge with boot-time MOST reclaim replaces the settings layer's upstream build.
+        before['bridge']=sha(custom/'carplay_mu1367_settings/altscreen-most-bridge')
+        payload['bridge']=(cp_bridge,'altscreen-most-bridge')
         variants[v]=tx.transaction(sd,root,v,payload,before,'carplay-mu1367-map-only','guidance-v3','MU1367_GUIDANCE_V3',pm['build_id'])
         before={k:variants[v]['files'][k] for k in ('core','menu')};before['parent']=sha(root/v/'control.sh')
         payload={k:(a.runtime/'tuning'/name,name) for k,name in [('core','core.so'),('menu','VCMenu.jar')]}
@@ -78,6 +85,8 @@ def main():
     legacy=json.loads((HERE/'tools/legacy-revisions.json').read_text())
     owners=[m['build_id'] for m in variants.values()]+sorted(m['build_id'] for m in legacy.values() if 'reader' in m['before'])
     actions=actions.replace('@READER_VERSIONS@','|'.join(owners))
+    # v1.5.1-e: main snapshots that own the CarPlay bridge.
+    actions=actions.replace('@BRIDGE_VERSIONS@','|'.join(m['build_id'] for m in variants.values()))
     code=(HERE/'tools/migrate.sh').read_text()
     # Diagnose old tuning before requesting ordinary release tuning removal.
     needle='if [ -d "$CARDS" ];then\n regular "$CARDS/STATE"'
@@ -103,7 +112,7 @@ legacy_check(){
         for k,before in m['before'].items():
             sh+='  regular "$LROOT/backup/'+k+'" && regular "$LROOT/backup/'+k+'.sha256" || return 1\n'
             sh+='  [ "$(cat "$LROOT/backup/'+k+'.sha256")" = '+before+' ] && "$P/verify" "$LROOT/backup/'+k+'" '+before+' || return 1\n'
-        paths={'core':'carplaymaps/core.so','menu':'eso/hmi/lsd/jars/VCMenu.jar','guidance':'eso/hmi/lsd/jars/CarPlayMU1367Guidance.jar','reader':'carplay-mu1367/rgi-observer'}
+        paths={'core':'carplaymaps/core.so','menu':'eso/hmi/lsd/jars/VCMenu.jar','guidance':'eso/hmi/lsd/jars/CarPlayMU1367Guidance.jar','reader':'carplay-mu1367/rgi-observer','bridge':'carplaymaps/altscreen-most-bridge'}
         for k,hfile in m['files'].items():
             sh+='  if [ "$IDENTITY" = "$LROOT/control.sh" ] || [ '+k+' = guidance ];then\n'
             sh+='   parents "$APP/'+paths[k]+'" && regular "$APP/'+paths[k]+'" && "$P/verify" "$APP/'+paths[k]+'" '+hfile+' || return 1\n  fi\n'
@@ -138,9 +147,9 @@ legacy_check(){
     wrapper=(sd/'Toolbox/scripts/cpmap_suite_install.sh').read_text()
     assert wrapper.count(' install "$P"')==2
     for act in ('aa-disable','aa-enable'):(sd/'Toolbox/scripts'/('cpmap_suite_'+act+'.sh')).write_text(wrapper.replace(' install "$P"',' '+act+' "$P"'))
-    (sd/'README.md').write_text('# MU1367 / 791 v1.5.1-e — EXPERIMENTAL\n\nBased on stable v1.4.6 and v1.5.0-e.\n\nFixes the Android Auto cluster map freezing until a reconnect. Adds Android Auto to the same installation: the Google Maps picture from an Android phone on the AID and native VW turn arrows with distance, next to every CarPlay feature of v1.4.6. Not yet tested in a car. Start with [START_HERE.md](START_HERE.md) and [RELEASE-NOTES.md](RELEASE-NOTES.md).\n')
+    (sd/'README.md').write_text('# MU1367 / 791 v1.5.1-e — EXPERIMENTAL\n\nBased on stable v1.4.6 and v1.5.0-e.\n\nFixes the CarPlay cluster map dropping out about 18 s after every boot (the bridge now reclaims the MOST channel from the factory encoder) and the Android Auto cluster map freezing until a reconnect. Adds Android Auto to the same installation: the Google Maps picture from an Android phone on the AID and native VW turn arrows with distance, next to every CarPlay feature of v1.4.6. Not yet tested in a car. Start with [START_HERE.md](START_HERE.md) and [RELEASE-NOTES.md](RELEASE-NOTES.md).\n')
     shutil.copy2(HERE/'NOTICE.md',sd/'NOTICE.md')
-    manifest={'version':'1.5.1-e','experimental':True,'prerelease':True,'base_version':'1.5.0-e','stable_base_version':'1.4.6','base_archive_sha256':BASE_ARCHIVE_SHA256,'base_verified_package_sha256':BASE_VERIFIED_SHA256,'artwork_png':artwork_png,'android_auto':aa,'reader_build':'MU1367-reader-v1.4.4-e','guidance_hold_ms':180000,'reader_restart_budget':{'per_window':3,'stable_window_ms':600000,'lifetime_ceiling':64,'backoff_ms':[1000,2000,4000]},'reader_sha256':reader['sha256'],'reader_source_sha256':reader['source_sha256'],'experimental_fix':'Android Auto cluster map no longer freezes after a stream hiccup (own bridge build without keyframe wait); diagnostics export includes the Android Auto status files. Vehicle validation pending.','guidance_recover_ms':20000,'guidance_stop_grace_ms':1500,'archive_name':ARCHIVE,'firmware':'K4525 / P4521 MU1367','supported_firmware':[{'train':'MHI2_ER_VWG13_K4525','experimental':False},{'train':'MHI2_ER_VWG13_P4521','experimental':True}],'p4521_prior_experimental_vehicle_tested':True,'p4521_final_package_vehicle_tested':False,'cluster':'791','variants':variants,'tuning_variants':tv,
+    manifest={'version':'1.5.1-e','experimental':True,'prerelease':True,'base_version':'1.5.0-e','stable_base_version':'1.4.6','base_archive_sha256':BASE_ARCHIVE_SHA256,'base_verified_package_sha256':BASE_VERIFIED_SHA256,'artwork_png':artwork_png,'android_auto':aa,'reader_build':'MU1367-reader-v1.4.4-e','guidance_hold_ms':180000,'reader_restart_budget':{'per_window':3,'stable_window_ms':600000,'lifetime_ceiling':64,'backoff_ms':[1000,2000,4000]},'reader_sha256':reader['sha256'],'reader_source_sha256':reader['source_sha256'],'experimental_fix':'CarPlay video bridge reclaims isoTX2 from the factory encoder during boot instead of exiting (dmdt release, reopen, resync; 180 s window, 3 attempts); Android Auto cluster map no longer freezes after a stream hiccup (own bridge build without keyframe wait); diagnostics export includes the Android Auto status files. Vehicle validation pending.','carplay_bridge':{'build':'altscreen_most_bridge.c (clang, pinned QNX 6.5 SDK binutils)','sha256':fm['carplay_bridge_sha256'],'replaces_sha256':'6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35','reclaim_window_s':180,'reclaim_max':3},'guidance_recover_ms':20000,'guidance_stop_grace_ms':1500,'archive_name':ARCHIVE,'firmware':'K4525 / P4521 MU1367','supported_firmware':[{'train':'MHI2_ER_VWG13_K4525','experimental':False},{'train':'MHI2_ER_VWG13_P4521','experimental':True}],'p4521_prior_experimental_vehicle_tested':True,'p4521_final_package_vehicle_tested':False,'cluster':'791','variants':variants,'tuning_variants':tv,
         'files':variants['6']['files'],'defaults':{'fps':27,'idr':5,'cards':False,'compressed_artwork':True,'safe_area':[200,96,400,364]},
         'stream_choices':['20 fps / IDR 5','25 fps / IDR 5','27 fps / IDR 5 (default)','30 fps / IDR 5','40 fps / IDR 5'],'stream_values':[5,4,6,2,1],'guidance_build':'MU1367-guidance-v1.5.0-e','mini_pico_card_suppression':False,'inactive_lane_blanks':'OEM behavior',
         'release_package_vehicle_tested':False,'feature_vehicle_results':'See KNOWN-ISSUES.md; final packaging and migration verified off-unit.'}

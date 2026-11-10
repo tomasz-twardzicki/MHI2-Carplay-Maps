@@ -171,8 +171,42 @@ starts it from `carplaymaps/aa`, and matches CarPlay's bridge by exact program n
 (CarPlay 29/89 P slices and an IDR request; AA 89/89, none). `cpmap_diag.sh` exports
 `/ramdisk/pmcp-aa*`. The AA controller upgrades layers of the builds in `AA_PREVIOUS`
 (published v1.5.0-e and the car-tested pre-release build, whose main controllers are
-`tests/revisions/test-v1.5.0-e-pre`) in place. Main layers and all six runtime payloads are
-unchanged from v1.5.0-e.
+`tests/revisions/test-v1.5.0-e-pre`) in place. All six runtime payloads are unchanged from
+v1.5.0-e.
+
+## Experimental v1.5.1-e CarPlay bridge: boot-time MOST reclaim
+
+Exports 2026-11-10 (`Logs/v145/user2`, v1.4.6-e): the first bridge of every boot exits
+about 18 s after it starts with `MOST write failed: Not enough memory`. The boot slog shows
+the factory `NvVideoStreamEncoder` + `TsMux` opening `isoTX2` twice (flush + START, about
+15 s after the bridge), `io_write(): Error: ENOMEM` for the bridge, and the encoder
+closing only after the supervisor's next `dmdt dc 72` / `sc 4 72`. `most_writer_thread` now
+treats ENOMEM within `ALTSCREEN_BRIDGE_RECLAIM_WINDOW_US` (180 s of `CLOCK_MONOTONIC`, i.e.
+uptime) as recoverable, at most `ALTSCREEN_BRIDGE_RECLAIM_MAX` (3) times. It closes the
+device, re-runs the same `dmdt` release (environment built before `fork`, 3 s timeout),
+waits 0.5 s, reopens, flushes, restarts, and re-sends PAT/PMT. The input thread then enters
+the usual low-latency recovery: it waits for healthy writes and requests an IDR. The AA build
+only marks a discontinuity. Anything else keeps the old exit and supervisor restart.
+
+`tools/build-aa-feeder.py` also builds the CarPlay bridge (`altscreen-most-bridge`, no
+flags) twice with the same clang/QNX binutils recipe and resolves its imports in the factory
+libc. The upstream `6c5210ca…` was built with GCC 4.9.4, which is not available here. The main
+transaction owns a fifth file, `bridge` → `carplaymaps/altscreen-most-bridge` (before:
+the settings layer's upstream bridge), so `actions.sh` validates it in removed snapshots
+(`@BRIDGE_VERSIONS@`). The published v1.5.0-e main controllers (identical in the first
+v1.5.1-e) are archived under `tests/revisions/release-v1.5.0-e` and registered in
+`legacy-revisions.json`, so those installs take the two-stage migration, whose stage 1
+removes their Android Auto layer. The first v1.5.1-e Android Auto layer is in
+`tests/revisions/release-v1.5.1-e` and `AA_PREVIOUS`.
+
+Tests: `tests/android-auto/e2e/most_reclaim.py` (from `test-aa-host.py`) runs host builds
+with `ALTSCREEN_BRIDGE_TEST_ENOMEM_AT_BLOCKS` / `_REPEAT` and a fake `dmdt`. It covers the
+CarPlay reclaim, IDR request and resume, AA reclaim without an IDR request, exhaustion after
+three attempts, and no reclaim outside the window (18 checks). `test-aa-feeder-qnx.py` runs both
+bridge builds on QNX with the factory libraries. `test-actions-qnx.py` checks the installed
+bridge and its restore. `test-package.py` adds `release-v1.5.0-e` to the migration matrix (80
+combinations), bridge commit-fault rollback, and the published v1.5.1-e + Android Auto
+upgrade.
 
 ## Experimental v1.5.0-e Android Auto
 

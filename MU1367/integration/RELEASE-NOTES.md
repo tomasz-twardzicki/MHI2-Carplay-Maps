@@ -1,30 +1,53 @@
-# MU1367 v1.5.1-e — experimental: Android Auto cluster map no longer freezes
+# MU1367 v1.5.1-e — experimental: CarPlay map survives boot, Android Auto map no longer freezes
 
 **EXPERIMENTAL — TO BE TESTED.** Update of v1.5.0-e for **K4525 / P4521 MU1367 + AID
-791**. Use v1.4.6 for a stable CarPlay installation.
+791**. Use v1.4.6 for a stable CarPlay installation. This rebuild of v1.5.1-e replaces
+the first v1.5.1-e package published on 2026-11-10 (archive `444b4c2f…`).
 
+- **The CarPlay map on the AID no longer drops out shortly after every boot.** In the
+  v1.4.6-e test exports, the video bridge exited about 18 s after it started, on every
+  boot, with `MOST write failed: Not enough memory`. The supervisor restarted it about
+  4 s later. The unit's own log shows the cause. While the unit boots, the factory video
+  encoder opens the same MOST output (`isoTX2`) about 15 s after the bridge has taken it,
+  flushes its queue and keeps running until the cluster display is handed back to the
+  map. The bridge's next write then fails. It is not low system memory (over 850 MB
+  was free) and not the high boot CPU load. Now, in the first 3 minutes after boot,
+  the bridge hands the cluster display back to the map itself (the supervisor's own
+  `dmdt` release), reopens the output and asks the phone for a fresh key frame. The
+  map should stay up or come back after a short hiccup, without the 4 s gap and the
+  flash of the VW screen. It tries at most 3 times; after that, or later than 3 minutes
+  after boot, the bridge exits and the supervisor restarts it as before. The
+  diagnostics export shows each attempt as `bridge: most-reclaim attempt=…` in the
+  bridge log.
+- **The CarPlay bridge is now built from this repository's source.** Earlier releases
+  used the upstream binary from the omonob toolbox v2.0.0 (GCC 4.9.4). That compiler
+  is not available here, so the new bridge is built from the same reviewed source with
+  the reclaim added, using the pinned QNX 6.5 SDK linker. The Android Auto feeder and
+  bridge are built the same way. The main layer installs the new bridge and saves the
+  upstream one in its snapshot; removal and recovery put the upstream bridge back.
 - **The Android Auto map on the AID no longer freezes after a hiccup.** The first car
   test showed native guidance working but the cluster map freezing. The CarPlay map
   bridge, which v1.5.0-e also used for Android Auto, stops showing new frames after a
   gap in the stream or a short MOST backlog until the phone sends a new keyframe.
   CarPlay sends one on request; an Android phone sends only one per connection, so the
   map stayed frozen until a reconnect. Android Auto now runs its own build of the same
-  bridge that keeps showing frames; CarPlay keeps its bridge unchanged.
+  bridge that keeps showing frames. It has the boot-time reclaim too, without the key
+  frame request.
 - **Diagnostics export** (Diagnostics > Export diagnostics to SD) now includes the
   Android Auto feeder, bridge and session summaries (`pmcp-aa-*`) and the Android Auto
   layer state.
-- **Updating from v1.5.0-e** replaces only the Android Auto files: the factory `gal`
-  comes back from its snapshot first, then the new layer is installed. The CarPlay
-  layers are already up to date, so no extra reboot stage is needed. An installed
-  pre-release test build of v1.5.0-e goes through the usual removal → full reboot →
-  install sequence.
+- **Updating from v1.5.0-e or the first v1.5.1-e** goes through the usual two stages,
+  because the main layer now also owns the CarPlay bridge. Stage 1 removes the Android
+  Auto layer (the factory `gal` comes back from its snapshot) and the main layer, then
+  asks for a full reboot. After the reboot, run the same install entry again to
+  install everything. All earlier snapshots are kept.
 
 The car log also showed USB errors (`CRC_ERR|STALL`) that disconnected the phone twice,
 and the phone's main-screen Android Auto video ran at 13–17 fps. Use a short, good data
 cable; a weak USB link can make the picture stutter on its own.
 
-CarPlay runtime, guidance, compressed artwork and the main layers are byte-identical to
-v1.5.0-e.
+The six CarPlay runtime payloads (guidance, core, menu, audio, tuning) and compressed
+artwork are byte-identical to v1.5.0-e.
 
 # Earlier: v1.5.0-e — experimental Android Auto on the AID
 

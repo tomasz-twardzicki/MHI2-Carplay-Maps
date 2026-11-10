@@ -39,10 +39,12 @@ def main():
   'armle/lib/dll/ipod-drvr-iap2.so':custom/'carplay_mu1367_artwork/ipod-drvr-iap2.so',
   'eso/hmi/lsd/jars/CarPlayMU1367Audio.jar':custom/'carplay_mu1367_artwork/CarPlayMU1367Audio.jar',
   'eso/hmi/lsd/jars/CarPlayClusterControls.jar':custom/'carplay_mu1367_settings/CarPlayClusterControls.jar',
-  'carplay-mu1367/rgi-observer':custom/'carplay_mu1367/rgi-observer'}
+  'carplay-mu1367/rgi-observer':custom/'carplay_mu1367/rgi-observer',
+  # v1.5.1-e: the main layer replaces the settings layer's upstream video bridge.
+  'carplaymaps/altscreen-most-bridge':custom/'carplay_mu1367_settings/altscreen-most-bridge'}
  for i,src in enumerate(paths.values()):extras['old-'+str(i)]=src
  for key,root in [('main',main),('tuning',tuning)]:
-  for name in ('guard','VERSION','core.so','VCMenu.jar')+ (('CarPlayMU1367Guidance.jar','rgi-observer') if key=='main' else ()):
+  for name in ('guard','VERSION','core.so','VCMenu.jar')+ (('CarPlayMU1367Guidance.jar','rgi-observer','altscreen-most-bridge') if key=='main' else ()):
    extras[key+'-'+name]=root/'6'/name
  script='''
 set -eu
@@ -81,11 +83,13 @@ chmod 755 "$APP/eso/bin/apps/gal"
 echo '#!/bin/ksh' > "$APP/carplaymaps/altscreen-most-bridge"
 '''
  for key,var in [('main','P'),('tuning','T')]:
-  for name in ('guard','VERSION','core.so','VCMenu.jar')+ (('CarPlayMU1367Guidance.jar','rgi-observer') if key=='main' else ()):
+  for name in ('guard','VERSION','core.so','VCMenu.jar')+ (('CarPlayMU1367Guidance.jar','rgi-observer','altscreen-most-bridge') if key=='main' else ()):
    script+='cp /proc/boot/'+key+'-'+name+' "$'+var+'/6/'+name+'"\n'
   script+='cp /proc/boot/verify "$'+var+'/6/verify"\nchmod 755 "$'+var+'/6/verify"\n'
  for name in aa_files:script+='cp /proc/boot/aa-'+name+' "$AAP/'+name+'"\n'
  for i,(dest,src) in enumerate(paths.items()):script+='mkdir -p "$APP/'+str(Path(dest).parent)+'"\ncp /proc/boot/old-'+str(i)+' "$APP/'+dest+'"\n'
+ # The unit's settings layer installs the bridge 755 (export listing); the transaction keeps the target's mode.
+ script+='chmod 755 "$APP/carplaymaps/altscreen-most-bridge"\n'
  for live,source in [('carplay-mu1367','carplay_mu1367'),('carplay-mu1367-settings','carplay_mu1367_settings'),('carplay-mu1367-map-only','carplay_mu1367_map_only/6'),('carplay-mu1367-artwork','carplay_mu1367_artwork')]:
   script+='mkdir -p "$APP/'+live+'"\necho installed > "$APP/'+live+'/STATE"\necho '+(custom/source/'VERSION').read_text().strip()+' > "$APP/'+live+'/VERSION"\n'
  script+='''# Exercise train recognition with the actual firmware gawk before writes.
@@ -102,6 +106,9 @@ echo 'Current train = "MHI2_ER_VWG13_P4521"' > "$CPMAP_TEST_ROOT/net/rcc/dev/shm
 echo RELEASE_FACTORY_TRAIN_RECOGNITION_PASS
 awk 'BEGIN {if(2+2!=4)exit 1}' || exit 80
 /bin/ksh "$P/6/control.sh" install "$P/6" || exit 81
+"$P/verify" "$APP/carplaymaps/altscreen-most-bridge" @CP_BRIDGE@ || exit 81
+test -x "$APP/carplaymaps/altscreen-most-bridge" || exit 81
+echo RELEASE_FACTORY_CARPLAY_BRIDGE_INSTALLED_PASS
 /bin/ksh "$P/actions.sh" install "$P" > /ramdisk/install-out || exit 82
 grep '^MU1367_INSTALL_STEPS=3 ' /ramdisk/install-out || exit 86
 grep '^\\[1/3\\] MU1367_GUIDANCE_V3_ALREADY_INSTALLED$' /ramdisk/install-out || exit 86
@@ -140,7 +147,7 @@ test "$(cat "$APP/carplay-mu1367-artwork-png/STATE")" = removed || exit 91
 test "$(cat "$APP/carplay-mu1367-android-auto/STATE")" = removed || exit 91
 test ! -e "$APP/carplaymaps/aa" || exit 91
 echo RELEASE_FACTORY_ANDROID_AUTO_REMOVE_PASS
-'''.replace('@WRAPPER@',aam['wrapper_sha256']).replace('@FACTORY_GAL@',aam['factory_gal']['sha256']).replace('@PNG_FETCH@',sha((png/'artwork-fetch').read_bytes())).replace('@ART_FETCH@',sha((art/'artwork-fetch').read_bytes()))
+'''.replace('@WRAPPER@',aam['wrapper_sha256']).replace('@FACTORY_GAL@',aam['factory_gal']['sha256']).replace('@PNG_FETCH@',sha((png/'artwork-fetch').read_bytes())).replace('@ART_FETCH@',sha((art/'artwork-fetch').read_bytes())).replace('@CP_BRIDGE@',json.loads((main/'6/manifest.json').read_text())['files']['bridge'])
  for dest,src in paths.items():script+='"$P/verify" "$APP/'+dest+'" '+sha(src.read_bytes())+' || exit 92\n'
 
  script+='\n# Install actual published v1.4.6 release, then exercise release\'s two-stage migration.\nOLD=/ramdisk/legacy\nmkdir -p "$OLD"\ncp /proc/boot/legacy-control "$OLD/control.sh"\ncp /proc/boot/verify "$OLD/verify"\nchmod 755 "$OLD/verify"\nmv "$APP/carplay-mu1367-guidance-v3" "$APP/carplay-mu1367-guidance-v3.removed-fixture"\n'
@@ -163,7 +170,7 @@ echo RELEASE_FACTORY_ANDROID_AUTO_REMOVE_PASS
  for n in ('reader-setup','toolchain','firmware-commands','output'):sys.argv+=['--'+n,str(getattr(a,n.replace('-','_')))]
  try:rc=factory_reset.main(script,extras,main/'COMMANDS.json')
  finally:sys.argv=old
- log=(a.output/'qemu.log').read_text(errors='replace');assert 'RELEASE_FACTORY_ANDROID_AUTO_INSTALL_PASS' in log and 'RELEASE_FACTORY_ANDROID_AUTO_REMOVE_PASS' in log and 'RELEASE_FACTORY_DEFAULT_ARTWORK_PNG_PASS' in log and 'RELEASE_FACTORY_MIGRATION_PASS' in log and 'RELEASE_FACTORY_TRAIN_RECOGNITION_PASS' in log and 'RELEASE_FACTORY_PROGRESS_PASS' in log
- r=json.loads((a.output/'result.json').read_text());r.update(factory_progress_verified=True,factory_migration_verified=True,firmware_train_recognition_verified=True,map_only_actions_sha256=sha((main/'actions.sh').read_bytes()),main_controller_sha256=sha((main/'6/control.sh').read_bytes()),tuning_controller_sha256=sha((tuning/'6/control.sh').read_bytes()),fixture_changes='Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host',map_only_and_optional_transactions_verified=True,default_artwork_png_verified=True,android_auto_layer_verified=True,android_auto_controller_sha256=sha((aa/'control.sh').read_bytes()),artwork_png_controller_sha256=sha((png/'control.sh').read_bytes()),sdk_utilities_injected=False)
+ log=(a.output/'qemu.log').read_text(errors='replace');assert 'RELEASE_FACTORY_ANDROID_AUTO_INSTALL_PASS' in log and 'RELEASE_FACTORY_ANDROID_AUTO_REMOVE_PASS' in log and 'RELEASE_FACTORY_DEFAULT_ARTWORK_PNG_PASS' in log and 'RELEASE_FACTORY_MIGRATION_PASS' in log and 'RELEASE_FACTORY_TRAIN_RECOGNITION_PASS' in log and 'RELEASE_FACTORY_PROGRESS_PASS' in log and 'RELEASE_FACTORY_CARPLAY_BRIDGE_INSTALLED_PASS' in log
+ r=json.loads((a.output/'result.json').read_text());r.update(factory_progress_verified=True,factory_migration_verified=True,firmware_train_recognition_verified=True,map_only_actions_sha256=sha((main/'actions.sh').read_bytes()),main_controller_sha256=sha((main/'6/control.sh').read_bytes()),tuning_controller_sha256=sha((tuning/'6/control.sh').read_bytes()),fixture_changes='Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host',map_only_and_optional_transactions_verified=True,default_artwork_png_verified=True,android_auto_layer_verified=True,carplay_bridge_install_verified=True,android_auto_controller_sha256=sha((aa/'control.sh').read_bytes()),artwork_png_controller_sha256=sha((png/'control.sh').read_bytes()),sdk_utilities_injected=False)
  (a.output/'result.json').write_text(json.dumps(r,indent=2)+'\n');return rc
 if __name__=='__main__':raise SystemExit(main())

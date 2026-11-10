@@ -19,6 +19,7 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -66,6 +67,28 @@
 #ifndef INTRO_ONCE_PATH
 #define INTRO_ONCE_PATH "/ramdisk/carplay-v725-intro-played"
 #endif
+/* v1.5.1-e boot-time MOST reclaim. While the unit boots, the factory video
+ * encoder (NvVideoStreamEncoder + TsMux) opens isoTX2 by itself about 15 s
+ * after the bridge took it, flushes and restarts the driver queue, and the
+ * bridge's next write fails with ENOMEM. The encoder keeps running until the
+ * display context is released to the cluster map again (dmdt dc 72 + sc 4 72,
+ * the supervisor's release). Instead of exiting into the supervisor's full
+ * fallback/restart cycle, re-assert that release, reopen and restart isoTX2,
+ * then resync the picture. Only within the boot window and a bounded number of
+ * times; anything else keeps the previous exit path. */
+#ifndef ALTSCREEN_BRIDGE_RECLAIM_WINDOW_US
+#define ALTSCREEN_BRIDGE_RECLAIM_WINDOW_US 180000000ULL /* CLOCK_MONOTONIC = time since boot */
+#endif
+#ifndef ALTSCREEN_BRIDGE_RECLAIM_MAX
+#define ALTSCREEN_BRIDGE_RECLAIM_MAX 3U
+#endif
+#ifndef ALTSCREEN_BRIDGE_RECLAIM_SETTLE_US
+#define ALTSCREEN_BRIDGE_RECLAIM_SETTLE_US 500000U
+#endif
+#ifndef ALTSCREEN_BRIDGE_DMDT_PATH
+#define ALTSCREEN_BRIDGE_DMDT_PATH "/eso/bin/apps/dmdt"
+#endif
+#define DMDT_TIMEOUT_POLLS 300U /* 10 ms each: dmdt has taken up to ~1 s on the car */
 
 typedef struct PacketQueue {
     uint8_t *data;
@@ -164,6 +187,10 @@ static unsigned long g_burst_max_frames;
 static size_t g_slow_write_queue_depth;
 static unsigned long g_intro_frames;
 static int g_intro_waiting_live_idr;
+/* Written by the writer thread after a successful reclaim; the input thread
+ * resyncs the picture when it sees a new value. */
+static volatile unsigned long g_most_reclaims;
+static unsigned long g_most_reclaims_handled;
 
 static uint64_t next_transport_pts_origin(void);
 
@@ -908,30 +935,23 @@ static int write_full(int fd, const uint8_t *data, size_t size)
     return offset == size ? 0 : -1;
 }
 
-static void *most_writer_thread(void *context)
+/* Open the MOST output and start its queue; returns the descriptor or -1.
+ * reopen keeps a file-output validation stream instead of truncating it. */
+static int most_open(const char *device, int reopen)
 {
-    const char *device = (const char *)context;
     uint32_t blocks = TS_BLOCK_PACKETS;
     uint32_t value = 0;
-    uint8_t block[TS_BLOCK_SIZE];
-    unsigned long written_blocks = 0;
-    unsigned long report_blocks = 0;
-    uint64_t report_start_us = monotonic_us();
-    uint64_t output_packets = 0;
-    uint64_t next_psi_packet = 0;
-    uint64_t next_pcr_packet = 2;
-    int pmt_pending = 0;
     int fd;
     int status;
 #ifdef ALTSCREEN_BRIDGE_FILE_OUTPUT
-    fd = open(device, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    fd = open(device, reopen ? (O_WRONLY | O_APPEND) : (O_WRONLY | O_CREAT | O_TRUNC), 0644);
 #else
+    (void)reopen;
     fd = open64(device, O_WRONLY | O_NONBLOCK);
 #endif
     if (fd < 0) {
         cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: open %s failed: %s\n", device, strerror(errno));
-        g_stop = 1;
-        return NULL;
+        return -1;
     }
     g_most_fd = fd;
 #ifndef ALTSCREEN_BRIDGE_FILE_OUTPUT
@@ -950,8 +970,7 @@ static void *most_writer_thread(void *context)
             g_most_fd = -1;
             close(fd);
         }
-        g_stop = 1;
-        return NULL;
+        return -1;
     }
 #else
     (void)blocks;
@@ -959,6 +978,141 @@ static void *most_writer_thread(void *context)
     (void)status;
     cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: portable file-output validation mode\n");
 #endif
+    return fd;
+}
+
+static void most_close(int fd)
+{
+    /* The signal handler may have closed it already (SIGTERM unblocks a write). */
+    if (fd >= 0 && (int)g_most_fd == fd) {
+        g_most_fd = -1;
+        close(fd);
+    }
+}
+
+extern char **environ;
+
+/* Run dmdt with the supervisor's arguments; returns its exit status, or a
+ * negative value (-1 spawn, -2 abnormal exit, -3 timeout). The environment is
+ * built before fork: the bridge is multi-threaded. */
+static int run_dmdt(const char *a, const char *b, const char *c)
+{
+    static char ipl[] = "IPL_CONFIG_DIR=/etc/eso/production";
+    static char lib[] = "LD_LIBRARY_PATH=/mnt/app/root/lib-target:/eso/lib:/mnt/app/usr/lib:"
+                        "/mnt/app/armle/lib:/mnt/app/armle/lib/dll:/mnt/app/armle/usr/lib";
+    char *argv[5];
+    char **envp;
+    size_t count = 0;
+    size_t used = 0;
+    size_t i;
+    unsigned int poll;
+    int null_fd;
+    int status;
+    pid_t child;
+    argv[0] = (char *)ALTSCREEN_BRIDGE_DMDT_PATH;
+    argv[1] = (char *)a;
+    argv[2] = (char *)b;
+    argv[3] = (char *)c;
+    argv[4] = NULL;
+    while (environ != NULL && environ[count] != NULL) ++count;
+    envp = (char **)calloc(count + 3U, sizeof(*envp));
+    if (envp == NULL) return -1;
+    for (i = 0; i < count; ++i) {
+        if (strncmp(environ[i], "LD_PRELOAD=", 11) == 0 ||
+            strncmp(environ[i], "IPL_CONFIG_DIR=", 15) == 0 ||
+            strncmp(environ[i], "LD_LIBRARY_PATH=", 16) == 0) continue;
+        envp[used++] = environ[i];
+    }
+    envp[used++] = ipl;
+    envp[used++] = lib;
+    envp[used] = NULL;
+    null_fd = open("/dev/null", O_RDWR);
+    child = fork();
+    if (child < 0) {
+        if (null_fd >= 0) close(null_fd);
+        free(envp);
+        return -1;
+    }
+    if (child == 0) {
+        if (null_fd >= 0) {
+            dup2(null_fd, 0);
+            dup2(null_fd, 1);
+            dup2(null_fd, 2);
+        }
+        execve(argv[0], argv, envp);
+        _exit(127);
+    }
+    if (null_fd >= 0) close(null_fd);
+    free(envp);
+    for (poll = 0; poll < DMDT_TIMEOUT_POLLS; ++poll) {
+        pid_t result = waitpid(child, &status, WNOHANG);
+        if (result == child) return WIFEXITED(status) ? WEXITSTATUS(status) : -2;
+        if (result < 0 && errno != EINTR) return -1;
+        usleep(10000);
+    }
+    kill(child, SIGKILL);
+    (void)waitpid(child, &status, 0);
+    return -3;
+}
+
+/* Boot-time reclaim of isoTX2 after the factory encoder took it (see
+ * ALTSCREEN_BRIDGE_RECLAIM_WINDOW_US). Returns the new descriptor or -1. */
+static int most_reclaim(const char *device, int fd, unsigned int attempt)
+{
+    int dc_status;
+    int sc_status = -1;
+    most_close(fd);
+    dc_status = run_dmdt("dc", "72", NULL);
+    if (dc_status == 0) sc_status = run_dmdt("sc", "4", "72");
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+            "bridge: most-reclaim attempt=%u uptime_ms=%llu dmdt=%d/%d\n",
+            attempt, (unsigned long long)(monotonic_us() / 1000ULL),
+            dc_status, sc_status);
+    if (g_stop) return -1;
+    usleep(ALTSCREEN_BRIDGE_RECLAIM_SETTLE_US);
+    if (g_stop) return -1;
+    fd = most_open(device, 1);
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+            "bridge: most-reclaim attempt=%u reopen=%s\n",
+            attempt, fd >= 0 ? "ok" : "failed");
+    return fd;
+}
+
+#ifdef ALTSCREEN_BRIDGE_TEST_ENOMEM_AT_BLOCKS
+#ifndef ALTSCREEN_BRIDGE_TEST_ENOMEM_REPEAT
+#define ALTSCREEN_BRIDGE_TEST_ENOMEM_REPEAT 0U /* 0: once; N: again every N written blocks */
+#endif
+/* Host tests: report the driver's ENOMEM (after the factory encoder's flush)
+ * once the given number of blocks has been written. */
+static int test_inject_enomem(unsigned long written_blocks)
+{
+    static unsigned long next = ALTSCREEN_BRIDGE_TEST_ENOMEM_AT_BLOCKS;
+    if (next == 0UL || written_blocks < next) return 0;
+    next = ALTSCREEN_BRIDGE_TEST_ENOMEM_REPEAT != 0U ?
+        written_blocks + ALTSCREEN_BRIDGE_TEST_ENOMEM_REPEAT : 0UL;
+    errno = ENOMEM;
+    return 1;
+}
+#endif
+
+static void *most_writer_thread(void *context)
+{
+    const char *device = (const char *)context;
+    uint8_t block[TS_BLOCK_SIZE];
+    unsigned long written_blocks = 0;
+    unsigned long report_blocks = 0;
+    uint64_t report_start_us = monotonic_us();
+    uint64_t output_packets = 0;
+    uint64_t next_psi_packet = 0;
+    uint64_t next_pcr_packet = 2;
+    int pmt_pending = 0;
+    unsigned int reclaims = 0;
+    int fd;
+    fd = most_open(device, 0);
+    if (fd < 0) {
+        g_stop = 1;
+        return NULL;
+    }
     while (!g_stop) {
         unsigned int i;
         uint64_t write_start_us;
@@ -994,8 +1148,34 @@ static void *most_writer_thread(void *context)
             (output_packets * TRANSPORT_TICKS_NUMERATOR) /
             TRANSPORT_TICKS_DENOMINATOR);
         write_start_us = monotonic_us();
-        if (write_full(fd, block, sizeof(block)) != 0) {
-            cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: MOST write failed: %s\n", strerror(errno));
+        if (write_full(fd, block, sizeof(block)) != 0
+#ifdef ALTSCREEN_BRIDGE_TEST_ENOMEM_AT_BLOCKS
+            || test_inject_enomem(written_blocks)
+#endif
+            ) {
+            int write_errno = errno;
+            uint64_t uptime_us = monotonic_us();
+            cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: MOST write failed: %s\n", strerror(write_errno));
+            if (g_stop) break;
+            if (write_errno == ENOMEM && reclaims < ALTSCREEN_BRIDGE_RECLAIM_MAX &&
+                uptime_us < ALTSCREEN_BRIDGE_RECLAIM_WINDOW_US) {
+                ++reclaims;
+                fd = most_reclaim(device, fd, reclaims);
+                if (fd >= 0) {
+                    /* The failed block is gone; restart the transport with PAT/PMT
+                     * and let the input side resync the picture. */
+                    pmt_pending = 0;
+                    next_psi_packet = output_packets;
+                    g_writer_fast_streak = 0;
+                    g_most_reclaims = reclaims;
+                    continue;
+                }
+            } else if (write_errno == ENOMEM) {
+                cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                        "bridge: most-reclaim not-attempted reclaims=%u max=%u uptime_ms=%llu\n",
+                        reclaims, (unsigned)ALTSCREEN_BRIDGE_RECLAIM_MAX,
+                        (unsigned long long)(uptime_us / 1000ULL));
+            }
             g_stop = 1;
             break;
         }
@@ -1048,11 +1228,9 @@ static void *most_writer_thread(void *context)
             report_start_us = report_now_us;
         }
     }
-    if ((int)g_most_fd == fd) {
-        g_most_fd = -1;
-        close(fd);
-    }
-    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: writer stopped blocks=%lu\n", written_blocks);
+    most_close(fd);
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: writer stopped blocks=%lu reclaims=%u\n",
+            written_blocks, reclaims);
     return NULL;
 }
 
@@ -1101,6 +1279,22 @@ static int process_frame(AvcConfig *config, const uint8_t *data, size_t size,
     sequence_restart = sequence <= 2U && g_last_sequence > 100U;
     sequence_gap = g_last_sequence != 0U && !sequence_restart &&
                    sequence != g_last_sequence + 1U;
+    if (g_most_reclaims != g_most_reclaims_handled) {
+        /* The writer reclaimed isoTX2: the driver dropped what it had queued. */
+        g_most_reclaims_handled = g_most_reclaims;
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                "bridge: most-reclaim-resync sequence=%u queued=%lu reclaims=%lu\n",
+                sequence, (unsigned long)queued_packets, g_most_reclaims_handled);
+#ifdef ALTSCREEN_AA_SINGLE_IDR
+        /* No second IDR from an Android phone: mark the break and keep going. */
+        g_discontinuity_pending = 1;
+#else
+        if (!g_waiting_for_keyframe) {
+            enter_low_latency_recovery(queued_packets, sequence, now_us);
+            queued_packets = 0;
+        }
+#endif
+    }
 #ifdef ALTSCREEN_AA_SINGLE_IDR
     if (sequence_restart || sequence_gap) {
         ++g_aa_gaps;

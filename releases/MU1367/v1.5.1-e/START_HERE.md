@@ -59,9 +59,9 @@ numbered or experimental steps need to be selected separately.
 - **Stock OEM, v1.3.0, v1.4.0, supported step-6/step-8 and Integrated Arrows:**
   matching existing layers are checked and retained; missing layers are added.
 - **Lane-v2:** the release update is added directly.
-- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e/v1.4.4/v1.4.5/v1.4.6-e/v1.4.6 or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
+- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e/v1.4.4/v1.4.5/v1.4.6-e/v1.4.6/v1.5.0-e, the first published v1.5.1-e, or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
   this is the one case that needs two reboots. The first invocation (stage 1 of 2) checks the saved controller and every original backup,
-  removes matching optional card tuning if present, and restores the lane-v2
+  removes an installed Android Auto layer (the factory `gal` returns from its snapshot) and matching optional card tuning if present, and restores the lane-v2
   baseline through the saved controller. Expect
   `MU1367_RELEASE_MIGRATION_BASE_RESTORED_FULL_REBOOT_THEN_RUN_INSTALL_AGAIN`.
   **Fully reboot disconnected, then run the same install action again.** A
@@ -89,8 +89,19 @@ The last install step is `MU1367_ANDROID_AUTO_INSTALLED`. It checks the factory
 Android Auto receiver `/mnt/app/eso/bin/apps/gal` by hash, saves it under
 `/mnt/app/carplay-mu1367-android-auto/backup`, and puts a small wrapper in its place.
 The hook runtime goes to `/mnt/app/carplaymaps/aa`. Nothing in `/mnt/system` changes.
-Updating from v1.5.0-e shows `MU1367_ANDROID_AUTO_PREVIOUS_BUILD_REMOVED_UPGRADING`: the
-factory `gal` is restored from the old snapshot (kept), then the new layer is installed.
+Updating from v1.5.0-e or the first v1.5.1-e removes the old Android Auto layer in stage 1
+of the two-stage update above (its snapshot is kept); stage 2 installs the new one. An
+older Android Auto layer left on top of this release's main layer is replaced in place
+(`MU1367_ANDROID_AUTO_PREVIOUS_BUILD_REMOVED_UPGRADING`).
+
+## CarPlay video bridge (v1.5.1-e)
+
+The main layer also replaces `/mnt/app/carplaymaps/altscreen-most-bridge` with this
+release's build, which takes the MOST output back from the factory encoder during boot
+instead of exiting. The upstream bridge is kept in the main layer's snapshot and comes
+back on uninstall or recovery. In an exported `altscreen-most-bridge.log`,
+`bridge: most-reclaim attempt=1 … dmdt=0/0` followed by `reopen=ok` means a reclaim
+happened and worked.
 
 After the reboot, connect an Android phone by cable and start a route in Google Maps.
 The picture appears on the AID about 5 s after connecting. **Android Auto cluster map:

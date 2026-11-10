@@ -2,8 +2,10 @@
 
 This release updates v1.5.0-e, based on stable **v1.4.6**. It is **experimental, to be tested**.
 
-- **v1.5.1-e:** the Android Auto cluster map no longer freezes after a stream hiccup, and
-  the diagnostics export includes the Android Auto status files.
+- **v1.5.1-e:** the CarPlay video bridge takes the MOST output back from the factory
+  encoder during boot instead of exiting (the map dropped out about 18 s after every
+  boot); the Android Auto cluster map no longer freezes after a stream hiccup; the
+  diagnostics export includes the Android Auto status files.
 
 - **Android Auto on the AID:** the Google Maps picture from an Android phone and
   native VW turn arrows with distance, installed by the same install action as
@@ -12,7 +14,7 @@ This release updates v1.5.0-e, based on stable **v1.4.6**. It is **experimental,
   language, 27 fps / IDR 5 default and compressed album artwork by default.
 
 Supports **K4525 and P4521 MU1367 + AID 791**. P4521 installation retains its
-experimental status. Only the guidance JAR changes in the CarPlay runtime.
+experimental status. In the CarPlay runtime, the guidance JAR (v1.5.0-e) and the video bridge (v1.5.1-e) change.
 
 - [Install, update and rollback](INSTALL.md)
 - [Release notes](RELEASE-NOTES.md)

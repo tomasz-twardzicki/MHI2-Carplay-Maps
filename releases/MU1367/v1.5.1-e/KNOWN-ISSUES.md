@@ -1,5 +1,21 @@
 # Known issues and planned work
 
+## CarPlay video bridge at boot (v1.5.1-e, experimental)
+
+- On every boot the factory video encoder briefly takes the MOST video output about
+  15 s after the CarPlay bridge has started. v1.5.1-e's bridge takes it back
+  (`most-reclaim` in the bridge log) instead of exiting. This is tested off-unit only,
+  with a simulated failure. The cause is read from one complete boot log and matches all
+  three boots in the 2026-11-10 exports. A short picture hiccup during the reclaim is
+  expected. If the reclaim fails, the bridge exits and the supervisor restarts it as in
+  earlier releases.
+- The boot itself runs the head unit at 92–98% CPU for about the first minute (factory
+  navigation, speech, HMI and radio services starting together). After that it is about
+  16–25% parked and 25–60% while driving. The CPU load did not cause the bridge exit.
+- The bridge is now built here (clang with the pinned QNX 6.5 SDK linker) instead of
+  the upstream GCC 4.9.4 binary. Report any change in CarPlay map smoothness against
+  v1.4.6.
+
 ## Android Auto (v1.5.0-e, experimental)
 
 - Not yet tested in a car on MU1367. The hook's P4521 profile matches both MU1367
