@@ -17,6 +17,21 @@ import de.vw.mib.asl.framework.api.framework.ASLFrameworkFactory;
 public final class LiveBridge implements TimerNotifier, Runnable {
     static final String ROOT=BuildInfo.RELEASE?"/ramdisk/carplay-route-guidance":"/ramdisk/cpmap-rgi-D1";
     static final LiveBridge INSTANCE=new LiveBridge();
+    // Android Auto (v1.5.0-e): the gal hook writes the same RGM1 mailbox from
+    // Google Maps steps to its own RAM directory. ASL connection method 3 is
+    // DSI GAL (SmartPhoneIntegrationHelper.convertConnectionMethod), 2 CarPlay.
+    static final String AA_ROOT="/ramdisk/pmcp-aa-rg";
+    // The hook repeats an active route every 2.5 s; a silent Google Maps ends
+    // its arrow after 10 s. CarPlay keeps the 180 s quiet-route hold.
+    static final long AA_HOLD_MS=10000;
+    static volatile int phone=-1;
+    volatile String root=ROOT;
+    static String rootFor(int connection){return connection==3?AA_ROOT:ROOT;}
+    static long holdFor(String dir){return AA_ROOT.equals(dir)?AA_HOLD_MS:LiveModel.HOLD_MS;}
+    static long hold(){return holdFor(rootFor(phone));}
+    // Only the source of the current connection may publish an active frame.
+    boolean currentSource(){return rootFor(phone).equals(root);}
+    static String at(String dir,String name){return new StringBuffer(dir).append(name).toString();}
     final Function[] stages=new Function[7];
     Timer timer;
     boolean started, owned, clearing, refreshing;
@@ -81,7 +96,8 @@ public final class LiveBridge implements TimerNotifier, Runnable {
         NavigationService nav=api.getNavigationService();
         int connection=api.getSmartphoneIntegrationService().getSmarphoneIntegrationActiveConnectionType();
         int status=nav.getNavigationStatus(), route=nav.getRouteGuidanceState();
-        if (connection!=2) return 1;
+        phone=connection;
+        if (connection!=2 && connection!=3) return 1;
         if (status!=0 || route<0 || route>2) return 2;
         return route==0?0:3;
     }
@@ -94,7 +110,7 @@ public final class LiveBridge implements TimerNotifier, Runnable {
         if (selected==null) return null;
         try {
             long time=now();
-            if (!allowed(time) || factoryContext()!=0 || selected.active && (mode!=2 || time<selected.changed || time-selected.changed>=LiveModel.HOLD_MS
+            if (!allowed(time) || factoryContext()!=0 || selected.active && (!currentSource() || mode!=2 || time<selected.changed || time-selected.changed>=hold()
                     || journalAt<0 || time<journalAt || time-journalAt>=1500)) {
                 selected=null; refreshPending=127; return null;
             }
@@ -134,13 +150,13 @@ public final class LiveBridge implements TimerNotifier, Runnable {
         if (frame==null || c!=0 || !lease || mode==0 || !core) {
             if (frame!=null) floor=frame.progress;
         }
-        boolean fresh=frame!=null && frame.active && frame.progress>floor && frame.changed>=0 && time>=frame.changed && time-frame.changed<LiveModel.HOLD_MS
+        boolean fresh=frame!=null && frame.active && frame.progress>floor && frame.changed>=0 && time>=frame.changed && time-frame.changed<hold()
             && journalAt>=0 && time>=journalAt && time-journalAt<1500;
         if (mode==1 && c==0 && fresh) proposals++;
-        boolean take=mode==2 && c==0 && lease && fresh && core;
+        boolean take=mode==2 && c==0 && lease && fresh && core && currentSource();
         ownershipReason=take?0:c!=0?1:!core?2:!lease?3:mode!=2?4:frame==null?5:
             journalAt<0 || time<journalAt || time-journalAt>=1500?6:
-            !frame.active?7:frame.changed<0 || time<frame.changed || time-frame.changed>=LiveModel.HOLD_MS?8:9;
+            !frame.active?7:frame.changed<0 || time<frame.changed || time-frame.changed>=hold()?8:!currentSource()?10:9;
         if(take)lastOwnedAt=time;
         if (!take) {
             if (owned) {
@@ -229,6 +245,7 @@ public final class LiveBridge implements TimerNotifier, Runnable {
     public static boolean destinationDistance(DistanceToDestination_Status out) {
         LiveModel.Frame f=INSTANCE.current(); if (f==null) return false;
         out.reset();
+        if (phone==3 && f.remainingMeters<0) return false; // AA: shown in the phone picture
         boolean valid=f.active && f.remainingMeters>=0;
         int[] converted=convertDistance(valid?f.remainingMeters:0,true);
         out.distanceToDestination.distance=converted[0]; out.distanceToDestination.unit=converted[1];
@@ -237,12 +254,13 @@ public final class LiveBridge implements TimerNotifier, Runnable {
     }
     public static boolean destinationValidity(DistanceToDestination_Status out) {
         // Stock computes validity separately after setDistanceAndUnit.
-        if (INSTANCE.current()==null) return false;
-        return true;
+        LiveModel.Frame f=INSTANCE.current();
+        return f!=null && !(phone==3 && f.remainingMeters<0);
     }
     public static boolean destinationTime(TimeToDestination_Status out) {
         LiveModel.Frame f=INSTANCE.current(); if (f==null) return false;
         out.reset();
+        if (phone==3 && f.remainingSeconds<0) return false; // AA: shown in the phone picture
         boolean valid=f.active && f.remainingSeconds>=0;
         int minutes=valid?(f.remainingSeconds+59)/60:0;
         // Remaining duration, not an assumed epoch/timezone for phone ETA.
@@ -259,7 +277,7 @@ public final class LiveBridge implements TimerNotifier, Runnable {
     private static LiveModel.Frame laneFrame() {
         LiveModel.Frame f=INSTANCE.current();
         if(f==null || !f.active || f.laneAt<0)return null;
-        long time=now();return time>=f.laneAt && time-f.laneAt<LiveModel.HOLD_MS?f:null;
+        long time=now();return time>=f.laneAt && time-f.laneAt<hold()?f:null;
     }
     public static java.util.Iterator laneIterator(NavigationService stock) {
         if(INSTANCE.current()==null)return stock.getLaneGuidance();
@@ -288,7 +306,7 @@ public final class LiveBridge implements TimerNotifier, Runnable {
     }
     void status(long records, int error) {
         try {
-            File target=new File(ROOT+"/adapter-status.txt"), temp=new File(ROOT+"/adapter-status.tmp");
+            File target=new File(at(root,"/adapter-status.txt")), temp=new File(at(root,"/adapter-status.tmp"));
             FileOutputStream out=new FileOutputStream(temp);
             StringBuffer s=new StringBuffer(BuildInfo.RELEASE?"RG build=":"D1 build="); s.append(BuildInfo.ID).append(" run=").append(hmiRun).append(" mode=").append(mode).append(" context=").append(context).append(" ticks=").append(ticks)
                 .append(" proposals=").append(proposals).append(" writes=").append(writes).append(" releases=").append(releases)
@@ -300,7 +318,7 @@ public final class LiveBridge implements TimerNotifier, Runnable {
                 .append(" last_release_journal_age=").append(lastReleaseJournalAge)
                 .append(" mailbox_serial=").append(productionFeed==null?-1:productionFeed.reader.observedSerial)
                 .append(" mailbox_kind=").append(productionFeed==null?-1:productionFeed.reader.observedKind)
-                .append(" feed_errors=").append(productionFeed==null?0:productionFeed.errors).append(" feed_recoveries=").append(productionFeed==null?0:productionFeed.recoveries).append(" feed_fatal=").append(productionFeed!=null && productionFeed.fatal?1:0).append(" error=").append(error).append('\n');
+                .append(" feed_errors=").append(productionFeed==null?0:productionFeed.errors).append(" feed_recoveries=").append(productionFeed==null?0:productionFeed.recoveries).append(" feed_fatal=").append(productionFeed!=null && productionFeed.fatal?1:0).append(" error=").append(error).append(" phone=").append(phone).append(" root=").append(root).append('\n');
             try { out.write(s.toString().getBytes("US-ASCII")); } finally { out.close(); }
             if (!temp.renameTo(target)) failures++;
             LaneEvidence.write(ROOT);
@@ -346,14 +364,23 @@ public final class LiveBridge implements TimerNotifier, Runnable {
         for (;;) {
             try {
                 long time=now();
-                pollProduction(feed,time,new File(ROOT+"/disabled").exists());
+                feed=switchRoot(feed);
+                pollProduction(feed,time,new File(at(root,"/disabled")).exists());
                 if(written<0 || time<written || time-written>=1000){
-                    if(new File(ROOT).isDirectory())status(feed.reader.records,feed.error);
+                    if(new File(root).isDirectory())status(feed.reader.records,feed.error);
                     written=time;
                 }
             }catch(Throwable t){incoming=null;mode=0;journalAt=-1;feed.failed(t,0);}
             try{Thread.sleep(100);}catch(InterruptedException e){incoming=null;mode=0;return;}
         }
+    }
+    // A CarPlay <-> Android Auto switch reads the other directory with a new
+    // FeedRecovery: the frame is dropped and the other source's error cleared.
+    FeedRecovery switchRoot(FeedRecovery feed){
+        String want=rootFor(phone);
+        if(want.equals(root))return feed;
+        root=want;incoming=null;mode=0;journalAt=-1;
+        return new FeedRecovery(want);
     }
     long feedGeneration=-1;
     void pollProduction(FeedRecovery feed,long time,boolean disabled){

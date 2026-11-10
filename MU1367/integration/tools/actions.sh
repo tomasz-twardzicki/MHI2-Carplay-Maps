@@ -58,18 +58,23 @@ case "$ACTION" in
   /bin/ksh "$CUSTOM/carplay_mu1367_map_only/actions.sh" status "$CUSTOM/carplay_mu1367_map_only" || exit 1
   if regular "$M/ramdisk/carplay-route-guidance/reader-failure-first.txt";then cat "$M/ramdisk/carplay-route-guidance/reader-failure-first.txt";fi
   if regular "$M/ramdisk/carplay-route-guidance/guidance-evidence.txt";then cat "$M/ramdisk/carplay-route-guidance/guidance-evidence.txt";fi
-  for R in "$APP/carplay-mu1367-guidance-v3" "$APP/carplay-mu1367-turn-cards";do
+  for R in "$APP/carplay-mu1367-guidance-v3" "$APP/carplay-mu1367-turn-cards" "$APP/carplay-mu1367-android-auto";do
    echo "LAYER=${R##*/}"
    for F in STATE VERSION;do regular "$R/$F" && cat "$R/$F";done
   done
+  /bin/ksh "$CUSTOM/carplay_mu1367_android_auto/control.sh" status "$CUSTOM/carplay_mu1367_android_auto" || :
   exit 0;;
  check-tools|reset-settings|restore-oem)
   # The OEM reset predates default compressed artwork: switch it off first so no stale layer stays behind.
+  # The OEM reset predates Android Auto too: put the factory gal back first.
+  if [ "$ACTION" = restore-oem ] && [ "$(cat "$APP/carplay-mu1367-android-auto/STATE" 2>/dev/null)" = installed ];then
+   /bin/ksh "$APP/carplay-mu1367-android-auto/control.sh" uninstall "$APP/carplay-mu1367-android-auto" || fail ANDROID_AUTO_REMOVAL_FAILED_RUN_RECOVER
+  fi
   if [ "$ACTION" = restore-oem ] && [ "$(cat "$APP/carplay-mu1367-artwork-png/STATE" 2>/dev/null)" = installed ];then
    /bin/ksh "$APP/carplay-mu1367-artwork-png/control.sh" uninstall || fail ARTWORK_PNG_REMOVAL_FAILED_RUN_RECOVER
   fi
   exec /bin/ksh "$CUSTOM/carplay_mu1367_map_only/actions.sh" "$ACTION" "$CUSTOM/carplay_mu1367_map_only";;
- install|uninstall|recover|enable-cards|disable-cards|recover-cards) ;;
+ install|uninstall|recover|enable-cards|disable-cards|recover-cards|aa-disable|aa-enable) ;;
  *) fail INVALID_ACTION;;
 esac
 absent "$M/ramdisk/carplay-altstream.ready" || fail DISCONNECT_PHONE_AND_ADAPTER_FULL_REBOOT_FIRST
@@ -139,9 +144,25 @@ png_remove(){
   *) /bin/ksh "$PNG/control.sh" recover || fail ARTWORK_PNG_RECOVERY_FAILED;;
  esac
 }
+AAL=$APP/carplay-mu1367-android-auto
+# The Android Auto layer depends on the main layer: it is removed first, from its saved controller.
+aa_remove(){
+ [ -d "$AAL" ] || return 0
+ parents "$AAL/control.sh" && regular "$AAL/control.sh" || fail NO_SAVED_ANDROID_AUTO_CONTROLLER
+ case "$(cat "$AAL/STATE" 2>/dev/null)" in
+  removed) return 0;;
+  installed) /bin/ksh "$AAL/control.sh" uninstall "$AAL" || fail ANDROID_AUTO_REMOVAL_FAILED_RUN_RECOVER;;
+  *) /bin/ksh "$AAL/control.sh" recover "$AAL" || fail ANDROID_AUTO_RECOVERY_FAILED;;
+ esac
+}
 case "$ACTION" in
+ aa-disable|aa-enable)
+  parents "$AAL/control.sh" && regular "$AAL/control.sh" || fail ANDROID_AUTO_NOT_INSTALLED
+  exec /bin/ksh "$AAL/control.sh" "${ACTION#aa-}" "$AAL";;
  uninstall|recover)
+  aa_remove
   png_remove uninstall
+  if ! regular "$MAIN/control.sh" && [ -d "$AAL" ];then echo MU1367_NO_MAIN_LAYER_ANDROID_AUTO_HANDLED;exit 0;fi
   regular "$MAIN/control.sh" || fail NO_SAVED_V3_CONTROLLER
   exec /bin/ksh "$MAIN/control.sh" "$ACTION";;
  disable-cards|recover-cards)
@@ -171,7 +192,8 @@ retain_removed "$MAIN"
 # installed, then this release's guidance layer.
 BASE=no
 if ! regular "$APP/carplay-mu1367-map-only/STATE" || [ "$(cat "$APP/carplay-mu1367-map-only/STATE")" != installed ];then BASE=yes;fi
-TOTAL=1
+# Main release layer and the Android Auto layer (v1.5.0-e).
+TOTAL=2
 # Compressed artwork (default since v1.4.6) unless the user disabled it.
 PNG_STEP=yes
 [ "$(cat "$PNG/STATE" 2>/dev/null)" = removed ] && PNG_STEP=no
@@ -198,6 +220,7 @@ install_steps(){
   fi
   /bin/ksh "$CUSTOM/carplay_mu1367_artwork_png/control.sh" install "$CUSTOM/carplay_mu1367_artwork_png" || { echo MU1367_GUIDANCE_V3_SUITE_FAIL=ARTWORK_PNG_INSTALL_FAILED_CARPLAY_INSTALLED_USE_RECOVERY;return 1; }
  else echo MU1367_COMPRESSED_ARTWORK_KEPT_DISABLED;fi
+ /bin/ksh "$CUSTOM/carplay_mu1367_android_auto/control.sh" install "$CUSTOM/carplay_mu1367_android_auto" || { echo MU1367_GUIDANCE_V3_SUITE_FAIL=ANDROID_AUTO_INSTALL_FAILED_CARPLAY_INSTALLED_USE_RECOVERY;return 1; }
 }
 # Nested layer installers each report a reboot as if run alone. Number their
 # completions instead and request one reboot at the end. Shell builtins only;

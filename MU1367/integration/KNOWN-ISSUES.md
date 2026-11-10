@@ -1,5 +1,23 @@
 # Known issues and planned work
 
+## Android Auto (v1.5.0-e, experimental)
+
+- Not yet tested in a car on MU1367. The hook's P4521 profile matches both MU1367
+  trains' factory `gal` exactly and was car-tested upstream; the hook + feeder +
+  route path was car-tested on MU1161 / AID 791 by chrzanowy/mhi2-aid-carplay.
+- The stream starts about 5 s after the phone connects. The phone sends one key
+  frame per session, so a picture the AID loses (dark start, loading screen) stays
+  lost until the phone reconnects. Asking the phone for a new key frame breaks its
+  session, so the feeder does not do it.
+- No VW arrow for the first ("depart") step; no remaining distance, arrival time,
+  lanes or road name from Android Auto. Track title and artwork stay CarPlay-only.
+- The MU menu frame-rate and turn-card settings do not apply to Android Auto
+  (30 fps, map only). The cluster map on/off setting does.
+- The menu's **RESTORE OEM** removes Android Auto first. The independent reset run
+  without the menu (`RUN_RESTORE.sh`) predates it and leaves the `gal` wrapper (which
+  then runs the factory `gal`); run the saved Android Auto `uninstall` (see INSTALL.md).
+- Wireless Android Auto adapters are untested.
+
 ## Ottocast Mini Pico turn card
 
 The base requests a map-only scene with ETA/card/speed-limit overlays disabled.

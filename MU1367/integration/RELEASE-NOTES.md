@@ -1,4 +1,56 @@
-# MU1367 v1.4.6 — stable: U-turn lanes, Apple Maps languages, 27 fps and compressed artwork
+# MU1367 v1.5.0-e — experimental Android Auto on the AID
+
+**EXPERIMENTAL — TO BE TESTED.** Based on stable v1.4.6, for **K4525 / P4521 MU1367 +
+AID 791**. P4521 installation remains experimental. This package has **no vehicle
+result yet**, neither for Android Auto nor for the unchanged CarPlay features. Use
+v1.4.6 for a stable CarPlay installation.
+
+## Android Auto in the same installation
+
+The same **Install / update CarPlay integration (reboot)** entry now installs
+Android Auto support together with every CarPlay feature of v1.4.6. There is no
+separate Android Auto install step. With an Android phone on the cable:
+
+- **Google Maps picture on the AID**, over the head unit's own MOST video path, like
+  the CarPlay map. The MU menu's cluster map switch applies to Android Auto too:
+  with the map off, the AID keeps its VW content.
+- **Native VW turn arrows with distance** and the countdown bar from Google Maps
+  steps, through the same route guidance as CarPlay. A phone that stops navigating
+  releases the arrow after 10 s; CarPlay keeps its 3-minute hold.
+
+CarPlay is unchanged. Only the guidance JAR changes in the CarPlay runtime; the map
+core, menu, audio, compressed artwork, reader and driver bytes match v1.4.6.
+
+**How it works.** The factory Android Auto receiver (`gal`) is started through a
+small wrapper that loads MacsInSpace's cluster-map hook. The hook offers the phone a
+second 800 × 480 display and hands its H.264 video to a feeder, which writes it into
+the ring the CarPlay map bridge already sends to the AID. The hook also turns Google
+Maps' navigation messages into the mailbox format the CarPlay route guidance reads.
+Both MU1367 trains carry the same factory `gal`, and it matches the hook's
+car-tested P4521 profile exactly. Hook, feeder and route translation come from
+[chrzanowy/mhi2-aid-carplay](https://github.com/chrzanowy/mhi2-aid-carplay) v1.5.0
+(tested there on a Passat B8, MU1161 + AID 791). For MU1367 the feeder also respects
+the MU menu map switch and holds the same video-cache lease as the CarPlay bridge.
+
+**New menu entries:** **Android Auto cluster map: off / on** switch only the hook.
+With it off, Android Auto runs exactly as from the factory from the next connection.
+
+**Removal:** **Recovery > Remove latest update only** removes Android Auto first and
+puts the factory `gal` back from its verified snapshot, then the CarPlay update. The
+menu's **RESTORE OEM** removes Android Auto first as well.
+
+## Known limits of Android Auto
+
+- No vehicle result on MU1367 yet.
+- The picture starts about 5 s after the phone connects. Now and then it starts dark
+  until the phone's next key frame; reconnecting the phone helps.
+- No VW arrow at the very first step of a route. Remaining distance and arrival time
+  stay in the Google Maps picture. No VW lanes or road name from Android Auto.
+- The MU menu's frame rate and turn-card settings apply to CarPlay only. The Android
+  Auto stream is 30 fps.
+- Track title and album art on the AID remain CarPlay-only.
+
+# Earlier: v1.4.6 — stable: U-turn lanes, Apple Maps languages, 27 fps and compressed artwork
 
 Stable release of the v1.4.6-e build for **K4525 / P4521 MU1367 + AID 791**. P4521
 installation remains experimental. Everything in v1.4.6-e below is included, with two

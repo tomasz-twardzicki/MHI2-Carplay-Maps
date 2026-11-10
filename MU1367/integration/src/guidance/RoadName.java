@@ -28,7 +28,7 @@ public final class RoadName {
         // laneAt is the existing timestamp of the last accepted route update.
         // Maneuver/lane-only activity cannot keep that route context fresh.
         return f!=null && f.active && f.roadAt>=0 && time>=f.roadAt
-            && f.laneAt>=0 && time>=f.laneAt && time-f.laneAt<MAX_AGE
+            && f.laneAt>=0 && time>=f.laneAt && time-f.laneAt<LiveBridge.hold()
             && f.currentRoad!=null?f.currentRoad:"";
     }
 }

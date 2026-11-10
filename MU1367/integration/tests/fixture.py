@@ -37,11 +37,13 @@ class Suite(unittest.TestCase):
                            ('mnt/system/etc/mm/iap2.cfg', 'iap2.cfg'), ('mnt/app/eso/hmi/lsd/lsd.sh', 'boot'),
                            ('mnt/app/eso/bin/apps/dio_manager', 'dio'),
                            # v1.4.6: compressed artwork (default) checks the factory zlib
-                           ('proc/boot/libz.so.2', 'libz.so.2')]:
+                           ('proc/boot/libz.so.2', 'libz.so.2'),
+                           # v1.5.0-e: factory Android Auto receiver (both MU1367 trains share it)
+                           ('mnt/app/eso/bin/apps/gal', 'gal')]:
             p = cls.seed / dest
             p.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ARGS.inputs / name, p)
-            if name in ('boot', 'dio', 'driver'):
+            if name in ('boot', 'dio', 'driver', 'gal'):
                 p.chmod(0o755)
         (cls.seed / 'mnt/app/eso/hmi/lsd/jars').mkdir()
         (cls.seed / 'ramdisk').mkdir()
@@ -61,7 +63,7 @@ class Suite(unittest.TestCase):
     def runtime(root):
         app = root / 'mnt/app'
         paths = ['eso/hmi/lsd/jars/CarPlayMU1367Guidance.jar', 'carplaymaps/core.so', 'eso/hmi/lsd/lsd.sh',
-                 'armle/lib/dll/ipod-drvr-iap2.so', 'eso/bin/apps/dio_manager',
+                 'armle/lib/dll/ipod-drvr-iap2.so', 'eso/bin/apps/dio_manager', 'eso/bin/apps/gal',
                  'eso/hmi/lsd/jars/CarPlayMU1367Audio.jar', 'eso/hmi/lsd/jars/VCMenu.jar',
                  'eso/hmi/lsd/jars/CarPlayClusterControls.jar']
         paths += [n + '/control.sh' for n in ('carplay-mu1367', 'carplay-mu1367-settings', 'carplay-mu1367-lanes',
@@ -77,6 +79,19 @@ class Suite(unittest.TestCase):
         self.app = self.root / 'mnt/app'
         self.env = dict(self.base_env, CPMAP_TEST_ROOT=str(self.root))
         self.p = self.sd / 'Custom/carplay_mu1367_refinements'
+
+    def after_oem_reset_android_auto(self):
+        # Kept for an OEM reset run outside the menu; the menu's restore-oem removes Android Auto first.
+        # v1.5.0-e: the independent OEM reset archives /mnt/app/carplaymaps (with the Android Auto runtime) but
+        # predates the Android Auto layer, so the gal wrapper stays and runs the factory copy. Its saved
+        # controller then restores the factory gal, as INSTALL.md documents.
+        layer = self.app / 'carplay-mu1367-android-auto'
+        manifest = json.loads((self.sd / 'Custom/carplay_mu1367_android_auto/manifest.json').read_text())
+        self.assertEqual(sha((self.app / 'eso/bin/apps/gal').read_bytes()), manifest['wrapper_sha256'])
+        self.assertFalse((self.app / 'carplaymaps/aa').exists())
+        self.assertEqual(sha((layer / 'gal.real').read_bytes()), manifest['factory_gal']['sha256'])
+        self.assertIn('FACTORY_GAL_RESTORED', self.run_script(layer / 'control.sh', ['uninstall']))
+        self.assertEqual(sha((self.app / 'eso/bin/apps/gal').read_bytes()), manifest['factory_gal']['sha256'])
 
     def run_script(self, p, args, success=True, env=None):
         r = subprocess.run(['/bin/ksh', str(p), *map(str, args)], env=env or self.env, capture_output=True, text=True, timeout=300)

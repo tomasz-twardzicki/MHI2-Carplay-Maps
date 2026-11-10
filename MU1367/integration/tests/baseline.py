@@ -17,6 +17,7 @@ class Suite(unittest.TestCase):
  base6=base.Suite.base6
  prepare=base.Suite.prepare
  run_script=base.Suite.run_script
+ after_oem_reset_android_auto=base.Suite.after_oem_reset_android_auto
  def setUp(self):
   base.Suite.setUp(self)
   self.oldp=self.p;self.p=self.sd/'Custom/carplay_mu1367_map_only'
