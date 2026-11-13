@@ -31,6 +31,9 @@ for v in "carplay 150 0 0xffffffffffffffffULL" "aa 150 0 0xffffffffffffffffULL" 
   -DALTSCREEN_BRIDGE_TEST_ENOMEM_AT_BLOCKS=$2 -DALTSCREEN_BRIDGE_TEST_ENOMEM_REPEAT=$3 \
   -I/i/tests/android-auto/e2e/stub -I{R}/runtime {R}/runtime/altscreen_most_bridge.c -o /o/reclaim-$1
 done
+# v1.5.2-e backlog limit 2048 (and the old 1024 for comparison).
+cc -O2 -std=gnu99 -pthread -D_GNU_SOURCE -DALTSCREEN_BRIDGE_FILE_OUTPUT -DTS_LOW_LATENCY_LIMIT_PACKETS=1024U -I/i/tests/android-auto/e2e/stub -I{R}/runtime {R}/runtime/altscreen_most_bridge.c -o /o/altscreen-most-bridge-carplay-1024
+python3 -I /i/tests/android-auto/e2e/backlog_limit.py /o/altscreen-most-bridge-carplay /o/altscreen-most-bridge-carplay-1024 /i/tests/android-auto/feeder /o/backlog-limit.json > /o/backlog-limit.log 2>&1
 python3 -I /i/tests/android-auto/e2e/most_reclaim.py /o/reclaim-carplay /o/reclaim-aa /o/reclaim-exhaust /o/reclaim-window /i/tests/android-auto/feeder /tmp/dmdt.log /o/most-reclaim.json > /o/most-reclaim.log 2>&1
 '''
 r = subprocess.run(['docker', '--context', a.docker_context, 'run', '--rm', '--network=none', '-v', str(I) + ':/i:ro', '-v', str(out) + ':/o',
@@ -46,6 +49,7 @@ host = {'passed': True, 'checks': log.count('\nok') + log.startswith('ok'), 'mu1
 (out / 'feeder-host.json').write_text(json.dumps(host, indent=2) + '\n')
 rec = json.loads((out / 'bridge-recovery.json').read_text()); assert rec['passed']
 recl = json.loads((out / 'most-reclaim.json').read_text()); assert recl['passed']
-e2e.update(source_sha256=src, real_mu1367_bridge=True, real_mu1367_supervisor=True, aa_bridge_build='ALTSCREEN_AA_SINGLE_IDR', bridge_recovery=rec, most_reclaim={k: recl[k] for k in ('passed', 'checks', 'failed')})
+blim = json.loads((out / 'backlog-limit.json').read_text()); assert blim['passed']
+e2e.update(source_sha256=src, real_mu1367_bridge=True, real_mu1367_supervisor=True, aa_bridge_build='ALTSCREEN_AA_SINGLE_IDR', bridge_recovery=rec, most_reclaim={k: recl[k] for k in ('passed', 'checks', 'failed')}, backlog_limit=blim)
 (out / 'e2e.json').write_text(json.dumps(e2e, indent=2) + '\n')
-print(json.dumps({'feeder_host_checks': host['checks'], 'mu1367_cases': host['mu1367_cases'], 'e2e_checks': e2e['checks'], 'nal_types': e2e['nal_types'], 'most_reclaim_checks': recl['checks']}))
+print(json.dumps({'feeder_host_checks': host['checks'], 'mu1367_cases': host['mu1367_cases'], 'e2e_checks': e2e['checks'], 'nal_types': e2e['nal_types'], 'most_reclaim_checks': recl['checks'], 'backlog_limit_checks': blim['checks']}))

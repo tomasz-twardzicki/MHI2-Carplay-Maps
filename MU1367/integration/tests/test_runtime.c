@@ -48,7 +48,7 @@ int main(int argc,char **argv){
    assert(card_snapshot().position==3);
    assert(!strcmp(string(d,"initialURL"),"maps:/car/instrumentcluster/map?showETA=no&maneuverLayout=no&showSpeedLimit=no"));
    assert(!strcmp(string(d,"uuid"),"b7e6c5a0-1367-4791-8000-000000000001"));
-   assert(number(safe,"originXPixels")==200&&number(safe,"originYPixels")==96&&number(safe,"widthPixels")==400&&number(safe,"heightPixels")==364);
+   assert(number(safe,"originXPixels")==160&&number(safe,"originYPixels")==20&&number(safe,"widthPixels")==480&&number(safe,"heightPixels")==440);
   }else{
    assert(card_snapshot().position==pos);
    if(pos==3)assert(strstr(string(d,"initialURL"),"instrumentcluster/map")!=NULL);

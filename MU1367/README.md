@@ -2,7 +2,9 @@
 
 Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
 
-**Pre-release to test: [v1.5.1-e](../releases/MU1367/v1.5.1-e/README.md)** adds
+**Pre-release to test: [v1.5.2-e](../releases/MU1367/v1.5.2-e/README.md)** tests
+v1.2.2's taller map safe area and a larger video-bridge buffer for a lighter, steadier
+CarPlay map on the AID. Like [v1.5.1-e](../releases/MU1367/v1.5.1-e/README.md) it adds
 **Android Auto** (with the cluster-map freeze of v1.5.0-e fixed) to the same installation: the Google Maps picture from an Android phone
 on the AID and native VW turn arrows, next to every CarPlay feature of v1.4.6. It also keeps
 the CarPlay map from dropping out shortly after every boot.

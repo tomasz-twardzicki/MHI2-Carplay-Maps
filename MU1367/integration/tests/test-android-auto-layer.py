@@ -124,8 +124,8 @@ fresh(); ctl('install'); oem_reset(); oem_reinstall_base()
 rc, out = ctl('install'); check(rc == 0 and 'INCOMPLETE_RUNTIME_RESTORED_REINSTALLING' in out and 'INSTALLED_REBOOT_REQUIRED' in out
                                 and all(sha(AA / n) == h for n, h in MAN['files'].items()), 'reinstall after OEM reset repairs the runtime')
 
-# 4b. in-place upgrade of layers installed by the published v1.5.0-e and first v1.5.1-e controllers (car units already have one)
-for OLD_REV in ('release-v1.5.0-e', 'release-v1.5.1-e'):
+# 4b. in-place upgrade of layers installed by the published v1.5.0-e and both v1.5.1-e controllers (car units already have one)
+for OLD_REV in ('release-v1.5.0-e', 'release-v1.5.1-e-first', 'release-v1.5.1-e'):
     OLD = Path(__file__).resolve().parent / 'revisions' / OLD_REV / 'carplay_mu1367_android_auto'
     # The old controller installs only on its own main layer; v1.5.1-e changed the main layer, so the old Android Auto
     # layer is then left on top of this release's main layer (the AA_PREVIOUS in-place path).

@@ -16,7 +16,7 @@ GAL=$APP/eso/bin/apps/gal
 LOCK=$M/ramdisk/.carplay-guidance-install-lock
 OWN=no
 ROLLBACK=no
-BUILD=mu1367-android-auto-c1f4833dac00
+BUILD=mu1367-android-auto-ad7f051fd568
 FACTORY_GAL=f84722179cbfb3c0bb92589e0fc58ffcfc3cc0860fabcdf426955e58d900daa0
 WRAPPER=ebbefc53004888507dff32770dd2e2a762b3c7895b0c05250b5799e9c7a74034
 RUNTIME='libgal_hook.so libdmdt_flush.so aa-most-feeder altscreen-most-bridge-aa gal-hook.conf feeder.conf'
@@ -24,7 +24,7 @@ expected(){ case "$1" in
  libgal_hook.so) echo bdd76a85f22319c9750f7c55849b4053d4ce365446559025195673677bc73b05;;
  libdmdt_flush.so) echo 4e3202f0f41b5ad5a96d86ff49adbe574ce550f7b168c9a5f385069ca0e5222f;;
  aa-most-feeder) echo e52e6c1a757905df991133dcd25fc4debd1ab575ccc5b7576be4284c46384370;;
- altscreen-most-bridge-aa) echo feb5c77c766965351ec376e9d3211d67f48e415e849fbbd4558bc233fab51b50;;
+ altscreen-most-bridge-aa) echo 42259a6df4db35dfbf096d52b7c8bc07c0f1d3a641aed4823ba144dd2c00da23;;
  gal-hook.conf) echo 716516eb36b50f7b7230ff36ad8057713ba2b1c97c2fd0b55afe2c8f17559173;;
  feeder.conf) echo ac7157dabd7ae3ec61e8b9c453451b5716154b2b068d552dd96a94a83852e75d;;
  *) return 1;;esac; }
@@ -151,7 +151,7 @@ esac
 # Removal stays possible after an OEM reset archived /mnt/app/carplaymaps (and PROFILE with it).
 [ "$(cat "$APP/carplaymaps/PROFILE" 2>/dev/null)" = MU1367/791 ] || fail MU1367_791_ONLY
 case "$(cat "$APP/carplay-mu1367-guidance-v3/VERSION" 2>/dev/null)" in
- mu1367-guidance-v3-02dff707ddd2|mu1367-guidance-v3-6f2421b0eced|mu1367-guidance-v3-aed3f0d88907|mu1367-guidance-v3-2231214c28de) ;;
+ mu1367-guidance-v3-15ed81a807b4|mu1367-guidance-v3-766c10540f2a|mu1367-guidance-v3-89986b9f89cf|mu1367-guidance-v3-082cca511f4d) ;;
  *) fail EXACT_RELEASE_MAIN_LAYER_REQUIRED;;
 esac
 [ "$(cat "$APP/carplay-mu1367-guidance-v3/STATE" 2>/dev/null)" = installed ] || fail EXACT_RELEASE_MAIN_LAYER_REQUIRED
@@ -165,7 +165,7 @@ if regular "$ROOT/STATE";then
    case "$(cat "$ROOT/VERSION" 2>/dev/null)" in
     "$BUILD") :;;
     # Earlier Android Auto builds of this release series: back to the factory gal, then install afresh.
-    mu1367-android-auto-ee74f406dd94|mu1367-android-auto-e3e4e1ce3a73)
+    mu1367-android-auto-ee74f406dd94|mu1367-android-auto-e3e4e1ce3a73|mu1367-android-auto-c1f4833dac00)
      restore >/dev/null || fail PREVIOUS_ANDROID_AUTO_RESTORE_FAILED_RUN_RECOVER
      echo MU1367_ANDROID_AUTO_PREVIOUS_BUILD_REMOVED_UPGRADING;;
     *) fail OTHER_ANDROID_AUTO_VERSION_UNINSTALL_FIRST;;

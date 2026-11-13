@@ -1,5 +1,5 @@
 {
-  "build_id": "mu1367-android-auto-c1f4833dac00",
+  "build_id": "mu1367-android-auto-ad7f051fd568",
   "factory_gal": {
     "sha256": "f84722179cbfb3c0bb92589e0fc58ffcfc3cc0860fabcdf426955e58d900daa0",
     "size": 1269211,
@@ -13,15 +13,15 @@
     "libgal_hook.so": "bdd76a85f22319c9750f7c55849b4053d4ce365446559025195673677bc73b05",
     "libdmdt_flush.so": "4e3202f0f41b5ad5a96d86ff49adbe574ce550f7b168c9a5f385069ca0e5222f",
     "aa-most-feeder": "e52e6c1a757905df991133dcd25fc4debd1ab575ccc5b7576be4284c46384370",
-    "altscreen-most-bridge-aa": "feb5c77c766965351ec376e9d3211d67f48e415e849fbbd4558bc233fab51b50",
+    "altscreen-most-bridge-aa": "42259a6df4db35dfbf096d52b7c8bc07c0f1d3a641aed4823ba144dd2c00da23",
     "gal-hook.conf": "716516eb36b50f7b7230ff36ad8057713ba2b1c97c2fd0b55afe2c8f17559173",
     "feeder.conf": "ac7157dabd7ae3ec61e8b9c453451b5716154b2b068d552dd96a94a83852e75d"
   },
   "main_versions": [
-    "mu1367-guidance-v3-02dff707ddd2",
-    "mu1367-guidance-v3-6f2421b0eced",
-    "mu1367-guidance-v3-aed3f0d88907",
-    "mu1367-guidance-v3-2231214c28de"
+    "mu1367-guidance-v3-15ed81a807b4",
+    "mu1367-guidance-v3-766c10540f2a",
+    "mu1367-guidance-v3-89986b9f89cf",
+    "mu1367-guidance-v3-082cca511f4d"
   ],
   "hook": {
     "sha256": "bdd76a85f22319c9750f7c55849b4053d4ce365446559025195673677bc73b05",
@@ -32,11 +32,12 @@
   "feeder_version": "10-mu1367.2",
   "bridge": {
     "build": "altscreen_most_bridge.c -DALTSCREEN_AA_SINGLE_IDR",
-    "sha256": "feb5c77c766965351ec376e9d3211d67f48e415e849fbbd4558bc233fab51b50"
+    "sha256": "42259a6df4db35dfbf096d52b7c8bc07c0f1d3a641aed4823ba144dd2c00da23"
   },
   "replaces_builds": [
     "mu1367-android-auto-ee74f406dd94",
-    "mu1367-android-auto-e3e4e1ce3a73"
+    "mu1367-android-auto-e3e4e1ce3a73",
+    "mu1367-android-auto-c1f4833dac00"
   ],
   "source": {
     "source_repository": "https://github.com/chrzanowy/mhi2-aid-carplay",

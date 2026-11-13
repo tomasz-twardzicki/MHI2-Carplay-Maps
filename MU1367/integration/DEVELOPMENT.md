@@ -353,3 +353,25 @@ Run `test-package.py`, `test-release-reader-transaction.py`, `test-p4521.py` and
 `test-payload-checks.py` in the disposable Debian/ksh93 container without network,
 then `verify.py` with every proof. The factory-J9 guidance run now includes
 `TestQuietQnx`; the host programs include `TestQuietHold`.
+
+## Experimental v1.5.2-e: v1.2.2 safe area and 2048-packet backlog
+
+Comparison with the v1.2.2 toolbox (`VW_SKODA_ALL_CarPlay_Maps_VC_FULL_MQB_Toolbox_V4.2A_v1.2.2.zip`):
+same bridge as the pre-v2 profiles (`c846e505…`, GCC 4.4.2, unstripped), whose transport and
+recovery constants match ours (1024-packet limit, 30 ms fast write, PSI/PCR every 327 packets).
+Its MU1367/791 core declares `maxFPS` 40, the plain `maps:/car/instrumentcluster/map` scene,
+IDR 5 and safe area 160,20,480,440. v2.0 changed the bridge build and the safe area
+(200,96,400,364) together.
+
+- `src/runtime/card-core/source/display_settings.h`: the map-only `cpvc_display_area` returns
+  160,20,480,440. Only `base/core.so` changes (`RUNTIME.json`); the card-tuning override keeps
+  its layout table, so `tuning/core.so` is unchanged.
+- `altscreen_most_bridge.c`: `TS_LOW_LATENCY_LIMIT_PACKETS` 2048 (was 1024) for every stream
+  setting; the bridge logs `latency-limit packets=… reclaim-window-s=…` at start.
+  `tests/android-auto/e2e/backlog_limit.py` (from `test-aa-host.py`) runs the 2048 build and a
+  1024 build on the same bursts of 145 KB frames: about 1390 queued packets resets only with
+  1024 (car: 1377), about 2650 resets with both.
+- Published v1.5.1-e (`54dfbbab…`) is the base archive. Its main controllers are registered as
+  `release-v1.5.1-e` (they own the bridge, so `@BRIDGE_VERSIONS@` also lists legacy owners) and
+  its Android Auto layer is in `AA_PREVIOUS`. The first v1.5.1-e Android Auto fixture moved to
+  `tests/revisions/release-v1.5.1-e-first`. Migration matrix: 88 combinations.

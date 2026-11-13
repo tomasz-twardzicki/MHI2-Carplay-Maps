@@ -1,5 +1,16 @@
 # Known issues and planned work
 
+## Map safe area and bridge backlog (v1.5.2-e, experimental)
+
+- The map-only view goes back to v1.2.2's taller safe area (160,20,480,440). The phone
+  app decides how to frame the map. Whether this brings back the closer, lighter map
+  of v1.2.2, and whether anything important then sits under the dials, needs a car
+  test with the same routes as before.
+- The bridge now waits for 2048 queued TS packets (about 250 ms) before it drops the
+  backlog and asks for a key frame (was 1024, about 125 ms). This removes the
+  reset seen at a 1377-packet peak. During a real stall the picture can lag by up
+  to about 250 ms before it resets.
+
 ## CarPlay video bridge at boot (v1.5.1-e, experimental)
 
 - On every boot the factory video encoder briefly takes the MOST video output about

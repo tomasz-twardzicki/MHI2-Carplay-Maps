@@ -39,11 +39,15 @@
 #ifndef TS_QUEUE_PACKETS
 #define TS_QUEUE_PACKETS 65536U
 #endif
-/* 1024 packets are about 125 ms at the measured 32-byte/48-kHz isoTX2
+/* 2048 packets are about 250 ms at the measured 32-byte/48-kHz isoTX2
  * allocation (12.288 Mbit/s). Never preserve a larger real-time backlog:
- * stale predictive video is worse than briefly waiting for a fresh IDR. */
+ * stale predictive video is worse than briefly waiting for a fresh IDR.
+ * v1.5.2-e: raised from 1024 (about 125 ms). At 27/5 a detailed map sends
+ * frames up to 145 KB (about 790 packets); a key frame landing on the
+ * previous one peaked at 1377 queued packets, triggering a reset and a
+ * blocky recovery although the MOST link was healthy. */
 #ifndef TS_LOW_LATENCY_LIMIT_PACKETS
-#define TS_LOW_LATENCY_LIMIT_PACKETS 1024U
+#define TS_LOW_LATENCY_LIMIT_PACKETS 2048U
 #endif
 #define RECOVERY_FAST_WRITE_LIMIT_US 30000ULL
 #define RECOVERY_FAST_WRITES_REQUIRED 8U
@@ -1558,6 +1562,9 @@ int main(int argc, char **argv)
             ALT_FRAME_RING_SLOT_COUNT, device);
     cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro-policy=%s\n",
             intro_policy == CPMAP_INTRO_OFF ? "off" : intro_policy == CPMAP_INTRO_EVERY_CONNECT ? "every-connect" : "once-per-boot");
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: latency-limit packets=%u reclaim-window-s=%u\n",
+            (unsigned)TS_LOW_LATENCY_LIMIT_PACKETS,
+            (unsigned)(ALTSCREEN_BRIDGE_RECLAIM_WINDOW_US / 1000000ULL));
     if (!cpmap_intro_should_play(intro_policy, INTRO_ONCE_PATH)) {
         /* A second CarPlay session in the same boot must start at a fresh
          * config/IDR boundary, even though the animation is not replayed. */

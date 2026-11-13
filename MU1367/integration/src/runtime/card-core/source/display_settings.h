@@ -51,7 +51,9 @@ static void cpvc_display_refresh(void){
 static int cpvc_display_fps(void){static const int fps[7]={30,40,30,40,25,20,27};int s=cpvc_display_snapshot().stream;return s>=0&&s<7?fps[s]:27;}
 static int cpvc_display_idr(void){return 5;}
 static void cpvc_display_area(int *x,int *y,int *w,int *h){
- static const int rect[4][4]={{200,96,400,364},{160,96,480,364},{220,96,360,348},{220,65,360,348}};
- int l=0; /* Map-only layout ignores obsolete card preferences. */*x=rect[l][0];*y=rect[l][1];*w=rect[l][2];*h=rect[l][3];
+ /* Map only ignores obsolete card preferences. v1.5.2-e declares the taller safe area of v1.2.2
+  * (160,20,480,440) instead of 200,96,400,364: with the smaller, lower box the map app framed
+  * a wider, denser map and the phone's frames grew (up to 145 KB at 27/5 in a tester's drive). */
+ *x=160;*y=20;*w=480;*h=440;
 }
 #endif

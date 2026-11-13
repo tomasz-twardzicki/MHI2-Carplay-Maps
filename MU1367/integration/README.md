@@ -1,6 +1,10 @@
-# MU1367 / 791 integration v1.5.1-e — experimental
+# MU1367 / 791 integration v1.5.2-e — experimental
 
-This release updates v1.5.0-e, based on stable **v1.4.6**. It is **experimental, to be tested**.
+This release updates v1.5.1-e, based on stable **v1.4.6**. It is **experimental, to be tested**.
+
+- **v1.5.2-e:** the map-only view declares v1.2.2's taller safe area (160,20,480,440)
+  for a closer, lighter map, and the video bridge allows a 2048-packet backlog (was
+  1024) before it resets, so large frames at 27/5 no longer cause blocky recoveries.
 
 - **v1.5.1-e:** the CarPlay video bridge takes the MOST output back from the factory
   encoder during boot instead of exiting (the map dropped out about 18 s after every
@@ -14,14 +18,14 @@ This release updates v1.5.0-e, based on stable **v1.4.6**. It is **experimental,
   language, 27 fps / IDR 5 default and compressed album artwork by default.
 
 Supports **K4525 and P4521 MU1367 + AID 791**. P4521 installation retains its
-experimental status. In the CarPlay runtime, the guidance JAR (v1.5.0-e) and the video bridge (v1.5.1-e) change.
+experimental status. In the CarPlay runtime, the guidance JAR (v1.5.0-e), the video bridge (v1.5.1-e, v1.5.2-e) and the map-only core (v1.5.2-e) change.
 
 - [Install, update and rollback](INSTALL.md)
 - [Release notes](RELEASE-NOTES.md)
 - [Reader recovery behavior](READER-RECOVERY.md)
 - [Reroute capture analysis](evidence/REROUTE-2026-11-05.md)
 - [Apple Maps / Waze capture analysis](evidence/APP-GUIDANCE-2026-11-04.md)
-- [Release files](../../releases/MU1367/v1.5.1-e/README.md)
+- [Release files](../../releases/MU1367/v1.5.2-e/README.md)
 - [Known issues](KNOWN-ISSUES.md)
 - [Independent OEM reset](RECOVERY.md)
 - [Source, builds and verification](DEVELOPMENT.md)

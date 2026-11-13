@@ -1,4 +1,43 @@
-# MU1367 v1.5.1-e — experimental: CarPlay map survives boot, Android Auto map no longer freezes
+# MU1367 v1.5.2-e — experimental: lighter CarPlay map (v1.2.2 safe area, larger bridge buffer)
+
+**EXPERIMENTAL — TO BE TESTED.** Update of v1.5.1-e for **K4525 / P4521 MU1367 + AID
+791**. Use v1.4.6 for a stable CarPlay installation. Two changes aimed at the stutter
+and blocky moments some drivers see with detailed Google Maps views at 27/5:
+
+- **The map asks for the taller safe area of v1.2.2.** The safe area tells the phone's
+  map app which part of the 800×480 cluster picture is clearly visible. The app keeps
+  the car position and the route inside that box. v1.2.2 declared 160,20,480,440, a
+  tall box almost the full height of the picture. Since v2.0 the map-only setting
+  declared 200,96,400,364, smaller and lower between the dials. A comparison with v1.2.2
+  pointed to this as the likely reason the map now looks wider and much more detailed
+  (more roads and labels), with frames up to 145 KB, where v1.2.2 showed a closer,
+  simpler map. v1.5.2-e goes back to the v1.2.2 box for the map-only view. The turn-card
+  option keeps its own layouts. Possible side effect: parts of the map near the top
+  edge or next to the dials may sit under the cluster graphics.
+- **The video bridge allows twice the backlog before it resets.** When more than 1024
+  TS packets (about 125 ms of video) were waiting for the MOST link, the bridge
+  dropped them and waited for a fresh key frame. That is the brief lag, stutter and
+  blocky picture. In a one-hour 27/5 drive the backlog peaked at 1377 packets, when
+  a large key frame landed right after another large frame, while the MOST link
+  itself was healthy (3 slow writes in 52 minutes). The limit is now 2048 packets
+  (about 250 ms) for every stream setting. It only adds delay during such a burst. A
+  real stall is still cut off, after about 250 ms instead of 125 ms. The bridge log now
+  starts with `bridge: latency-limit packets=2048`.
+
+Everything else is as in v1.5.1-e, including the boot-time MOST reclaim and Android
+Auto on the AID. Updating from v1.5.1-e (or v1.5.0-e) goes through the two-stage
+install: install → full reboot → install again. Stage 1 also removes the Android Auto
+layer; stage 2 puts it back.
+
+**What to test:** the same Google Maps routes and zoom levels as before, at 27/5 and
+if possible 30 or 40 fps. Does the map look closer and simpler? Are there fewer
+stutters? Is anything important hidden under the dials? Export diagnostics after a
+drive: the bridge log shows `latency-reset` lines and `frame_max` sizes to compare.
+
+The guidance, audio and menu payloads are byte-identical to v1.5.1-e. Only the map-only
+core (safe area) and the CarPlay and Android Auto bridge builds (limit) change.
+
+# Earlier: v1.5.1-e — experimental: CarPlay map survives boot, Android Auto map no longer freezes
 
 **EXPERIMENTAL — TO BE TESTED.** Update of v1.5.0-e for **K4525 / P4521 MU1367 + AID
 791**. Use v1.4.6 for a stable CarPlay installation. This rebuild of v1.5.1-e replaces

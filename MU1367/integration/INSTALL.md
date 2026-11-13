@@ -1,4 +1,4 @@
-# MU1367 / 791 v1.5.1-e — complete installation and update
+# MU1367 / 791 v1.5.2-e — complete installation and update
 
 For **MHI2_ER_VWG13_K4525 or MHI2_ER_VWG13_P4521 MU1367 + AID 791
 (12.3 inch)**. **P4521 installation remains experimental**, following a successful
@@ -21,7 +21,7 @@ its saved controller and fully reboot. Audio R1/R2 test layers and the artwork
 refresh test from v1.4.5 (**Tuning > Remove artwork test**) must be removed before a
 base upgrade, because the release retains the original audio runtime.
 
-Verify `CarPlay_Maps_VC_MU1367_791_v1.5.1-e.zip` with the adjacent `SHA256SUMS.txt`.
+Verify `CarPlay_Maps_VC_MU1367_791_v1.5.2-e.zip` with the adjacent `SHA256SUMS.txt`.
 Extract to a clean FAT32 SD root; do not merge older SD contents. Keep this SD
 and copy all recovery snapshots off the unit after a successful installation.
 
@@ -35,7 +35,7 @@ menus and scripts** from this SD. The established refresh command on MMX is:
 
 Use `/fs/sdb0` throughout if appropriate. From RCC enter MMX with `on -f mmx`.
 Under **MQB Coding > Customization > CarPlay Maps VC**, verify the banner reads
-**MU1367 / 791 v1.5.1-e - EXPERIMENTAL (CarPlay + Android Auto)**. Do not use scripts left from an earlier SD.
+**MU1367 / 791 v1.5.2-e - EXPERIMENTAL (CarPlay + Android Auto)**. Do not use scripts left from an earlier SD.
 
 ## Install / update
 
@@ -59,7 +59,7 @@ numbered or experimental steps need to be selected separately.
 - **Stock OEM, v1.3.0, v1.4.0, supported step-6/step-8 and Integrated Arrows:**
   matching existing layers are checked and retained; missing layers are added.
 - **Lane-v2:** the release update is added directly.
-- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e/v1.4.4/v1.4.5/v1.4.6-e/v1.4.6/v1.5.0-e, the first published v1.5.1-e, or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
+- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e/v1.4.4/v1.4.5/v1.4.6-e/v1.4.6/v1.5.0-e/v1.5.1-e (both builds), or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
   this is the one case that needs two reboots. The first invocation (stage 1 of 2) checks the saved controller and every original backup,
   removes an installed Android Auto layer (the factory `gal` returns from its snapshot) and matching optional card tuning if present, and restores the lane-v2
   baseline through the saved controller. Expect
@@ -69,7 +69,7 @@ numbered or experimental steps need to be selected separately.
   The old removed snapshot is verified and archived, never overwritten.
 
 The final success message is
-**`MU1367_RELEASE_1_5_1_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
+**`MU1367_RELEASE_1_5_2_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
 `MU1367_INSTALL_COMPLETE=N/N`. Disconnect the phone/adapter, then select
 **Reboot unit (after install completes)** in the same menu. That entry refuses to
 reboot while an installation is still running and otherwise uses the Toolbox's
@@ -80,8 +80,9 @@ Unknown, modified or interrupted installations are refused; recover their saved
 layer first, or use the independent OEM reset below. The oldest first Map Only
 experiment requires its documented removal or OEM reset.
 
-The normal **(200,96,400,364)** safe area is restored, with the existing 800×480
-canvas. The failed right-edge layout experiment is not applied.
+The map-only view declares the **(160,20,480,440)** safe area of v1.2.2 (v1.5.2-e test;
+v1.4.x–v1.5.1-e used 200,96,400,364), with the existing 800×480 canvas. The turn-card
+option keeps its own layouts. The failed right-edge layout experiment is not applied.
 
 ## Android Auto
 
@@ -89,12 +90,12 @@ The last install step is `MU1367_ANDROID_AUTO_INSTALLED`. It checks the factory
 Android Auto receiver `/mnt/app/eso/bin/apps/gal` by hash, saves it under
 `/mnt/app/carplay-mu1367-android-auto/backup`, and puts a small wrapper in its place.
 The hook runtime goes to `/mnt/app/carplaymaps/aa`. Nothing in `/mnt/system` changes.
-Updating from v1.5.0-e or the first v1.5.1-e removes the old Android Auto layer in stage 1
+Updating from v1.5.0-e or v1.5.1-e removes the old Android Auto layer in stage 1
 of the two-stage update above (its snapshot is kept); stage 2 installs the new one. An
 older Android Auto layer left on top of this release's main layer is replaced in place
 (`MU1367_ANDROID_AUTO_PREVIOUS_BUILD_REMOVED_UPGRADING`).
 
-## CarPlay video bridge (v1.5.1-e)
+## CarPlay video bridge (since v1.5.1-e)
 
 The main layer also replaces `/mnt/app/carplaymaps/altscreen-most-bridge` with this
 release's build, which takes the MOST output back from the factory encoder during boot
