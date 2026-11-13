@@ -51,7 +51,9 @@ factory cluster menu. Waze has no vehicle result yet.
 
 [MU1367 v1.4.5](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.5) is the previous stable release.
 
-**Pre-release to test: [MU1367 v1.5.1-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.1-e)** adds
+**Pre-release to test: [MU1367 v1.5.2-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.2-e)** tests
+v1.2.2's taller map safe area and a larger video-bridge buffer for a lighter, steadier CarPlay map. Like
+[v1.5.1-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.1-e) it adds
 **Android Auto** to the same installation: the Google Maps picture from an Android phone
 on the AID and native VW turn arrows, next to every v1.4.6 CarPlay feature, and keeps the
 CarPlay map from dropping out shortly after every boot. No vehicle result yet; its source is
@@ -147,6 +149,7 @@ confirmed working MU1427 baseline**, rather than the earlier initial port.
 
 | Release | Published | Changes | Previous tag |
 | --- | --- | --- | --- |
+| [MU1367 / 791 v1.5.2-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.2-e) (pre-release) | 2026-11-13 | Map-only view declares v1.2.2's taller safe area (160,20,480,440, was 200,96,400,364) for a closer, lighter map with smaller frames; video-bridge backlog limit 2048 TS packets (about 250 ms, was 1024) for every stream setting, so large frames at 27/5 no longer cause latency resets. Everything else as v1.5.1-e; updates from v1.5.x use the two-stage install. No vehicle result yet. | `MU1367-v1.5.1-e` |
 | [MU1367 / 791 v1.5.1-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.1-e) (pre-release) | 2026-11-10 | Android Auto on the AID, installed by the same action as CarPlay: Google Maps picture over the head unit's MOST path and native VW turn arrows with distance; menu entries to switch the Android Auto map off and on. Replaces v1.5.0-e (same day, withdrawn): its cluster map froze after a stream hiccup until a reconnect; Android Auto now uses its own bridge build that keeps showing frames, and the diagnostics export includes the Android Auto status files. Rebuilt the same day (ZIP `54dfbbab…`, replacing `444b4c2f…`): the CarPlay video bridge reclaims the MOST output from the factory encoder during boot instead of exiting (the map dropped out about 18 s after every boot) and is now built from source; updates from v1.5.0-e use the two-stage install. Based on stable v1.4.6. No vehicle result for this package yet. | `MU1367-v1.4.6` |
 | [MU1367 / 791 v1.4.6](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.6) | 2026-11-10 | Stable release of v1.4.6-e (ZIP `91d2530c…`). New defaults: 27 fps / IDR 5 map stream (20/25/27/30/40 fps choices kept) and compressed album artwork installed by default. Guidance, audio and reader byte-identical to v1.4.6-e. Known issue: wheel-arrow zoom over a wireless adapter also opens the factory menu. | `MU1367-v1.4.5` |
 | [MU1367 / 791 v1.4.6-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.6-e) (pre-release) | 2026-11-09 | Right U-turn lane arrows in left-hand traffic; Apple Maps guidance kept when the phone alternates app names; 25 fps / IDR 5 default with 20/25/27/30/40 fps choices; optional compressed album artwork. | `MU1367-v1.4.5` |
