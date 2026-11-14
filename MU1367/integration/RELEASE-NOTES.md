@@ -1,4 +1,78 @@
-# MU1367 v1.5.2 — stable: CarPlay and Android Auto on the AID
+# MU1367 v1.5.3-e — experimental: startup animation, higher bridge priority
+
+**EXPERIMENTAL — TO BE TESTED.** Update of stable v1.5.2 for **K4525 / P4521 MU1367 +
+AID 791**. Use v1.5.2 for a stable installation. Two changes:
+
+- **Startup animation on the AID.** When CarPlay takes the cluster map, the AID first
+  plays a 4.2 s App-Connect clip, then switches to the live map. The clip is built into
+  the CarPlay video bridge and sent to the AID as it is: nothing is decoded or
+  re-encoded on the unit. After the clip the bridge drops the map frames that arrived
+  meanwhile and asks the phone for a fresh key frame, so the map starts clean and
+  current.
+  Choose when it plays under **App-Connect > Virtual Cockpit settings > Startup
+  animation**:
+  - **Once per boot** (default): only on the first CarPlay connection after the unit
+    starts. A reconnect or a handback mid-drive goes straight to the map.
+  - **Every connection.**
+  - **Off.** The map starts exactly as in v1.5.2.
+
+  The change applies on the next phone connection. Without Tuning, the setting is a new
+  fifth row. With Tuning, the page was already full, so the setting replaces the
+  **Wireless CarPlay (test)** row. That row only saved a value that nothing used.
+  Android Auto has no startup animation: an Android phone sends one key frame per
+  connection and cannot answer the request that ends the clip.
+- **The video bridge gets CPU when the unit is busy.** Drives with the reverse camera on
+  showed the CPU at 98–100% for several seconds, then MOST writes of up to 3.7 s and
+  ring overruns. The navigation map renderer threads run at priority 10, the same
+  priority the bridge inherited, while the CarPlay receive threads that fill the ring
+  run at 17–19. A ring overrun means the bridge's reader did not run for 64 frames in a
+  row (1.6 s at 40 fps). The CarPlay and Android Auto bridges now raise their threads
+  to priority 14. That is above every navigation thread in the heartbeat logs and below
+  the MOST driver (16) and the CarPlay receivers. QNX drivers serve a request at the
+  caller's priority, so the bridge's MOST writes also move up. The bridge log shows
+  `bridge: priority thread=input before=10 target=14 status=0`.
+
+Everything else is v1.5.2: guidance, audio, reader, both `core.so` builds, the safe
+area, the 2048-packet backlog, the boot-time MOST reclaim and the defaults (40 fps / IDR
+5). Only the two MU menus and the two bridge builds change. Updating from v1.5.2 (or
+any earlier supported version) goes through the two-stage install: install → full
+reboot → install again. The final message is
+`MU1367_RELEASE_1_5_3_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`.
+
+**What to test:**
+- Does the clip show on the AID after a cold start? Does the live map follow cleanly,
+  without a grey or blocky picture?
+- **Every connection** and **Off**: does a reconnect behave as chosen?
+- Drives with reversing: are stalls shorter or gone? The bridge log keeps
+  `write_us_max`, `drops` and `latency-reset`, so you can compare them with v1.5.2.
+
+Export diagnostics after a drive.
+
+## Thanks and sources
+
+This release builds on the work and help of:
+
+- **[omonob (汽车大玩家 / QCDWJ)](https://github.com/omonob)**: the original
+  [CarPlay Maps VC](https://github.com/omonob/MHI2-Carplay-Maps) (map-video runtime,
+  steering-wheel controls, installers and toolbox integration).
+- **[luka-dev](https://github.com/luka-dev)**: CarPlay route guidance research
+  ([mib2q-carplay-rgi](https://github.com/luka-dev/mib2q-carplay-rgi)); the protocol and
+  maneuver adaptations keep LuKa's attribution in the source.
+- **[chrzanowy](https://github.com/chrzanowy)**: the Android Auto cluster feeder and route
+  translation ([mhi2-aid-carplay](https://github.com/chrzanowy/mhi2-aid-carplay)), car-tested on MU1161 / AID 791.
+- **[MacsInSpace](https://github.com/MacsInSpace)**: the `gal` cluster-map hook used for
+  Android Auto ([mib-cluster-map](https://github.com/MacsInSpace/mib-cluster-map)) and other MIB projects.
+- **[Mr-MIBonk](https://github.com/Mr-MIBonk)**: M.I.B. (More Incredible Bash), the MIB2 toolbox.
+- **Jille & Olli**: the [MIB2 Toolbox](https://github.com/jilleb/mib2-toolbox) whose GEM
+  menus and scripts this SD is built on.
+- **[Karan](https://t.me/karanldn)**: valuable road tests and feedback.
+- Research references: [perkthefox/mst2-cluster-nav](https://github.com/perkthefox/mst2-cluster-nav),
+  [fifthBro/mh2p-cluster](https://github.com/fifthBro/mh2p-cluster) and
+  [brisoleg/e-golf-mib2](https://github.com/brisoleg/e-golf-mib2).
+
+Licenses and exact upstream revisions are in [NOTICE.md](NOTICE.md).
+
+# Earlier: v1.5.2 — stable: CarPlay and Android Auto on the AID
 
 **Stable release** for **K4525 / P4521 MU1367 + AID 791**, built from v1.5.2-e after
 vehicle tests with very good results. It replaces v1.4.6 as the recommended release.
@@ -41,30 +115,6 @@ again. The final message is `MU1367_RELEASE_1_5_2_INSTALLED_FULL_REBOOT_REQUIRED
 - **v1.5.2-e:** the taller v1.2.2 safe area (160,20,480,440) for a closer, lighter map,
   and a 2048-packet bridge backlog (was 1024) so large frames no longer reset the stream.
 - **v1.5.2:** 40 fps / IDR 5 default, P4521 supported, saved-snapshot management.
-
-## Thanks and sources
-
-This release builds on the work and help of:
-
-- **[omonob (汽车大玩家 / QCDWJ)](https://github.com/omonob)**: the original
-  [CarPlay Maps VC](https://github.com/omonob/MHI2-Carplay-Maps) (map-video runtime,
-  steering-wheel controls, installers and toolbox integration).
-- **[luka-dev](https://github.com/luka-dev)**: CarPlay route guidance research
-  ([mib2q-carplay-rgi](https://github.com/luka-dev/mib2q-carplay-rgi)); the protocol and
-  maneuver adaptations keep LuKa's attribution in the source.
-- **[chrzanowy](https://github.com/chrzanowy)**: the Android Auto cluster feeder and route
-  translation ([mhi2-aid-carplay](https://github.com/chrzanowy/mhi2-aid-carplay)), car-tested on MU1161 / AID 791.
-- **[MacsInSpace](https://github.com/MacsInSpace)**: the `gal` cluster-map hook used for
-  Android Auto ([mib-cluster-map](https://github.com/MacsInSpace/mib-cluster-map)) and other MIB projects.
-- **[Mr-MIBonk](https://github.com/Mr-MIBonk)**: M.I.B. (More Incredible Bash), the MIB2 toolbox.
-- **Jille & Olli**: the [MIB2 Toolbox](https://github.com/jilleb/mib2-toolbox) whose GEM
-  menus and scripts this SD is built on.
-- **[Karan](https://t.me/karanldn)**: valuable road tests and feedback.
-- Research references: [perkthefox/mst2-cluster-nav](https://github.com/perkthefox/mst2-cluster-nav),
-  [fifthBro/mh2p-cluster](https://github.com/fifthBro/mh2p-cluster) and
-  [brisoleg/e-golf-mib2](https://github.com/brisoleg/e-golf-mib2).
-
-Licenses and exact upstream revisions are in [NOTICE.md](NOTICE.md).
 
 # Earlier: v1.5.2-e — experimental: lighter CarPlay map (v1.2.2 safe area, larger bridge buffer)
 

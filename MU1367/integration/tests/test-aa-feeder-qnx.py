@@ -3,7 +3,7 @@
 SPDX-License-Identifier: GPL-3.0-or-later
   test-aa-feeder-qnx.py --build AA_FEEDER_BUILD --reader-setup READER_SETUP --firmware K4525_DIR --output OUT
 """
-import argparse, hashlib, json, shutil, subprocess, sys, time, zlib
+import re, argparse, hashlib, json, shutil, subprocess, sys, time, zlib
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[1] / 'port'))
@@ -86,9 +86,15 @@ mv ifs.bin fat/
     assert 'bridge: complete frames=0' in seg and ('bridge: shared ring /ramdisk/carplay-alt-ring.bin' in seg or 'No space left on device' in seg), seg
     cseg = log[log.index('@@CP-BRIDGE-START@@'):log.index('@@CP-BRIDGE-END@@')]
     assert 'bridge: complete frames=0' in cseg and ('bridge: shared ring /ramdisk/carplay-alt-ring.bin' in cseg or 'No space left on device' in cseg), cseg
+    # v1.5.3-e: both bridges raise their input thread to priority 14 on the factory libc (QNX 6.5, run as root).
+    prio = {}
+    for name, part in (('carplay', cseg), ('aa', seg)):
+        line = re.search(r'bridge: priority thread=input before=(\d+) target=14 status=(\d+)', part)
+        assert line and int(line.group(1)) < 14 and line.group(2) == '0', (name, part)
+        prio[name] = line.group(0)
     r = {'passed': True, 'feeder_sha256': sha(feeder), 'bridge_sha256': m['bridge_sha256'], 'factory_libc_sha256': sha(out / 'libc.so.3'),
          'factory_libsocket_sha256': sha(out / 'libsocket.so.3'), 'checks': log.count('ok    '), 'aa_bridge_ran_on_qnx': True, 'aa_bridge_console': seg.strip().splitlines(),
-         'carplay_bridge_sha256': m['carplay_bridge_sha256'], 'carplay_bridge_ran_on_qnx': True, 'carplay_bridge_console': cseg.strip().splitlines(),
+         'carplay_bridge_sha256': m['carplay_bridge_sha256'], 'carplay_bridge_ran_on_qnx': True, 'carplay_bridge_console': cseg.strip().splitlines(), 'bridge_priority_on_qnx': prio,
          'qemu_log_sha256': sha(logpath), 'test_sha256': sha(Path(__file__)), 'on_unit_validated': False}
     (out / 'result.json').write_text(json.dumps(r, indent=2) + '\n'); print(json.dumps(r))
 

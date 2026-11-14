@@ -403,3 +403,43 @@ Built from v1.5.2-e (published ZIP and verified package `718b9bb9…`, vehicle-t
   bridge owners); its Android Auto build `32e92312bde1` is in `AA_PREVIOUS`. Migration
   matrix: 96 combinations.
 
+
+## Experimental v1.5.3-e: startup animation and bridge priority
+
+Built on stable v1.5.2 (published ZIP and verified package `63e9f01b…`).
+
+- Startup clip: `src/runtime/vc-runtime/intro/cp_intro_badge_baseline.h264` (800×480
+  Constrained Baseline, 126 access units at 30 fps, one AUD each, IDR + SPS/PPS every
+  14 frames). `tools/make-intro-header.py` turns it into `cpmap_intro_clip.h` (`--check`
+  compares). The CarPlay bridge includes the header; the Android Auto build
+  (`ALTSCREEN_AA_SINGLE_IDR`) compiles all intro code out, because an Android phone
+  cannot answer the IDR request that ends the clip. Embedding avoids a new transaction
+  file: the bridge is already a main-layer payload with an upstream "before" hash.
+- `play_intro_clip()` is the upstream `play_intro_annexb()` reading the built-in clip
+  instead of `$CARPLAY_CLUSTER_INTRO` (which the wrappers unset). After the clip the
+  bridge skips the ring, requests an IDR and resumes on it (`intro-live-resume-idr`).
+  Policy: `cpmap_intro_policy.h` reads the MU UI's `animation.state` (missing:
+  once per boot, damaged: off); the once-per-boot marker is
+  `/ramdisk/carplay-v725-intro-played`. When the clip does not play, the bridge starts as
+  v1.5.2 did (first ring entry, no IDR request). Upstream's "skip the ring and wait for
+  an IDR" branch for that case was never active in our builds and is gone.
+- Menu: `IndependentMenuViewBridge` field 8 uses the existing `AnimationSettings` store
+  and `AnimationMenuMessages` (English row name now "Startup animation"). Base rows
+  `{0,1,3,6,8}`; tuning rows `{0,1,5,6,7,8}`: the page holds six 91 px rows, so
+  animation replaces Wireless CarPlay (test), whose `wireless-carplay.state` nothing
+  reads. Display fields are matched as 6/7 (`display()`), not `>=6`.
+- Priority: `raise_bridge_priority()` sets the input and writer threads to
+  `ALTSCREEN_BRIDGE_PRIORITY` (14) with `pthread_setschedparam`, never lowering a higher
+  value. Heartbeat logs: nav `MR_JobManager`/`MR_OpenGL`/`ADAS::HP` 10, `MapPositioning`
+  13, `AirPlayScreenReceiver` 17, `NvSS_VideoDecod` 19; `devp-iso-mmx` 16. A ring
+  overrun needs the reader to miss 64 frames: past 2048 queued packets it discards
+  rather than blocks, so a stalled writer alone cannot overrun the ring.
+- Tests: `tests/android-auto/e2e/intro_clip.py` (15 checks: byte-exact clip in the TS,
+  requested IDR, once per boot, off, every connection with a reconnect, Android Auto
+  without clip); earlier CarPlay bridge host tests run with the marker present (v1.5.2
+  start path). `test-aa-feeder-qnx.py` asserts `priority … target=14 status=0` for both
+  bridges on the factory libc. `test-runtime.py` adds `TestAnimation.java` →
+  `test_animation.c` (Java writer, C reader) and the 5-row base menu.
+- Published v1.5.2 controllers are `tests/revisions/release-v1.5.2` (registered, bridge
+  owners); its Android Auto build `74fd41b287c3` is in `AA_PREVIOUS`. Migration matrix:
+  104 combinations.

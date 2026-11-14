@@ -9,6 +9,10 @@ remove saved snapshots of earlier installations. It also installs **Android Auto
 AID (Google Maps picture and native VW arrows from an Android phone), which is **not yet
 fully tested**.
 
+**Experimental: [v1.5.3-e](../releases/MU1367/v1.5.3-e/README.md)** — v1.5.2 plus a 4.2 s
+startup animation on the AID (MU UI: once per boot by default, every connection or off)
+and a higher video-bridge priority for steadier maps while reversing. Not yet tested in a car.
+
 The previous stable release is **[v1.4.6](../releases/MU1367/v1.4.6/README.md)**. See the
 [release notes](./integration/RELEASE-NOTES.md) and [install guide](./integration/INSTALL.md).
 The complete integration supports K4525 or P4521 MU1367 + AID 791, both tested in vehicles.

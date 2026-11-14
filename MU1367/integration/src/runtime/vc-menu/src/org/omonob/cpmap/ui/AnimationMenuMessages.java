@@ -2,7 +2,7 @@ package org.omonob.cpmap.ui;
 /** Same 31 locales and order as the accepted menu; concise native selectors. */
 public final class AnimationMenuMessages {
  private static final String[][] TEXT={
-  {"VC animation","Every connection","Once per boot","Off"},
+  {"Startup animation","Every connection","Once per boot (default)","Off"},
   {"虚拟座舱动画","每次启动","仅首次启动","关闭"},
   {"虛擬座艙動畫","每次啟動","僅首次啟動","關閉"},
   {"VC アニメーション","接続のたび","起動後の初回のみ","オフ"},

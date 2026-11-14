@@ -1,5 +1,35 @@
 # Known issues and planned work
 
+## Startup animation and bridge priority (v1.5.3-e, experimental)
+
+- Not yet tested in a car. At the end of the clip, the AID decoder switches from the
+  clip's stream (Constrained Baseline, 800×480) to the phone's stream on a key frame
+  the bridge requests. The upstream intro used the same handover with its own clip. If
+  the map stays grey or blocky after the clip, set **Startup animation > Off** (which
+  starts exactly as v1.5.2) and send a diagnostics export.
+- The clip adds about 4.2 s before the first live map frame on the connections where it
+  plays. Android Auto has no clip.
+- With Tuning installed, **Wireless CarPlay (test)** is no longer in the MU UI. It only
+  saved a value that nothing read; wireless CarPlay is unaffected.
+- The bridge now runs at priority 14 (was 10, like the navigation renderer). This should
+  shorten the stalls while reversing, but drives have to confirm it. If a reverse still
+  stalls, the bridge log's `drops`, `write_us_max` and `latency-reset` values around the
+  `RVC active` line in sloginfo show whether the bridge or the MOST link was waiting.
+
+## isoTX2 open/close flood in sloginfo (under investigation)
+
+- After CarPlay takes the AID map at boot, the factory video encoder keeps trying to
+  open the MOST video output about 20 times a second, for the whole drive. Each attempt
+  logs two `devp-iso-mmx[isoTX2]` lines. This fills the slog buffer: a normal export
+  covers only about the last 6 minutes. Each attempt costs very little CPU; the main
+  cost is the lost log history.
+- A tester's v1.5.2-e boot without the flood had CarPlay take the map before the
+  navigation created its cluster window. The factory encoder then never started.
+  Whether CarPlay wins depends mostly on when the phone appears during boot: the
+  supervisor already takes the map as soon as the CarPlay video stream is ready. There
+  is no video to show earlier, when the phone is only detected. Handing back to the
+  VW map on disconnect stays as it is.
+
 ## Stream default and saved snapshots (v1.5.2)
 
 - 40 fps / IDR 5 is the default; the MU UI offers 40, 30 and 25 fps. A saved 20 or

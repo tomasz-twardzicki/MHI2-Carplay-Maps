@@ -26,6 +26,16 @@
 #include "altscreen_frame_protocol.h"
 #include "cpmap_resources.h"
 #include "cpmap_intro_policy.h"
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+/* v1.5.3-e: the startup clip is built in; the bridge is already a pinned
+ * transaction payload, so no new file is installed on the unit. Android
+ * Auto sends one IDR per session and cannot answer the IDR request that
+ * ends the clip, so its bridge build has no intro at all. */
+#include "cpmap_intro_clip.h"
+#endif
+#ifdef __QNX__
+#include <sched.h>
+#endif
 
 #define MLB_DEVCTL_QUEUE_FLUSH ((int)0x40040506u)
 #define MLB_DEVCTL_START ((int)0x80040509u)
@@ -66,8 +76,18 @@
 #define PTS_TARGET_LEAD_90K 9000ULL
 #define PTS_MIN_LEAD_90K 4500ULL
 #define MAX_MESSAGE (8U * 1024U * 1024U)
-#define INTRO_MAX_SIZE (16U * 1024U * 1024U)
-#define INTRO_DEFAULT_FPS 30U
+/* v1.5.3-e: the nav renderer threads (MR_JobManager, MR_OpenGL, ADAS::HP)
+ * run at priority 10, the default the bridge inherited. With the reverse
+ * camera on, the CPU reaches 98-100% for seconds; a bridge reader that gets
+ * no CPU for 64 frames overruns the ring (the CarPlay receive threads run at
+ * 17-19 and keep producing). QNX resource managers serve a write at the
+ * client's priority, so devp-iso-mmx (16) handled our writes at 10 as well.
+ * 14 is above every nav thread seen in the heartbeat logs (MapPositioning
+ * 13) and below the MOST driver and the CarPlay receive threads. The bridge
+ * does little work per frame and blocks otherwise. */
+#ifndef ALTSCREEN_BRIDGE_PRIORITY
+#define ALTSCREEN_BRIDGE_PRIORITY 14
+#endif
 #ifndef INTRO_ONCE_PATH
 #define INTRO_ONCE_PATH "/ramdisk/carplay-v725-intro-played"
 #endif
@@ -688,73 +708,46 @@ static int annexb_has_idr(const uint8_t *data, size_t size)
     return 0;
 }
 
-/* Play an already instrument-compatible Annex-B stream directly through the
- * existing TS/MOST muxer.  The stream must contain one AUD NAL per access
- * unit.  No decode or re-encode occurs on the head unit. */
-static int play_intro_annexb(const char *path, CpmapIntroPolicy policy)
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+/* Play the built-in Annex-B clip directly through the existing TS/MOST
+ * muxer. The clip has one AUD NAL per access unit. No decode or re-encode
+ * occurs on the head unit. Returns 1 after the clip, 0 if it did not play,
+ * -1 on stop or a muxer failure. */
+static int play_intro_clip(CpmapIntroPolicy policy)
 {
-    FILE *file;
+    const uint8_t *data = cpmap_intro_clip;
+    const size_t size = sizeof(cpmap_intro_clip);
+    const unsigned int fps = CPMAP_INTRO_CLIP_FPS;
     int intro_marked = 0;
-    uint8_t *data;
-    long file_size_long;
-    size_t file_size;
+    unsigned long played = 0;
     size_t frame_start;
     uint64_t pts;
     uint64_t pts_step;
-    unsigned int fps = INTRO_DEFAULT_FPS;
-    const char *fps_text = getenv("CARPLAY_CLUSTER_INTRO_FPS");
 
-    if (policy==CPMAP_INTRO_OFF || !path || !path[0]) return 0;
-    if (fps_text && fps_text[0]) {
-        unsigned long parsed = strtoul(fps_text, NULL, 10);
-        if (parsed >= 10U && parsed <= 60U) fps = (unsigned int)parsed;
-    }
-    file = fopen(path, "rb");
-    if (!file) {
-        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro unavailable path=%s error=%s\n",
-                path, strerror(errno));
+    if (policy == CPMAP_INTRO_OFF) return 0;
+    frame_start = find_annexb_aud(data, size, 0);
+    if (frame_start == size) {
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro clip contains no AUD\n");
         return 0;
-    }
-    if (fseek(file, 0, SEEK_END) != 0 ||
-        (file_size_long = ftell(file)) <= 0 ||
-        (size_t)file_size_long > INTRO_MAX_SIZE ||
-        fseek(file, 0, SEEK_SET) != 0) {
-        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: invalid intro size path=%s\n", path);
-        fclose(file);
-        return -1;
-    }
-    file_size = (size_t)file_size_long;
-    data = (uint8_t *)malloc(file_size);
-    if (!data || fread(data, 1, file_size, file) != file_size) {
-        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro read failed path=%s\n", path);
-        free(data);
-        fclose(file);
-        return -1;
-    }
-    fclose(file);
-    frame_start = find_annexb_aud(data, file_size, 0);
-    if (frame_start == file_size) {
-        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro contains no AUD path=%s\n", path);
-        free(data);
-        return -1;
     }
 
     g_discontinuity_pending = 1;
     pts = next_transport_pts_origin();
     pts_step = 90000ULL / fps;
-    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro-start path=%s bytes=%lu fps=%u pts=%llu\n",
-            path, (unsigned long)file_size, fps, (unsigned long long)pts);
-    while (!g_stop && frame_start < file_size) {
-        size_t next = find_annexb_aud(data, file_size, frame_start + 4U);
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro-start bytes=%lu frames=%u fps=%u policy=%s pts=%llu\n",
+            (unsigned long)size, (unsigned)CPMAP_INTRO_CLIP_FRAMES, fps,
+            policy == CPMAP_INTRO_EVERY_CONNECT ? "every-connect" : "once-per-boot",
+            (unsigned long long)pts);
+    while (!g_stop && frame_start < size) {
+        size_t next = find_annexb_aud(data, size, frame_start + 4U);
         size_t frame_size = next - frame_start;
         int keyframe = annexb_has_idr(data + frame_start, frame_size);
         if (frame_size == 0 ||
             enqueue_pes(data + frame_start, frame_size, pts, keyframe) != 0) {
             cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
                     "bridge: intro enqueue failed frame=%lu bytes=%lu queue=%lu\n",
-                    g_intro_frames + 1U, (unsigned long)frame_size,
+                    played + 1U, (unsigned long)frame_size,
                     (unsigned long)queue_count(&g_queue));
-            free(data);
             return -1;
         }
         if (!intro_marked && policy == CPMAP_INTRO_ONCE_PER_BOOT) {
@@ -768,19 +761,19 @@ static int play_intro_annexb(const char *path, CpmapIntroPolicy policy)
                          strerror(errno));
             intro_marked = 1;
         }
+        ++played;
         ++g_intro_frames;
         g_last_pts = pts;
         pts += pts_step;
         frame_start = next;
         usleep(1000000U / fps);
     }
-    free(data);
     if (g_stop) return -1;
 
     /* Ignore every live frame accumulated behind the animation.  The hook
      * will answer this marker with a fresh config+IDR pair, allowing a clean
-     * predictive-chain and timestamp boundary. The intro now ends on its
-     * full logo frame (no fade tail), then switches directly on that IDR. */
+     * predictive-chain and timestamp boundary. The clip ends on its full
+     * logo frame and switches directly on that IDR. */
     g_intro_waiting_live_idr = 1;
     g_last_sequence = 0;
     g_media_origin_ntp = 0;
@@ -791,8 +784,35 @@ static int play_intro_annexb(const char *path, CpmapIntroPolicy policy)
         cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro IDR request failed: %s\n",
                 strerror(errno));
     cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro-complete frames=%lu next_pts=%llu\n",
-            g_intro_frames, (unsigned long long)g_pts_origin_value);
+            played, (unsigned long long)g_pts_origin_value);
     return 1;
+}
+#endif
+
+static void raise_bridge_priority(const char *thread_name)
+{
+#ifdef __QNX__
+    struct sched_param param;
+    int policy;
+    int before;
+    int status;
+    if (pthread_getschedparam(pthread_self(), &policy, &param) != 0) {
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: priority read failed thread=%s\n", thread_name);
+        return;
+    }
+    before = param.sched_priority;
+    status = 0;
+    /* Never lower a priority that something else raised. */
+    if (before < ALTSCREEN_BRIDGE_PRIORITY) {
+        param.sched_priority = ALTSCREEN_BRIDGE_PRIORITY;
+        status = pthread_setschedparam(pthread_self(), policy, &param);
+    }
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: priority thread=%s before=%d target=%d status=%d\n",
+            thread_name, before, ALTSCREEN_BRIDGE_PRIORITY, status);
+#else
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: priority thread=%s unchanged (host build) target=%d\n",
+            thread_name, ALTSCREEN_BRIDGE_PRIORITY);
+#endif
 }
 
 static void free_config(AvcConfig *config)
@@ -1112,6 +1132,7 @@ static void *most_writer_thread(void *context)
     int pmt_pending = 0;
     unsigned int reclaims = 0;
     int fd;
+    raise_bridge_priority("writer");
     fd = most_open(device, 0);
     if (fd < 0) {
         g_stop = 1;
@@ -1500,8 +1521,9 @@ static int accept_fragment(Reassembly *assembly,
 int main(int argc, char **argv)
 {
     const char *device = argc > 1 ? argv[1] : "/dev/mlb/isoTX2";
-    const char *intro_path = getenv("CARPLAY_CLUSTER_INTRO");
+#ifndef ALTSCREEN_AA_SINGLE_IDR
     CpmapIntroPolicy intro_policy = cpmap_intro_read_policy(INTRO_POLICY_PATH);
+#endif
     AltFrameRing *ring = MAP_FAILED;
     uint8_t *message = NULL;
     AvcConfig config;
@@ -1517,6 +1539,7 @@ int main(int argc, char **argv)
     signal(SIGINT, on_signal);
     signal(SIGTERM, on_signal);
     signal(SIGPIPE, SIG_IGN);
+    raise_bridge_priority("input");
     if (queue_init(&g_queue) != 0) {
         cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: queue allocation failed\n");
         goto done;
@@ -1560,27 +1583,17 @@ int main(int argc, char **argv)
     cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: shared ring %s bytes=%u slots=%u -> %s\n",
             ALT_FRAME_RING_PATH, (unsigned)sizeof(*ring),
             ALT_FRAME_RING_SLOT_COUNT, device);
-    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro-policy=%s\n",
-            intro_policy == CPMAP_INTRO_OFF ? "off" : intro_policy == CPMAP_INTRO_EVERY_CONNECT ? "every-connect" : "once-per-boot");
     cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: latency-limit packets=%u reclaim-window-s=%u\n",
             (unsigned)TS_LOW_LATENCY_LIMIT_PACKETS,
             (unsigned)(ALTSCREEN_BRIDGE_RECLAIM_WINDOW_US / 1000000ULL));
-    if (!cpmap_intro_should_play(intro_policy, INTRO_ONCE_PATH)) {
-        /* A second CarPlay session in the same boot must start at a fresh
-         * config/IDR boundary, even though the animation is not replayed. */
-        __sync_synchronize();
-        next_sequence = ring->write_sequence + 1U;
-        if (next_sequence == 0) next_sequence = 1U;
-        g_intro_waiting_live_idr = 1;
-        g_discontinuity_pending = 1;
-        if (request_fresh_idr() != 0)
-            cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: reconnect IDR request failed: %s\n",
-                    strerror(errno));
-        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
-                "bridge: intro skipped this boot; waiting for fresh IDR after sequence=%u\n",
-                next_sequence - 1U);
-    } else {
-        int intro_status = play_intro_annexb(intro_path, intro_policy);
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro-policy=%s\n",
+            intro_policy == CPMAP_INTRO_OFF ? "off" : intro_policy == CPMAP_INTRO_EVERY_CONNECT ? "every-connect" : "once-per-boot");
+    /* v1.5.3-e: when the clip does not play (off, or already played in this
+     * boot) the bridge starts exactly as v1.5.2 did: from the first ring
+     * entry, the session's config and IDR, with no IDR request. */
+    if (cpmap_intro_should_play(intro_policy, INTRO_ONCE_PATH)) {
+        int intro_status = play_intro_clip(intro_policy);
         if (intro_status > 0) {
             __sync_synchronize();
             next_sequence = ring->write_sequence + 1U;
@@ -1589,7 +1602,11 @@ int main(int argc, char **argv)
                     "bridge: intro skipped stale ring through sequence=%u\n",
                     next_sequence - 1U);
         }
+    } else {
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro not played (%s)\n",
+                intro_policy == CPMAP_INTRO_OFF ? "off" : "already played in this boot");
     }
+#endif
     while (!g_stop) {
         uint32_t available;
         if (ring->magic != ALT_FRAME_RING_MAGIC ||
@@ -1599,8 +1616,10 @@ int main(int argc, char **argv)
         }
         if (ring->generation != generation) {
             generation = ring->generation;
+#ifndef ALTSCREEN_AA_SINGLE_IDR
             /* A saved menu change applies on the next phone connection. */
             intro_policy = cpmap_intro_read_policy(INTRO_POLICY_PATH);
+#endif
             next_sequence = 1;
             /* A fast unplug/replug can create a new AltScreen listener before
              * the supervisor has shut this bridge down.  Do not continue the
@@ -1616,11 +1635,12 @@ int main(int argc, char **argv)
                         strerror(errno));
             cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: ring generation=%u; waiting for fresh IDR\n",
                     generation);
+#ifndef ALTSCREEN_AA_SINGLE_IDR
             if (cpmap_intro_should_play(intro_policy,INTRO_ONCE_PATH)) {
                 /* The producer increments generation once per accepted phone
                  * video connection. Replay even if a quick reconnect kept this
                  * bridge alive; never keep video buffered behind the logo. */
-                int intro_status = play_intro_annexb(intro_path, intro_policy);
+                int intro_status = play_intro_clip(intro_policy);
                 if (intro_status > 0) {
                     __sync_synchronize();
                     next_sequence = ring->write_sequence + 1U;
@@ -1630,6 +1650,7 @@ int main(int argc, char **argv)
                             next_sequence - 1U);
                 }
             }
+#endif
         }
         __sync_synchronize();
         available = ring->write_sequence;
