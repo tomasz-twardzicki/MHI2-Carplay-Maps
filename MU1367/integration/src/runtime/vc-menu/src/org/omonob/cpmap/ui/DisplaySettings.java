@@ -8,10 +8,12 @@ public final class DisplaySettings {
     public static final int STREAM=6, LAYOUT=7;
     /* Menu position -> stored value shared with display_settings.h. Stored
      * values keep their meaning across versions: 0 and 3 were IDR-20 choices
-     * and now show as 30 / 40 fps (IDR 5); 4 is 25 fps; 6 (27 fps) is the default since v1.4.6. */
-    private static final int[] STREAM_VALUE={5,4,6,2,1};
-    private static final int[] STREAM_POSITION={3,4,3,4,1,0,2};
-    public static final int DEFAULT_STREAM=6;
+     * and now show as 30 / 40 fps (IDR 5); 4 is 25 fps, 2 is 30 fps; 1 (40 fps) is
+     * the default since v1.5.2. 5 and 6 (20 and 27 fps) left the menu in v1.5.2:
+     * the native core runs them at 40 fps and they show as the default. */
+    private static final int[] STREAM_VALUE={4,2,1};
+    private static final int[] STREAM_POSITION={1,2,1,2,0,2,2};
+    public static final int DEFAULT_STREAM=1;
     private static final Object LOCK=new Object();
     private final File root;
     public static final class State {
@@ -33,7 +35,7 @@ public final class DisplaySettings {
     public static String name(int field){count(field);return field==STREAM?"Map stream (reconnect)":"Turn-card layout (reconnect)";}
     public static String label(int field,int choice){
         if(choice<0||choice>=count(field))throw new IllegalArgumentException("Invalid display choice");
-        String[] stream={"20 fps / IDR 5","25 fps / IDR 5","27 fps / IDR 5 (default)","30 fps / IDR 5","40 fps / IDR 5"};
+        String[] stream={"25 fps / IDR 5","30 fps / IDR 5","40 fps / IDR 5 (default)"};
         String[] layout={"Existing narrow","Existing wide","Compact, below route bar","Upstream compact"};
         return field==STREAM?stream[choice]:layout[choice];
     }

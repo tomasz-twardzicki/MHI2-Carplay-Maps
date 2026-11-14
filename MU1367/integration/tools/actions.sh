@@ -43,7 +43,7 @@ TRAIN_FILE=$M/net/rcc/dev/shmem/version.txt
 if regular "$TRAIN_FILE" && parents "$TRAIN_FILE";then
  TRAIN=$(awk -F ' = ' '$1 == "Current train" {gsub(/["\047\r]/,"",$2);print $2}' "$TRAIN_FILE")
  case "$TRAIN" in
-  MHI2_ER_VWG13_P4521|MHI2_ER_VWG13_P4521_*) FW_TYPE=P4521_EXPERIMENTAL;;
+  MHI2_ER_VWG13_P4521|MHI2_ER_VWG13_P4521_*) FW_TYPE=P4521;;
   MHI2_ER_VWG13_K4525|MHI2_ER_VWG13_K4525_*) FW_TYPE=K4525;;
   "") :;;
   *) fail UNSUPPORTED_FIRMWARE_TRAIN;;
@@ -75,7 +75,114 @@ case "$ACTION" in
   fi
   exec /bin/ksh "$CUSTOM/carplay_mu1367_map_only/actions.sh" "$ACTION" "$CUSTOM/carplay_mu1367_map_only";;
  install|uninstall|recover|enable-cards|disable-cards|recover-cards|aa-disable|aa-enable) ;;
+ snapshots|snapshot-next|snapshot-remove|snapshots-remove-all) ;;
  *) fail INVALID_ACTION;;
+esac
+# v1.5.2: saved snapshots of earlier installations and rollbacks. Only directories that no
+# controller reads again are listed: removed and stale layer sessions, earlier OEM resets, a
+# completed OEM reset and archived MU UI settings. Live layers keep their own snapshots and are
+# never listed. The selection lives on the RAM disk, so a reboot clears it.
+SEL=$M/ramdisk/.cpmap-snapshot-selected
+RESET=$APP/carplay-mu1367-oem-reset
+# parents() uses D: the snapshot code keeps its own names.
+snap_ok(){ parents "$1" && [ -d "$1" ] && [ ! -L "$1" ]; }
+snap_suffix(){ case "$1" in ''|*[!0-9]*) return 1;;esac; }
+snap_all(){
+ for SD in "$APP"/carplay-mu1367*.removed-* "$APP"/carplay-mu1367*.stale-* "$APP"/carplay-mu1367-oem-reset.completed-*;do
+  snap_ok "$SD" || continue
+  N=${SD##*/}
+  case "$N" in
+   *.removed-*) snap_suffix "${N##*.removed-}" || continue;;
+   *.stale-*) snap_suffix "${N##*.stale-}" || continue;;
+   *) snap_suffix "${N##*.completed-}" || continue;;
+  esac
+  echo "$SD"
+ done
+ # A completed OEM reset is a rollback record only; an unfinished one is still needed.
+ if snap_ok "$RESET" && regular "$RESET/STATE" && [ "$(cat "$RESET/STATE")" = complete ];then echo "$RESET";fi
+ for SD in "$M/mnt/icab/persistent"/cpmap-ui.saved-*;do
+  snap_ok "$SD" && snap_suffix "${SD##*.saved-}" && echo "$SD"
+ done
+}
+snap_kind(){
+ case "$1" in
+  "$RESET") echo 'completed OEM reset (pre-reset files + archived layers)';;
+  *.completed-*) echo 'earlier OEM reset';;
+  *-android-auto.removed-*) echo 'removed Android Auto layer';;
+  *-turn-cards.removed-*) echo 'removed turn-card tuning';;
+  *.removed-*) echo 'removed layer from an earlier installation';;
+  *.stale-*) echo 'stale compressed-artwork record';;
+  *cpmap-ui.saved-*) echo 'MU UI settings saved by a settings reset';;
+ esac
+}
+snap_kb(){ ls -alR "$1" 2>/dev/null | awk '/^-/ {s+=$5} END {printf "%d\n",(s+1023)/1024}'; }
+snap_print(){
+ N=0;T=0
+ for SD in $(snap_all);do
+  N=$((N+1));K=$(snap_kb "$SD");T=$((T+K))
+  MARK=' ';[ "$SD" = "$(cat "$SEL" 2>/dev/null)" ] && MARK='>'
+  echo "${MARK}[$N] ${SD##*/} ${K} KB - $(snap_kind "$SD")"
+ done
+ echo "MU1367_SAVED_SNAPSHOTS=$N TOTAL_KB=$T"
+ if command -v df >/dev/null 2>&1;then df -k "$APP" 2>/dev/null || :;fi
+}
+snap_lock(){
+ parents "$LOCK" && absent "$LOCK" || fail INSTALLER_LOCKED_REBOOT_DISCONNECTED
+ absent "$RUNNING" || fail INSTALL_RUNNING_WAIT_OR_REBOOT
+ mkdir "$LOCK" || fail INSTALLER_LOCKED
+ OWN=yes
+ mount -uw /mnt/app || fail APP_REMOUNT
+}
+snap_remove(){
+ SD=$1
+ snap_ok "$SD" || fail SNAPSHOT_UNSAFE
+ if [ "$SD" = "$RESET" ];then
+  # Rename first: an interrupted removal must not leave a half-deleted reset under its live name.
+  absent "$RESET.completed-$$" || fail SNAPSHOT_ARCHIVE_EXISTS
+  mv "$RESET" "$RESET.completed-$$" || fail SNAPSHOT_RENAME_FAILED
+  SD=$RESET.completed-$$
+ fi
+ rm -rf "$SD";sync
+ absent "$SD" || fail "SNAPSHOT_REMOVE_INCOMPLETE_RUN_AGAIN=${SD##*/}"
+ echo "MU1367_SNAPSHOT_REMOVED=${1##*/}"
+}
+case "$ACTION" in
+ snapshots)
+  snap_print
+  echo MU1367_SNAPSHOTS_LISTED_NO_FILES_CHANGED
+  exit 0;;
+ snapshot-next)
+  NEXT='';FIRST='';TAKE=no;CUR=$(cat "$SEL" 2>/dev/null)
+  for SD in $(snap_all);do
+   [ -z "$FIRST" ] && FIRST=$SD
+   if [ "$TAKE" = yes ] && [ -z "$NEXT" ];then NEXT=$SD;fi
+   [ "$SD" = "$CUR" ] && TAKE=yes
+  done
+  [ -z "$NEXT" ] && NEXT=$FIRST
+  if [ -z "$NEXT" ];then rm -f "$SEL";echo MU1367_SAVED_SNAPSHOTS=0;exit 0;fi
+  echo "$NEXT" > "$SEL" || fail SELECTION_WRITE
+  snap_print
+  echo "MU1367_SNAPSHOT_SELECTED=${NEXT##*/}"
+  echo "NEXT: Remove selected snapshot, or Select next snapshot again"
+  exit 0;;
+ snapshot-remove)
+  regular "$SEL" || { snap_print;fail SELECT_A_SNAPSHOT_FIRST; }
+  CUR=$(cat "$SEL");FOUND=no
+  for SD in $(snap_all);do [ "$SD" = "$CUR" ] && FOUND=yes;done
+  [ "$FOUND" = yes ] || { rm -f "$SEL";snap_print;fail SELECTED_SNAPSHOT_GONE_SELECT_AGAIN; }
+  snap_lock
+  rm -f "$SEL"
+  snap_remove "$CUR"
+  snap_print
+  exit 0;;
+ snapshots-remove-all)
+  LIST=$(snap_all)
+  if [ -z "$LIST" ];then rm -f "$SEL";echo MU1367_SAVED_SNAPSHOTS=0;exit 0;fi
+  snap_lock
+  rm -f "$SEL"
+  for SD in $LIST;do snap_remove "$SD";done
+  snap_print
+  exit 0;;
 esac
 absent "$M/ramdisk/carplay-altstream.ready" || fail DISCONNECT_PHONE_AND_ADAPTER_FULL_REBOOT_FIRST
 if [ "$ACTION" = install ];then absent "$M/ramdisk/.cpmap-release-migration-reboot" || fail FULL_REBOOT_REQUIRED_BEFORE_RELEASE_INSTALL;fi

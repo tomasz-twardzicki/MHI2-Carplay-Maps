@@ -1,22 +1,30 @@
 # Known issues and planned work
 
-## Map safe area and bridge backlog (v1.5.2-e, experimental)
+## Stream default and saved snapshots (v1.5.2)
 
-- The map-only view goes back to v1.2.2's taller safe area (160,20,480,440). The phone
-  app decides how to frame the map. Whether this brings back the closer, lighter map
-  of v1.2.2, and whether anything important then sits under the dials, needs a car
-  test with the same routes as before.
-- The bridge now waits for 2048 queued TS packets (about 250 ms) before it drops the
-  backlog and asks for a key frame (was 1024, about 125 ms). This removes the
-  reset seen at a 1377-packet peak. During a real stall the picture can lag by up
-  to about 250 ms before it resets.
+- 40 fps / IDR 5 is the default; the MU UI offers 40, 30 and 25 fps. A saved 20 or
+  27 fps choice from v1.4.5-e to v1.5.2-e runs and shows as 40 fps. Before rolling back
+  to v1.4.5 or older, select 30 or 40 fps again (see INSTALL.md).
+- **Tuning > Saved snapshots** deletes old copies for good. The installed layers keep
+  their own snapshots, so rollback and the OEM reset still work, but an older state
+  kept only in a removed snapshot cannot be restored afterwards. Copy snapshots off the
+  unit first if you may need them.
 
-## CarPlay video bridge at boot (v1.5.1-e, experimental)
+## Map safe area and bridge backlog (since v1.5.2-e)
+
+- The map-only view uses v1.2.2's taller safe area (160,20,480,440). The phone app
+  decides how to frame the map. v1.5.2-e car tests showed very good results; parts of
+  the map near the top edge or next to the dials can sit under the cluster graphics.
+- The bridge waits for 2048 queued TS packets (about 250 ms) before it drops the
+  backlog and asks for a key frame (was 1024, about 125 ms). During a real stall the
+  picture can lag by up to about 250 ms before it resets.
+
+## CarPlay video bridge at boot (since v1.5.1-e)
 
 - On every boot the factory video encoder briefly takes the MOST video output about
   15 s after the CarPlay bridge has started. v1.5.1-e's bridge takes it back
-  (`most-reclaim` in the bridge log) instead of exiting. This is tested off-unit only,
-  with a simulated failure. The cause is read from one complete boot log and matches all
+  (`most-reclaim` in the bridge log) instead of exiting. The reclaim is tested off-unit
+  with a simulated failure; v1.5.2-e then ran in cars with very good results. The cause is read from one complete boot log and matches all
   three boots in the 2026-11-10 exports. A short picture hiccup during the reclaim is
   expected. If the reclaim fails, the bridge exits and the supervisor restarts it as in
   earlier releases.
@@ -27,9 +35,10 @@
   the upstream GCC 4.9.4 binary. Report any change in CarPlay map smoothness against
   v1.4.6.
 
-## Android Auto (v1.5.0-e, experimental)
+## Android Auto (since v1.5.0-e, not fully tested)
 
-- Not yet tested in a car on MU1367. The hook's P4521 profile matches both MU1367
+- **Android Auto support is included but not yet fully tested on MU1367.** CarPlay is
+  the tested path; please report Android Auto results with a diagnostics export. The hook's P4521 profile matches both MU1367
   trains' factory `gal` exactly and was car-tested upstream; the hook + feeder +
   route path was car-tested on MU1161 / AID 791 by chrzanowy/mhi2-aid-carplay.
 - The stream starts about 5 s after the phone connects. The phone sends one key
@@ -142,11 +151,10 @@ reviewed ranges are −180…−170° and 170…179°; exactly +180° selects le
 for right-hand traffic. ±169° remains unchanged at 128. This fixes lane
 encoding and does not change the main maneuver symbols or Mini Pico card URLs.
 
-## P4521 installation (experimental)
+## P4521 installation
 
-The prior P4521 experimental build was confirmed working in a vehicle by the
-user on 2026-11-02. v1.4.3 recognizes P4521 and supplies all current integrated
-features, while P4521 installation remains experimental. Acceptance of this
-new combined package is distinct from that earlier vehicle result. Use the OEM
+P4521 has been tested in vehicles, first with the separate experimental build
+(2026-11-02) and later with the integrated package. It is no longer marked experimental (v1.5.2); the
+installer reports `MU1367_FIRMWARE_TYPE=P4521`. Use the OEM
 reset/reboot path in INSTALL.md when moving from the separate experimental
 bundle or dormant upstream menu files; all old layers and snapshots are retained.

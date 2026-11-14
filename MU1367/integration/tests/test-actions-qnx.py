@@ -96,7 +96,7 @@ echo '#!/bin/ksh' > "$APP/carplaymaps/altscreen-most-bridge"
 mkdir -p "$CPMAP_TEST_ROOT/net/rcc/dev/shmem"
 echo 'Current train = "MHI2_ER_VWG13_P4521"' > "$CPMAP_TEST_ROOT/net/rcc/dev/shmem/version.txt"
 /bin/ksh "$P/actions.sh" lane-status "$P" > /ramdisk/train-status || exit 79
-grep 'MU1367_FIRMWARE_TYPE=P4521_EXPERIMENTAL' /ramdisk/train-status || exit 79
+grep '^MU1367_FIRMWARE_TYPE=P4521$' /ramdisk/train-status || exit 79
 echo 'Current train = "MHI2_ER_VWG13_P9999"' > "$CPMAP_TEST_ROOT/net/rcc/dev/shmem/version.txt"
 if /bin/ksh "$P/actions.sh" install "$P";then exit 79;fi
 echo 'Current train = "MHI2_ER_VWG13_K4525_1_AIO_MU1367"' > "$CPMAP_TEST_ROOT/net/rcc/dev/shmem/version.txt"
@@ -128,7 +128,7 @@ echo RELEASE_FACTORY_ANDROID_AUTO_INSTALL_PASS
 "$P/verify" "$APP/carplay-mu1367-artwork/artwork-fetch" @PNG_FETCH@ || exit 86
 echo RELEASE_FACTORY_DEFAULT_ARTWORK_PNG_PASS
 test ! -e "$CPMAP_TEST_ROOT/ramdisk/.cpmap-install-running" || exit 86
-if grep REBOOT_REQUIRED /ramdisk/install-out | grep -v RELEASE_1_5_2_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED;then exit 86;fi
+if grep REBOOT_REQUIRED /ramdisk/install-out | grep -v RELEASE_1_5_2_INSTALLED_FULL_REBOOT_REQUIRED;then exit 86;fi
 if echo x | { IFS= read -r L; exit 1; };then exit 87;fi
 echo RELEASE_FACTORY_PROGRESS_PASS
 /bin/ksh "$P/actions.sh" enable-cards "$P" || exit 83
@@ -147,6 +147,36 @@ test "$(cat "$APP/carplay-mu1367-artwork-png/STATE")" = removed || exit 91
 test "$(cat "$APP/carplay-mu1367-android-auto/STATE")" = removed || exit 91
 test ! -e "$APP/carplaymaps/aa" || exit 91
 echo RELEASE_FACTORY_ANDROID_AUTO_REMOVE_PASS
+# v1.5.2: saved snapshots listed with factory ls/awk sizes, removed one at a time and all at once.
+S=$APP/carplay-mu1367-lanes.removed-77
+mkdir -p "$S/d"
+awk 'BEGIN {for(i=0;i<2999;i++)printf "x";print ""}' > "$S/f"
+awk 'BEGIN {for(i=0;i<2047;i++)printf "y";print ""}' > "$S/d/g"
+mkdir "$APP/carplay-mu1367-guidance-v3.removed-x1"
+/bin/ksh "$P/actions.sh" snapshots "$P" > /ramdisk/snap-list || exit 102
+cat /ramdisk/snap-list
+grep '^ \[[0-9]*\] carplay-mu1367-lanes.removed-77 5 KB - removed layer from an earlier installation$' /ramdisk/snap-list || exit 102
+grep '^ \[[0-9]*\] carplay-mu1367-turn-cards.removed-[0-9]* [1-9][0-9]* KB - removed turn-card tuning$' /ramdisk/snap-list || exit 102
+if grep 'removed-x1' /ramdisk/snap-list;then exit 102;fi
+grep '^MU1367_SAVED_SNAPSHOTS=[2-9] TOTAL_KB=[1-9]' /ramdisk/snap-list || exit 102
+grep '^MU1367_SNAPSHOTS_LISTED_NO_FILES_CHANGED$' /ramdisk/snap-list || exit 102
+if /bin/ksh "$P/actions.sh" snapshot-remove "$P" > /ramdisk/snap-none;then exit 103;fi
+grep 'SELECT_A_SNAPSHOT_FIRST' /ramdisk/snap-none || exit 103
+/bin/ksh "$P/actions.sh" snapshot-next "$P" > /ramdisk/snap-next || exit 103
+grep '^>\[1\] ' /ramdisk/snap-next || exit 103
+FIRST=$(awk -F= '/^MU1367_SNAPSHOT_SELECTED=/ {print $2}' /ramdisk/snap-next)
+test -d "$APP/$FIRST" || exit 103
+/bin/ksh "$P/actions.sh" snapshot-remove "$P" > /ramdisk/snap-rm || exit 104
+grep "^MU1367_SNAPSHOT_REMOVED=$FIRST"'$' /ramdisk/snap-rm || exit 104
+test ! -e "$APP/$FIRST" || exit 104
+test ! -e "$CPMAP_TEST_ROOT/ramdisk/.carplay-guidance-install-lock" || exit 104
+/bin/ksh "$P/actions.sh" snapshots-remove-all "$P" > /ramdisk/snap-all || exit 105
+grep '^MU1367_SAVED_SNAPSHOTS=0 TOTAL_KB=0$' /ramdisk/snap-all || exit 105
+for D in "$APP"/carplay-mu1367*.removed-[0-9]*;do test ! -e "$D" || exit 105;done
+test -d "$APP/carplay-mu1367-guidance-v3.removed-x1" || exit 105
+rm -r "$APP/carplay-mu1367-guidance-v3.removed-x1"
+test "$(cat "$APP/carplay-mu1367-android-auto/STATE")" = removed || exit 105
+echo RELEASE_FACTORY_SNAPSHOTS_PASS
 '''.replace('@WRAPPER@',aam['wrapper_sha256']).replace('@FACTORY_GAL@',aam['factory_gal']['sha256']).replace('@PNG_FETCH@',sha((png/'artwork-fetch').read_bytes())).replace('@ART_FETCH@',sha((art/'artwork-fetch').read_bytes())).replace('@CP_BRIDGE@',json.loads((main/'6/manifest.json').read_text())['files']['bridge'])
  for dest,src in paths.items():script+='"$P/verify" "$APP/'+dest+'" '+sha(src.read_bytes())+' || exit 92\n'
 
@@ -170,7 +200,7 @@ echo RELEASE_FACTORY_ANDROID_AUTO_REMOVE_PASS
  for n in ('reader-setup','toolchain','firmware-commands','output'):sys.argv+=['--'+n,str(getattr(a,n.replace('-','_')))]
  try:rc=factory_reset.main(script,extras,main/'COMMANDS.json')
  finally:sys.argv=old
- log=(a.output/'qemu.log').read_text(errors='replace');assert 'RELEASE_FACTORY_ANDROID_AUTO_INSTALL_PASS' in log and 'RELEASE_FACTORY_ANDROID_AUTO_REMOVE_PASS' in log and 'RELEASE_FACTORY_DEFAULT_ARTWORK_PNG_PASS' in log and 'RELEASE_FACTORY_MIGRATION_PASS' in log and 'RELEASE_FACTORY_TRAIN_RECOGNITION_PASS' in log and 'RELEASE_FACTORY_PROGRESS_PASS' in log and 'RELEASE_FACTORY_CARPLAY_BRIDGE_INSTALLED_PASS' in log
- r=json.loads((a.output/'result.json').read_text());r.update(factory_progress_verified=True,factory_migration_verified=True,firmware_train_recognition_verified=True,map_only_actions_sha256=sha((main/'actions.sh').read_bytes()),main_controller_sha256=sha((main/'6/control.sh').read_bytes()),tuning_controller_sha256=sha((tuning/'6/control.sh').read_bytes()),fixture_changes='Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host',map_only_and_optional_transactions_verified=True,default_artwork_png_verified=True,android_auto_layer_verified=True,carplay_bridge_install_verified=True,android_auto_controller_sha256=sha((aa/'control.sh').read_bytes()),artwork_png_controller_sha256=sha((png/'control.sh').read_bytes()),sdk_utilities_injected=False)
+ log=(a.output/'qemu.log').read_text(errors='replace');assert 'RELEASE_FACTORY_ANDROID_AUTO_INSTALL_PASS' in log and 'RELEASE_FACTORY_ANDROID_AUTO_REMOVE_PASS' in log and 'RELEASE_FACTORY_DEFAULT_ARTWORK_PNG_PASS' in log and 'RELEASE_FACTORY_MIGRATION_PASS' in log and 'RELEASE_FACTORY_TRAIN_RECOGNITION_PASS' in log and 'RELEASE_FACTORY_PROGRESS_PASS' in log and 'RELEASE_FACTORY_CARPLAY_BRIDGE_INSTALLED_PASS' in log and 'RELEASE_FACTORY_SNAPSHOTS_PASS' in log
+ r=json.loads((a.output/'result.json').read_text());r.update(factory_progress_verified=True,factory_migration_verified=True,firmware_train_recognition_verified=True,map_only_actions_sha256=sha((main/'actions.sh').read_bytes()),main_controller_sha256=sha((main/'6/control.sh').read_bytes()),tuning_controller_sha256=sha((tuning/'6/control.sh').read_bytes()),fixture_changes='Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host',map_only_and_optional_transactions_verified=True,default_artwork_png_verified=True,android_auto_layer_verified=True,carplay_bridge_install_verified=True,saved_snapshots_verified=True,android_auto_controller_sha256=sha((aa/'control.sh').read_bytes()),artwork_png_controller_sha256=sha((png/'control.sh').read_bytes()),sdk_utilities_injected=False)
  (a.output/'result.json').write_text(json.dumps(r,indent=2)+'\n');return rc
 if __name__=='__main__':raise SystemExit(main())

@@ -375,3 +375,31 @@ IDR 5 and safe area 160,20,480,440. v2.0 changed the bridge build and the safe a
   `release-v1.5.1-e` (they own the bridge, so `@BRIDGE_VERSIONS@` also lists legacy owners) and
   its Android Auto layer is in `AA_PREVIOUS`. The first v1.5.1-e Android Auto fixture moved to
   `tests/revisions/release-v1.5.1-e-first`. Migration matrix: 88 combinations.
+
+## Stable v1.5.2
+
+Built from v1.5.2-e (published ZIP and verified package `718b9bb9…`, vehicle-tested).
+
+- Default stream: `display_settings.h` (base and tuning) and `DisplaySettings.DEFAULT_STREAM`
+  use stored value 1, 40 fps / IDR 5. The menu offers positions 25, 30, 40 fps (stored
+  4, 2, 1). Stored 5 and 6 (20 and 27 fps) run at 40 fps natively and map to the 40 fps
+  position in the menu. Guidance, audio, reader and both bridges are byte-identical to
+  v1.5.2-e; only the base and tuning core and menu change (`RUNTIME.json`).
+- P4521: `actions.sh` reports `MU1367_FIRMWARE_TYPE=P4521`; the manifest marks both
+  trains non-experimental.
+- Saved snapshots: `actions.sh` actions `snapshots`, `snapshot-next`, `snapshot-remove`
+  and `snapshots-remove-all`, run through generated `Toolbox/scripts/cpmap_suite_*.sh`
+  wrappers from a new **Tuning** section (`package.py` `SNAPSHOT_ENTRIES`). Listed:
+  `/mnt/app/carplay-mu1367*.removed-<digits>`, `*.stale-<digits>`,
+  `carplay-mu1367-oem-reset.completed-<digits>`, `carplay-mu1367-oem-reset` with
+  `STATE` `complete`, and `/mnt/icab/persistent/cpmap-ui.saved-<digits>`; only real
+  directories, never links or live layers. Sizes come from factory `ls -alR` + `awk`
+  (the unit has no `du`). The selection is `/ramdisk/.cpmap-snapshot-selected`. Removal
+  takes the installer lock, refuses while an install runs and renames the completed
+  reset before deleting it. `parents()` assigns `D`, so the snapshot code uses `SD`.
+  Tests: `test-package.py` `test_saved_snapshots_list_select_remove` and the
+  factory-shell block in `test-actions-qnx.py` (`RELEASE_FACTORY_SNAPSHOTS_PASS`).
+- Published v1.5.2-e controllers are `tests/revisions/release-v1.5.2-e` (registered,
+  bridge owners); its Android Auto build `32e92312bde1` is in `AA_PREVIOUS`. Migration
+  matrix: 96 combinations.
+

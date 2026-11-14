@@ -1,27 +1,28 @@
-# MU1367 / 791 v1.5.2-e — complete installation and update
+# MU1367 / 791 v1.5.2 — complete installation and update
 
 For **MHI2_ER_VWG13_K4525 or MHI2_ER_VWG13_P4521 MU1367 + AID 791
-(12.3 inch)**. **P4521 installation remains experimental**, following a successful
-vehicle test of the earlier P4521 experimental build. AID 790, MU1427 and other
+(12.3 inch)**. Both trains have been tested in vehicles. AID 790, MU1427 and other
 firmware are outside this package. Both supported trains receive the same complete
 feature set, including the v1.4.2 U-turn fix. Exact firmware hashes remain required.
-The installer reports `MU1367_FIRMWARE_TYPE=P4521_EXPERIMENTAL` or `K4525` when
+The installer reports `MU1367_FIRMWARE_TYPE=P4521` or `K4525` when
 RCC train information is available. Without it, the shared exact firmware hash
 is reported as `K4525_OR_P4521_HASH_MATCH`; it cannot distinguish these trains.
 
-**Experimental update — to be tested.** Based on stable v1.4.6, with every CarPlay
-feature of it: driving-side U-turn lanes, Apple Maps in any phone language, the 27 fps /
-IDR 5 default and compressed album artwork by default. It adds **Android Auto**: the
-Google Maps picture on the AID and native VW turn arrows from an Android phone. The
-normal install action installs CarPlay and Android Auto together. It saves the
-originals for rollback, including the factory Android Auto receiver. See [RELEASE-NOTES.md](RELEASE-NOTES.md).
+**Stable release**, built from v1.5.2-e after vehicle tests. It has every CarPlay
+feature of v1.4.6 (driving-side U-turn lanes, Apple Maps in any phone language,
+compressed album artwork by default), the steadier CarPlay map of v1.5.x and
+**40 fps / IDR 5** as the default stream. It also installs **Android Auto**: the
+Google Maps picture on the AID and native VW turn arrows from an Android phone.
+**Android Auto is not yet fully tested**; CarPlay is the tested path. The normal
+install action installs CarPlay and Android Auto together. It saves the originals for
+rollback, including the factory Android Auto receiver. See [RELEASE-NOTES.md](RELEASE-NOTES.md).
 
 If the previous standalone reader test is installed, restore it first using
 its saved controller and fully reboot. Audio R1/R2 test layers and the artwork
 refresh test from v1.4.5 (**Tuning > Remove artwork test**) must be removed before a
 base upgrade, because the release retains the original audio runtime.
 
-Verify `CarPlay_Maps_VC_MU1367_791_v1.5.2-e.zip` with the adjacent `SHA256SUMS.txt`.
+Verify `CarPlay_Maps_VC_MU1367_791_v1.5.2.zip` with the adjacent `SHA256SUMS.txt`.
 Extract to a clean FAT32 SD root; do not merge older SD contents. Keep this SD
 and copy all recovery snapshots off the unit after a successful installation.
 
@@ -35,7 +36,7 @@ menus and scripts** from this SD. The established refresh command on MMX is:
 
 Use `/fs/sdb0` throughout if appropriate. From RCC enter MMX with `on -f mmx`.
 Under **MQB Coding > Customization > CarPlay Maps VC**, verify the banner reads
-**MU1367 / 791 v1.5.2-e - EXPERIMENTAL (CarPlay + Android Auto)**. Do not use scripts left from an earlier SD.
+**MU1367 / 791 v1.5.2 (CarPlay + Android Auto)**. Do not use scripts left from an earlier SD.
 
 ## Install / update
 
@@ -59,7 +60,7 @@ numbered or experimental steps need to be selected separately.
 - **Stock OEM, v1.3.0, v1.4.0, supported step-6/step-8 and Integrated Arrows:**
   matching existing layers are checked and retained; missing layers are added.
 - **Lane-v2:** the release update is added directly.
-- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e/v1.4.4/v1.4.5/v1.4.6-e/v1.4.6/v1.5.0-e/v1.5.1-e (both builds), or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
+- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e/v1.4.4/v1.4.5/v1.4.6-e/v1.4.6/v1.5.0-e/v1.5.1-e (both builds)/v1.5.2-e, or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
   this is the one case that needs two reboots. The first invocation (stage 1 of 2) checks the saved controller and every original backup,
   removes an installed Android Auto layer (the factory `gal` returns from its snapshot) and matching optional card tuning if present, and restores the lane-v2
   baseline through the saved controller. Expect
@@ -69,7 +70,7 @@ numbered or experimental steps need to be selected separately.
   The old removed snapshot is verified and archived, never overwritten.
 
 The final success message is
-**`MU1367_RELEASE_1_5_2_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
+**`MU1367_RELEASE_1_5_2_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
 `MU1367_INSTALL_COMPLETE=N/N`. Disconnect the phone/adapter, then select
 **Reboot unit (after install completes)** in the same menu. That entry refuses to
 reboot while an installation is still running and otherwise uses the Toolbox's
@@ -80,7 +81,7 @@ Unknown, modified or interrupted installations are refused; recover their saved
 layer first, or use the independent OEM reset below. The oldest first Map Only
 experiment requires its documented removal or OEM reset.
 
-The map-only view declares the **(160,20,480,440)** safe area of v1.2.2 (v1.5.2-e test;
+The map-only view declares the **(160,20,480,440)** safe area of v1.2.2 (since v1.5.2-e;
 v1.4.x–v1.5.1-e used 200,96,400,364), with the existing 800×480 canvas. The turn-card
 option keeps its own layouts. The failed right-edge layout experiment is not applied.
 
@@ -90,7 +91,7 @@ The last install step is `MU1367_ANDROID_AUTO_INSTALLED`. It checks the factory
 Android Auto receiver `/mnt/app/eso/bin/apps/gal` by hash, saves it under
 `/mnt/app/carplay-mu1367-android-auto/backup`, and puts a small wrapper in its place.
 The hook runtime goes to `/mnt/app/carplaymaps/aa`. Nothing in `/mnt/system` changes.
-Updating from v1.5.0-e or v1.5.1-e removes the old Android Auto layer in stage 1
+Updating from v1.5.0-e, v1.5.1-e or v1.5.2-e removes the old Android Auto layer in stage 1
 of the two-stage update above (its snapshot is kept); stage 2 installs the new one. An
 older Android Auto layer left on top of this release's main layer is replaced in place
 (`MU1367_ANDROID_AUTO_PREVIOUS_BUILD_REMOVED_UPGRADING`).
@@ -117,14 +118,16 @@ guidance status shows `phone=3 root=/ramdisk/pmcp-aa-rg` while it reads Android 
 
 ## Defaults, settings and optional tuning
 
-Fresh settings use **27 fps / IDR 5**, turn cards OFF and the standard map layout.
+Fresh settings use **40 fps / IDR 5**, turn cards OFF and the standard map layout.
 Valid existing stream/map/mirror choices are preserved. Adjust them under
 **App-Connect > Virtual Cockpit settings**. Reconnect after stream/layout changes.
-**Map stream** offers 20, 25, 27, 30 and 40 fps, all with IDR 5. A saved
-30 fps / IDR 20 or 40 fps / IDR 20 choice from an older release now runs at the same
-frame rate with IDR 5. Before rolling back, select **30 fps / IDR 5** or
-**40 fps / IDR 5**: v1.4.5 and older menus do not recognize 20 or 27 fps, and v1.4.4
-and older also not 25 fps.
+**Map stream** offers **40 fps / IDR 5 (default)**, 30 fps / IDR 5 and 25 fps / IDR 5.
+A saved 20 or 27 fps choice (v1.4.5-e to v1.5.2-e) now runs and shows as the 40 fps
+default; a saved 25 or 30 fps choice is kept. A saved 30 fps / IDR 20 or 40 fps / IDR 20
+choice from an older release runs at the same frame rate with IDR 5. Before rolling
+back to v1.4.5 or older, select **30 fps / IDR 5** or **40 fps / IDR 5** again, even if
+it is already shown: that saves a value every release recognizes (a saved 20 or 27 fps
+shows as 40 fps here but is unknown to v1.4.5 and older).
 **Reset saved MU UI settings (reboot)** archives the entire old preference store
 as `/mnt/icab/persistent/cpmap-ui.saved-*`; it does not erase the archive.
 Reboot disconnected after resetting.
@@ -149,6 +152,30 @@ install archives it. To switch it off without the SD, run on MMX:
 ```sh
 /bin/ksh /mnt/app/carplay-mu1367-artwork-png/control.sh uninstall
 ```
+
+## Saved snapshots (Tuning)
+
+Every update keeps what it replaced. Over several installations, rollbacks and OEM
+resets these saved copies add up on `/mnt/app`. **Tuning > Saved snapshots of earlier
+installations** lists them and removes them, one at a time or all at once:
+
+- **List saved snapshots (read only)** shows each with its size and kind, the total and,
+  if available, the free space on `/mnt/app`.
+- **Select next snapshot** marks the next entry (`>` in the list). Repeat to move on.
+- **Remove selected snapshot** deletes only the marked entry.
+- **Remove all saved snapshots** deletes every listed entry.
+
+Listed are only copies that no installer, recovery or OEM reset reads again:
+`/mnt/app/carplay-mu1367-*.removed-*` (layers removed or replaced by an earlier
+installation), `/mnt/app/carplay-mu1367-artwork-png.stale-*`, earlier OEM resets
+`/mnt/app/carplay-mu1367-oem-reset.completed-*`, the last OEM reset
+`/mnt/app/carplay-mu1367-oem-reset` once it has completed, and MU UI settings archived
+by **Reset saved MU UI settings** (`/mnt/icab/persistent/cpmap-ui.saved-*`). The
+installed layers keep their own snapshots and are never listed, so **Remove latest
+update only**, **Recover** and **RESTORE OEM** keep working. An interrupted OEM reset is
+not listed. A removed snapshot cannot be brought back: copy anything you want to keep
+off the unit first. The actions refuse while an installation runs. The selection is
+cleared by a reboot.
 
 **Ottocast Mini Pico may still show a turn card even with the base installed.**
 Its scene handling can override the MU request; optional tuning is not required
@@ -179,7 +206,7 @@ that CarPlay behaves as with v1.4.6. Export diagnostics while the issue is visib
 From v1.4.6: in left-hand traffic, check that a U-turn lane shows the right U-turn
 arrow. With Apple Maps and a non-English phone language, check that arrows and lanes
 update from the first turn; `guidance-evidence.txt` then shows `route_clears source=0`
-and a `source_flips` line. Compare stutter and smoothness at the 27 fps default against
+and a `source_flips` line. Compare stutter and smoothness at the 40 fps default against
 your previous setting.
 
 Export **Diagnostics > Export diagnostics to SD** while connected, actively

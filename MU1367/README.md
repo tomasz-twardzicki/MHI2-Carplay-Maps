@@ -2,23 +2,18 @@
 
 Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
 
-**Pre-release to test: [v1.5.2-e](../releases/MU1367/v1.5.2-e/README.md)** tests
-v1.2.2's taller map safe area and a larger video-bridge buffer for a lighter, steadier
-CarPlay map on the AID. Like [v1.5.1-e](../releases/MU1367/v1.5.1-e/README.md) it adds
-**Android Auto** (with the cluster-map freeze of v1.5.0-e fixed) to the same installation: the Google Maps picture from an Android phone
-on the AID and native VW turn arrows, next to every CarPlay feature of v1.4.6. It also keeps
-the CarPlay map from dropping out shortly after every boot.
+**Current stable release: [v1.5.2](../releases/MU1367/v1.5.2/README.md)** — the vehicle-tested
+v1.5.2-e CarPlay map (v1.2.2 safe area, larger video-bridge buffer, no map drop-out after
+boot) with 40 fps / IDR 5 by default, P4521 supported, and a new tuning entry to list and
+remove saved snapshots of earlier installations. It also installs **Android Auto** on the
+AID (Google Maps picture and native VW arrows from an Android phone), which is **not yet
+fully tested**.
 
-**Current stable release: [v1.4.6](../releases/MU1367/v1.4.6/README.md)** — U-turn
-lanes in left-hand traffic, Apple Maps on any phone language, 27 fps / IDR 5 by default
-and compressed album artwork by default.
-
-The previous stable release is **[v1.4.5](../releases/MU1367/v1.4.5/README.md)**. See the
+The previous stable release is **[v1.4.6](../releases/MU1367/v1.4.6/README.md)**. See the
 [release notes](./integration/RELEASE-NOTES.md) and [install guide](./integration/INSTALL.md).
-The complete integration supports
-K4525 or P4521 MU1367 + AID 791. P4521 installation remains experimental;
-the earlier experimental build has been confirmed working in a vehicle. It combines maps, native arrows/progress, current road,
-lanes with corrected VW U-turn symbols, music metadata/artwork and reconnect recovery. Fresh defaults are 27 fps /
+The complete integration supports K4525 or P4521 MU1367 + AID 791, both tested in vehicles.
+It combines maps, native arrows/progress, current road, lanes with corrected VW U-turn
+symbols, music metadata/artwork and reconnect recovery. Fresh defaults are 40 fps /
 IDR 5, compressed artwork and cards OFF; optional tuning adds card support and its MU controls.
 
 The [single install/update guide](./integration/INSTALL.md) covers OEM, v1.4.0, v1.4.1 and

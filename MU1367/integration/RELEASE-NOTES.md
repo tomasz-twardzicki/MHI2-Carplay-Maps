@@ -1,4 +1,72 @@
-# MU1367 v1.5.2-e — experimental: lighter CarPlay map (v1.2.2 safe area, larger bridge buffer)
+# MU1367 v1.5.2 — stable: CarPlay and Android Auto on the AID
+
+**Stable release** for **K4525 / P4521 MU1367 + AID 791**, built from v1.5.2-e after
+vehicle tests with very good results. It replaces v1.4.6 as the recommended release.
+The CarPlay map path is the tested v1.5.2-e one: the v1.2.2 safe area, the
+2048-packet bridge backlog and the boot-time MOST reclaim. Changes from v1.5.2-e:
+
+- **40 fps / IDR 5 is the default map stream.** The MU UI (**App-Connect > Virtual
+  Cockpit settings > Map stream**) offers 40 fps (default), 30 fps and 25 fps, all with
+  IDR 5. 20 and 27 fps are gone from the menu; a saved 20 or 27 fps choice now runs and
+  shows as 40 fps. A saved 25 or 30 fps choice is kept. Before rolling back to v1.4.5 or
+  older, select 30 or 40 fps again.
+- **P4521 is no longer experimental.** It has been tested in vehicles. The installer
+  reports `MU1367_FIRMWARE_TYPE=P4521` (was `P4521_EXPERIMENTAL`).
+- **New: manage saved snapshots** under **Tuning > Saved snapshots of earlier
+  installations**. Every update, rollback and OEM reset keeps copies of what it replaced
+  on `/mnt/app`, and these add up. The four new entries list them with their sizes and
+  remove them one at a time (**Select next snapshot**, then **Remove selected snapshot**)
+  or all at once (**Remove all saved snapshots**). Only copies that nothing reads again
+  are listed: removed or replaced layers (`*.removed-*`), stale artwork records, earlier
+  and completed OEM resets, and archived MU UI settings. The installed layers keep their
+  own snapshots, so **Remove latest update only**, **Recover** and **RESTORE OEM** keep
+  working. A removed snapshot cannot be brought back; copy it off the unit first if you
+  may need it.
+- **Android Auto stays included but is not yet fully tested.** It is installed by the
+  same install action, with the two **Android Auto cluster map: on / off** entries. CarPlay
+  is the tested path; please report Android Auto results with a diagnostics export.
+
+Guidance, audio, reader and both video bridges are byte-identical to v1.5.2-e. The base
+and tuning core and the MU menu change only for the new default stream. Updating from
+v1.4.6 or any v1.5.x goes through the two-stage install: install → full reboot → install
+again. The final message is `MU1367_RELEASE_1_5_2_INSTALLED_FULL_REBOOT_REQUIRED`.
+
+## What v1.5.2 brings over v1.4.6
+
+- **v1.5.0-e:** Android Auto on the AID: the Google Maps picture and native VW arrows
+  with distance from an Android phone.
+- **v1.5.1-e:** the CarPlay map no longer drops out about 18 s after every boot (the
+  bridge takes the MOST output back from the factory encoder); the Android Auto map no
+  longer freezes after a stream hiccup.
+- **v1.5.2-e:** the taller v1.2.2 safe area (160,20,480,440) for a closer, lighter map,
+  and a 2048-packet bridge backlog (was 1024) so large frames no longer reset the stream.
+- **v1.5.2:** 40 fps / IDR 5 default, P4521 supported, saved-snapshot management.
+
+## Thanks and sources
+
+This release builds on the work and help of:
+
+- **[omonob (汽车大玩家 / QCDWJ)](https://github.com/omonob)**: the original
+  [CarPlay Maps VC](https://github.com/omonob/MHI2-Carplay-Maps) (map-video runtime,
+  steering-wheel controls, installers and toolbox integration).
+- **[luka-dev](https://github.com/luka-dev)**: CarPlay route guidance research
+  ([mib2q-carplay-rgi](https://github.com/luka-dev/mib2q-carplay-rgi)); the protocol and
+  maneuver adaptations keep LuKa's attribution in the source.
+- **[chrzanowy](https://github.com/chrzanowy)**: the Android Auto cluster feeder and route
+  translation ([mhi2-aid-carplay](https://github.com/chrzanowy/mhi2-aid-carplay)), car-tested on MU1161 / AID 791.
+- **[MacsInSpace](https://github.com/MacsInSpace)**: the `gal` cluster-map hook used for
+  Android Auto ([mib-cluster-map](https://github.com/MacsInSpace/mib-cluster-map)) and other MIB projects.
+- **[Mr-MIBonk](https://github.com/Mr-MIBonk)**: M.I.B. (More Incredible Bash), the MIB2 toolbox.
+- **Jille & Olli**: the [MIB2 Toolbox](https://github.com/jilleb/mib2-toolbox) whose GEM
+  menus and scripts this SD is built on.
+- **[Karan](https://t.me/karanldn)**: valuable road tests and feedback.
+- Research references: [perkthefox/mst2-cluster-nav](https://github.com/perkthefox/mst2-cluster-nav),
+  [fifthBro/mh2p-cluster](https://github.com/fifthBro/mh2p-cluster) and
+  [brisoleg/e-golf-mib2](https://github.com/brisoleg/e-golf-mib2).
+
+Licenses and exact upstream revisions are in [NOTICE.md](NOTICE.md).
+
+# Earlier: v1.5.2-e — experimental: lighter CarPlay map (v1.2.2 safe area, larger bridge buffer)
 
 **EXPERIMENTAL — TO BE TESTED.** Update of v1.5.1-e for **K4525 / P4521 MU1367 + AID
 791**. Use v1.4.6 for a stable CarPlay installation. Two changes aimed at the stutter

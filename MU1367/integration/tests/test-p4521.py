@@ -11,7 +11,7 @@ class Suite(release.Suite):
         p.write_bytes(('Current train = "'+value+'"\r\n').encode())
     def test_train_and_exact_identity_gates(self):
         before=self.runtime(self.root)
-        for train,kind in [('MHI2_ER_VWG13_P4521','P4521_EXPERIMENTAL'),('MHI2_ER_VWG13_P4521_MU1367','P4521_EXPERIMENTAL'),('MHI2_ER_VWG13_K4525_1_AIO_MU1367','K4525')]:
+        for train,kind in [('MHI2_ER_VWG13_P4521','P4521\n'),('MHI2_ER_VWG13_P4521_MU1367','P4521\n'),('MHI2_ER_VWG13_K4525_1_AIO_MU1367','K4525')]:
             self.train(train);self.assertIn('MU1367_FIRMWARE_TYPE='+kind,self.action('lane-status'));self.assertEqual(before,self.runtime(self.root))
         for train in ('MHI2_ER_VWG13_P45210','MHI2_ER_VWG13_P9999','MHI2_ER_AUG11_P4521'):
             self.train(train);self.assertIn('UNSUPPORTED_FIRMWARE_TRAIN',self.action('install',False));self.assertEqual(before,self.runtime(self.root))
@@ -21,7 +21,7 @@ class Suite(release.Suite):
         self.assertIn('EXACT_K4525_OR_P4521_MU1367_REQUIRED',self.action('install',False));self.assertEqual(before,self.runtime(self.root))
     def test_p4521_fresh_all_features_tuning_and_reset(self):
         self.train('MHI2_ER_VWG13_P4521')
-        self.assertIn('P4521_EXPERIMENTAL',self.action('install'));self.expected()
+        self.assertIn('MU1367_FIRMWARE_TYPE=P4521\n',self.action('install'));self.expected()
         after=self.runtime(self.root);self.action('install');self.assertEqual(after,self.runtime(self.root))
         self.action('enable-cards');self.action('disable-cards');self.assertEqual(after,self.runtime(self.root))
         self.action('restore-oem');self.assertEqual(self.runtime(self.root),self.original)
