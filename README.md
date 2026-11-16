@@ -36,22 +36,17 @@ The baseline project is by **omonob (QCDWJ)**. **tomasz-twardzicki** developed t
 
 ## Latest MU1367 / 791 changes
 
-**[MU1367 v1.5.2](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.2)** is the stable release of the
-vehicle-tested v1.5.2-e build.
+**[MU1367 v1.5.3](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.3)** is the stable release of the
+vehicle-tested v1.5.3-e build.
 
-- **Steadier CarPlay map on the AID:** v1.2.2's taller safe area for a closer, lighter
-  map, a 2048-packet video-bridge buffer, and no map drop-out shortly after boot.
-- **Map stream:** **40 fps / IDR 5 is the default**; the MU menu offers 40, 30 and 25 fps.
-  A saved 20 or 27 fps choice now runs as 40 fps.
-- **P4521 is supported without the experimental label**; it has been tested in vehicles.
-
-**Experimental: [MU1367 v1.5.3-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.3-e)** (pre-release, not yet tested in a car)
-adds a 4.2 s startup animation on the AID before the live CarPlay map (MU UI: once per boot
-by default, every connection or off) and runs the video bridge at a higher priority for
-steadier maps while reversing.
-- **New: Tuning → Saved snapshots of earlier installations** lists the copies kept by
-  earlier installations, rollbacks and OEM resets, and removes them one at a time or all
-  at once. Rollback and the OEM reset keep working.
+- **Startup animation on the AID:** a 4.2 s App-Connect clip before the live CarPlay map.
+  MU UI > Startup animation: once per boot (default), every connection or off.
+- **Higher video-bridge priority** for steadier maps while reversing.
+- **Everything of v1.5.2:** v1.2.2's taller safe area for a closer, lighter map, a
+  2048-packet video-bridge buffer, no map drop-out shortly after boot, **40 fps / IDR 5**
+  by default (40, 30 and 25 fps in the MU menu), P4521 supported, and **Tuning → Saved
+  snapshots of earlier installations** to list and remove copies kept by earlier
+  installations, rollbacks and OEM resets.
 - **Android Auto on the AID** (Google Maps picture and native VW arrows from an Android
   phone) is included but **not yet fully tested**.
 
@@ -83,7 +78,7 @@ unverified and no adapter firmware patch is included. Blank unused-lane slots
 match OEM behavior. Refined symbols, OEM recalculation messages, names above the
 arrow, and Apple Maps/Waze support remain planned. See [known issues and TODOs](./MU1367/integration/KNOWN-ISSUES.md).
 
-Use the [stable v1.5.2 installation and recovery guide](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/blob/MU1367-v1.5.2/releases/MU1367/v1.5.2/START_HERE.md)
+Use the [stable v1.5.3 installation and recovery guide](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/blob/MU1367-v1.5.3/releases/MU1367/v1.5.3/START_HERE.md)
 and [maintained source/build guide](./MU1367/integration/DEVELOPMENT.md).
 Earlier packages and tags remain unchanged. These changes apply to exact
 **K4525 or P4521 MU1367 + AID 791**, separately from the MU1427 release below.
@@ -123,12 +118,11 @@ The original standalone profiles remain available ([see below](#origin-and-upstr
 
 ## Download
 
-**MU1367 / AID 791 — v1.5.2 complete integration:**
-[Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.2) ·
-[Full Toolbox ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.5.2/CarPlay_Maps_VC_MU1367_791_v1.5.2.zip) ·
-[SHA-256](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.5.2/SHA256SUMS.txt).
-Experimental v1.5.3-e: [Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.3-e) ·
-[Full Toolbox ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.5.3-e/CarPlay_Maps_VC_MU1367_791_v1.5.3-e.zip).
+**MU1367 / AID 791 — v1.5.3 complete integration:**
+[Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.3) ·
+[Full Toolbox ZIP](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.5.3/CarPlay_Maps_VC_MU1367_791_v1.5.3.zip) ·
+[SHA-256](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.5.3/SHA256SUMS.txt).
+Previous stable v1.5.2: [Release](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.2).
 Read [installation, migration and recovery](./MU1367/integration/INSTALL.md).
 Supports K4525 and P4521, both tested in vehicles.
 The same SD includes the complete fresh-install path and independent OEM reset.
@@ -150,6 +144,7 @@ confirmed working MU1427 baseline**, rather than the earlier initial port.
 
 | Release | Published | Changes | Previous tag |
 | --- | --- | --- | --- |
+| [MU1367 / 791 v1.5.3](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.3) | 2026-11-16 | Stable release of the vehicle-tested v1.5.3-e build (ZIP `011d37a7…`): startup animation on the AID (once per boot by default, every connection or off) and video-bridge priority 14. Fix: after the clip, the bridge notes which frames to skip before requesting the key frame, so a fast answer is never skipped. Android Auto included, not yet fully tested. |
 | [MU1367 / 791 v1.5.3-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.3-e) (pre-release) | 2026-11-15 | Startup animation: a built-in 4.2 s App-Connect clip plays on the AID before the live CarPlay map (MU UI: once per boot by default, every connection, off; with Tuning it replaces the no-op Wireless CarPlay (test) row; not for Android Auto). Both video bridges run at priority 14 (was 10, the navigation renderer's) to keep the map fed while reversing. Everything else as v1.5.2 (ZIP `28de02d3…`). No vehicle result yet. | `MU1367-v1.5.2` |
 | [MU1367 / 791 v1.5.2](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.2) | 2026-11-14 | Stable release of the vehicle-tested v1.5.2-e build (ZIP `63e9f01b…`). 40 fps / IDR 5 is the default map stream (25/30/40 fps choices; saved 20 or 27 fps run as 40); P4521 no longer experimental; new Tuning entries list saved snapshots of earlier installations and remove them one at a time or all at once. Android Auto included, not yet fully tested. Guidance, audio, reader and video bridges byte-identical to v1.5.2-e; updates from v1.4.6/v1.5.x use the two-stage install. | `MU1367-v1.4.6` |
 | [MU1367 / 791 v1.5.2-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.5.2-e) (pre-release) | 2026-11-13 | Map-only view declares v1.2.2's taller safe area (160,20,480,440, was 200,96,400,364) for a closer, lighter map with smaller frames; video-bridge backlog limit 2048 TS packets (about 250 ms, was 1024) for every stream setting, so large frames at 27/5 no longer cause latency resets. Everything else as v1.5.1-e; updates from v1.5.x use the two-stage install. No vehicle result yet. | `MU1367-v1.5.1-e` |
