@@ -4,7 +4,8 @@ requested; without the clip it starts exactly as v1.5.2 (first ring entry, no ID
 no clip. The preference is the MU UI's animation.state (Java wire format, CRC32), the once-per-boot marker is
 /ramdisk/carplay-v725-intro-played. A fake hook answers each IDR request with config + IDR.
   A  default (no saved preference), first connection: the 126 clip access units reach the TS byte for byte, then the
-     requested IDR with SPS/PPS, then live frames; the marker is created.
+     requested IDR with SPS/PPS, then live frames; the marker is created. The request is written only after the bridge
+     has recorded the ring head it skips to (v1.5.3), so its answer is never skipped.
   B  default, marker present (second connection in the boot): no clip, starts at the session's first IDR, no request.
   C  saved "off", no marker: no clip, no marker.
   D  saved "every connection", marker present: the clip plays, and again after a reconnect (ring generation change).
@@ -12,7 +13,7 @@ no clip. The preference is the MU UI's animation.state (Java wire format, CRC32)
 Usage: python3 -I intro_clip.py CARPLAY_BRIDGE AA_BRIDGE CLIP_H264 H264SYNTH_DIR RESULT_JSON
 SPDX-License-Identifier: GPL-3.0-or-later
 """
-import json, mmap, os, random, shutil, struct, subprocess, sys, time, zlib
+import json, mmap, os, random, re, shutil, struct, subprocess, sys, time, zlib
 CP, AA, CLIP, SYN, RESULT = sys.argv[1:6]
 sys.path.insert(0, SYN)
 import h264synth as hs
@@ -88,7 +89,7 @@ def session(binary, name, mode, marker, reconnect=False, seconds=7.0):
             with open(RING, 'r+b') as f: m = mmap.mmap(f.fileno(), SIZE)
             if struct.unpack_from('<I', m, 0)[0] == MAGIC: break
         time.sleep(0.02)
-    rng = random.Random(5); st = {'seq': 0, 'frame': 0, 'requests': 0, 'requests_at_start': os.path.exists(IDR_REQ)}
+    rng = random.Random(5); st = {'seq': 0, 'frame': 0, 'requests': 0, 'requests_at_start': os.path.exists(IDR_REQ), 'answers': []}
     def put(typ, data):
         st['seq'] += 1; off = HDR + ((st['seq'] - 1) & 63) * SLOT
         struct.pack_into('<I', m, off, 0)
@@ -105,7 +106,7 @@ def session(binary, name, mode, marker, reconnect=False, seconds=7.0):
         end = time.time() + duration
         while time.time() < end:
             if os.path.exists(IDR_REQ):
-                os.unlink(IDR_REQ); st['requests'] += 1; put(1, avcc_config()); frame(True)
+                os.unlink(IDR_REQ); st['requests'] += 1; put(1, avcc_config()); st['answers'].append(st['seq']); frame(True)
             else: frame(False)
             time.sleep(1 / 30)
     stream(seconds)
@@ -130,6 +131,10 @@ check('intro-complete frames=126' in log and os.path.exists(MARKER), 'A: clip co
 nxt = aus[len(CLIP_AUS)] if len(aus) > len(CLIP_AUS) else b''
 check(starts_idr(nxt) and 'intro-live-resume-idr' in log and st['requests'] == 1, 'A: then the requested IDR with SPS/PPS (one request, answered)')
 live = aus[len(CLIP_AUS) + 1:]
+# v1.5.3: the bridge records the ring head before it writes the request, so the answer is never in the skipped range.
+skipped = [int(x) for x in re.findall(r'intro skipped stale ring through sequence=(\d+)', log)]
+check(len(skipped) == 1 and st['answers'] and st['answers'][0] > skipped[0] and log.index('skipped stale ring') > log.index('intro-complete'),
+      'A: the IDR answer (ring sequence %s) comes after the skipped range (through %s)' % (st['answers'][:1], skipped))
 check(len(live) >= 50 and all(5 not in nal_types(x) for x in live), 'A: live P frames follow (%d), no stale frames from before the request' % len(live))
 check('priority thread=input' in log and 'priority thread=writer' in log and 'target=14' in log, 'A: both bridge threads report the priority step (host build: unchanged, target 14)')
 # B: second connection in the same boot.

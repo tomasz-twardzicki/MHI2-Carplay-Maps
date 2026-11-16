@@ -1,11 +1,12 @@
 {
   "passed": true,
-  "version": "1.5.3-e",
-  "experimental": true,
-  "prerelease": true,
-  "base_version": "1.5.2",
+  "version": "1.5.3",
+  "experimental": false,
+  "prerelease": false,
+  "base_version": "1.5.3-e",
+  "previous_stable_version": "1.5.2",
   "android_auto": {
-    "build_id": "mu1367-android-auto-95f7bc5f3cc4",
+    "build_id": "mu1367-android-auto-05631145bd45",
     "factory_gal": {
       "sha256": "f84722179cbfb3c0bb92589e0fc58ffcfc3cc0860fabcdf426955e58d900daa0",
       "size": 1269211,
@@ -24,10 +25,10 @@
       "feeder.conf": "ac7157dabd7ae3ec61e8b9c453451b5716154b2b068d552dd96a94a83852e75d"
     },
     "main_versions": [
-      "mu1367-guidance-v3-5ff71668fc3e",
-      "mu1367-guidance-v3-fd036ba27fc4",
-      "mu1367-guidance-v3-6b1d3d383898",
-      "mu1367-guidance-v3-75f24f8548ed"
+      "mu1367-guidance-v3-5d0b22efdd58",
+      "mu1367-guidance-v3-dee9bf1fe4ed",
+      "mu1367-guidance-v3-2ef9c8fddb1e",
+      "mu1367-guidance-v3-eca478dc85f9"
     ],
     "hook": {
       "sha256": "bdd76a85f22319c9750f7c55849b4053d4ce365446559025195673677bc73b05",
@@ -46,7 +47,8 @@
       "mu1367-android-auto-c1f4833dac00",
       "mu1367-android-auto-ad7f051fd568",
       "mu1367-android-auto-32e92312bde1",
-      "mu1367-android-auto-74fd41b287c3"
+      "mu1367-android-auto-74fd41b287c3",
+      "mu1367-android-auto-95f7bc5f3cc4"
     ],
     "source": {
       "source_repository": "https://github.com/chrzanowy/mhi2-aid-carplay",
@@ -57,8 +59,8 @@
     "on_unit_validated": false
   },
   "android_auto_fully_tested": false,
-  "base_archive_sha256": "63e9f01ba01843301c1adb55ffedc37ea62740478bbeca6b48666740190da84e",
-  "base_verified_package_sha256": "63e9f01ba01843301c1adb55ffedc37ea62740478bbeca6b48666740190da84e",
+  "base_archive_sha256": "28de02d35fc8ed91b0c3b58bbfdb30afc23731cfe2624c1bd77351b6b4ae6312",
+  "base_verified_package_sha256": "28de02d35fc8ed91b0c3b58bbfdb30afc23731cfe2624c1bd77351b6b4ae6312",
   "artwork_png": {
     "layer": "carplay_mu1367_artwork_png",
     "build_id": "MU1367-artwork-png-1741916018b9",
@@ -69,8 +71,8 @@
     "lossless": true,
     "on_unit_validated": false
   },
-  "archive_sha256": "28de02d35fc8ed91b0c3b58bbfdb30afc23731cfe2624c1bd77351b6b4ae6312",
-  "archive_bytes": 15650463,
+  "archive_sha256": "011d37a7206739d77843f96e5446078d2175e4cbc12fc8702d1842c4035665d8",
+  "archive_bytes": 15652045,
   "inventory_checks": 642,
   "supported_firmware": [
     {
@@ -91,9 +93,12 @@
     "tuning/VCMenu.jar": "74766a645ba7b84f5718f4e481d230cc4a6e933ebea7eeff2c58227b94a604b0"
   },
   "runtime_changed": [
-    "base and tuning VCMenu.jar: startup animation row (base: new 5th row; tuning: replaces Wireless CarPlay (test), which had no function); core.so, guidance and audio unchanged"
+    "RUNTIME.json payloads unchanged since v1.5.3-e (the bridges are built separately, see release_changes); against v1.5.2: base and tuning VCMenu.jar (startup animation row; base: new 5th row; tuning: replaces Wireless CarPlay (test), which had no function); core.so, guidance and audio unchanged"
   ],
-  "v153e_changes": [
+  "release_changes": [
+    "stable v1.5.3: vehicle-tested v1.5.3-e with the same RUNTIME.json payloads",
+    "CarPlay bridge: the IDR request after the startup clip is written only after the ring head to skip to is recorded, so a fast answer is never skipped (found by the host intro test under load); the Android Auto bridge is rebuilt from the same source",
+    "published v1.5.3-e main layers retired by the two-stage migration; its Android Auto layer upgraded in place",
     "startup animation: built-in 4.2 s clip played by the CarPlay bridge before the live map (once per boot by default, every connection, off)",
     "CarPlay and Android Auto bridges raise their threads to priority 14",
     "published v1.5.2 main layers retired by the two-stage migration; its Android Auto layer upgraded in place"
@@ -125,7 +130,7 @@
   ],
   "carplay_bridge": {
     "build": "altscreen_most_bridge.c (clang, pinned QNX 6.5 SDK binutils)",
-    "sha256": "ed1b360ec667f1e8e1f4b58029389d641263c29870c0dab35871812e85ae6d7f",
+    "sha256": "97539451359b8bec88cffdd92184dbd95ef5d3930d16a11fe9306cb5cbcdcec3",
     "replaces_sha256": "6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35",
     "reclaim_window_s": 180,
     "reclaim_max": 3,
@@ -146,6 +151,8 @@
   "reader_source_sha256": "9d752c6976959963d9c389062aa95ad9c08d25bd4a3dbaded68eaa5ea56793b6",
   "guidance_build": "MU1367-guidance-v1.5.0-e",
   "reader_build": "MU1367-reader-v1.4.4-e",
+  "runtime_unchanged_from_v153e": true,
+  "carplay_bridge_changed_from_v153e": true,
   "runtime_and_main_layer_unchanged_from_v152": false,
   "stream_choices": [
     "25 fps / IDR 5",
@@ -188,25 +195,20 @@
   "new_unit_commands": [],
   "baseline_changed_files": [
     "Custom/carplay_mu1367_android_auto/VERSION",
-    "Custom/carplay_mu1367_android_auto/altscreen-most-bridge-aa",
     "Custom/carplay_mu1367_android_auto/control.sh",
     "Custom/carplay_mu1367_android_auto/manifest.json",
-    "Custom/carplay_mu1367_guidance_v3/6/VCMenu.jar",
     "Custom/carplay_mu1367_guidance_v3/6/VERSION",
     "Custom/carplay_mu1367_guidance_v3/6/altscreen-most-bridge",
     "Custom/carplay_mu1367_guidance_v3/6/control.sh",
     "Custom/carplay_mu1367_guidance_v3/6/manifest.json",
-    "Custom/carplay_mu1367_guidance_v3/6-road/VCMenu.jar",
     "Custom/carplay_mu1367_guidance_v3/6-road/VERSION",
     "Custom/carplay_mu1367_guidance_v3/6-road/altscreen-most-bridge",
     "Custom/carplay_mu1367_guidance_v3/6-road/control.sh",
     "Custom/carplay_mu1367_guidance_v3/6-road/manifest.json",
-    "Custom/carplay_mu1367_guidance_v3/7/VCMenu.jar",
     "Custom/carplay_mu1367_guidance_v3/7/VERSION",
     "Custom/carplay_mu1367_guidance_v3/7/altscreen-most-bridge",
     "Custom/carplay_mu1367_guidance_v3/7/control.sh",
     "Custom/carplay_mu1367_guidance_v3/7/manifest.json",
-    "Custom/carplay_mu1367_guidance_v3/7-road/VCMenu.jar",
     "Custom/carplay_mu1367_guidance_v3/7-road/VERSION",
     "Custom/carplay_mu1367_guidance_v3/7-road/altscreen-most-bridge",
     "Custom/carplay_mu1367_guidance_v3/7-road/control.sh",
@@ -217,19 +219,15 @@
     "Custom/carplay_mu1367_guidance_v3/release-versions.sh",
     "Custom/carplay_mu1367_map_only/payload-check.sh",
     "Custom/carplay_mu1367_refinements/payload-check.sh",
-    "Custom/carplay_mu1367_v3_turn_cards/6/VCMenu.jar",
     "Custom/carplay_mu1367_v3_turn_cards/6/VERSION",
     "Custom/carplay_mu1367_v3_turn_cards/6/control.sh",
     "Custom/carplay_mu1367_v3_turn_cards/6/manifest.json",
-    "Custom/carplay_mu1367_v3_turn_cards/6-road/VCMenu.jar",
     "Custom/carplay_mu1367_v3_turn_cards/6-road/VERSION",
     "Custom/carplay_mu1367_v3_turn_cards/6-road/control.sh",
     "Custom/carplay_mu1367_v3_turn_cards/6-road/manifest.json",
-    "Custom/carplay_mu1367_v3_turn_cards/7/VCMenu.jar",
     "Custom/carplay_mu1367_v3_turn_cards/7/VERSION",
     "Custom/carplay_mu1367_v3_turn_cards/7/control.sh",
     "Custom/carplay_mu1367_v3_turn_cards/7/manifest.json",
-    "Custom/carplay_mu1367_v3_turn_cards/7-road/VCMenu.jar",
     "Custom/carplay_mu1367_v3_turn_cards/7-road/VERSION",
     "Custom/carplay_mu1367_v3_turn_cards/7-road/control.sh",
     "Custom/carplay_mu1367_v3_turn_cards/7-road/manifest.json",
@@ -246,11 +244,11 @@
   "oem_reset_sha256": "0f53d6454db562139e978057e58551a018243e3a86829fe90364adf98d660725",
   "tests": {
     "filesystem_cases": 15,
-    "migration_combinations": 104,
-    "intro_clip_checks": 15,
+    "migration_combinations": 112,
+    "intro_clip_checks": 16,
     "most_reclaim_checks": 18,
     "backlog_limit_checks": 4,
-    "android_auto_layer_checks": 51,
+    "android_auto_layer_checks": 55,
     "android_auto_e2e_checks": 16,
     "android_auto_feeder_qnx_checks": 10,
     "android_auto_feeder_host_checks": 110,
@@ -263,11 +261,10 @@
   },
   "validation_environment": "Host reader/Java tests on macOS; full transactions in disposable Debian 12 aarch64/Python 3.11/ksh93 container without network; native and real firmware shell checks on QNX/QEMU. Mounts mocked.",
   "limits": [
-    "Not yet tested in a car. The startup clip and the bridge priority are new; everything else is stable v1.5.2.",
-    "The startup clip switches the AID decoder from the clip's Constrained Baseline stream to the phone's stream at a requested IDR; the upstream intro used the same handover, but this clip and this decoder pairing are untested.",
+    "The final v1.5.3 package is verified off-unit. Its RUNTIME.json payloads are byte-identical to the vehicle-tested v1.5.3-e; the CarPlay bridge differs only by the intro IDR-request ordering fix, which is verified on the host and on QNX but not yet in a car.",
     "The clip adds about 4.2 s before the first live map frame on the connections where it plays.",
     "With Tuning installed, the Wireless CarPlay (test) row is gone from the MU UI; it saved a value nothing read.",
-    "Bridge priority 14: verified to apply on the QNX 6.5 libc under QEMU; its effect on reverse-camera stalls needs drives.",
+    "Bridge priority 14: verified on the QNX 6.5 libc under QEMU and in v1.5.3-e drives; long-term reverse-camera behaviour is still being collected.",
     "Android Auto on the AID is not fully tested and has no startup clip (one IDR per Android session).",
     "Android Auto: no first-step arrow, no remaining distance/time, lanes or road name; 30 fps; a lost picture returns only after the phone reconnects.",
     "Backlog limit 2048: a real stall shows up to about 250 ms of older video before the reset.",
@@ -278,23 +275,23 @@
   "proofs": {
     "filesystem": {
       "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-aa/build/verify/results/filesystem-linux.json",
-      "sha256": "d69938d6e11e10a97037c4ccc2eb7fbdb886076e69c505d8a85b026085082079",
+      "sha256": "b41f607b2b0df5feaa8a5dcbc9aee32644fd95491251432afca964b7f8f48cb7",
       "result": {
         "passed": true,
         "tests": 15,
         "inventory_checks": 642,
-        "archive_sha256": "28de02d35fc8ed91b0c3b58bbfdb30afc23731cfe2624c1bd77351b6b4ae6312",
+        "archive_sha256": "011d37a7206739d77843f96e5446078d2175e4cbc12fc8702d1842c4035665d8",
         "mounts_and_sync_mocked_on_host": true,
         "on_unit_validated": false
       }
     },
     "p4521": {
       "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-aa/build/verify/results/p4521-linux.json",
-      "sha256": "0e5dbcdd8d0da6674ab0c2d06b22e1ded713f26d77fb51a5a2a6f2e52c300bdb",
+      "sha256": "45094a3927a100c5280e6c1e9a2b414d4870aa584ad181b58511b4be470eed11",
       "result": {
         "passed": true,
         "tests": 3,
-        "archive_sha256": "28de02d35fc8ed91b0c3b58bbfdb30afc23731cfe2624c1bd77351b6b4ae6312",
+        "archive_sha256": "011d37a7206739d77843f96e5446078d2175e4cbc12fc8702d1842c4035665d8",
         "p4521_hardware_variants": [
           "50",
           "70"
@@ -306,7 +303,7 @@
     },
     "qnx": {
       "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-aa/build/verify/actions-qnx/result.json",
-      "sha256": "1fd2343a62f197bc6150a94d61fb2cfe76a64592fe7f05bdb6e7dfa4f9ea3639",
+      "sha256": "19085c1a08b79cacc6411689ac7500e33717c22d5935329f298f7711704e93ae",
       "result": {
         "passed": true,
         "controller_sha256": "0f53d6454db562139e978057e58551a018243e3a86829fe90364adf98d660725",
@@ -339,31 +336,31 @@
         "sdk_utilities_injected": false,
         "rmdir_absent_factory_gawk_present": true,
         "lock_cleanup_verified": true,
-        "qemu_log_sha256": "608fe406a2abe529a634cc9b5e1b1faa346faae107df64cfdb4af67691299bf3",
+        "qemu_log_sha256": "78a81da8bdde0824813611b2fd4c408928bb8558e365c05f6a0b286ede37911e",
         "test_sha256": "87df42ae82a558cf298312f969b49561fa86f41ebdb4cc006169b57e9079f983",
         "factory_progress_verified": true,
         "factory_migration_verified": true,
         "firmware_train_recognition_verified": true,
-        "map_only_actions_sha256": "2055e1649cf190c816092143d451fb2082f45c3eda4fcb3479af77ca86b7f756",
-        "main_controller_sha256": "59560c9b282f290aee6b21ed0cf96d71c16c195fe67c4e7ac51317d0b42a3e4c",
-        "tuning_controller_sha256": "34debbc5e391411301397e3393ae36fc06453d51d8d9aeab291a5f9a7286b1d1",
+        "map_only_actions_sha256": "de639177432ace25c70caca239942eb5b2ec79fb70f1039fc80312a8d516c3f9",
+        "main_controller_sha256": "3947e4fc688ebdd92249c632769ea9fd650d38f14e3f96f7e9d11fefca63e4e2",
+        "tuning_controller_sha256": "c2d2bc6fc3f2bd5807c7e1f9cfc1646f8e40b5540b02d8c262f74901d0aa198c",
         "fixture_changes": "Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host",
         "map_only_and_optional_transactions_verified": true,
         "default_artwork_png_verified": true,
         "android_auto_layer_verified": true,
         "carplay_bridge_install_verified": true,
         "saved_snapshots_verified": true,
-        "android_auto_controller_sha256": "93be07fa1a916d6cd3270abb658e2b6eb75b08228016add06c556ef70b5d21db",
+        "android_auto_controller_sha256": "8a0bf80d1c473a03c50b1864c1b2bf3e7b8ed6fe01d8d85fe69c2ffdd087df08",
         "artwork_png_controller_sha256": "5efa4d9c52a64b29578cdd184b76416d06291ae3e265e16050aee45a2b0f0d1f"
       }
     },
     "reader_host": {
       "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-aa/build/verify/reader-host.json",
-      "sha256": "69c66bf3601e7118bffa4a4e5ff23f89fd6716a9f6f3ad7644f1c838728c0f79",
+      "sha256": "fb159f7e319fac405bd8116767fb512017ca9a5d1de15e9f3f9cbf48e106649d",
       "result": {
         "passed": true,
         "tests": 20,
-        "seconds": 60.506,
+        "seconds": 60.688,
         "reader_source_sha256": "9d752c6976959963d9c389062aa95ad9c08d25bd4a3dbaded68eaa5ea56793b6",
         "guidance_sha256": "0fd03cd1ad9b811553764d35d476408c44da6e7aef4c0a1a2efa48acd71e0f04",
         "test_sha256": "78fb1a0b4e401ac79174b705350c1173aa4ae17fbfadd3f98beef5ca2ce488ad",
@@ -373,7 +370,7 @@
     },
     "reader_qnx": {
       "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-aa/build/verify/reader-qnx/result.json",
-      "sha256": "f64dd530df020c9c45a158033e89822c7749509bae81158ba6e64ec66239f740",
+      "sha256": "dead8e099ac8725975a74faddb3e63a6fc6a4b2f6c7872c2aa1bf8cd22e7c22d",
       "result": {
         "passed": true,
         "reader_sha256": "3dc291619a06f2894dc1258135586431693078d9b3bc254fe78ca0bf71555073",
@@ -383,18 +380,18 @@
         "new_nonce_verified": true,
         "first_failure_retained": true,
         "foreground_and_daemon": true,
-        "qemu_log_sha256": "08768fca2f97cc7e0b6062682452298f020c9fdd26c19568d6bcaf9c2ccba590",
+        "qemu_log_sha256": "4b9aa23b35c4372cbccb9046f3cdf4bc8287a40ddd58bdd10b4834d08686b150",
         "test_sha256": "16f454ea4656f3873eb69f42f3946f175bfc4d2be307bcca2a3ae0984cd2f81b",
         "on_unit_validated": false
       }
     },
     "reader_transactions": {
       "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-aa/build/verify/results/reader-transactions-linux.json",
-      "sha256": "793db11f07958e22c1d36b63ff58854240b5b897bbdccb69c019ffda7225a868",
+      "sha256": "bbe3e70dad609a61339c350e2b4b9d98bf13d31482c1fc662ba891514bbe7c24",
       "result": {
         "passed": true,
         "tests": 3,
-        "archive_sha256": "28de02d35fc8ed91b0c3b58bbfdb30afc23731cfe2624c1bd77351b6b4ae6312",
+        "archive_sha256": "011d37a7206739d77843f96e5446078d2175e4cbc12fc8702d1842c4035665d8",
         "reader_sha256": "3dc291619a06f2894dc1258135586431693078d9b3bc254fe78ca0bf71555073",
         "mounts_and_sync_mocked_on_host": true,
         "on_unit_validated": false
@@ -456,7 +453,7 @@
     },
     "guidance_qnx": {
       "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-aa/build/verify/guidance-qnx/result.json",
-      "sha256": "f78cf85ce1d5f770193f975fa988177bf3653d8a89d6cc30ad9e1cf4a17d67ae",
+      "sha256": "f1a2ba6e9f33506fa4e781ce2669b0c3bbc5fd7b5498be994aace711a777d0e5",
       "result": {
         "passed": true,
         "guidance_sha256": "0fd03cd1ad9b811553764d35d476408c44da6e7aef4c0a1a2efa48acd71e0f04",
@@ -469,7 +466,7 @@
         "actual_factory_builder": true,
         "factory_serializer": true,
         "road_and_arrow_regressions": true,
-        "qemu_log_sha256": "c73403c92b207d9443e15235ac2f8bedbf6f72346eb93eec350125d09ff1d3fe",
+        "qemu_log_sha256": "06b4f9363bae43c8fe2433532791c7ab99b4a2e6410d9c6eace80528cc04e518",
         "on_unit_validated": false,
         "test_sha256": "a9f57c4d6e959485e44bd4ee4c7b703ce0755e921141f313d8bd95d2f3b68866"
       }
@@ -549,7 +546,7 @@
     },
     "png_tx": {
       "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-aa/build/artwork-png-tx/result.json",
-      "sha256": "f631e2f946694fad4e4e65602707f8f4f79ae95cdddcc7989cf8c00fba46fb0f",
+      "sha256": "fdb008aba57e845c3a8ea64d28a34bdbda53204f9677416d742167bd4e9b9001",
       "result": {
         "passed": true,
         "controller_sha256": "5efa4d9c52a64b29578cdd184b76416d06291ae3e265e16050aee45a2b0f0d1f",
@@ -560,7 +557,7 @@
         "mounts_mocked": true,
         "fixture_change": "Small-JXE fingerprint only; verifier, helpers, audio JAR, driver and factory zlib are full real files.",
         "tests": 14,
-        "qemu_log_sha256": "acf659d7f5d6f13048d052ca6b45790c26a886c649593ed886c50a6d3e500732",
+        "qemu_log_sha256": "63834c35442582e2889571f2fad21577b7926d274dca3ba9637db4401b88afbc",
         "on_unit_validated": false
       }
     },
@@ -581,26 +578,26 @@
     },
     "aa_layer": {
       "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-aa/build/verify/results/aa-layer.json",
-      "sha256": "65698ec456a24489aa75b7e25ba294bf9cf8720f709cf4855467a6d7c2cd37c6",
+      "sha256": "cafe136f7826940025b12abcb5f32b952ad16bee7ee6ebc9c2cc7642ccce2337",
       "result": {
         "passed": true,
-        "checks": 51,
+        "checks": 55,
         "failed": [],
-        "layer_build": "mu1367-android-auto-95f7bc5f3cc4",
+        "layer_build": "mu1367-android-auto-05631145bd45",
         "wrapper_sha256": "ebbefc53004888507dff32770dd2e2a762b3c7895b0c05250b5799e9c7a74034",
         "factory_gal_sha256": "f84722179cbfb3c0bb92589e0fc58ffcfc3cc0860fabcdf426955e58d900daa0",
-        "controller_sha256": "93be07fa1a916d6cd3270abb658e2b6eb75b08228016add06c556ef70b5d21db",
+        "controller_sha256": "8a0bf80d1c473a03c50b1864c1b2bf3e7b8ed6fe01d8d85fe69c2ffdd087df08",
         "on_unit_validated": false
       }
     },
     "aa_e2e": {
       "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-aa/build/verify/aa-host/e2e.json",
-      "sha256": "3309070d5bf0c887cc1f6323769ecafcdf75c3634e7ab377b6086fba95ab1aa5",
+      "sha256": "4d4deba39467708df0873630c8bd5feed2a6cf2cfe112c826e3d8557ac1e088b",
       "result": {
         "passed": true,
         "checks": 16,
         "failed": [],
-        "ts_packets": 98304,
+        "ts_packets": 98368,
         "nal_types": {
           "1": 238,
           "5": 4,
@@ -616,13 +613,13 @@
           "src/android-auto/feeder/aeabi_conv.c": "bec29128a23cca475febe4313b4a3bdfb36ad5ec5c2526e20f56042c291d236c",
           "tests/android-auto/e2e/backlog_limit.py": "0920c85314c7bf6ecde693379d6c02b701c11c9ca1474bd4139319ab9df87178",
           "tests/android-auto/e2e/bridge_recovery.py": "33ee7c7c083ef06c71a252534bcf1754a144b4b3f45c4938c2a9dac2c65aefe5",
-          "tests/android-auto/e2e/intro_clip.py": "b00496d16309e2abd2117c40439a21baeb010831d792023e8753f6eabbe87d0c",
+          "tests/android-auto/e2e/intro_clip.py": "8e6895cb3ff093522d0ab0d12a499807fa0b915a8350e7480fa39deed3f816d6",
           "tests/android-auto/e2e/most_reclaim.py": "b418bab8832fb738669093dbced8f311775bad986b1ce3c96fadea9bd49d1e5b",
           "tests/android-auto/e2e/run_e2e.py": "85223c176b68d8d275a0855b7ac7af434f3ae63e32186c9e5fd037ae7dcbf9db",
           "tests/android-auto/feeder/fake_bridge.py": "648d1eb60ccd89a3a8fed9628b509fd8cccd030ba8a2af3c662929847035712d",
           "tests/android-auto/feeder/h264synth.py": "18882c1355c7ee4e80cd4d3c540cae5421226eca4ff03614be5f7bc914b5f810",
           "tests/android-auto/feeder/run_host_test.py": "74a7e0a9b0170e9b2d5ebb2f0e3e156e2429d47592e2f74c59fd6ec32189fde1",
-          "src/runtime/vc-runtime/runtime/altscreen_most_bridge.c": "af1e4a60ace302cd11ea67724f5987187c5ce88b9d940cd733cec3468325abab",
+          "src/runtime/vc-runtime/runtime/altscreen_most_bridge.c": "97bd75fe5532955973af87a3739a370740de1294da2eec25ec32260c848ca55a",
           "src/runtime/vc-runtime/runtime/cpmap_intro_clip.h": "cc6e66903608c21296b3375746403365cb1285afdc3ec9b04a520a2e0c6db338",
           "src/runtime/vc-runtime/intro/cp_intro_badge_baseline.h264": "bb1bff76a8765c0191f02774a3e6aee0ec82c89d1a2ee84b09a866d6ecd8a0ec",
           "src/runtime/vc-runtime/runtime/carplay_cluster_supervisor.c": "00ee1705b4e1ec51421178b910965b52d6879523825e5113d3975288ec87e71e"
@@ -657,29 +654,29 @@
         },
         "intro_clip": {
           "passed": true,
-          "checks": 15,
+          "checks": 16,
           "failed": [],
           "clip_access_units": 126,
           "clip_bytes": 242160,
           "a": {
-            "aus": 204,
+            "aus": 203,
             "requests": 1
           },
           "b": {
-            "aus": 207,
+            "aus": 205,
             "requests": 0
           },
           "c": {
-            "aus": 207,
+            "aus": 202,
             "requests": 0
           },
           "d": {
-            "aus": 399,
+            "aus": 400,
             "requests": 3,
             "intro_starts": 2
           },
           "e": {
-            "aus": 202,
+            "aus": 203,
             "requests": 0
           }
         }
@@ -687,7 +684,7 @@
     },
     "aa_feeder_qnx": {
       "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-aa/build/verify/aa-feeder-qnx/result.json",
-      "sha256": "4c7404c39f6dd20db65ff81285a4db6b8e3b86a962c0a39c2bbc9f2e592fdd00",
+      "sha256": "9243cfb449b39c41d79ca6892fb942ddcac3d8ab5e36f2f3e19b8670f334f92a",
       "result": {
         "passed": true,
         "feeder_sha256": "e52e6c1a757905df991133dcd25fc4debd1ab575ccc5b7576be4284c46384370",
@@ -704,7 +701,7 @@
           "",
           "Process 90118 (altscreen-most-bridge-aa) exited status=1."
         ],
-        "carplay_bridge_sha256": "ed1b360ec667f1e8e1f4b58029389d641263c29870c0dab35871812e85ae6d7f",
+        "carplay_bridge_sha256": "97539451359b8bec88cffdd92184dbd95ef5d3930d16a11fe9306cb5cbcdcec3",
         "carplay_bridge_ran_on_qnx": true,
         "carplay_bridge_console": [
           "@@CP-BRIDGE-START@@",
@@ -718,14 +715,14 @@
           "carplay": "bridge: priority thread=input before=10 target=14 status=0",
           "aa": "bridge: priority thread=input before=10 target=14 status=0"
         },
-        "qemu_log_sha256": "b4f4308f68381c6a1a0aee16f3597964f47525561d6d077c2ce311cfaf0f678f",
+        "qemu_log_sha256": "610300414ede45fb2770ed004e9e20389291dd393ef51298f7b789915d63401e",
         "test_sha256": "22ee95d8560c840a607949cff86d209ed4e09fba1279bf6c0ddf18a1dada902f",
         "on_unit_validated": false
       }
     },
     "aa_feeder_host": {
       "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-aa/build/verify/aa-host/feeder-host.json",
-      "sha256": "8d5d440474d2437531bfb380b419fcd25ca7974c5985c02223ddef0ca89a51ea",
+      "sha256": "e235b971151be57436934e2c1547fbccb9c1acf21d72cc5f895f6705091aea57",
       "result": {
         "passed": true,
         "checks": 110,
@@ -736,13 +733,13 @@
           "src/android-auto/feeder/aeabi_conv.c": "bec29128a23cca475febe4313b4a3bdfb36ad5ec5c2526e20f56042c291d236c",
           "tests/android-auto/e2e/backlog_limit.py": "0920c85314c7bf6ecde693379d6c02b701c11c9ca1474bd4139319ab9df87178",
           "tests/android-auto/e2e/bridge_recovery.py": "33ee7c7c083ef06c71a252534bcf1754a144b4b3f45c4938c2a9dac2c65aefe5",
-          "tests/android-auto/e2e/intro_clip.py": "b00496d16309e2abd2117c40439a21baeb010831d792023e8753f6eabbe87d0c",
+          "tests/android-auto/e2e/intro_clip.py": "8e6895cb3ff093522d0ab0d12a499807fa0b915a8350e7480fa39deed3f816d6",
           "tests/android-auto/e2e/most_reclaim.py": "b418bab8832fb738669093dbced8f311775bad986b1ce3c96fadea9bd49d1e5b",
           "tests/android-auto/e2e/run_e2e.py": "85223c176b68d8d275a0855b7ac7af434f3ae63e32186c9e5fd037ae7dcbf9db",
           "tests/android-auto/feeder/fake_bridge.py": "648d1eb60ccd89a3a8fed9628b509fd8cccd030ba8a2af3c662929847035712d",
           "tests/android-auto/feeder/h264synth.py": "18882c1355c7ee4e80cd4d3c540cae5421226eca4ff03614be5f7bc914b5f810",
           "tests/android-auto/feeder/run_host_test.py": "74a7e0a9b0170e9b2d5ebb2f0e3e156e2429d47592e2f74c59fd6ec32189fde1",
-          "src/runtime/vc-runtime/runtime/altscreen_most_bridge.c": "af1e4a60ace302cd11ea67724f5987187c5ce88b9d940cd733cec3468325abab",
+          "src/runtime/vc-runtime/runtime/altscreen_most_bridge.c": "97bd75fe5532955973af87a3739a370740de1294da2eec25ec32260c848ca55a",
           "src/runtime/vc-runtime/runtime/cpmap_intro_clip.h": "cc6e66903608c21296b3375746403365cb1285afdc3ec9b04a520a2e0c6db338",
           "src/runtime/vc-runtime/intro/cp_intro_badge_baseline.h264": "bb1bff76a8765c0191f02774a3e6aee0ec82c89d1a2ee84b09a866d6ecd8a0ec",
           "src/runtime/vc-runtime/runtime/carplay_cluster_supervisor.c": "00ee1705b4e1ec51421178b910965b52d6879523825e5113d3975288ec87e71e"
@@ -903,7 +900,7 @@
     "src/runtime/vc-runtime/mirror/dmdt_unbuffer.c": "61d50dd95474090ee0ba13da70f7be2a2d0cc47a1a41953928be93893e953eda",
     "src/runtime/vc-runtime/mirror/feature_video_owner.c": "aeb249c3c8e3774f8780a7afc773c5effa989063bcf67fa8db7ecfb807c03bf3",
     "src/runtime/vc-runtime/runtime/altscreen_frame_protocol.h": "0cb45ceaeec7a418b2e9e9779a05ac3902d272e6e93cb5bf792ce73c7275a509",
-    "src/runtime/vc-runtime/runtime/altscreen_most_bridge.c": "af1e4a60ace302cd11ea67724f5987187c5ce88b9d940cd733cec3468325abab",
+    "src/runtime/vc-runtime/runtime/altscreen_most_bridge.c": "97bd75fe5532955973af87a3739a370740de1294da2eec25ec32260c848ca55a",
     "src/runtime/vc-runtime/runtime/carplay_cluster_supervisor.c": "00ee1705b4e1ec51421178b910965b52d6879523825e5113d3975288ec87e71e",
     "src/runtime/vc-runtime/runtime/cpmap_animation_preference.h": "5d989407d49f65ddc491b86378ccd72d4f1914057ace8d9b04275715d084b7e6",
     "src/runtime/vc-runtime/runtime/cpmap_intro_clip.h": "cc6e66903608c21296b3375746403365cb1285afdc3ec9b04a520a2e0c6db338",
@@ -927,13 +924,13 @@
     "tools/build-fetch.py": "9c2ed76e83f85a7dbce5a5b865bd3ad39be76b498572047577c285a5c19d549a",
     "tools/build-reader.py": "86ac3c41d228df81777b4c131f64c38887a552d74e907146d536c317339f55dc",
     "tools/cpmap_reboot.sh": "3adbc5a7105f1d5c016bdbf91c935c229ea691d601b6836d80b02d2906a3f312",
-    "tools/legacy-revisions.json": "1858012848a9c1996bdb39ad7ea070fb077fcbe8b5044a1fdaf41f13e62a37ca",
+    "tools/legacy-revisions.json": "8348afd1290eb93a3e7ce8fe0f21f1f738530b9416dc2e61a2816bed93c51476",
     "tools/make-intro-header.py": "a18ad3258e3c8a9ff3cf210eac0de2235298e1320a7dab699899440d62762073",
     "tools/migrate.sh": "d773dcf91afa64d18310a8a8fcf8b10a8f1dd4b3eba4c0e318ae8a250b4e5193",
     "tools/package-artwork-png.py": "312ab657197046bb6ffde48206d57b54b32fde4a639708d2fee0da0217465bfe",
     "tools/payload_checks.py": "3a11e4a8767cf2e2f75a1af91c00ec85efe55f2f4245549c3c1a09cbaf1c7c4c",
     "tools/toolbox-attributes.txt": "1e14f852197e492cbc6fddc6b71854ffabfe001a8a2fa93c249e8fe579ce4f93",
-    "tools/transaction.py": "f68abda44d3b6accdf031a5d8eba37926011fa885f624f423dd64bab134bd915",
+    "tools/transaction.py": "59b1ff8549d1fd1a790aa4fc110a1cffdf3d9debfe8956957849e35c3a51ca54",
     "tools/transaction.sh": "c49cfef517b013b2c152b0f02ee54e196c5d0b216e8c4fd1b40cb07269e35d52",
     "tools/verify-aa-hook.py": "884a8744ddcd6f053f77db2f4cd5982ec5a6d490abe84eb75729d9eb11371bd2",
     "tools/verify-p4521.py": "48ef5c4f37d3aec1467c036bf0e72506b4f06362f0e5902862e7b9faad4e9dec",
@@ -944,7 +941,7 @@
     "tests/android-auto/aa-qnx-smoke.c": "aa9960421128d36dab37ff92e29927185c9cee0b0023a10e85fe0d39c96f22f7",
     "tests/android-auto/e2e/backlog_limit.py": "0920c85314c7bf6ecde693379d6c02b701c11c9ca1474bd4139319ab9df87178",
     "tests/android-auto/e2e/bridge_recovery.py": "33ee7c7c083ef06c71a252534bcf1754a144b4b3f45c4938c2a9dac2c65aefe5",
-    "tests/android-auto/e2e/intro_clip.py": "b00496d16309e2abd2117c40439a21baeb010831d792023e8753f6eabbe87d0c",
+    "tests/android-auto/e2e/intro_clip.py": "8e6895cb3ff093522d0ab0d12a499807fa0b915a8350e7480fa39deed3f816d6",
     "tests/android-auto/e2e/most_reclaim.py": "b418bab8832fb738669093dbced8f311775bad986b1ce3c96fadea9bd49d1e5b",
     "tests/android-auto/e2e/run_e2e.py": "85223c176b68d8d275a0855b7ac7af434f3ae63e32186c9e5fd037ae7dcbf9db",
     "tests/android-auto/e2e/stub/devctl.h": "704985d696dc1b2e3375d07492454841108ba30f579c0fce37130cc6a20b934b",
@@ -1866,6 +1863,76 @@
     "tests/revisions/release-v1.5.2-e/carplay_mu1367_v3_turn_cards/7-road/core.so": "cb4468b9d32c7c3787cce278542c19d79bc6e19f36d74a3f5bebdc82579adf39",
     "tests/revisions/release-v1.5.2-e/carplay_mu1367_v3_turn_cards/7-road/guard": "d55543d66665bfbfdf7cc444e30018a971810cef86c372856541cc0f46f70ca9",
     "tests/revisions/release-v1.5.2-e/carplay_mu1367_v3_turn_cards/7-road/manifest.json": "a2f1758c925748d1388e7f71f64e4b363a00a21a4392de460bd21a25ab7f09d7",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_android_auto/VERSION": "d3b94af0592f8427eed9d4578f8ce6d13d7c6e3eedef7f8a37cd9a5c1c12af13",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_android_auto/aa-most-feeder": "e52e6c1a757905df991133dcd25fc4debd1ab575ccc5b7576be4284c46384370",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_android_auto/altscreen-most-bridge-aa": "1e2089aa0ebd5ad7d5d75dc869a1365ee81019bea1e70100868b5163d969fdc8",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_android_auto/control.sh": "93be07fa1a916d6cd3270abb658e2b6eb75b08228016add06c556ef70b5d21db",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_android_auto/feeder.conf": "ac7157dabd7ae3ec61e8b9c453451b5716154b2b068d552dd96a94a83852e75d",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_android_auto/gal-hook.conf": "716516eb36b50f7b7230ff36ad8057713ba2b1c97c2fd0b55afe2c8f17559173",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_android_auto/gal.wrapper.sh": "ebbefc53004888507dff32770dd2e2a762b3c7895b0c05250b5799e9c7a74034",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_android_auto/libdmdt_flush.so": "4e3202f0f41b5ad5a96d86ff49adbe574ce550f7b168c9a5f385069ca0e5222f",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_android_auto/libgal_hook.so": "bdd76a85f22319c9750f7c55849b4053d4ce365446559025195673677bc73b05",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_android_auto/manifest.json": "b7759e34232a42bbaa01984733f0b62b67d64636fbfe4fbde2788aee72f770c9",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6/CarPlayMU1367Guidance.jar": "0fd03cd1ad9b811553764d35d476408c44da6e7aef4c0a1a2efa48acd71e0f04",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6/VCMenu.jar": "6388e8bc33f26647f61db5662063370d6c7d1b7b0f88d20d4973cc6305c9ac0b",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6/VERSION": "91f99abddfa9987ff8e41fe20b7c3a137061b9da82e6d6fd426147e5f94fd955",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6/altscreen-most-bridge": "ed1b360ec667f1e8e1f4b58029389d641263c29870c0dab35871812e85ae6d7f",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6/control.sh": "59560c9b282f290aee6b21ed0cf96d71c16c195fe67c4e7ac51317d0b42a3e4c",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6/core.so": "775744c6fcd25682a9e61691900ebef4ead7c8a0db8c3e6c1aacd0eb7bb1c86b",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6/guard": "452ee31fdbaa596b6ce82f4d7cb3d3b522d9ade561cececf5da18cf3de53ef9d",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6/manifest.json": "4ca65c270c2b0a208894484f1cf8a3f1e165d3f6165f7ef6b023b4996f22c4b8",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6/rgi-observer": "3dc291619a06f2894dc1258135586431693078d9b3bc254fe78ca0bf71555073",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6-road/CarPlayMU1367Guidance.jar": "0fd03cd1ad9b811553764d35d476408c44da6e7aef4c0a1a2efa48acd71e0f04",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6-road/VCMenu.jar": "6388e8bc33f26647f61db5662063370d6c7d1b7b0f88d20d4973cc6305c9ac0b",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6-road/VERSION": "14aa59e130226691a1342ebaeca3d1278b31a83634bd3caa9727ca267922f5dc",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6-road/altscreen-most-bridge": "ed1b360ec667f1e8e1f4b58029389d641263c29870c0dab35871812e85ae6d7f",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6-road/control.sh": "723d98b6c5ce71108054bd58b76ba8a2b1b66061ae06908ff7552b8a08de262a",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6-road/core.so": "775744c6fcd25682a9e61691900ebef4ead7c8a0db8c3e6c1aacd0eb7bb1c86b",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6-road/guard": "452ee31fdbaa596b6ce82f4d7cb3d3b522d9ade561cececf5da18cf3de53ef9d",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6-road/manifest.json": "a8ab8067568e99a960e097cdf2921cb62dd427fa9869aaacc20d2ab5f675b982",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/6-road/rgi-observer": "3dc291619a06f2894dc1258135586431693078d9b3bc254fe78ca0bf71555073",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7/CarPlayMU1367Guidance.jar": "0fd03cd1ad9b811553764d35d476408c44da6e7aef4c0a1a2efa48acd71e0f04",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7/VCMenu.jar": "6388e8bc33f26647f61db5662063370d6c7d1b7b0f88d20d4973cc6305c9ac0b",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7/VERSION": "4bdc790b4843caa4adb5f9d1ee90c6d8d1ee40c9f609aa958444251d719e75b4",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7/altscreen-most-bridge": "ed1b360ec667f1e8e1f4b58029389d641263c29870c0dab35871812e85ae6d7f",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7/control.sh": "8ac599f18de174a3174847f8463ce174217f2b91b9e1e22145ec605aa994e0fa",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7/core.so": "775744c6fcd25682a9e61691900ebef4ead7c8a0db8c3e6c1aacd0eb7bb1c86b",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7/guard": "452ee31fdbaa596b6ce82f4d7cb3d3b522d9ade561cececf5da18cf3de53ef9d",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7/manifest.json": "14b80a5dcf12124d37890e3712826af8adcff36f064dd803b519379b476d680a",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7/rgi-observer": "3dc291619a06f2894dc1258135586431693078d9b3bc254fe78ca0bf71555073",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7-road/CarPlayMU1367Guidance.jar": "0fd03cd1ad9b811553764d35d476408c44da6e7aef4c0a1a2efa48acd71e0f04",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7-road/VCMenu.jar": "6388e8bc33f26647f61db5662063370d6c7d1b7b0f88d20d4973cc6305c9ac0b",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7-road/VERSION": "3c29baeaae3f3561f2f6ebda452521ccdd2a5796d334cb3490bc2dfd53ef5533",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7-road/altscreen-most-bridge": "ed1b360ec667f1e8e1f4b58029389d641263c29870c0dab35871812e85ae6d7f",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7-road/control.sh": "e5ee80a1fcf17e56e84d34bc0d038272f9bb67a626fc441c6f9f5644bceaace2",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7-road/core.so": "775744c6fcd25682a9e61691900ebef4ead7c8a0db8c3e6c1aacd0eb7bb1c86b",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7-road/guard": "452ee31fdbaa596b6ce82f4d7cb3d3b522d9ade561cececf5da18cf3de53ef9d",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7-road/manifest.json": "f03952f105ba3b5129e3abe8be66de25ee73b5554c69f7946f7590c8c2e08b95",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_guidance_v3/7-road/rgi-observer": "3dc291619a06f2894dc1258135586431693078d9b3bc254fe78ca0bf71555073",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/6/VCMenu.jar": "74766a645ba7b84f5718f4e481d230cc4a6e933ebea7eeff2c58227b94a604b0",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/6/VERSION": "741f5f952a5669d49ca7cf522eee121c2513d02fa333b5114446fa568f21ebfd",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/6/control.sh": "34debbc5e391411301397e3393ae36fc06453d51d8d9aeab291a5f9a7286b1d1",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/6/core.so": "9ad446e1880d11239dfca71daf737d0a5231da369e51590d549e58d490ffacaa",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/6/guard": "d55543d66665bfbfdf7cc444e30018a971810cef86c372856541cc0f46f70ca9",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/6/manifest.json": "7386a5e99474e2e14aa40d4523f569f2adb7153df638ed7c00334caa8c723933",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/6-road/VCMenu.jar": "74766a645ba7b84f5718f4e481d230cc4a6e933ebea7eeff2c58227b94a604b0",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/6-road/VERSION": "f76eb83f62a8f3bbcf15aa9b2575d2cc3704aa562b26f0f876b3576215557e91",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/6-road/control.sh": "f9a7117b21cbb109974a520e8ccd7ee5069c035f3bfbb93f2500f45c31138959",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/6-road/core.so": "9ad446e1880d11239dfca71daf737d0a5231da369e51590d549e58d490ffacaa",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/6-road/guard": "d55543d66665bfbfdf7cc444e30018a971810cef86c372856541cc0f46f70ca9",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/6-road/manifest.json": "499b94e1c30dfc23041858b5e7ce4f0676adc3bedd8e74703df659979ef35e3e",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/7/VCMenu.jar": "74766a645ba7b84f5718f4e481d230cc4a6e933ebea7eeff2c58227b94a604b0",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/7/VERSION": "b5e6f4002ea74bfca8332e324685e3ebea83c9e9fcd516c16fb3085493f87e6b",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/7/control.sh": "631f5b2809715a729b7bc309acb1b7517e49532767a586252eb730105058d863",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/7/core.so": "9ad446e1880d11239dfca71daf737d0a5231da369e51590d549e58d490ffacaa",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/7/guard": "d55543d66665bfbfdf7cc444e30018a971810cef86c372856541cc0f46f70ca9",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/7/manifest.json": "b5c47e4a1805b0bd4e3ad78c4bd61f1fb543867e922094bac31589d5be999f57",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/7-road/VCMenu.jar": "74766a645ba7b84f5718f4e481d230cc4a6e933ebea7eeff2c58227b94a604b0",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/7-road/VERSION": "9bc7defbc05832c22fe275093e454ff80a09be34fac52764fa85fac5bb5389bb",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/7-road/control.sh": "3ed40eede6008df2a3a724cfc2cf5601dd5ebc19eec5ec9ca126853f03d6f9bb",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/7-road/core.so": "9ad446e1880d11239dfca71daf737d0a5231da369e51590d549e58d490ffacaa",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/7-road/guard": "d55543d66665bfbfdf7cc444e30018a971810cef86c372856541cc0f46f70ca9",
+    "tests/revisions/release-v1.5.3-e/carplay_mu1367_v3_turn_cards/7-road/manifest.json": "4c59be66d465f2f251694f2de8117a4369702a9ceb8e9810720b97e5e2b5cd89",
     "tests/revisions/safe-area/carplay_mu1367_guidance_v3/6/CarPlayMU1367Guidance.jar": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914",
     "tests/revisions/safe-area/carplay_mu1367_guidance_v3/6/VCMenu.jar": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
     "tests/revisions/safe-area/carplay_mu1367_guidance_v3/6/VERSION": "de03173d532242fcd0268789a4e5d8ef1e5afa55d0f39029071375cea2a26d19",
@@ -1976,15 +2043,15 @@
     "tests/revisions/test-v1.5.0-e-pre/carplay_mu1367_v3_turn_cards/7-road/manifest.json": "8539e6fde2c54c44dab625c186802434034c5d745ba873a22469e9746e5f2d27",
     "tests/test-aa-feeder-qnx.py": "22ee95d8560c840a607949cff86d209ed4e09fba1279bf6c0ddf18a1dada902f",
     "tests/test-aa-host.py": "96095d66ae4e6fd6f4fffa0f46e7039067751674dec9bb7fbd8001b6a444e97b",
-    "tests/test-actions-qnx.py": "2e9723c8703195e5193c860470955630f2e9fef57f82c0380bd4b51b949f20b7",
+    "tests/test-actions-qnx.py": "23fef2ef1f4d132a11877fb4782f3943e118f898c7b9caa48f41f3c7bdef2650",
     "tests/test-android-auto-guidance.py": "d22c88e41928997718c1a13d16885beddb1da5bd3142d6269d98a9a4e256aacb",
-    "tests/test-android-auto-layer.py": "add86c602b0899aa0419918944f7bb1ae2db665741a87358f65856cb97ad3d68",
+    "tests/test-android-auto-layer.py": "9830786ae384af69387e7adc84c8da13b76da447a608beab40dddb22c54c7e46",
     "tests/test-artwork-png-native.py": "7434c054474cae43ede69e516a81f3c1de2acb2e0026a3ec2d68b2987ee577d9",
     "tests/test-artwork-png-qnx.py": "3a698a58b26dc9f4bd1d4f6b0bd77a8aef11ccf5a52620dc8ce7984ed1e024ea",
     "tests/test-guidance-qnx.py": "a9f57c4d6e959485e44bd4ee4c7b703ce0755e921141f313d8bd95d2f3b68866",
     "tests/test-guidance.py": "2eb3210e0273359ae7b5c453b8db45ac721a0df243070bfdea1462d9bc3d5c20",
     "tests/test-p4521.py": "d59bbc425c98c521dc858ceb71739f3057282aaae2335a00904209f6a701d708",
-    "tests/test-package.py": "3d65ab78019aab1f00ffe7b34a6b20f9410546f630bd2f5ee5143bd4b4027c11",
+    "tests/test-package.py": "3bea2fa198b3077342618f31d365c153a23e4f7c14a32dff3ccebd50910d7989",
     "tests/test-payload-checks.py": "46889d7d094f8a982b4382a07d94626d95d6ba0278bc4b90400f7457e95b30db",
     "tests/test-reader-qnx.py": "16f454ea4656f3873eb69f42f3946f175bfc4d2be307bcca2a3ae0984cd2f81b",
     "tests/test-reader.py": "78fb1a0b4e401ac79174b705350c1173aa4ae17fbfadd3f98beef5ca2ce488ad",
@@ -1994,5 +2061,5 @@
     "tests/test_display.c": "263ad836281f5bcbaa448087084bd2ac00e71133026edfb81c80e08513e23516",
     "tests/test_runtime.c": "f00640ad35b332959024407ef811293a27a09e018f03caa39a5074eae044d3a0"
   },
-  "verification_script_sha256": "b03f407ab4edfb8c83f43bc650ff9fdde2df7403c7c4462b0d99c4a9381236e7"
+  "verification_script_sha256": "51f594adda7c67654bd5e32b324e073508cd3cfeb0e0a06da1b4051644a646f4"
 }

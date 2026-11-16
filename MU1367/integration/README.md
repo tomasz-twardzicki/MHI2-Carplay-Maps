@@ -1,9 +1,9 @@
-# MU1367 / 791 integration v1.5.3-e — experimental (stable: v1.5.2)
+# MU1367 / 791 integration v1.5.3 — stable
 
-**v1.5.3-e is experimental and not yet tested in a car.** Stable **v1.5.2** stays the
-recommended release ([release files](../../releases/MU1367/v1.5.2/README.md)).
+**v1.5.3 is the recommended release**, built from v1.5.3-e after vehicle tests
+([release files](../../releases/MU1367/v1.5.3/README.md)).
 
-- **v1.5.3-e:** a 4.2 s startup animation on the AID before the live CarPlay map
+- **v1.5.3** (from v1.5.3-e): a 4.2 s startup animation on the AID before the live CarPlay map
   (MU UI > **Startup animation**: once per boot by default, every connection or off);
   the video bridges run at a higher priority so the map keeps getting CPU while the
   navigation and the reverse camera load the unit.
@@ -30,7 +30,7 @@ Supports **K4525 and P4521 MU1367 + AID 791**, both tested in vehicles.
 - [Reader recovery behavior](READER-RECOVERY.md)
 - [Reroute capture analysis](evidence/REROUTE-2026-11-05.md)
 - [Apple Maps / Waze capture analysis](evidence/APP-GUIDANCE-2026-11-04.md)
-- [Release files](../../releases/MU1367/v1.5.3-e/README.md) (stable: [v1.5.2](../../releases/MU1367/v1.5.2/README.md))
+- [Release files](../../releases/MU1367/v1.5.3/README.md) (previous stable: [v1.5.2](../../releases/MU1367/v1.5.2/README.md))
 - [Known issues](KNOWN-ISSUES.md)
 - [Independent OEM reset](RECOVERY.md)
 - [Source, builds and verification](DEVELOPMENT.md)

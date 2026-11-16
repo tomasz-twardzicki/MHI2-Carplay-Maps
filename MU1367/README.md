@@ -2,18 +2,16 @@
 
 Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
 
-**Current stable release: [v1.5.2](../releases/MU1367/v1.5.2/README.md)** — the vehicle-tested
-v1.5.2-e CarPlay map (v1.2.2 safe area, larger video-bridge buffer, no map drop-out after
-boot) with 40 fps / IDR 5 by default, P4521 supported, and a new tuning entry to list and
-remove saved snapshots of earlier installations. It also installs **Android Auto** on the
+**Current stable release: [v1.5.3](../releases/MU1367/v1.5.3/README.md)** — the vehicle-tested
+v1.5.3-e: v1.5.2 plus a 4.2 s startup animation on the AID (MU UI: once per boot by
+default, every connection or off) and a higher video-bridge priority for steadier maps
+while reversing. Like v1.5.2 it has the steadier CarPlay map (v1.2.2 safe area, larger
+video-bridge buffer, no map drop-out after boot), 40 fps / IDR 5 by default, P4521
+support and the saved-snapshot tuning entries. It also installs **Android Auto** on the
 AID (Google Maps picture and native VW arrows from an Android phone), which is **not yet
 fully tested**.
 
-**Experimental: [v1.5.3-e](../releases/MU1367/v1.5.3-e/README.md)** — v1.5.2 plus a 4.2 s
-startup animation on the AID (MU UI: once per boot by default, every connection or off)
-and a higher video-bridge priority for steadier maps while reversing. Not yet tested in a car.
-
-The previous stable release is **[v1.4.6](../releases/MU1367/v1.4.6/README.md)**. See the
+The previous stable release is **[v1.5.2](../releases/MU1367/v1.5.2/README.md)**. See the
 [release notes](./integration/RELEASE-NOTES.md) and [install guide](./integration/INSTALL.md).
 The complete integration supports K4525 or P4521 MU1367 + AID 791, both tested in vehicles.
 It combines maps, native arrows/progress, current road, lanes with corrected VW U-turn

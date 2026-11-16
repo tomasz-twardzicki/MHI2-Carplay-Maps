@@ -47,7 +47,7 @@ class Suite(parent.Suite):
         steps=[l.split(']')[0][1:] for l in lines if re.match(r'^\[\d+/\d+\] MU1367_',l)]
         self.assertEqual(steps,['%d/%d'%(i,planned) for i in range(1,planned+1)],out)
         self.assertIn('MU1367_INSTALL_COMPLETE=%d/%d'%(planned,planned),lines)
-        self.assertEqual([l for l in lines if 'REBOOT_REQUIRED' in l],['MU1367_RELEASE_1_5_3_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED'],out)
+        self.assertEqual([l for l in lines if 'REBOOT_REQUIRED' in l],['MU1367_RELEASE_1_5_3_INSTALLED_FULL_REBOOT_REQUIRED'],out)
         self.assertEqual(lines[-1],'NEXT: disconnect phone/adapter, then select Reboot unit in this menu')
         self.assertFalse((self.root/'ramdisk/.cpmap-install-running').exists())
         return planned
@@ -115,7 +115,7 @@ class Suite(parent.Suite):
                 for name in ('carplay_mu1367','carplay_mu1367_settings','carplay_mu1367_lanes','carplay_mu1367_wireless','carplay_mu1367_artwork')[:min(count,5)]:
                     layer=custom/name;self.run_script(layer/'control.sh',['install',layer])
                 if count==6:self.old_install()
-                out=self.action('install');self.assertIn('RELEASE_1_5_3_E_EXPERIMENTAL_INSTALLED',out);self.expected()
+                out=self.action('install');self.assertIn('RELEASE_1_5_3_INSTALLED',out);self.expected()
                 self.progress(out,5+5-min(count,5))
 
     def revision(self, revision, variant='6', tuning=False):
@@ -130,7 +130,7 @@ class Suite(parent.Suite):
         f=self.root/'ramdisk/.cpmap-release-migration-reboot'
         if f.exists():f.unlink()
     def test_release_supported_revision_migrations(self):
-        cases=[(release,v,t) for release in ('release-v1.4.1','release-v1.4.2','release-v1.4.3','release-v1.4.3-e','release-v1.4.4-e','release-v1.4.5-e','release-v1.4.6-e','release-v1.4.6','test-v1.5.0-e-pre','release-v1.5.0-e','release-v1.5.1-e','release-v1.5.2-e','release-v1.5.2') for v in ('6','7','6-road','7-road') for t in (False,True)]+[('guidance-v3','6',False),('lane-window','6',False),('lane-type','6',False),
+        cases=[(release,v,t) for release in ('release-v1.4.1','release-v1.4.2','release-v1.4.3','release-v1.4.3-e','release-v1.4.4-e','release-v1.4.5-e','release-v1.4.6-e','release-v1.4.6','test-v1.5.0-e-pre','release-v1.5.0-e','release-v1.5.1-e','release-v1.5.2-e','release-v1.5.2','release-v1.5.3-e') for v in ('6','7','6-road','7-road') for t in (False,True)]+[('guidance-v3','6',False),('lane-window','6',False),('lane-type','6',False),
                ('safe-area','6',False),('safe-area','7',False),('safe-area','6-road',False),
                ('safe-area','7-road',False),('safe-area','6',True)]
         for revision,variant,tuning in cases:
@@ -145,7 +145,7 @@ class Suite(parent.Suite):
                 before=self.runtime(self.root)
                 self.assertIn('FULL_REBOOT_REQUIRED',self.action('install',False))
                 self.assertEqual(before,self.runtime(self.root))
-                self.reboot();out=self.action('install');self.assertIn('RELEASE_1_5_3_E_EXPERIMENTAL_INSTALLED',out);self.expected(variant);self.progress(out,3)
+                self.reboot();out=self.action('install');self.assertIn('RELEASE_1_5_3_INSTALLED',out);self.expected(variant);self.progress(out,3)
                 archives=list(self.app.glob('carplay-mu1367-guidance-v3.removed-*'))
                 self.assertEqual(len(archives),1);self.assertEqual((archives[0]/'VERSION').read_text(),version)
                 self.assertEqual({f.name:sha(f.read_bytes()) for f in (archives[0]/'backup').iterdir()},backups)
@@ -156,7 +156,8 @@ class Suite(parent.Suite):
         cases=[('release-v1.5.0-e','release-v1.5.1-e-first','6'),('release-v1.5.0-e','release-v1.5.1-e-first','7-road'),
                ('release-v1.5.1-e','release-v1.5.1-e','6'),('release-v1.5.1-e','release-v1.5.1-e','7-road'),
                ('release-v1.5.2-e','release-v1.5.2-e','6'),('release-v1.5.2-e','release-v1.5.2-e','7-road'),
-               ('release-v1.5.2','release-v1.5.2','6'),('release-v1.5.2','release-v1.5.2','7-road')]
+               ('release-v1.5.2','release-v1.5.2','6'),('release-v1.5.2','release-v1.5.2','7-road'),
+               ('release-v1.5.3-e','release-v1.5.3-e','6'),('release-v1.5.3-e','release-v1.5.3-e','7-road')]
         upstream='6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35'
         for main_rev,aa_rev,variant in cases:
             with self.subTest(main=main_rev,aa=aa_rev,variant=variant):
@@ -173,7 +174,7 @@ class Suite(parent.Suite):
                 self.assertEqual((layer/'STATE').read_text().strip(),'removed');self.assertEqual(sha(gal.read_bytes()),factory_gal)
                 # Stage 1 restores the upstream bridge from the old main snapshot (if it owned one).
                 self.assertEqual(sha(bridge.read_bytes()),upstream)
-                self.reboot();out=self.action('install');self.assertIn('RELEASE_1_5_3_E_EXPERIMENTAL_INSTALLED',out);self.expected(variant);self.progress(out,3)
+                self.reboot();out=self.action('install');self.assertIn('RELEASE_1_5_3_INSTALLED',out);self.expected(variant);self.progress(out,3)
                 self.assertEqual((self.app/'carplay-mu1367-android-auto/STATE').read_text().strip(),'installed')
                 self.action('uninstall');self.assertEqual(sha(bridge.read_bytes()),upstream);self.assertEqual(sha(gal.read_bytes()),factory_gal)
     def snapshots(self):
@@ -257,7 +258,7 @@ class Suite(parent.Suite):
         (tools/'mv').write_text('#!/bin/ksh\nif [ "$2" = '+shlex.quote(str(target))+' ] && [ ! -f '+shlex.quote(str(once))+' ];then : > '+shlex.quote(str(once))+';exit 1;fi\nexec '+shlex.quote(shutil.which('mv'))+' "$@"\n');(tools/'mv').chmod(0o755)
         out=self.run_script(self.p/'actions.sh',['install',self.p],False,dict(self.env,PATH=str(tools)+':'+self.env['PATH']))
         self.assertIn('SNAPSHOT_RESTORED',out);self.assertIn('MU1367_GUIDANCE_V3_SUITE_FAIL=MAP_ONLY_INSTALL_FAILED_USE_RECOVERY',out)
-        self.assertNotIn('MU1367_INSTALL_COMPLETE',out);self.assertNotIn('RELEASE_1_5_3_E_EXPERIMENTAL_INSTALLED',out);self.assertNotIn('NEXT: disconnect',out)
+        self.assertNotIn('MU1367_INSTALL_COMPLETE',out);self.assertNotIn('RELEASE_1_5_3_INSTALLED',out);self.assertNotIn('NEXT: disconnect',out)
         self.assertFalse((self.root/'ramdisk/.cpmap-install-running').exists());self.compare_without_v3(before)
     def test_release_unknown_or_corrupt_legacy_refused_before_writes(self):
         self.v2();self.revision('release-v1.4.1');r=self.app/'carplay-mu1367-guidance-v3'

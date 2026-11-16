@@ -1,18 +1,19 @@
 # Known issues and planned work
 
-## Startup animation and bridge priority (v1.5.3-e, experimental)
+## Startup animation and bridge priority (since v1.5.3-e)
 
-- Not yet tested in a car. At the end of the clip, the AID decoder switches from the
-  clip's stream (Constrained Baseline, 800×480) to the phone's stream on a key frame
-  the bridge requests. The upstream intro used the same handover with its own clip. If
-  the map stays grey or blocky after the clip, set **Startup animation > Off** (which
-  starts exactly as v1.5.2) and send a diagnostics export.
+- Tested in a car with v1.5.3-e. At the end of the clip, the AID decoder switches from
+  the clip's stream (Constrained Baseline, 800×480) to the phone's stream on a key frame
+  the bridge requests. v1.5.3 fixes a rare case where that key frame was skipped and the
+  clip's last frame stayed on the AID. If the map ever stays grey or blocky after the clip, set
+  **Startup animation > Off** (which starts exactly as v1.5.2) and send a diagnostics
+  export.
 - The clip adds about 4.2 s before the first live map frame on the connections where it
   plays. Android Auto has no clip.
 - With Tuning installed, **Wireless CarPlay (test)** is no longer in the MU UI. It only
   saved a value that nothing read; wireless CarPlay is unaffected.
-- The bridge now runs at priority 14 (was 10, like the navigation renderer). This should
-  shorten the stalls while reversing, but drives have to confirm it. If a reverse still
+- The bridge runs at priority 14 (was 10, like the navigation renderer), to shorten the
+  stalls while reversing. Reports from more drives are welcome. If a reverse still
   stalls, the bridge log's `drops`, `write_us_max` and `latency-reset` values around the
   `RVC active` line in sloginfo show whether the bridge or the MOST link was waiting.
 

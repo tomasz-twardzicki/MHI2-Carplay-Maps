@@ -443,3 +443,20 @@ Built on stable v1.5.2 (published ZIP and verified package `63e9f01b…`).
 - Published v1.5.2 controllers are `tests/revisions/release-v1.5.2` (registered, bridge
   owners); its Android Auto build `74fd41b287c3` is in `AA_PREVIOUS`. Migration matrix:
   104 combinations.
+
+## Stable v1.5.3
+
+Built from the vehicle-tested v1.5.3-e (published ZIP and verified package
+`28de02d3…`). `RUNTIME.json` pins and the clip are unchanged. One bridge fix:
+`play_intro_clip()` no longer writes the IDR request; `intro_skip_and_request_idr()`
+records the ring head first and requests the IDR afterwards (at start and on a
+reconnect). Before, a fast answer could land between the request and the head read,
+be skipped, and leave the bridge waiting for a key frame that had already passed
+(found by `intro_clip.py` case A under host load: `drops=78`, no live frames). The
+test now checks that the answer's ring sequence is above the skipped range (16
+checks). The Android Auto bridge is rebuilt from the same source (intro code compiled
+out). The controller header and banner change, so the layer build IDs are new.
+
+- Published v1.5.3-e controllers are `tests/revisions/release-v1.5.3-e` (registered,
+  bridge owners); its Android Auto build `95f7bc5f3cc4` is in `AA_PREVIOUS`. Migration
+  matrix: 112 combinations.

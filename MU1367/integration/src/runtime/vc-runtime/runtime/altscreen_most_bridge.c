@@ -770,22 +770,39 @@ static int play_intro_clip(CpmapIntroPolicy policy)
     }
     if (g_stop) return -1;
 
-    /* Ignore every live frame accumulated behind the animation.  The hook
-     * will answer this marker with a fresh config+IDR pair, allowing a clean
-     * predictive-chain and timestamp boundary. The clip ends on its full
-     * logo frame and switches directly on that IDR. */
+    /* Ignore every live frame accumulated behind the animation.  The caller
+     * records the ring head and only then asks the hook for a fresh
+     * config+IDR pair (intro_skip_and_request_idr), so the answer is never
+     * inside the skipped range. The clip ends on its full logo frame and
+     * switches directly on that IDR. */
     g_intro_waiting_live_idr = 1;
     g_last_sequence = 0;
     g_media_origin_ntp = 0;
     g_local_origin_us = 0;
     g_pts_origin_value = next_transport_pts_origin();
     g_discontinuity_pending = 1;
-    if (request_fresh_idr() != 0)
-        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro IDR request failed: %s\n",
-                strerror(errno));
     cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro-complete frames=%lu next_pts=%llu\n",
             played, (unsigned long long)g_pts_origin_value);
     return 1;
+}
+
+/* v1.5.3: skip the frames that arrived during the clip, then request the IDR.
+ * The ring head is read first, so an answer to the request always has a
+ * higher sequence and is never skipped. Returns the next sequence to read. */
+static uint32_t intro_skip_and_request_idr(AltFrameRing *ring, const char *what)
+{
+    uint32_t next_sequence;
+    __sync_synchronize();
+    next_sequence = ring->write_sequence + 1U;
+    if (next_sequence == 0) next_sequence = 1U;
+    __sync_synchronize();
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+            "bridge: %sintro skipped stale ring through sequence=%u\n", what,
+            next_sequence - 1U);
+    if (request_fresh_idr() != 0)
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro IDR request failed: %s\n",
+                strerror(errno));
+    return next_sequence;
 }
 #endif
 
@@ -1594,14 +1611,7 @@ int main(int argc, char **argv)
      * entry, the session's config and IDR, with no IDR request. */
     if (cpmap_intro_should_play(intro_policy, INTRO_ONCE_PATH)) {
         int intro_status = play_intro_clip(intro_policy);
-        if (intro_status > 0) {
-            __sync_synchronize();
-            next_sequence = ring->write_sequence + 1U;
-            if (next_sequence == 0) next_sequence = 1U;
-            cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
-                    "bridge: intro skipped stale ring through sequence=%u\n",
-                    next_sequence - 1U);
-        }
+        if (intro_status > 0) next_sequence = intro_skip_and_request_idr(ring, "");
     } else {
         cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro not played (%s)\n",
                 intro_policy == CPMAP_INTRO_OFF ? "off" : "already played in this boot");
@@ -1641,14 +1651,7 @@ int main(int argc, char **argv)
                  * video connection. Replay even if a quick reconnect kept this
                  * bridge alive; never keep video buffered behind the logo. */
                 int intro_status = play_intro_clip(intro_policy);
-                if (intro_status > 0) {
-                    __sync_synchronize();
-                    next_sequence = ring->write_sequence + 1U;
-                    if (next_sequence == 0) next_sequence = 1U;
-                    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
-                            "bridge: reconnect intro skipped stale ring through sequence=%u\n",
-                            next_sequence - 1U);
-                }
+                if (intro_status > 0) next_sequence = intro_skip_and_request_idr(ring, "reconnect ");
             }
 #endif
         }

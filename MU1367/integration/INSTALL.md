@@ -1,4 +1,4 @@
-# MU1367 / 791 v1.5.3-e — complete installation and update
+# MU1367 / 791 v1.5.3 — complete installation and update
 
 For **MHI2_ER_VWG13_K4525 or MHI2_ER_VWG13_P4521 MU1367 + AID 791
 (12.3 inch)**. Both trains have been tested in vehicles. AID 790, MU1427 and other
@@ -8,10 +8,10 @@ The installer reports `MU1367_FIRMWARE_TYPE=P4521` or `K4525` when
 RCC train information is available. Without it, the shared exact firmware hash
 is reported as `K4525_OR_P4521_HASH_MATCH`; it cannot distinguish these trains.
 
-**EXPERIMENTAL — TO BE TESTED.** v1.5.3-e is stable v1.5.2 plus a startup animation
-on the AID and a higher video-bridge priority (see
-[Startup animation and bridge priority](#startup-animation-and-bridge-priority-v153-e)).
-Use v1.5.2 for a stable installation. Like v1.5.2, it has every CarPlay
+**Stable release**, built from the vehicle-tested v1.5.3-e. v1.5.3 is v1.5.2 plus a
+startup animation on the AID and a higher video-bridge priority (see
+[Startup animation and bridge priority](#startup-animation-and-bridge-priority-since-v153-e)).
+Like v1.5.2, it has every CarPlay
 feature of v1.4.6 (driving-side U-turn lanes, Apple Maps in any phone language,
 compressed album artwork by default), the steadier CarPlay map of v1.5.x and
 **40 fps / IDR 5** as the default stream. It also installs **Android Auto**: the
@@ -25,7 +25,7 @@ its saved controller and fully reboot. Audio R1/R2 test layers and the artwork
 refresh test from v1.4.5 (**Tuning > Remove artwork test**) must be removed before a
 base upgrade, because the release retains the original audio runtime.
 
-Verify `CarPlay_Maps_VC_MU1367_791_v1.5.3-e.zip` with the adjacent `SHA256SUMS.txt`.
+Verify `CarPlay_Maps_VC_MU1367_791_v1.5.3.zip` with the adjacent `SHA256SUMS.txt`.
 Extract to a clean FAT32 SD root; do not merge older SD contents. Keep this SD
 and copy all recovery snapshots off the unit after a successful installation.
 
@@ -39,7 +39,7 @@ menus and scripts** from this SD. The established refresh command on MMX is:
 
 Use `/fs/sdb0` throughout if appropriate. From RCC enter MMX with `on -f mmx`.
 Under **MQB Coding > Customization > CarPlay Maps VC**, verify the banner reads
-**MU1367 / 791 v1.5.3-e - EXPERIMENTAL (CarPlay + Android Auto)**. Do not use scripts left from an earlier SD.
+**MU1367 / 791 v1.5.3 (CarPlay + Android Auto)**. Do not use scripts left from an earlier SD.
 
 ## Install / update
 
@@ -63,7 +63,7 @@ numbered or experimental steps need to be selected separately.
 - **Stock OEM, v1.3.0, v1.4.0, supported step-6/step-8 and Integrated Arrows:**
   matching existing layers are checked and retained; missing layers are added.
 - **Lane-v2:** the release update is added directly.
-- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e/v1.4.4/v1.4.5/v1.4.6-e/v1.4.6/v1.5.0-e/v1.5.1-e (both builds)/v1.5.2-e/v1.5.2, or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
+- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e/v1.4.4/v1.4.5/v1.4.6-e/v1.4.6/v1.5.0-e/v1.5.1-e (both builds)/v1.5.2-e/v1.5.2/v1.5.3-e, or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
   this is the one case that needs two reboots. The first invocation (stage 1 of 2) checks the saved controller and every original backup,
   removes an installed Android Auto layer (the factory `gal` returns from its snapshot) and matching optional card tuning if present, and restores the lane-v2
   baseline through the saved controller. Expect
@@ -73,7 +73,7 @@ numbered or experimental steps need to be selected separately.
   The old removed snapshot is verified and archived, never overwritten.
 
 The final success message is
-**`MU1367_RELEASE_1_5_3_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
+**`MU1367_RELEASE_1_5_3_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
 `MU1367_INSTALL_COMPLETE=N/N`. Disconnect the phone/adapter, then select
 **Reboot unit (after install completes)** in the same menu. That entry refuses to
 reboot while an installation is still running and otherwise uses the Toolbox's
@@ -88,7 +88,7 @@ The map-only view declares the **(160,20,480,440)** safe area of v1.2.2 (since v
 v1.4.x–v1.5.1-e used 200,96,400,364), with the existing 800×480 canvas. The turn-card
 option keeps its own layouts. The failed right-edge layout experiment is not applied.
 
-## Startup animation and bridge priority (v1.5.3-e)
+## Startup animation and bridge priority (since v1.5.3-e)
 
 The main layer's CarPlay video bridge now contains a 4.2 s App-Connect clip. It plays on
 the AID when CarPlay takes the cluster map, and then the live map follows. Choose when
