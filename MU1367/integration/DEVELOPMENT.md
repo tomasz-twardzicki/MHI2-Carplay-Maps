@@ -460,3 +460,38 @@ out). The controller header and banner change, so the layer build IDs are new.
 - Published v1.5.3-e controllers are `tests/revisions/release-v1.5.3-e` (registered,
   bridge owners); its Android Auto build `95f7bc5f3cc4` is in `AA_PREVIOUS`. Migration
   matrix: 112 combinations.
+
+## Stable v1.5.4
+
+Built on stable v1.5.3 (published ZIP and verified package `011d37a7…`). Both menus,
+audio and reader are unchanged; guidance and both `core.so` change. The bridge and feeder
+sources are unchanged, but Xcode moved Apple clang from 17 to 21, so the CarPlay bridge,
+the Android Auto bridge and the feeder are new binaries (`verify.py` pins their sources to
+v1.5.3 and requires the rebuild); the host and QNX bridge proofs run against them.
+
+- **Arrival time.** `ArrivalClock` reads the OEM choice from
+  `NavigationService.getTimeToDestinationTimeInfo()` (datapool 1110059; 1 = arrival time),
+  as the stock `TimeToDestination.setTimeInfo()` does. The stock arrival values come from
+  the OEM route (ASL list 750), which CarPlay does not have, so the arrival time is the
+  HMI clock (datapool `TIME__HOUR` 1640 / `TIME__MINUTE` 1641, written by
+  `AslTargetSystemDate.dsiUpdateClockTime`, only while `TIME_VALID` 3572) plus the phone's
+  remaining seconds rounded to the nearest minute, modulo 24 h. The datapool comes from the
+  same OSGi lookup as `APIFactory.getService(ASLDatapool.class)`. `timeInfoType=1`,
+  `navigationTimeFormat` as stock (system format 0 → 1), no day/month/year. Without the
+  setting or a valid clock the output is exactly v1.5.3's. Guidance build
+  `MU1367-guidance-v1.5.4`; `adapter-status.txt` adds `eta_setting`, `eta_clock_min`,
+  `eta_arrivals`, `eta_fallbacks`. `TestLive` covers wrap, 12/24 h, invalid clock and
+  setting changes.
+- **Stream test.** `display_settings.h` reads `stream-test.conf` (exactly
+  `fps=N\nidr=N\n`, fps 20–40, idr 5–15) next to `display.state`; when valid it overrides
+  `cpvc_display_fps()` / `cpvc_display_idr()`. The core logs `stream-settings` after
+  `maxFPS` and `stream-idr-interval` per video connection, and re-reads the IDR interval
+  there. `actions.sh stream-*` (eight Toolbox entries in the diagnostics menu) write the
+  file without the installer lock. The firmware has no `printf`, `sleep` or `tail`, its
+  awk aborts on a regular expression passed in a variable, and its ksh aborts on `$(f)`
+  when `f` runs `case "$(…)"`; the actions avoid all of these and are tested on the
+  firmware shell (`RELEASE_FACTORY_STREAM_TEST_PASS`). `tests/diagnostics/test_stream_test.c`
+  checks the parser for both cores.
+- Published v1.5.3 controllers are `tests/revisions/release-v1.5.3` (registered, bridge
+  owners); its Android Auto build `05631145bd45` is in `AA_PREVIOUS`. Migration matrix:
+  120 combinations.

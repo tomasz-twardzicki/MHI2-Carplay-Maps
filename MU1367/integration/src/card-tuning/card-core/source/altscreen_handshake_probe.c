@@ -463,6 +463,13 @@ static void *create_alt_display(void)
     if(!status)status=set_cstring(display,"uuid",ALT_UUID);
     if(!status)status=set_int(display,"type",111);
     if(!status)status=set_int(display,"maxFPS",cpvc_display_fps());
+    {
+        /* v1.5.4: the stream the phone is asked for. */
+        char event[96];int test=cpvc_stream_test_status();
+        snprintf(event,sizeof(event),"stream-settings fps=%d idr=%d source=%s",cpvc_display_fps(),cpvc_display_idr(),
+                 test==1?"toolbox-test":test<0?"mu-ui(stream-test.conf-invalid)":"mu-ui");
+        log_status(event,display,status);
+    }
     if(!status)status=set_int(display,"widthPixels",ALTSCREEN_DISPLAY_WIDTH);
     if(!status)status=set_int(display,"heightPixels",ALTSCREEN_DISPLAY_HEIGHT);
     if(!status)status=set_int(display,"widthPhysical",ALTSCREEN_DISPLAY_PHYSICAL_WIDTH);
@@ -1030,7 +1037,7 @@ static uint32_t read_u32_le(const uint8_t *bytes)
 
 static void *passive_listener_thread(void *context)
 {
-    const unsigned int configured_idr=(unsigned int)cpvc_display_idr();
+    const unsigned int configured_idr=(unsigned int)cpvc_display_idr_refreshed();
     PassiveListener *listener = (PassiveListener *)context;
     int client_fd = -1;
     int one = 1;
@@ -1069,6 +1076,8 @@ static void *passive_listener_thread(void *context)
 
     unlink(ALTSCREEN_READY_PATH);
     unlink(ALTSCREEN_BRIDGE_READY_PATH);
+    /* v1.5.4: value1 = key frame interval, value2 = 1 Toolbox test, 0 MU UI, -1 invalid test file. */
+    log_capture("stream-idr-interval", (int)configured_idr, cpvc_stream_test_status(), 0);
     log_capture("alt-listener-waiting", listener->port, listener->server_fd, 0);
     if (wait_readable(listener->server_fd, ALTSCREEN_ACCEPT_TIMEOUT_SECONDS) > 0)
         client_fd = accept(listener->server_fd, NULL, NULL);

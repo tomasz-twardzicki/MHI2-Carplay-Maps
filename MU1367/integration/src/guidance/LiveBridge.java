@@ -263,9 +263,16 @@ public final class LiveBridge implements TimerNotifier, Runnable {
         if (phone==3 && f.remainingSeconds<0) return false; // AA: shown in the phone picture
         boolean valid=f.active && f.remainingSeconds>=0;
         int minutes=valid?(f.remainingSeconds+59)/60:0;
-        // Remaining duration, not an assumed epoch/timezone for phone ETA.
-        out.timeInfo.timeInfoType=0; out.timeInfo.navigationTimeFormat=0;
-        out.timeInfo.hour=minutes/60; out.timeInfo.minute=minutes%60;
+        // v1.5.4: the OEM setup's arrival-time choice, from the HMI clock + remaining time
+        // (ArrivalClock). Without it, or without a valid HMI clock: the remaining duration, as before.
+        int arrival=valid?ArrivalClock.resolve(f.remainingSeconds):-1;
+        if (arrival>=0) {
+            out.timeInfo.timeInfoType=ArrivalClock.TIME_INFO_ARRIVAL; out.timeInfo.navigationTimeFormat=ArrivalClock.timeFormat();
+            out.timeInfo.hour=arrival/60; out.timeInfo.minute=arrival%60;
+        } else {
+            out.timeInfo.timeInfoType=0; out.timeInfo.navigationTimeFormat=0;
+            out.timeInfo.hour=minutes/60; out.timeInfo.minute=minutes%60;
+        }
         out.validityInformation.timeInfo_HourIsValid=valid;
         out.validityInformation.timeInfo_MinuteIsValid=valid;
         INSTANCE.writes++; return true;
@@ -318,7 +325,7 @@ public final class LiveBridge implements TimerNotifier, Runnable {
                 .append(" last_release_journal_age=").append(lastReleaseJournalAge)
                 .append(" mailbox_serial=").append(productionFeed==null?-1:productionFeed.reader.observedSerial)
                 .append(" mailbox_kind=").append(productionFeed==null?-1:productionFeed.reader.observedKind)
-                .append(" feed_errors=").append(productionFeed==null?0:productionFeed.errors).append(" feed_recoveries=").append(productionFeed==null?0:productionFeed.recoveries).append(" feed_fatal=").append(productionFeed!=null && productionFeed.fatal?1:0).append(" error=").append(error).append(" phone=").append(phone).append(" root=").append(root).append('\n');
+                .append(" feed_errors=").append(productionFeed==null?0:productionFeed.errors).append(" feed_recoveries=").append(productionFeed==null?0:productionFeed.recoveries).append(" feed_fatal=").append(productionFeed!=null && productionFeed.fatal?1:0).append(" eta_setting=").append(ArrivalClock.lastSetting).append(" eta_clock_min=").append(ArrivalClock.lastClock).append(" eta_arrivals=").append(ArrivalClock.arrivals).append(" eta_fallbacks=").append(ArrivalClock.fallbacks).append(" error=").append(error).append(" phone=").append(phone).append(" root=").append(root).append('\n');
             try { out.write(s.toString().getBytes("US-ASCII")); } finally { out.close(); }
             if (!temp.renameTo(target)) failures++;
             LaneEvidence.write(ROOT);

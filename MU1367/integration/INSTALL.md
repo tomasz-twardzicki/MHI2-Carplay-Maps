@@ -1,4 +1,4 @@
-# MU1367 / 791 v1.5.3 — complete installation and update
+# MU1367 / 791 v1.5.4 — complete installation and update
 
 For **MHI2_ER_VWG13_K4525 or MHI2_ER_VWG13_P4521 MU1367 + AID 791
 (12.3 inch)**. Both trains have been tested in vehicles. AID 790, MU1427 and other
@@ -8,8 +8,9 @@ The installer reports `MU1367_FIRMWARE_TYPE=P4521` or `K4525` when
 RCC train information is available. Without it, the shared exact firmware hash
 is reported as `K4525_OR_P4521_HASH_MATCH`; it cannot distinguish these trains.
 
-**Stable release**, built from the vehicle-tested v1.5.3-e. v1.5.3 is v1.5.2 plus a
-startup animation on the AID and a higher video-bridge priority (see
+**Stable release.** v1.5.4 is v1.5.3 plus the OEM arrival-time setting on the AID and a
+Toolbox stream test (see [Arrival time and stream test](#arrival-time-and-stream-test-since-v154)).
+v1.5.3 added a startup animation on the AID and a higher video-bridge priority (see
 [Startup animation and bridge priority](#startup-animation-and-bridge-priority-since-v153-e)).
 Like v1.5.2, it has every CarPlay
 feature of v1.4.6 (driving-side U-turn lanes, Apple Maps in any phone language,
@@ -25,7 +26,7 @@ its saved controller and fully reboot. Audio R1/R2 test layers and the artwork
 refresh test from v1.4.5 (**Tuning > Remove artwork test**) must be removed before a
 base upgrade, because the release retains the original audio runtime.
 
-Verify `CarPlay_Maps_VC_MU1367_791_v1.5.3.zip` with the adjacent `SHA256SUMS.txt`.
+Verify `CarPlay_Maps_VC_MU1367_791_v1.5.4.zip` with the adjacent `SHA256SUMS.txt`.
 Extract to a clean FAT32 SD root; do not merge older SD contents. Keep this SD
 and copy all recovery snapshots off the unit after a successful installation.
 
@@ -39,7 +40,7 @@ menus and scripts** from this SD. The established refresh command on MMX is:
 
 Use `/fs/sdb0` throughout if appropriate. From RCC enter MMX with `on -f mmx`.
 Under **MQB Coding > Customization > CarPlay Maps VC**, verify the banner reads
-**MU1367 / 791 v1.5.3 (CarPlay + Android Auto)**. Do not use scripts left from an earlier SD.
+**MU1367 / 791 v1.5.4 (CarPlay + Android Auto)**. Do not use scripts left from an earlier SD.
 
 ## Install / update
 
@@ -63,7 +64,7 @@ numbered or experimental steps need to be selected separately.
 - **Stock OEM, v1.3.0, v1.4.0, supported step-6/step-8 and Integrated Arrows:**
   matching existing layers are checked and retained; missing layers are added.
 - **Lane-v2:** the release update is added directly.
-- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e/v1.4.4/v1.4.5/v1.4.6-e/v1.4.6/v1.5.0-e/v1.5.1-e (both builds)/v1.5.2-e/v1.5.2/v1.5.3-e, or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
+- **Active integrated v1.4.1/v1.4.2/v1.4.3/v1.4.3-e/v1.4.4/v1.4.5/v1.4.6-e/v1.4.6/v1.5.0-e/v1.5.1-e (both builds)/v1.5.2-e/v1.5.2/v1.5.3-e/v1.5.3, or v3 / v3r2 / v3r3 / v3r4 (including the right-edge safe-area test):**
   this is the one case that needs two reboots. The first invocation (stage 1 of 2) checks the saved controller and every original backup,
   removes an installed Android Auto layer (the factory `gal` returns from its snapshot) and matching optional card tuning if present, and restores the lane-v2
   baseline through the saved controller. Expect
@@ -73,7 +74,7 @@ numbered or experimental steps need to be selected separately.
   The old removed snapshot is verified and archived, never overwritten.
 
 The final success message is
-**`MU1367_RELEASE_1_5_3_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
+**`MU1367_RELEASE_1_5_4_INSTALLED_FULL_REBOOT_REQUIRED`**, preceded by
 `MU1367_INSTALL_COMPLETE=N/N`. Disconnect the phone/adapter, then select
 **Reboot unit (after install completes)** in the same menu. That entry refuses to
 reboot while an installation is still running and otherwise uses the Toolbox's
@@ -87,6 +88,27 @@ experiment requires its documented removal or OEM reset.
 The map-only view declares the **(160,20,480,440)** safe area of v1.2.2 (since v1.5.2-e;
 v1.4.x–v1.5.1-e used 200,96,400,364), with the existing 800×480 canvas. The turn-card
 option keeps its own layouts. The failed right-edge layout experiment is not applied.
+
+## Arrival time and stream test (since v1.5.4)
+
+**Arrival time.** The OEM navigation setup chooses whether the AID shows the time to
+destination or the arrival time. CarPlay guidance now follows that choice. With
+**arrival time**, the AID shows the unit's own clock plus the remaining time from the
+phone, in the unit's time zone and 12/24 h format. With **time to destination** the AID
+shows the remaining time exactly as before. Until the unit's clock is valid after a start,
+it also shows the remaining time. A change of the setting applies at the next guidance
+update; no reconnect is needed. Only the time of day is sent, no date. A diagnostics export
+shows what the guidance bridge saw in `adapter-status.txt`: `eta_setting=1` means arrival
+time, `eta_clock_min=` is the clock in minutes of the day (`-1`: not valid).
+
+**Stream test** (Toolbox > CarPlay Maps VC > Diagnostics, **Stream test** entries). Try any
+map rate from 20 to 40 fps (steps of 5 or 1) and a key frame every 5 to 15 frames. The
+test values override the MU UI stream setting until **Stream test: off**. Each change
+applies on the next phone connection: disconnect, wait 5 s, reconnect. **Show current
+fps / IDR** also prints what the core last asked of the phone (`stream-settings fps=…
+idr=…`). The values live in `/mnt/icab/persistent/cpmap-ui/stream-test.conf`, next to the
+MU UI settings; **Stream test: off** deletes it. Without the file, nothing changes against
+v1.5.3: the MU UI choice (40 fps / IDR 5 by default) applies.
 
 ## Startup animation and bridge priority (since v1.5.3-e)
 
@@ -116,7 +138,7 @@ The last install step is `MU1367_ANDROID_AUTO_INSTALLED`. It checks the factory
 Android Auto receiver `/mnt/app/eso/bin/apps/gal` by hash, saves it under
 `/mnt/app/carplay-mu1367-android-auto/backup`, and puts a small wrapper in its place.
 The hook runtime goes to `/mnt/app/carplaymaps/aa`. Nothing in `/mnt/system` changes.
-Updating from v1.5.0-e, v1.5.1-e, v1.5.2-e or v1.5.2 removes the old Android Auto layer in stage 1
+Updating from v1.5.0-e, v1.5.1-e, v1.5.2-e, v1.5.2, v1.5.3-e or v1.5.3 removes the old Android Auto layer in stage 1
 of the two-stage update above (its snapshot is kept); stage 2 installs the new one. An
 older Android Auto layer left on top of this release's main layer is replaced in place
 (`MU1367_ANDROID_AUTO_PREVIOUS_BUILD_REMOVED_UPGRADING`).

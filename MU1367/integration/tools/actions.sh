@@ -76,7 +76,52 @@ case "$ACTION" in
   exec /bin/ksh "$CUSTOM/carplay_mu1367_map_only/actions.sh" "$ACTION" "$CUSTOM/carplay_mu1367_map_only";;
  install|uninstall|recover|enable-cards|disable-cards|recover-cards|aa-disable|aa-enable) ;;
  snapshots|snapshot-next|snapshot-remove|snapshots-remove-all) ;;
+ stream-show|stream-fps-up5|stream-fps-down5|stream-fps-up1|stream-fps-down1|stream-idr-up|stream-idr-down|stream-reset) ;;
  *) fail INVALID_ACTION;;
+esac
+# v1.5.4: stream test. It writes only stream-test.conf next to the MU UI settings, so it runs
+# without the installer lock.
+case "$ACTION" in stream-*)
+ PREF=$M/mnt/icab/persistent/cpmap-ui;TEST=$PREF/stream-test.conf
+ HLOG=$M/ramdisk/carplay_altscreen_handshake/handshake.log
+ # The last N lines containing any of the |-separated plain strings (empty: every line). The factory has no tail and its
+ # awk aborts on a regular expression passed in a variable, so this matches with index().
+ last(){ awk -v n="$1" -v pats="$2" 'BEGIN{n=n+0;c=0;k=0;if(pats!="")k=split(pats,p,"|")} {m=(k==0);for(j=1;j<=k&&!m;j++)if(index($0,p[j])>0)m=1;if(m){a[c%n]=$0;c++}} END{s=0;if(c>n)s=c-n;for(i=s;i<c;i++)print a[i%n]}' "$3"; }
+ # MU UI stream values 0..6 -> fps (the core's table); no or unreadable display.state: 40 fps default.
+ # Sets FPS without a nested command substitution: the factory ksh aborts on $(f) when f runs case "$(...)".
+ ui_fps(){ U=;regular "$PREF/display.state" && U=$(awk -F= '$1=="stream"{print $2}' "$PREF/display.state");case "$U" in 0|2) FPS=30;;4) FPS=25;;*) FPS=40;;esac; }
+ load(){
+  ui_fps;IDR=5;SRC=MU_UI
+  if regular "$TEST";then
+   F=$(awk -F= 'NR==1&&$1=="fps"{print $2}' "$TEST");I=$(awk -F= 'NR==2&&$1=="idr"{print $2}' "$TEST");SRC=INVALID_TEST_FILE_IGNORED
+   case "$F" in ""|*[!0-9]*) F=0;;esac;case "$I" in ""|*[!0-9]*) I=0;;esac
+   if [ "$F" -ge 20 ] && [ "$F" -le 40 ] && [ "$I" -ge 5 ] && [ "$I" -le 15 ];then FPS=$F;IDR=$I;SRC=TOOLBOX_TEST;fi
+  fi
+ }
+ show(){
+  echo "MU1367_STREAM_SOURCE=$SRC";echo "MU1367_STREAM_FPS=$FPS";echo "MU1367_STREAM_KEYFRAME_EVERY_FRAMES=$IDR"
+  echo "Applies on the next phone connection: disconnect, wait 5 s, reconnect."
+  if regular "$HLOG";then echo "Last stream asked of the phone:";last 2 'stream-settings|stream-idr-interval' "$HLOG";fi
+ }
+ save(){
+  parents "$PREF" && [ ! -L "$PREF" ] || fail STREAM_TEST_SETTINGS_PARENT_UNSAFE
+  [ -d "$PREF" ] || mkdir "$PREF" || fail STREAM_TEST_DIRECTORY
+  { echo "fps=$1";echo "idr=$2"; } > "$TEST.new-$$" && mv "$TEST.new-$$" "$TEST" || { rm -f "$TEST.new-$$";fail STREAM_TEST_WRITE; }
+  sync;load
+  [ "$SRC" = TOOLBOX_TEST ] || fail STREAM_TEST_READBACK
+ }
+ load
+ case "$ACTION" in
+  stream-show) show;exit 0;;
+  stream-reset) rm -f "$TEST";sync;load;echo MU1367_STREAM_TEST_OFF;show;exit 0;;
+  stream-fps-up5) N=$((FPS+5));[ "$N" -le 40 ] || N=40;save "$N" "$IDR";;
+  stream-fps-down5) N=$((FPS-5));[ "$N" -ge 20 ] || N=20;save "$N" "$IDR";;
+  stream-fps-up1) N=$((FPS+1));[ "$N" -le 40 ] || N=40;save "$N" "$IDR";;
+  stream-fps-down1) N=$((FPS-1));[ "$N" -ge 20 ] || N=20;save "$N" "$IDR";;
+  stream-idr-up) N=$((IDR+1));[ "$N" -le 15 ] || N=15;save "$FPS" "$N";;
+  stream-idr-down) N=$((IDR-1));[ "$N" -ge 5 ] || N=5;save "$FPS" "$N";;
+ esac
+ echo MU1367_STREAM_TEST_SAVED;show;exit 0;;
 esac
 # v1.5.2: saved snapshots of earlier installations and rollbacks. Only directories that no
 # controller reads again are listed: removed and stale layer sessions, earlier OEM resets, a

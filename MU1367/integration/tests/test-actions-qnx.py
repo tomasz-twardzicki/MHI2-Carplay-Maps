@@ -109,6 +109,23 @@ awk 'BEGIN {if(2+2!=4)exit 1}' || exit 80
 "$P/verify" "$APP/carplaymaps/altscreen-most-bridge" @CP_BRIDGE@ || exit 81
 test -x "$APP/carplaymaps/altscreen-most-bridge" || exit 81
 echo RELEASE_FACTORY_CARPLAY_BRIDGE_INSTALLED_PASS
+# v1.5.4: Toolbox stream test on the firmware ksh/awk (no printf, tail or sleep on the unit).
+D=$CPMAP_TEST_ROOT/mnt/icab/persistent;mkdir -p "$D" "$CPMAP_TEST_ROOT/ramdisk/carplay_altscreen_handshake"
+/bin/ksh "$P/actions.sh" stream-show "$P" > /ramdisk/diag-out || exit 91
+grep '^MU1367_STREAM_SOURCE=MU_UI$' /ramdisk/diag-out && grep '^MU1367_STREAM_FPS=40$' /ramdisk/diag-out || exit 91
+/bin/ksh "$P/actions.sh" stream-fps-down5 "$P" > /ramdisk/diag-out || exit 92
+/bin/ksh "$P/actions.sh" stream-idr-up "$P" > /ramdisk/diag-out || exit 92
+grep '^MU1367_STREAM_SOURCE=TOOLBOX_TEST$' /ramdisk/diag-out && grep '^MU1367_STREAM_FPS=35$' /ramdisk/diag-out && grep '^MU1367_STREAM_KEYFRAME_EVERY_FRAMES=6$' /ramdisk/diag-out || exit 92
+C="$D/cpmap-ui/stream-test.conf";[ "$(awk 'NR==1' "$C")" = fps=35 ] && [ "$(awk 'NR==2' "$C")" = idr=6 ] && [ "$(awk 'END{print NR}' "$C")" = 2 ] || exit 92
+N=0;while [ $N -lt 12 ];do /bin/ksh "$P/actions.sh" stream-idr-up "$P" > /ramdisk/diag-out || exit 93;N=$((N+1));done
+grep '^MU1367_STREAM_KEYFRAME_EVERY_FRAMES=15$' /ramdisk/diag-out || exit 93
+echo 't_us=9 pid=1 event=stream-settings fps=35 idr=15 source=toolbox-test ptr=0x1 status=0 (0x00000000)' > "$CPMAP_TEST_ROOT/ramdisk/carplay_altscreen_handshake/handshake.log"
+/bin/ksh "$P/actions.sh" stream-show "$P" > /ramdisk/diag-out || exit 93
+grep 'event=stream-settings fps=35 idr=15' /ramdisk/diag-out || exit 93
+/bin/ksh "$P/actions.sh" stream-reset "$P" > /ramdisk/diag-out || exit 94
+test ! -e "$D/cpmap-ui/stream-test.conf" && grep '^MU1367_STREAM_SOURCE=MU_UI$' /ramdisk/diag-out || exit 94
+rm -rf "$D" "$CPMAP_TEST_ROOT/ramdisk/carplay_altscreen_handshake"
+echo RELEASE_FACTORY_STREAM_TEST_PASS
 /bin/ksh "$P/actions.sh" install "$P" > /ramdisk/install-out || exit 82
 grep '^MU1367_INSTALL_STEPS=3 ' /ramdisk/install-out || exit 86
 grep '^\\[1/3\\] MU1367_GUIDANCE_V3_ALREADY_INSTALLED$' /ramdisk/install-out || exit 86
@@ -128,7 +145,7 @@ echo RELEASE_FACTORY_ANDROID_AUTO_INSTALL_PASS
 "$P/verify" "$APP/carplay-mu1367-artwork/artwork-fetch" @PNG_FETCH@ || exit 86
 echo RELEASE_FACTORY_DEFAULT_ARTWORK_PNG_PASS
 test ! -e "$CPMAP_TEST_ROOT/ramdisk/.cpmap-install-running" || exit 86
-if grep REBOOT_REQUIRED /ramdisk/install-out | grep -v RELEASE_1_5_3_INSTALLED_FULL_REBOOT_REQUIRED;then exit 86;fi
+if grep REBOOT_REQUIRED /ramdisk/install-out | grep -v RELEASE_1_5_4_INSTALLED_FULL_REBOOT_REQUIRED;then exit 86;fi
 if echo x | { IFS= read -r L; exit 1; };then exit 87;fi
 echo RELEASE_FACTORY_PROGRESS_PASS
 /bin/ksh "$P/actions.sh" enable-cards "$P" || exit 83
@@ -200,7 +217,7 @@ echo RELEASE_FACTORY_SNAPSHOTS_PASS
  for n in ('reader-setup','toolchain','firmware-commands','output'):sys.argv+=['--'+n,str(getattr(a,n.replace('-','_')))]
  try:rc=factory_reset.main(script,extras,main/'COMMANDS.json')
  finally:sys.argv=old
- log=(a.output/'qemu.log').read_text(errors='replace');assert 'RELEASE_FACTORY_ANDROID_AUTO_INSTALL_PASS' in log and 'RELEASE_FACTORY_ANDROID_AUTO_REMOVE_PASS' in log and 'RELEASE_FACTORY_DEFAULT_ARTWORK_PNG_PASS' in log and 'RELEASE_FACTORY_MIGRATION_PASS' in log and 'RELEASE_FACTORY_TRAIN_RECOGNITION_PASS' in log and 'RELEASE_FACTORY_PROGRESS_PASS' in log and 'RELEASE_FACTORY_CARPLAY_BRIDGE_INSTALLED_PASS' in log and 'RELEASE_FACTORY_SNAPSHOTS_PASS' in log
- r=json.loads((a.output/'result.json').read_text());r.update(factory_progress_verified=True,factory_migration_verified=True,firmware_train_recognition_verified=True,map_only_actions_sha256=sha((main/'actions.sh').read_bytes()),main_controller_sha256=sha((main/'6/control.sh').read_bytes()),tuning_controller_sha256=sha((tuning/'6/control.sh').read_bytes()),fixture_changes='Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host',map_only_and_optional_transactions_verified=True,default_artwork_png_verified=True,android_auto_layer_verified=True,carplay_bridge_install_verified=True,saved_snapshots_verified=True,android_auto_controller_sha256=sha((aa/'control.sh').read_bytes()),artwork_png_controller_sha256=sha((png/'control.sh').read_bytes()),sdk_utilities_injected=False)
+ log=(a.output/'qemu.log').read_text(errors='replace');assert 'RELEASE_FACTORY_ANDROID_AUTO_INSTALL_PASS' in log and 'RELEASE_FACTORY_ANDROID_AUTO_REMOVE_PASS' in log and 'RELEASE_FACTORY_DEFAULT_ARTWORK_PNG_PASS' in log and 'RELEASE_FACTORY_MIGRATION_PASS' in log and 'RELEASE_FACTORY_TRAIN_RECOGNITION_PASS' in log and 'RELEASE_FACTORY_PROGRESS_PASS' in log and 'RELEASE_FACTORY_CARPLAY_BRIDGE_INSTALLED_PASS' in log and 'RELEASE_FACTORY_STREAM_TEST_PASS' in log and 'RELEASE_FACTORY_SNAPSHOTS_PASS' in log
+ r=json.loads((a.output/'result.json').read_text());r.update(stream_test_verified=True,factory_progress_verified=True,factory_migration_verified=True,firmware_train_recognition_verified=True,map_only_actions_sha256=sha((main/'actions.sh').read_bytes()),main_controller_sha256=sha((main/'6/control.sh').read_bytes()),tuning_controller_sha256=sha((tuning/'6/control.sh').read_bytes()),fixture_changes='Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host',map_only_and_optional_transactions_verified=True,default_artwork_png_verified=True,android_auto_layer_verified=True,carplay_bridge_install_verified=True,saved_snapshots_verified=True,android_auto_controller_sha256=sha((aa/'control.sh').read_bytes()),artwork_png_controller_sha256=sha((png/'control.sh').read_bytes()),sdk_utilities_injected=False)
  (a.output/'result.json').write_text(json.dumps(r,indent=2)+'\n');return rc
 if __name__=='__main__':raise SystemExit(main())

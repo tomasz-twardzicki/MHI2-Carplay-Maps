@@ -14,6 +14,22 @@ static pthread_mutex_t cpvc_display_lock=PTHREAD_MUTEX_INITIALIZER;
  * their fps with IDR 5; 1 (40 fps) is the default since v1.5.2. 5 and 6 (20 and
  * 27 fps) left the menu in v1.5.2 and now run as the 40 fps default. */
 static struct cpvc_display_settings cpvc_display_cached={1,0,0};
+/* v1.5.4: Toolbox stream test. stream-test.conf next to the MU UI
+ * settings ("fps=N\nidr=N\n", fps 20-40, key frame every 5-15 frames) overrides the
+ * MU UI stream choice while it is present and valid; Toolbox "reset" removes it.
+ * Read again for every new cluster display and video connection. */
+static int cpvc_stream_test_fps,cpvc_stream_test_idr,cpvc_stream_test_state;
+static int cpvc_stream_test_read(const char *root,int *fps,int *idr){
+ char path[512],data[40],canonical[40];struct stat st;FILE *f;size_t n;int a,b,bad,len;
+ if(!root||snprintf(path,sizeof(path),"%s/stream-test.conf",root)>=(int)sizeof(path))return -1;
+ if(lstat(path,&st))return errno==ENOENT?0:-1;
+ if(!S_ISREG(st.st_mode)||st.st_size<1||st.st_size>32)return -1;
+ f=fopen(path,"rb");if(!f)return -1;n=fread(data,1,32,f);bad=ferror(f);if(fclose(f)||bad||n!=(size_t)st.st_size||memchr(data,0,n))return -1;data[n]=0;
+ if(sscanf(data,"fps=%d\nidr=%d",&a,&b)!=2||a<20||a>40||b<5||b>15)return -1;
+ len=snprintf(canonical,sizeof(canonical),"fps=%d\nidr=%d\n",a,b);
+ if(len!=(int)n||memcmp(data,canonical,n))return -1;
+ *fps=a;*idr=b;return 1;
+}
 static uint32_t cpvc_display_crc(const unsigned char *s,size_t n){
  uint32_t crc=0xffffffffu;size_t i;int bit;
  for(i=0;i<n;i++){crc^=s[i];for(bit=0;bit<8;bit++)crc=(crc>>1)^(0xedb88320u&(uint32_t)-(int)(crc&1));}
@@ -48,9 +64,15 @@ static void cpvc_display_refresh(void){
  struct cpvc_display_settings next;const char *root=getenv("CPVC_DISPLAY_STATE_DIR");
  if(!root||!root[0])root="/mnt/icab/persistent/cpmap-ui";
  if(cpvc_display_read(root,&next)>=0){pthread_mutex_lock(&cpvc_display_lock);cpvc_display_cached=next;pthread_mutex_unlock(&cpvc_display_lock);}
+ {int f=0,i=0,r=cpvc_stream_test_read(root,&f,&i);pthread_mutex_lock(&cpvc_display_lock);
+  cpvc_stream_test_state=r;cpvc_stream_test_fps=r==1?f:0;cpvc_stream_test_idr=r==1?i:0;pthread_mutex_unlock(&cpvc_display_lock);}
 }
-static int cpvc_display_fps(void){static const int fps[7]={30,40,30,40,25,40,40};int s=cpvc_display_snapshot().stream;return s>=0&&s<7?fps[s]:40;}
-static int cpvc_display_idr(void){return 5;}
+/* 1 = Toolbox stream test active, 0 = MU UI choice, -1 = stream-test.conf invalid (ignored). */
+static int cpvc_stream_test_status(void){int r;pthread_mutex_lock(&cpvc_display_lock);r=cpvc_stream_test_state;pthread_mutex_unlock(&cpvc_display_lock);return r;}
+static int cpvc_stream_test_value(int idr){int r;pthread_mutex_lock(&cpvc_display_lock);r=idr?cpvc_stream_test_idr:cpvc_stream_test_fps;pthread_mutex_unlock(&cpvc_display_lock);return r;}
+static int cpvc_display_fps(void){static const int fps[7]={30,40,30,40,25,40,40};int t=cpvc_stream_test_value(0),s=cpvc_display_snapshot().stream;if(t)return t;return s>=0&&s<7?fps[s]:40;}
+static int cpvc_display_idr(void){int t=cpvc_stream_test_value(1);return t?t:5;}
+static int cpvc_display_idr_refreshed(void){cpvc_display_refresh();return cpvc_display_idr();}
 static void cpvc_display_area(int *x,int *y,int *w,int *h){
  static const int rect[4][4]={{200,96,400,364},{160,96,480,364},{220,96,360,348},{220,65,360,348}};
  int l=cpvc_display_snapshot().layout;*x=rect[l][0];*y=rect[l][1];*w=rect[l][2];*h=rect[l][3];

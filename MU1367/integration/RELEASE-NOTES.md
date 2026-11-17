@@ -1,3 +1,34 @@
+# MU1367 v1.5.4 — stable: arrival time on the AID, stream test
+
+**Stable release** for **K4525 / P4521 MU1367 + AID 791**. It replaces v1.5.3 as the
+recommended release. v1.5.4 is v1.5.3 plus two changes; the startup animation, the MU
+menus, audio and reader are the v1.5.3 ones, byte for byte. The video bridges and the
+Android Auto feeder are the v1.5.3 sources, rebuilt with a newer compiler (Apple clang 21
+instead of 17), so their files differ; they pass the same host and QNX tests.
+
+- **Arrival time on the AID.** The OEM navigation setup lets you choose between time to
+  destination and arrival time for the cluster. CarPlay guidance used to send the remaining
+  time in both cases. With **arrival time** selected, the AID now shows the unit's own
+  clock plus the remaining time from the phone (same time zone and 12/24 h format as the
+  unit's clock). With **time to destination** nothing changes. Until the unit's clock is
+  valid after a start, the remaining time is shown. Only the time of day is sent, as the
+  stock navigation does when it has no date.
+- **Stream test** in Toolbox > CarPlay diagnostics: try any map rate from 20 to 40 fps and a
+  key frame every 5 to 15 frames, beyond the three MU UI choices. The test values override
+  the MU UI stream setting until **Stream test: off** and apply on the next phone
+  connection. **Show current fps / IDR** prints what the core last asked of the phone. The
+  default stays 40 fps / IDR 5.
+- **Android Auto** stays included and is **not yet fully tested**.
+
+Both changes are verified off the unit: on the host, with the factory Java VM and the
+firmware shell in the QNX emulator, and through the full install and migration tests.
+**They are not yet tested in a car.** v1.5.3 itself is vehicle-tested (as v1.5.3-e).
+
+Updating from v1.5.3, v1.5.3-e or any earlier supported version goes through the two-stage
+install: install → full reboot → install again. MU UI settings, including the Startup
+animation choice, are kept. The final message is
+`MU1367_RELEASE_1_5_4_INSTALLED_FULL_REBOOT_REQUIRED`.
+
 # MU1367 v1.5.3 — stable: startup animation, higher bridge priority
 
 **Stable release** for **K4525 / P4521 MU1367 + AID 791**, built from v1.5.3-e after

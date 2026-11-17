@@ -4,15 +4,19 @@ import argparse, hashlib, importlib.util, json, re, shlex, shutil, subprocess, z
 from pathlib import Path
 from tools.payload_checks import write_payload_checks
 HERE=Path(__file__).resolve().parent
-ARCHIVE='CarPlay_Maps_VC_MU1367_791_v1.5.3.zip'
-# Published experimental v1.5.3-e ZIP (its verified package), vehicle-tested before this stable release.
-BASE_ARCHIVE_SHA256='28de02d35fc8ed91b0c3b58bbfdb30afc23731cfe2624c1bd77351b6b4ae6312'
+ARCHIVE='CarPlay_Maps_VC_MU1367_791_v1.5.4.zip'
+# Published stable v1.5.3 ZIP (its verified package), vehicle-tested through v1.5.3-e.
+BASE_ARCHIVE_SHA256='011d37a7206739d77843f96e5446078d2175e4cbc12fc8702d1842c4035665d8'
 BASE_VERIFIED_SHA256=BASE_ARCHIVE_SHA256
-# Android Auto layer builds replaced in place: published v1.5.0-e, the car-tested pre-release build, both published v1.5.1-e builds, v1.5.2-e, v1.5.2 and v1.5.3-e.
-AA_PREVIOUS=('mu1367-android-auto-ee74f406dd94','mu1367-android-auto-e3e4e1ce3a73','mu1367-android-auto-c1f4833dac00','mu1367-android-auto-ad7f051fd568','mu1367-android-auto-32e92312bde1','mu1367-android-auto-74fd41b287c3','mu1367-android-auto-95f7bc5f3cc4')
+# Android Auto layer builds replaced in place: published v1.5.0-e, the car-tested pre-release build, both published v1.5.1-e builds, v1.5.2-e, v1.5.2, v1.5.3-e and v1.5.3.
+AA_PREVIOUS=('mu1367-android-auto-ee74f406dd94','mu1367-android-auto-e3e4e1ce3a73','mu1367-android-auto-c1f4833dac00','mu1367-android-auto-ad7f051fd568','mu1367-android-auto-32e92312bde1','mu1367-android-auto-74fd41b287c3','mu1367-android-auto-95f7bc5f3cc4','mu1367-android-auto-05631145bd45')
 # v1.5.2: tuning-menu actions for saved snapshots of earlier installations and rollbacks.
 SNAPSHOT_ENTRIES=[('snapshots','List saved snapshots (read only)'),('snapshot-next','Select next snapshot'),
                   ('snapshot-remove','Remove selected snapshot'),('snapshots-remove-all','Remove all saved snapshots')]
+# v1.5.4: Toolbox > CarPlay diagnostics stream test (actions.sh stream-*): any fps 20-40 and key frame every 5-15 frames.
+STREAM_ENTRIES=[('stream-show','Stream test: show current fps / IDR (read only)'),('stream-fps-up5','Stream test: fps +5'),('stream-fps-down5','Stream test: fps -5'),
+                ('stream-fps-up1','Stream test: fps +1'),('stream-fps-down1','Stream test: fps -1'),('stream-idr-up','Stream test: IDR every +1 frame'),
+                ('stream-idr-down','Stream test: IDR every -1 frame'),('stream-reset','Stream test: off (back to the MU UI choice)')]
 def sha(f): return hashlib.sha256(f.read_bytes()).hexdigest()
 def toolbox_input(name):
     # The SD's upstream Git attributes belong to its distribution, not this
@@ -88,7 +92,7 @@ def main():
     legacy=json.loads((HERE/'tools/legacy-revisions.json').read_text())
     owners=[m['build_id'] for m in variants.values()]+sorted(m['build_id'] for m in legacy.values() if 'reader' in m['before'])
     actions=actions.replace('@READER_VERSIONS@','|'.join(owners))
-    # Main snapshots that own the CarPlay bridge: this release and archived v1.5.1-e, v1.5.2-e, v1.5.2 and v1.5.3-e.
+    # Main snapshots that own the CarPlay bridge: this release and archived v1.5.1-e, v1.5.2-e, v1.5.2, v1.5.3-e and v1.5.3.
     bridge_owners=[m['build_id'] for m in variants.values()]+sorted(m['build_id'] for m in legacy.values() if 'bridge' in m['before'])
     actions=actions.replace('@BRIDGE_VERSIONS@','|'.join(bridge_owners))
     code=(HERE/'tools/migrate.sh').read_text()
@@ -99,7 +103,7 @@ def main():
     actions=actions[:pos]+'. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n'+actions[pos:]
     # migrate.sh handles both latest and old tuning; the existing gate runs afterwards.
     actions=actions.replace('. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n','. "$P/legacy-check.sh" || fail LEGACY_CHECK_SCRIPT\n'+code+'\n')
-    actions=actions.replace('echo MU1367_GUIDANCE_V3_SUITE_INSTALLED_FULL_REBOOT_REQUIRED','echo MU1367_RELEASE_1_5_3_INSTALLED_FULL_REBOOT_REQUIRED')
+    actions=actions.replace('echo MU1367_GUIDANCE_V3_SUITE_INSTALLED_FULL_REBOOT_REQUIRED','echo MU1367_RELEASE_1_5_4_INSTALLED_FULL_REBOOT_REQUIRED')
     (root/'actions.sh').write_text(actions)
     sh='''# Generated exact identities of supported local revisions. No saved code runs before this gate.
 legacy_check(){
@@ -135,7 +139,7 @@ legacy_check(){
     menu_text=menu.read_text()
     old_banner='MU1367 / 791 v1.4.3 - P4521 experimental'
     assert old_banner in menu_text
-    menu_text=menu_text.replace(old_banner,'MU1367 / 791 v1.5.3 (CarPlay + Android Auto)')
+    menu_text=menu_text.replace(old_banner,'MU1367 / 791 v1.5.4 (CarPlay + Android Auto)')
     # GEM menus are static, so the reboot entry is permanent; the script refuses
     # while an install runs and then uses the Toolbox's own reboot helper.
     install_entry='    label "Reset saved MU UI settings (reboot)"\n'
@@ -150,20 +154,25 @@ legacy_check(){
     shutil.copy2(HERE/'tools/cpmap_reboot.sh',sd/'Toolbox/scripts/cpmap_reboot.sh')
     wrapper=(sd/'Toolbox/scripts/cpmap_suite_install.sh').read_text()
     assert wrapper.count(' install "$P"')==2
-    for act in ('aa-disable','aa-enable')+tuple(a for a,_ in SNAPSHOT_ENTRIES):(sd/'Toolbox/scripts'/('cpmap_suite_'+act+'.sh')).write_text(wrapper.replace(' install "$P"',' '+act+' "$P"'))
+    for act in ('aa-disable','aa-enable')+tuple(a for a,_ in SNAPSHOT_ENTRIES+STREAM_ENTRIES):(sd/'Toolbox/scripts'/('cpmap_suite_'+act+'.sh')).write_text(wrapper.replace(' install "$P"',' '+act+' "$P"'))
     with (sd/'Toolbox/GEM/carplay-maps-vc-tuning.esd').open('a') as tuning_menu:
         tuning_menu.write('\nkeyValue\n    value String sys 0x00000000 0\n    label "Saved snapshots of earlier installations"\n    poll 0\n')
         for a,l in SNAPSHOT_ENTRIES:tuning_menu.write('\nscript\n    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_suite_'+a+'.sh"\n    label "'+l+'"\n')
-    (sd/'README.md').write_text('# MU1367 / 791 v1.5.3\n\nStable release, built from v1.5.3-e after vehicle tests.\n\nAdds a startup animation on the AID: a 4.2 s clip plays when CarPlay first takes the cluster map after the unit starts, then the live map follows. MU UI > App-Connect > Virtual Cockpit settings > Startup animation: once per boot (default), every connection or off. Without Tuning it is a new row on that page; with Tuning it replaces the Wireless CarPlay (test) row, which never had a function. The CarPlay video bridge also runs at a higher priority (14 instead of 10), so it keeps getting CPU while the navigation and the reverse camera load the unit. Everything else is v1.5.2. Android Auto on the AID is included but not yet fully tested. Start with [START_HERE.md](START_HERE.md) and [RELEASE-NOTES.md](RELEASE-NOTES.md).\n')
+    with (sd/'Toolbox/GEM/carplay-maps-vc-diagnostics.esd').open('a') as diag_menu:
+        diag_menu.write('\nkeyValue\n    value String sys 0x00000000 0\n    label "Stream test (any fps 20-40, key frame every 5-15)"\n    poll 0\n')
+        for a,l in STREAM_ENTRIES:diag_menu.write('\nscript\n    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_suite_'+a+'.sh"\n    label "'+l+'"\n')
+    (sd/'README.md').write_text('# MU1367 / 791 v1.5.4\n\nStable release: v1.5.3 plus two changes.\n\n- **Arrival time on the AID.** When the OEM navigation setup is set to show the arrival time, CarPlay guidance now shows the arrival time on the AID (the unit\'s clock plus the remaining time from the phone) instead of always the remaining time. Time to destination is unchanged.\n- **Stream test** (Toolbox > CarPlay diagnostics): try any map rate from 20 to 40 fps and a key frame every 5 to 15 frames. It overrides the MU UI stream choice until *Stream test: off* and applies on the next phone connection.\n\nEverything else is v1.5.3. Android Auto on the AID is included but not yet fully tested. Start with [START_HERE.md](START_HERE.md) and [RELEASE-NOTES.md](RELEASE-NOTES.md).\n')
     shutil.copy2(HERE/'NOTICE.md',sd/'NOTICE.md')
-    manifest={'version':'1.5.3','experimental':False,'prerelease':False,'base_version':'1.5.3-e','previous_stable_version':'1.5.2','base_archive_sha256':BASE_ARCHIVE_SHA256,'base_verified_package_sha256':BASE_VERIFIED_SHA256,'base_vehicle_tested':True,'artwork_png':artwork_png,'android_auto':aa,'android_auto_fully_tested':False,'reader_build':'MU1367-reader-v1.4.4-e','guidance_hold_ms':180000,'reader_restart_budget':{'per_window':3,'stable_window_ms':600000,'lifetime_ceiling':64,'backoff_ms':[1000,2000,4000]},'reader_sha256':reader['sha256'],'reader_source_sha256':reader['source_sha256'],
-        'release_changes':'Stable v1.5.3: v1.5.3-e (vehicle-tested) plus one fix: after the startup clip the CarPlay bridge records the ring position it skips to before it requests the IDR, so a fast answer is never skipped. Startup animation: the CarPlay bridge plays a built-in 4.2 s clip (800x480 Constrained Baseline H.264, 126 frames at 30 fps) before the live map, then waits for a fresh IDR from the phone. MU UI selector: once per boot (default), every connection, off; with Tuning it replaces the Wireless CarPlay (test) row. The CarPlay and Android Auto bridges raise their threads to priority 14 (from the inherited 10). The Android Auto bridge has no intro.',
+    manifest={'version':'1.5.4','experimental':False,'prerelease':False,'base_version':'1.5.3','previous_stable_version':'1.5.3','base_archive_sha256':BASE_ARCHIVE_SHA256,'base_verified_package_sha256':BASE_VERIFIED_SHA256,'base_vehicle_tested':True,'artwork_png':artwork_png,'android_auto':aa,'android_auto_fully_tested':False,'reader_build':'MU1367-reader-v1.4.4-e','guidance_hold_ms':180000,'reader_restart_budget':{'per_window':3,'stable_window_ms':600000,'lifetime_ceiling':64,'backoff_ms':[1000,2000,4000]},'reader_sha256':reader['sha256'],'reader_source_sha256':reader['source_sha256'],
+        'release_changes':'Stable v1.5.4: v1.5.3 plus two changes. Arrival time: when the OEM navigation setup selects the arrival time (NavigationService.getTimeToDestinationTimeInfo()==1, datapool 1110059), CarPlay guidance sends TimeToDestination with timeInfoType 1: the HMI clock (datapool TIME__HOUR 1640 / TIME__MINUTE 1641, only while TIME_VALID 3572) plus the phone remaining time, rounded to the minute, 12/24 h flag as stock, no date; time to destination, or no valid HMI clock, sends the remaining time exactly as v1.5.3. Stream test: Toolbox > CarPlay diagnostics sets any fps 20-40 and a key frame every 5-15 frames in /mnt/icab/persistent/cpmap-ui/stream-test.conf, which overrides the MU UI stream until removed; the core logs the fps/IDR it asks for (stream-settings, stream-idr-interval) and re-reads the IDR interval on each video connection. Startup animation and bridge priority 14 unchanged; the CarPlay bridge, Android Auto bridge and feeder are the v1.5.3 sources rebuilt with Apple clang 21 (v1.5.3: clang 17).',
+        'stream_test':{'file':'/mnt/icab/persistent/cpmap-ui/stream-test.conf','fps':[20,40],'idr':[5,15],'actions':[a for a,_ in STREAM_ENTRIES],'default':'off (MU UI choice)'},
+        'arrival_time':{'setting':'NavigationService.getTimeToDestinationTimeInfo() (datapool 1110059), 1 = arrival time','clock':'HMI clock datapool 1640/1641 while TIME_VALID 3572','date_sent':False,'fallback':'remaining time'},
         'startup_animation':{'clip':'intro/cp_intro_badge_baseline.h264','clip_sha256':sha(HERE/'src/runtime/vc-runtime/intro/cp_intro_badge_baseline.h264'),'frames':126,'fps':30,'profile':'Constrained Baseline','size':[800,480],'modes':['every connection','once per boot (default)','off'],'default':'once per boot','preference':'/mnt/icab/persistent/cpmap-ui/animation.state','android_auto':False},
         'snapshot_actions':[a for a,_ in SNAPSHOT_ENTRIES],
         'carplay_bridge':{'build':'altscreen_most_bridge.c (clang, pinned QNX 6.5 SDK binutils)','sha256':fm['carplay_bridge_sha256'],'replaces_sha256':'6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35','reclaim_window_s':180,'reclaim_max':3,'latency_limit_packets':2048,'priority':14,'startup_animation':True},'guidance_recover_ms':20000,'guidance_stop_grace_ms':1500,'archive_name':ARCHIVE,'firmware':'K4525 / P4521 MU1367','supported_firmware':[{'train':'MHI2_ER_VWG13_K4525','experimental':False},{'train':'MHI2_ER_VWG13_P4521','experimental':False}],'p4521_vehicle_tested':True,'cluster':'791','variants':variants,'tuning_variants':tv,
         'files':variants['6']['files'],'defaults':{'fps':40,'idr':5,'cards':False,'compressed_artwork':True,'safe_area':[160,20,480,440],'startup_animation':'once per boot'},
-        'stream_choices':['25 fps / IDR 5','30 fps / IDR 5','40 fps / IDR 5 (default)'],'stream_values':[4,2,1],'retired_stream_values':{'5':'20 fps, runs as 40 fps','6':'27 fps, runs as 40 fps'},'guidance_build':'MU1367-guidance-v1.5.0-e','mini_pico_card_suppression':False,'inactive_lane_blanks':'OEM behavior',
-        'release_package_vehicle_tested':False,'feature_vehicle_results':'v1.5.3-e vehicle-tested with good results (startup animation and bridge priority 14). Final packaging, the intro IDR-request fix and migration verified off-unit.'}
+        'stream_choices':['25 fps / IDR 5','30 fps / IDR 5','40 fps / IDR 5 (default)'],'stream_values':[4,2,1],'retired_stream_values':{'5':'20 fps, runs as 40 fps','6':'27 fps, runs as 40 fps'},'guidance_build':'MU1367-guidance-v1.5.4','mini_pico_card_suppression':False,'inactive_lane_blanks':'OEM behavior',
+        'release_package_vehicle_tested':False,'feature_vehicle_results':'v1.5.3 base vehicle-tested (as v1.5.3-e). The arrival-time output and the stream test are verified off-unit (host, QNX J9, firmware shell), not yet in a car.'}
     (sd/'MU1367_RELEASE_MANIFEST.json').write_text(json.dumps(manifest,indent=2)+'\n')
     # Check every CarPlay migration/recovery payload before persistent writes.
     write_payload_checks(custom)

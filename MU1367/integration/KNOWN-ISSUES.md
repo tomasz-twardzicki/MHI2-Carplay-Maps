@@ -1,5 +1,15 @@
 # Known issues and planned work
 
+## Arrival time and stream test (since v1.5.4)
+
+- Not yet tested in a car. If the AID still shows a duration with **arrival time**
+  selected, or a wrong time, send a diagnostics export: `adapter-status.txt` shows the
+  setting (`eta_setting=`) and the clock (`eta_clock_min=`) the guidance bridge saw.
+- Arrival time sends the time of day only. An arrival on a later day shows as a clock
+  time without the date.
+- The stream test sets what the core asks of the phone. The phone may deliver fewer frames
+  than asked, especially at the higher rates.
+
 ## Startup animation and bridge priority (since v1.5.3-e)
 
 - Tested in a car with v1.5.3-e. At the end of the clip, the AID decoder switches from
