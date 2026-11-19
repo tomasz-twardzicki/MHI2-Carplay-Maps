@@ -1,36 +1,27 @@
-# MU1367 standalone profiles
+# MU1367 / AID 791
 
-Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
+**Current stable: [v1.6.1](../releases/MU1367/v1.6.1/README.md)** for K4525/P4521
+MU1367 and the 12.3-inch AID 791. Includes wired and native wireless CarPlay,
+AID maps and native guidance, OEM ETA/arrival selection, RHD/LHD forwarding,
+wireless FPS/IDR/smoothing controls, and the existing wired features.
 
-**Current stable release: [v1.4.6](../releases/MU1367/v1.4.6/README.md)** — U-turn
-lanes in left-hand traffic, Apple Maps on any phone language, 27 fps / IDR 5 by default
-and compressed album artwork by default.
+Use the [complete install/update/restore guide](../releases/MU1367/v1.6.1/START_HERE.md).
+The same SD supports v1.5.3/v1.5.4 and known wireless candidates through saved
+layers and full reboot stages. Complete OEM restore and the standard combined
+diagnostics export are included. Internal test2 component IDs are retained:
+stable promotes the same vehicle-confirmed runtime without rebuilding it.
+Android Auto retains its prior validation limits; wireless media text/artwork
+remains pending.
 
-The previous stable release is **[v1.4.5](../releases/MU1367/v1.4.5/README.md)**. See the
-[release notes](./integration/RELEASE-NOTES.md) and [install guide](./integration/INSTALL.md).
-The complete integration supports
-K4525 or P4521 MU1367 + AID 791. P4521 installation remains experimental;
-the earlier experimental build has been confirmed working in a vehicle. It combines maps, native arrows/progress, current road,
-lanes with corrected VW U-turn symbols, music metadata/artwork and reconnect recovery. Fresh defaults are 27 fps /
-IDR 5, compressed artwork and cards OFF; optional tuning adds card support and its MU controls.
+Maintained stable packaging/recovery code is in [wireless-native/stable](wireless-native/stable/).
+[integration](integration/) retains the exact v1.5.4 base and earlier migrations.
+The native runtime and its prior validation are in [wireless-native/v161](wireless-native/v161/).
+Exact firmware JXE hashes are required; firmware size alone is insufficient.
 
-The [single install/update guide](./integration/INSTALL.md) covers OEM, v1.4.0, v1.4.1 and
-known later test states, with retained snapshots and a reboot boundary for v3
-migration. Diagnostics, tuning and recovery have dedicated submenus. The same
-SD includes independent full OEM reset. See [known issues and TODOs](./integration/KNOWN-ISSUES.md)
-for the unresolved Mini Pico card override, expected OEM unused-lane blanks and
-planned navigation/app improvements.
+The standalone profiles below are historical display baselines, not complete
+Toolbox distributions. AID 790 is outside the current complete stable package.
 
-The `port`, `settings-v2` and `lanes` directories document published v1.3.0/v1.4.0
-baselines. Their source and original assets remain for compatibility and recovery;
-new development belongs in `integration`. The standalone profiles below are
-historical video baselines, not the v1.4.5 complete installation package.
-
-| Cluster | Profile files | Display baseline |
+| Cluster | Historical profile files | Display baseline |
 | --- | --- | --- |
-| 791 AID 12.3 | [`791_AID12.3`](./791_AID12.3/) | 40 fps, navigation centered |
-| 790 AID 10.5 | [`790_AID10.5`](./790_AID10.5/) | 40 fps, non-navigation centered, navigation right |
-
-These directories contain only the CarPlay Maps VC project files. They are not complete MQB or M.I.B. Toolbox distributions.
-
-固件识别条件：`/ifs/lsd.jxe` 精确大小为 **55,840,541 bytes**。目录内仅为 CarPlay Maps VC 独立项目文件，不含完整工具箱。
+| 791 AID 12.3 | [791_AID12.3](791_AID12.3/) | Navigation centered |
+| 790 AID 10.5 | [790_AID10.5](790_AID10.5/) | Navigation right |

@@ -43,9 +43,12 @@ proc_list() {
     echo "=== lsd.sh JAR reference"
     grep -n 'CarPlayClusterControls' "$APP/eso/hmi/lsd/lsd.sh"
     echo "=== control JAR";     ls -ln "$APP/eso/hmi/lsd/jars/CarPlayClusterControls.jar"
-    echo "=== ramdisk listing"; ls -ln "$M/ramdisk" | grep -i -E 'carplay|altscreen|cpmap'
-    echo "=== processes (carplay / dio / lsd)"
-    proc_list | grep -i -E 'dio_manager|carplay|altscreen|supervisor|pairing|j9|lsd'
+    echo "=== ramdisk listing"; ls -ln "$M/ramdisk" | grep -i -E 'carplay|altscreen|cpmap|pmcp-aa'
+    echo "=== Android Auto layer (v1.5.0-e)"
+    for F in STATE VERSION DISABLED;do [ -e "$APP/carplay-mu1367-android-auto/$F" ] && echo "$F: $(cat "$APP/carplay-mu1367-android-auto/$F" 2>/dev/null)";done
+    ls -ln "$APP/eso/bin/apps/gal" "$APP/carplaymaps/aa" 2>/dev/null
+    echo "=== processes (carplay / dio / lsd / android auto)"
+    proc_list | grep -i -E 'dio_manager|carplay|altscreen|supervisor|pairing|j9|lsd|gal|aa-most'
     echo "=== dio_manager environment"
     pidin -p dio_manager.real env 2>/dev/null || pidin -p dio_manager env 2>/dev/null
     echo "=== MOST device nodes"
@@ -53,7 +56,8 @@ proc_list() {
 } > "$OUT/summary.txt" 2>&1
 
 # Runtime logs and captures (skip the large shared video ring buffer).
-for f in "$M"/ramdisk/carplay* "$M"/ramdisk/altscreen* "$M"/ramdisk/cpmap*; do
+# pmcp-aa*: Android Auto feeder, bridge and session summaries and its route guidance mailbox (small, bounded files).
+for f in "$M"/ramdisk/carplay* "$M"/ramdisk/altscreen* "$M"/ramdisk/cpmap* "$M"/ramdisk/pmcp-aa*; do
     [ -e "$f" ] || continue
     case "$f" in
         *carplay-alt-ring.bin) continue ;;

@@ -1,4 +1,327 @@
-# MU1367 v1.4.6 — stable: U-turn lanes, Apple Maps languages, 27 fps and compressed artwork
+> **Current complete stable release: [v1.6.1](../../releases/MU1367/v1.6.1/START_HERE.md).** This directory retains its exact v1.5.4 base and compatibility migrations; the current stable release builder and recovery flow are in [wireless-native/stable](../wireless-native/stable/README.md).
+
+# MU1367 v1.5.4 — stable: arrival time on the AID, stream test
+
+**Stable release** for **K4525 / P4521 MU1367 + AID 791**. It replaces v1.5.3 as the
+recommended release. v1.5.4 is v1.5.3 plus two changes; the startup animation, the MU
+menus, audio and reader are the v1.5.3 ones, byte for byte. The video bridges and the
+Android Auto feeder are the v1.5.3 sources, rebuilt with a newer compiler (Apple clang 21
+instead of 17), so their files differ; they pass the same host and QNX tests.
+
+- **Arrival time on the AID.** The OEM navigation setup lets you choose between time to
+  destination and arrival time for the cluster. CarPlay guidance used to send the remaining
+  time in both cases. With **arrival time** selected, the AID now shows the unit's own
+  clock plus the remaining time from the phone (same time zone and 12/24 h format as the
+  unit's clock). With **time to destination** nothing changes. Until the unit's clock is
+  valid after a start, the remaining time is shown. Only the time of day is sent, as the
+  stock navigation does when it has no date.
+- **Stream test** in Toolbox > CarPlay diagnostics: try any map rate from 20 to 40 fps and a
+  key frame every 5 to 15 frames, beyond the three MU UI choices. The test values override
+  the MU UI stream setting until **Stream test: off** and apply on the next phone
+  connection. **Show current fps / IDR** prints what the core last asked of the phone. The
+  default stays 40 fps / IDR 5.
+- **Android Auto** stays included and is **not yet fully tested**.
+
+Both changes are verified off the unit: on the host, with the factory Java VM and the
+firmware shell in the QNX emulator, and through the full install and migration tests.
+**They are not yet tested in a car.** v1.5.3 itself is vehicle-tested (as v1.5.3-e).
+
+Updating from v1.5.3, v1.5.3-e or any earlier supported version goes through the two-stage
+install: install → full reboot → install again. MU UI settings, including the Startup
+animation choice, are kept. The final message is
+`MU1367_RELEASE_1_5_4_INSTALLED_FULL_REBOOT_REQUIRED`.
+
+# MU1367 v1.5.3 — stable: startup animation, higher bridge priority
+
+**Stable release** for **K4525 / P4521 MU1367 + AID 791**, built from v1.5.3-e after
+vehicle tests with good results. It replaces v1.5.2 as the recommended release. Both
+MU menus, both `core.so` builds, guidance, audio and reader are the tested v1.5.3-e
+ones, byte for byte. One fix in the CarPlay video bridge:
+
+- **The live map always follows the startup clip.** At the end of the clip, the bridge
+  skips the map frames that arrived meanwhile and asks the phone for a fresh key frame.
+  It used to send that request before noting where to skip to. If the phone answered
+  within that very short gap, the key frame was skipped too, and the AID stayed on the
+  clip's last frame until the phone sent its next key frame. The bridge now notes the
+  position first. The vehicle tests did not hit this; a test on a heavily loaded PC
+  did.
+
+- **Startup animation on the AID.** A 4.2 s App-Connect clip before the live CarPlay
+  map. Choose when it plays under **App-Connect > Virtual Cockpit settings > Startup
+  animation**: **Once per boot** (default), **Every connection** or **Off**. With
+  Tuning, the setting takes the place of the **Wireless CarPlay (test)** row, which
+  never had a function. Android Auto has no startup animation.
+- **The video bridge gets CPU when the unit is busy.** The CarPlay and Android Auto
+  bridges run at priority 14 (was 10, the same as the navigation renderer), for
+  steadier maps while the reverse camera and the navigation load the unit.
+- **Android Auto** stays included and is **not yet fully tested**.
+
+Details of the startup animation and the priority change are in the v1.5.3-e notes below. Updating from v1.5.3-e,
+v1.5.2 or any earlier supported version goes through the two-stage install: install →
+full reboot → install again. A Startup animation choice saved under v1.5.3-e is kept.
+The final message is `MU1367_RELEASE_1_5_3_INSTALLED_FULL_REBOOT_REQUIRED`.
+
+## Thanks and sources
+
+This release builds on the work and help of:
+
+- **[omonob (汽车大玩家 / QCDWJ)](https://github.com/omonob)**: the original
+  [CarPlay Maps VC](https://github.com/omonob/MHI2-Carplay-Maps) (map-video runtime,
+  steering-wheel controls, installers and toolbox integration).
+- **[luka-dev](https://github.com/luka-dev)**: CarPlay route guidance research
+  ([mib2q-carplay-rgi](https://github.com/luka-dev/mib2q-carplay-rgi)); the protocol and
+  maneuver adaptations keep LuKa's attribution in the source.
+- **[chrzanowy](https://github.com/chrzanowy)**: the Android Auto cluster feeder and route
+  translation ([mhi2-aid-carplay](https://github.com/chrzanowy/mhi2-aid-carplay)), car-tested on MU1161 / AID 791.
+- **[MacsInSpace](https://github.com/MacsInSpace)**: the `gal` cluster-map hook used for
+  Android Auto ([mib-cluster-map](https://github.com/MacsInSpace/mib-cluster-map)) and other MIB projects.
+- **[Mr-MIBonk](https://github.com/Mr-MIBonk)**: M.I.B. (More Incredible Bash), the MIB2 toolbox.
+- **Jille & Olli**: the [MIB2 Toolbox](https://github.com/jilleb/mib2-toolbox) whose GEM
+  menus and scripts this SD is built on.
+- **[Karan](https://t.me/karanldn)**: valuable road tests and feedback.
+- Research references: [perkthefox/mst2-cluster-nav](https://github.com/perkthefox/mst2-cluster-nav),
+  [fifthBro/mh2p-cluster](https://github.com/fifthBro/mh2p-cluster) and
+  [brisoleg/e-golf-mib2](https://github.com/brisoleg/e-golf-mib2).
+
+Licenses and exact upstream revisions are in [NOTICE.md](NOTICE.md).
+
+# Earlier: v1.5.3-e — experimental: startup animation, higher bridge priority
+
+**EXPERIMENTAL — TO BE TESTED.** Update of stable v1.5.2 for **K4525 / P4521 MU1367 +
+AID 791**. Use v1.5.2 for a stable installation. Two changes:
+
+- **Startup animation on the AID.** When CarPlay takes the cluster map, the AID first
+  plays a 4.2 s App-Connect clip, then switches to the live map. The clip is built into
+  the CarPlay video bridge and sent to the AID as it is: nothing is decoded or
+  re-encoded on the unit. After the clip the bridge drops the map frames that arrived
+  meanwhile and asks the phone for a fresh key frame, so the map starts clean and
+  current.
+  Choose when it plays under **App-Connect > Virtual Cockpit settings > Startup
+  animation**:
+  - **Once per boot** (default): only on the first CarPlay connection after the unit
+    starts. A reconnect or a handback mid-drive goes straight to the map.
+  - **Every connection.**
+  - **Off.** The map starts exactly as in v1.5.2.
+
+  The change applies on the next phone connection. Without Tuning, the setting is a new
+  fifth row. With Tuning, the page was already full, so the setting replaces the
+  **Wireless CarPlay (test)** row. That row only saved a value that nothing used.
+  Android Auto has no startup animation: an Android phone sends one key frame per
+  connection and cannot answer the request that ends the clip.
+- **The video bridge gets CPU when the unit is busy.** Drives with the reverse camera on
+  showed the CPU at 98–100% for several seconds, then MOST writes of up to 3.7 s and
+  ring overruns. The navigation map renderer threads run at priority 10, the same
+  priority the bridge inherited, while the CarPlay receive threads that fill the ring
+  run at 17–19. A ring overrun means the bridge's reader did not run for 64 frames in a
+  row (1.6 s at 40 fps). The CarPlay and Android Auto bridges now raise their threads
+  to priority 14. That is above every navigation thread in the heartbeat logs and below
+  the MOST driver (16) and the CarPlay receivers. QNX drivers serve a request at the
+  caller's priority, so the bridge's MOST writes also move up. The bridge log shows
+  `bridge: priority thread=input before=10 target=14 status=0`.
+
+Everything else is v1.5.2: guidance, audio, reader, both `core.so` builds, the safe
+area, the 2048-packet backlog, the boot-time MOST reclaim and the defaults (40 fps / IDR
+5). Only the two MU menus and the two bridge builds change. Updating from v1.5.2 (or
+any earlier supported version) goes through the two-stage install: install → full
+reboot → install again. The final message is
+`MU1367_RELEASE_1_5_3_E_EXPERIMENTAL_INSTALLED_FULL_REBOOT_REQUIRED`.
+
+**What to test:**
+- Does the clip show on the AID after a cold start? Does the live map follow cleanly,
+  without a grey or blocky picture?
+- **Every connection** and **Off**: does a reconnect behave as chosen?
+- Drives with reversing: are stalls shorter or gone? The bridge log keeps
+  `write_us_max`, `drops` and `latency-reset`, so you can compare them with v1.5.2.
+
+Export diagnostics after a drive.
+
+# Earlier: v1.5.2 — stable: CarPlay and Android Auto on the AID
+
+**Stable release** for **K4525 / P4521 MU1367 + AID 791**, built from v1.5.2-e after
+vehicle tests with very good results. It replaces v1.4.6 as the recommended release.
+The CarPlay map path is the tested v1.5.2-e one: the v1.2.2 safe area, the
+2048-packet bridge backlog and the boot-time MOST reclaim. Changes from v1.5.2-e:
+
+- **40 fps / IDR 5 is the default map stream.** The MU UI (**App-Connect > Virtual
+  Cockpit settings > Map stream**) offers 40 fps (default), 30 fps and 25 fps, all with
+  IDR 5. 20 and 27 fps are gone from the menu; a saved 20 or 27 fps choice now runs and
+  shows as 40 fps. A saved 25 or 30 fps choice is kept. Before rolling back to v1.4.5 or
+  older, select 30 or 40 fps again.
+- **P4521 is no longer experimental.** It has been tested in vehicles. The installer
+  reports `MU1367_FIRMWARE_TYPE=P4521` (was `P4521_EXPERIMENTAL`).
+- **New: manage saved snapshots** under **Tuning > Saved snapshots of earlier
+  installations**. Every update, rollback and OEM reset keeps copies of what it replaced
+  on `/mnt/app`, and these add up. The four new entries list them with their sizes and
+  remove them one at a time (**Select next snapshot**, then **Remove selected snapshot**)
+  or all at once (**Remove all saved snapshots**). Only copies that nothing reads again
+  are listed: removed or replaced layers (`*.removed-*`), stale artwork records, earlier
+  and completed OEM resets, and archived MU UI settings. The installed layers keep their
+  own snapshots, so **Remove latest update only**, **Recover** and **RESTORE OEM** keep
+  working. A removed snapshot cannot be brought back; copy it off the unit first if you
+  may need it.
+- **Android Auto stays included but is not yet fully tested.** It is installed by the
+  same install action, with the two **Android Auto cluster map: on / off** entries. CarPlay
+  is the tested path; please report Android Auto results with a diagnostics export.
+
+Guidance, audio, reader and both video bridges are byte-identical to v1.5.2-e. The base
+and tuning core and the MU menu change only for the new default stream. Updating from
+v1.4.6 or any v1.5.x goes through the two-stage install: install → full reboot → install
+again. The final message is `MU1367_RELEASE_1_5_2_INSTALLED_FULL_REBOOT_REQUIRED`.
+
+## What v1.5.2 brings over v1.4.6
+
+- **v1.5.0-e:** Android Auto on the AID: the Google Maps picture and native VW arrows
+  with distance from an Android phone.
+- **v1.5.1-e:** the CarPlay map no longer drops out about 18 s after every boot (the
+  bridge takes the MOST output back from the factory encoder); the Android Auto map no
+  longer freezes after a stream hiccup.
+- **v1.5.2-e:** the taller v1.2.2 safe area (160,20,480,440) for a closer, lighter map,
+  and a 2048-packet bridge backlog (was 1024) so large frames no longer reset the stream.
+- **v1.5.2:** 40 fps / IDR 5 default, P4521 supported, saved-snapshot management.
+
+# Earlier: v1.5.2-e — experimental: lighter CarPlay map (v1.2.2 safe area, larger bridge buffer)
+
+**EXPERIMENTAL — TO BE TESTED.** Update of v1.5.1-e for **K4525 / P4521 MU1367 + AID
+791**. Use v1.4.6 for a stable CarPlay installation. Two changes aimed at the stutter
+and blocky moments some drivers see with detailed Google Maps views at 27/5:
+
+- **The map asks for the taller safe area of v1.2.2.** The safe area tells the phone's
+  map app which part of the 800×480 cluster picture is clearly visible. The app keeps
+  the car position and the route inside that box. v1.2.2 declared 160,20,480,440, a
+  tall box almost the full height of the picture. Since v2.0 the map-only setting
+  declared 200,96,400,364, smaller and lower between the dials. A comparison with v1.2.2
+  pointed to this as the likely reason the map now looks wider and much more detailed
+  (more roads and labels), with frames up to 145 KB, where v1.2.2 showed a closer,
+  simpler map. v1.5.2-e goes back to the v1.2.2 box for the map-only view. The turn-card
+  option keeps its own layouts. Possible side effect: parts of the map near the top
+  edge or next to the dials may sit under the cluster graphics.
+- **The video bridge allows twice the backlog before it resets.** When more than 1024
+  TS packets (about 125 ms of video) were waiting for the MOST link, the bridge
+  dropped them and waited for a fresh key frame. That is the brief lag, stutter and
+  blocky picture. In a one-hour 27/5 drive the backlog peaked at 1377 packets, when
+  a large key frame landed right after another large frame, while the MOST link
+  itself was healthy (3 slow writes in 52 minutes). The limit is now 2048 packets
+  (about 250 ms) for every stream setting. It only adds delay during such a burst. A
+  real stall is still cut off, after about 250 ms instead of 125 ms. The bridge log now
+  starts with `bridge: latency-limit packets=2048`.
+
+Everything else is as in v1.5.1-e, including the boot-time MOST reclaim and Android
+Auto on the AID. Updating from v1.5.1-e (or v1.5.0-e) goes through the two-stage
+install: install → full reboot → install again. Stage 1 also removes the Android Auto
+layer; stage 2 puts it back.
+
+**What to test:** the same Google Maps routes and zoom levels as before, at 27/5 and
+if possible 30 or 40 fps. Does the map look closer and simpler? Are there fewer
+stutters? Is anything important hidden under the dials? Export diagnostics after a
+drive: the bridge log shows `latency-reset` lines and `frame_max` sizes to compare.
+
+The guidance, audio and menu payloads are byte-identical to v1.5.1-e. Only the map-only
+core (safe area) and the CarPlay and Android Auto bridge builds (limit) change.
+
+# Earlier: v1.5.1-e — experimental: CarPlay map survives boot, Android Auto map no longer freezes
+
+**EXPERIMENTAL — TO BE TESTED.** Update of v1.5.0-e for **K4525 / P4521 MU1367 + AID
+791**. Use v1.4.6 for a stable CarPlay installation. This rebuild of v1.5.1-e replaces
+the first v1.5.1-e package published on 2026-11-10 (archive `444b4c2f…`).
+
+- **The CarPlay map on the AID no longer drops out shortly after every boot.** In the
+  v1.4.6-e test exports, the video bridge exited about 18 s after it started, on every
+  boot, with `MOST write failed: Not enough memory`. The supervisor restarted it about
+  4 s later. The unit's own log shows the cause. While the unit boots, the factory video
+  encoder opens the same MOST output (`isoTX2`) about 15 s after the bridge has taken it,
+  flushes its queue and keeps running until the cluster display is handed back to the
+  map. The bridge's next write then fails. It is not low system memory (over 850 MB
+  was free) and not the high boot CPU load. Now, in the first 3 minutes after boot,
+  the bridge hands the cluster display back to the map itself (the supervisor's own
+  `dmdt` release), reopens the output and asks the phone for a fresh key frame. The
+  map should stay up or come back after a short hiccup, without the 4 s gap and the
+  flash of the VW screen. It tries at most 3 times; after that, or later than 3 minutes
+  after boot, the bridge exits and the supervisor restarts it as before. The
+  diagnostics export shows each attempt as `bridge: most-reclaim attempt=…` in the
+  bridge log.
+- **The CarPlay bridge is now built from this repository's source.** Earlier releases
+  used the upstream binary from the omonob toolbox v2.0.0 (GCC 4.9.4). That compiler
+  is not available here, so the new bridge is built from the same reviewed source with
+  the reclaim added, using the pinned QNX 6.5 SDK linker. The Android Auto feeder and
+  bridge are built the same way. The main layer installs the new bridge and saves the
+  upstream one in its snapshot; removal and recovery put the upstream bridge back.
+- **The Android Auto map on the AID no longer freezes after a hiccup.** The first car
+  test showed native guidance working but the cluster map freezing. The CarPlay map
+  bridge, which v1.5.0-e also used for Android Auto, stops showing new frames after a
+  gap in the stream or a short MOST backlog until the phone sends a new keyframe.
+  CarPlay sends one on request; an Android phone sends only one per connection, so the
+  map stayed frozen until a reconnect. Android Auto now runs its own build of the same
+  bridge that keeps showing frames. It has the boot-time reclaim too, without the key
+  frame request.
+- **Diagnostics export** (Diagnostics > Export diagnostics to SD) now includes the
+  Android Auto feeder, bridge and session summaries (`pmcp-aa-*`) and the Android Auto
+  layer state.
+- **Updating from v1.5.0-e or the first v1.5.1-e** goes through the usual two stages,
+  because the main layer now also owns the CarPlay bridge. Stage 1 removes the Android
+  Auto layer (the factory `gal` comes back from its snapshot) and the main layer, then
+  asks for a full reboot. After the reboot, run the same install entry again to
+  install everything. All earlier snapshots are kept.
+
+The car log also showed USB errors (`CRC_ERR|STALL`) that disconnected the phone twice,
+and the phone's main-screen Android Auto video ran at 13–17 fps. Use a short, good data
+cable; a weak USB link can make the picture stutter on its own.
+
+The six CarPlay runtime payloads (guidance, core, menu, audio, tuning) and compressed
+artwork are byte-identical to v1.5.0-e.
+
+# Earlier: v1.5.0-e — experimental Android Auto on the AID
+
+**EXPERIMENTAL — TO BE TESTED.** Based on stable v1.4.6, for **K4525 / P4521 MU1367 +
+AID 791**. P4521 installation remains experimental. This package has **no vehicle
+result yet**, neither for Android Auto nor for the unchanged CarPlay features. Use
+v1.4.6 for a stable CarPlay installation.
+
+## Android Auto in the same installation
+
+The same **Install / update CarPlay integration (reboot)** entry now installs
+Android Auto support together with every CarPlay feature of v1.4.6. There is no
+separate Android Auto install step. With an Android phone on the cable:
+
+- **Google Maps picture on the AID**, over the head unit's own MOST video path, like
+  the CarPlay map. The MU menu's cluster map switch applies to Android Auto too:
+  with the map off, the AID keeps its VW content.
+- **Native VW turn arrows with distance** and the countdown bar from Google Maps
+  steps, through the same route guidance as CarPlay. A phone that stops navigating
+  releases the arrow after 10 s; CarPlay keeps its 3-minute hold.
+
+CarPlay is unchanged. Only the guidance JAR changes in the CarPlay runtime; the map
+core, menu, audio, compressed artwork, reader and driver bytes match v1.4.6.
+
+**How it works.** The factory Android Auto receiver (`gal`) is started through a
+small wrapper that loads MacsInSpace's cluster-map hook. The hook offers the phone a
+second 800 × 480 display and hands its H.264 video to a feeder, which writes it into
+the ring the CarPlay map bridge already sends to the AID. The hook also turns Google
+Maps' navigation messages into the mailbox format the CarPlay route guidance reads.
+Both MU1367 trains carry the same factory `gal`, and it matches the hook's
+car-tested P4521 profile exactly. Hook, feeder and route translation come from
+[chrzanowy/mhi2-aid-carplay](https://github.com/chrzanowy/mhi2-aid-carplay) v1.5.0
+(tested there on a Passat B8, MU1161 + AID 791). For MU1367 the feeder also respects
+the MU menu map switch and holds the same video-cache lease as the CarPlay bridge.
+
+**New menu entries:** **Android Auto cluster map: off / on** switch only the hook.
+With it off, Android Auto runs exactly as from the factory from the next connection.
+
+**Removal:** **Recovery > Remove latest update only** removes Android Auto first and
+puts the factory `gal` back from its verified snapshot, then the CarPlay update. The
+menu's **RESTORE OEM** removes Android Auto first as well.
+
+## Known limits of Android Auto
+
+- No vehicle result on MU1367 yet.
+- The picture starts about 5 s after the phone connects. Now and then it starts dark
+  until the phone's next key frame; reconnecting the phone helps.
+- No VW arrow at the very first step of a route. Remaining distance and arrival time
+  stay in the Google Maps picture. No VW lanes or road name from Android Auto.
+- The MU menu's frame rate and turn-card settings apply to CarPlay only. The Android
+  Auto stream is 30 fps.
+- Track title and album art on the AID remain CarPlay-only.
+
+# Earlier: v1.4.6 — stable: U-turn lanes, Apple Maps languages, 27 fps and compressed artwork
 
 Stable release of the v1.4.6-e build for **K4525 / P4521 MU1367 + AID 791**. P4521
 installation remains experimental. Everything in v1.4.6-e below is included, with two

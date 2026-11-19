@@ -1,10 +1,10 @@
 {
   "rebuild": {
-    "CarPlayMU1367Guidance.jar": "723005758477c39e723725774b2ea2a52535e0567537dd55be2db62a63df3166",
+    "CarPlayMU1367Guidance.jar": "afa636fd756509c935f9dc2fb97008efed0902eeb7acf72fd6e57ee1cf51053c",
     "CarPlayMU1367Audio.jar": "c5a0f63c22b8f9b10fc4b54b8239bea57e2693cbecc15d7d71119e999feefff3",
-    "base/core.so": "d28b6b71ff83a98e43280a943cf56bd3bc52ee236fc4ed3aa9e1a97fc73e5979",
-    "base/VCMenu.jar": "ed60cd274415a13c64ee68819596950ab987bcd462bd0c5aa66a8000edcc6942",
-    "tuning/core.so": "cb4468b9d32c7c3787cce278542c19d79bc6e19f36d74a3f5bebdc82579adf39",
-    "tuning/VCMenu.jar": "a9c922415596656623f00bd7530bfb42a289bf4bff7da3d3df70cdc562c6674f"
+    "base/core.so": "8a5dc031692235ac6f12ad29aec03199f916db7ce0ed2de93e351be931b9e05f",
+    "base/VCMenu.jar": "6388e8bc33f26647f61db5662063370d6c7d1b7b0f88d20d4973cc6305c9ac0b",
+    "tuning/core.so": "70ebc108e625a946ad3ce5589b81c352a1622d90b372aa3ece658583ebf85e60",
+    "tuning/VCMenu.jar": "74766a645ba7b84f5718f4e481d230cc4a6e933ebea7eeff2c58227b94a604b0"
   }
 }

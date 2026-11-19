@@ -1,0 +1,68 @@
+{
+  "firmware": "MHI2_ER_VWG13_P4521_MU1367",
+  "reviewed": "2026-11-17",
+  "variants": {
+    "50": {
+      "btstack": "dd80ce8f6d95589cc4db6674150a595b8412d132e2d9e689fbfe9f72e5789251",
+      "connectionmanager": "61069e02053104e93f06ee81b26ade79ac0bd1c50907b930ed3b6441a6e533d1",
+      "jxe": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a"
+    },
+    "70": {
+      "btstack": "dd80ce8f6d95589cc4db6674150a595b8412d132e2d9e689fbfe9f72e5789251",
+      "connectionmanager": "61069e02053104e93f06ee81b26ade79ac0bd1c50907b930ed3b6441a6e533d1",
+      "jxe": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a"
+    }
+  },
+  "production_configs": {
+    "50": {
+      "connectivity.json": {
+        "mode": "0o100755",
+        "extents": [
+          [
+            8,
+            13
+          ]
+        ],
+        "size": 8699,
+        "sha256": "b2641ce4e817c27c8db53aa25fa0de43083c06f7dcbba4c5966caf8b0d1692ef"
+      },
+      "smartphone_integrator.json": {
+        "mode": "0o100755",
+        "extents": [
+          [
+            5,
+            29
+          ]
+        ],
+        "size": 7360,
+        "sha256": "bfcf8cefcf28107e7c6465914b4f94652e81f9ec8a385664cf93a6543bd5b837"
+      }
+    },
+    "70": {
+      "connectivity.json": {
+        "mode": "0o100755",
+        "extents": [
+          [
+            8,
+            13
+          ]
+        ],
+        "size": 8699,
+        "sha256": "b2641ce4e817c27c8db53aa25fa0de43083c06f7dcbba4c5966caf8b0d1692ef"
+      },
+      "smartphone_integrator.json": {
+        "mode": "0o100755",
+        "extents": [
+          [
+            6,
+            4
+          ]
+        ],
+        "size": 7360,
+        "sha256": "bfcf8cefcf28107e7c6465914b4f94652e81f9ec8a385664cf93a6543bd5b837"
+      }
+    }
+  },
+  "matches_checked_K4525_inputs": true,
+  "scope": "JXE, btstack, connectionmanager and two production configs only. No P4521 on-car wireless test."
+}

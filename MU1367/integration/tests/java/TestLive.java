@@ -10,6 +10,7 @@ import de.vw.mib.bap.mqbab2.generated.navsd.serializer.*;
 
 public final class TestLive {
     static int checks, connection=2, route=0, status=0, unit=0;
+    static int etaSetting=0, clockHour=23, clockMinute=50, timeFormat=0; static boolean clockValid=true;
     static long clock=1000;
     static boolean accept=true,setupLane=true;
     static String stockRoad="OEM fixture road";
@@ -32,6 +33,12 @@ public final class TestLive {
                 if (n.equals("getNavigationService")) return named(t.getName(),"nav");
                 if (n.equals("getSmartphoneIntegrationService")) return named(t.getName(),"phone");
                 if (n.equals("getServices") || n.equals("getTimerManager") || n.equals("getSystemService")) return named(t.getName(),n);
+                if (n.equals("getBundleContext") || n.equals("getServiceReference")) return named(t.getName(),n);
+                if (n.equals("getService") && kind.equals("getBundleContext")) return named("de.vw.mib.datapool.ASLDatapool","pool");
+                if (n.equals("getTimeToDestinationTimeInfo")) return Integer.valueOf(etaSetting);
+                if (n.equals("getSystemTimeFormat")) return Integer.valueOf(timeFormat);
+                if (kind.equals("pool") && n.equals("getBoolean")) return Boolean.valueOf(((Integer)a[0]).intValue()==3572 && clockValid);
+                if (kind.equals("pool") && n.equals("getInteger")) { int id=((Integer)a[0]).intValue(); return Integer.valueOf(id==1640?clockHour:id==1641?clockMinute:-1); }
                 if (n.equals("getSystemTimeMillis")) return Long.valueOf(clock);
                 if (n.equals("getSmarphoneIntegrationActiveConnectionType")) return Integer.valueOf(connection);
                 if (n.equals("getCurrentDistanceUnit")) return Integer.valueOf(unit);
@@ -85,6 +92,22 @@ public final class TestLive {
         check(duration.timeInfo.timeInfoType==0 && duration.timeInfo.hour==1 && duration.timeInfo.minute==2,"remaining duration rounded up to minutes");
         check(duration.validityInformation.timeInfo_HourIsValid && duration.validityInformation.timeInfo_MinuteIsValid,"remaining duration valid");
         check(!duration.validityInformation.timeInfo_DayIsAvailableToBeDisplayed,"duration has no date");
+        // v1.5.4: OEM arrival-time setting -> HMI clock + remaining time (3661 s -> 61 min, rounded to nearest).
+        etaSetting=1; clockHour=23; clockMinute=50; clockValid=true; timeFormat=0;
+        TimeToDestination_Status eta=new TimeToDestination_Status(); check(LiveBridge.destinationTime(eta),"arrival time written");
+        check(eta.timeInfo.timeInfoType==1 && eta.timeInfo.hour==0 && eta.timeInfo.minute==51,"arrival 23:50 + 61 min wraps to 00:51");
+        check(eta.timeInfo.navigationTimeFormat==1 && eta.validityInformation.timeInfo_HourIsValid && eta.validityInformation.timeInfo_MinuteIsValid,"arrival valid, system format 0 -> BAP 12 h flag as stock");
+        check(!eta.validityInformation.timeInfo_DayIsAvailableToBeDisplayed && !eta.validityInformation.timeInfo_MonthIsAvailableToBeDisplayed && !eta.validityInformation.timeInfo_YearIsAvailableToBeDisplayed,"arrival has no date");
+        timeFormat=1; LiveBridge.destinationTime(eta); check(eta.timeInfo.navigationTimeFormat==0 && eta.timeInfo.hour==0,"system format 1 -> BAP 24 h flag");
+        clockHour=9; clockMinute=5; LiveBridge.destinationTime(eta); check(eta.timeInfo.hour==10 && eta.timeInfo.minute==6,"arrival 09:05 + 61 min = 10:06");
+        clockValid=false; LiveBridge.destinationTime(eta);
+        check(eta.timeInfo.timeInfoType==0 && eta.timeInfo.hour==1 && eta.timeInfo.minute==2 && eta.validityInformation.timeInfo_MinuteIsValid,"no valid HMI clock: remaining time as before");
+        clockValid=true; clockHour=24; LiveBridge.destinationTime(eta); check(eta.timeInfo.timeInfoType==0,"out-of-range clock: remaining time");
+        clockHour=23; etaSetting=0; LiveBridge.destinationTime(eta); check(eta.timeInfo.timeInfoType==0 && eta.timeInfo.hour==1 && eta.timeInfo.minute==2 && eta.timeInfo.navigationTimeFormat==0,"setting back to time to destination");
+        check(ArrivalClock.arrival(0,0)==0 && ArrivalClock.arrival(1439,30)==0 && ArrivalClock.arrival(600,29)==600 && ArrivalClock.arrival(0,86400*3+60)==1,"arrival rounding and day wrap");
+        etaSetting=1; b.selected=new LiveModel.Frame(true,13,192,-1,-1,-1,1,clock,1); LiveBridge.destinationTime(eta);
+        check(!eta.validityInformation.timeInfo_MinuteIsValid && eta.timeInfo.timeInfoType==0,"arrival setting without remaining time stays invalid");
+        b.selected=b.incoming; etaSetting=0;
         b.selected=new LiveModel.Frame(true,13,192,30,0,0,1,clock,1);
         DistanceToNextManeuver_Status scaled=new DistanceToNextManeuver_Status(); LiveBridge.distance(scaled);
         check(scaled.distanceToNextManeuver.distance==400 && scaled.distanceToNextManeuver.unit==0,"30 meters uses factory rounding and tenfold BAP scale");

@@ -173,6 +173,93 @@ mock mounts and do not establish vehicle endurance or power-loss durability.
 The earlier v1.4.1-only standalone reader test is historical; this experimental
 release uses the integrated builder above.
 
+## Experimental v1.5.1-e Android Auto bridge
+
+Car test 2026-11-10 (`Logs/AA`): guidance worked, the cluster map froze. The MU1367
+bridge's `process_frame` enters low-latency recovery on a source-sequence gap or a backlog
+over `TS_LOW_LATENCY_LIMIT_PACKETS`, then discards frames until a keyframe and requests one;
+the AA feeder never forwards that request. `-DALTSCREEN_AA_SINGLE_IDR` builds
+`altscreen-most-bridge-aa` (by `tools/build-aa-feeder.py`), which logs and counts
+(`aa-chain-gap-kept`, `aa-backlog-kept`) and keeps forwarding. The feeder (v10-mu1367.2)
+starts it from `carplaymaps/aa`, and matches CarPlay's bridge by exact program name.
+`tests/android-auto/e2e/bridge_recovery.py` runs both builds after a sequence gap
+(CarPlay 29/89 P slices and an IDR request; AA 89/89, none). `cpmap_diag.sh` exports
+`/ramdisk/pmcp-aa*`. The AA controller upgrades layers of the builds in `AA_PREVIOUS`
+(published v1.5.0-e and the car-tested pre-release build, whose main controllers are
+`tests/revisions/test-v1.5.0-e-pre`) in place. All six runtime payloads are unchanged from
+v1.5.0-e.
+
+## Experimental v1.5.1-e CarPlay bridge: boot-time MOST reclaim
+
+Exports 2026-11-10 (`Logs/v145/user2`, v1.4.6-e): the first bridge of every boot exits
+about 18 s after it starts with `MOST write failed: Not enough memory`. The boot slog shows
+the factory `NvVideoStreamEncoder` + `TsMux` opening `isoTX2` twice (flush + START, about
+15 s after the bridge), `io_write(): Error: ENOMEM` for the bridge, and the encoder
+closing only after the supervisor's next `dmdt dc 72` / `sc 4 72`. `most_writer_thread` now
+treats ENOMEM within `ALTSCREEN_BRIDGE_RECLAIM_WINDOW_US` (180 s of `CLOCK_MONOTONIC`, i.e.
+uptime) as recoverable, at most `ALTSCREEN_BRIDGE_RECLAIM_MAX` (3) times. It closes the
+device, re-runs the same `dmdt` release (environment built before `fork`, 3 s timeout),
+waits 0.5 s, reopens, flushes, restarts, and re-sends PAT/PMT. The input thread then enters
+the usual low-latency recovery: it waits for healthy writes and requests an IDR. The AA build
+only marks a discontinuity. Anything else keeps the old exit and supervisor restart.
+
+`tools/build-aa-feeder.py` also builds the CarPlay bridge (`altscreen-most-bridge`, no
+flags) twice with the same clang/QNX binutils recipe and resolves its imports in the factory
+libc. The upstream `6c5210ca…` was built with GCC 4.9.4, which is not available here. The main
+transaction owns a fifth file, `bridge` → `carplaymaps/altscreen-most-bridge` (before:
+the settings layer's upstream bridge), so `actions.sh` validates it in removed snapshots
+(`@BRIDGE_VERSIONS@`). The published v1.5.0-e main controllers (identical in the first
+v1.5.1-e) are archived under `tests/revisions/release-v1.5.0-e` and registered in
+`legacy-revisions.json`, so those installs take the two-stage migration, whose stage 1
+removes their Android Auto layer. The first v1.5.1-e Android Auto layer is in
+`tests/revisions/release-v1.5.1-e` and `AA_PREVIOUS`.
+
+Tests: `tests/android-auto/e2e/most_reclaim.py` (from `test-aa-host.py`) runs host builds
+with `ALTSCREEN_BRIDGE_TEST_ENOMEM_AT_BLOCKS` / `_REPEAT` and a fake `dmdt`. It covers the
+CarPlay reclaim, IDR request and resume, AA reclaim without an IDR request, exhaustion after
+three attempts, and no reclaim outside the window (18 checks). `test-aa-feeder-qnx.py` runs both
+bridge builds on QNX with the factory libraries. `test-actions-qnx.py` checks the installed
+bridge and its restore. `test-package.py` adds `release-v1.5.0-e` to the migration matrix (80
+combinations), bridge commit-fault rollback, and the published v1.5.1-e + Android Auto
+upgrade.
+
+## Experimental v1.5.0-e Android Auto
+
+Based on the published stable v1.4.6 archive `91d2530c…`. Analysis of chrzanowy/mhi2-aid-carplay `af98480` for MU1367:
+
+- **Hook.** K4525 and P4521 (HW 50 and 70) ship the same `gal` (`f8472217…`) and
+  `libautoreceiver.so` (`b04cb5cf…`). Its exported-symbol fingerprint and constructor
+  guard word match the hook's car-tested P4521 profile; the pinned `libgal_hook.so`
+  (`bdd76a85…`, tag `07361db-pmcp-g2`) contains that record once.
+  `tools/verify-aa-hook.py FIRMWARE OUT` re-checks all of this. The binary is used
+  unchanged; `src/android-auto/hook` keeps the pmcp sources and recipe.
+- **Video.** The feeder writes the same ring (`CPRG`, 64 × 0x4001c) and uses the same
+  bridge, `dmdt`, MOST device and paths as the MU1367 supervisor. MU1367 changes in
+  `src/android-auto/feeder` (v10-mu1367.1): the shared video-cache lease for the whole
+  MOST session (the MU1367 supervisor deletes the ring while CarPlay is idle), and the
+  supervisor's map policy (`cpvc_video_requested`). `aeabi_conv.c` supplies the two
+  conversions the factory libc lacks. `tools/build-aa-feeder.py` builds it twice with
+  the pinned SDK image and resolves every import in the factory libc/libsocket.
+- **Guidance.** ASL connection type 3 is DSI `GAL` on K4525
+  (`SmartPhoneIntegrationHelper.convertConnectionMethod`). `LiveBridge` reads
+  `/ramdisk/pmcp-aa-rg` for type 3 with a 10 s hold, otherwise the CarPlay directory
+  unchanged. Destination distance/time absent in the AA mailbox stay on the factory path.
+- **Install.** `tools/android-auto.sh` is the controller of the new layer
+  `carplay-mu1367-android-auto`, generated by `package.py` with exact hashes and run as
+  the last step of the suite install; uninstall/recover remove it first. Its directory
+  is not archived by the OEM reset, so the wrapper keeps a factory `gal` to run.
+  No new unit commands (`rmdir` is avoided). The menu's OEM reset removes it first.
+- v1.4.6 controllers/payloads are archived under `tests/revisions/release-v1.4.6`
+  and registered in `legacy-revisions.json`.
+
+Tests: `tests/test-android-auto-guidance.py` (hook mailbox → release JAR),
+`tests/java/TestAndroidAuto.java` (in `test-guidance.py`), the feeder harness
+`tests/android-auto/feeder/run_host_test.py`, the end-to-end
+`tests/android-auto/e2e/run_e2e.py` (real MU1367 bridge and supervisor built for the
+host), `tests/test-aa-feeder-qnx.py` (QEMU, factory libraries),
+`tests/test-android-auto-layer.py` (controller, wrapper, fault injection) and the
+extended `test-actions-qnx.py`. Native host parts run in the Debian test image.
+
 ## Stable v1.4.6
 
 Built from v1.4.6-e (verified package `a33c03d4…`, published ZIP `d38a53b3…`).
@@ -281,3 +368,145 @@ Run `test-package.py`, `test-release-reader-transaction.py`, `test-p4521.py` and
 `test-payload-checks.py` in the disposable Debian/ksh93 container without network,
 then `verify.py` with every proof. The factory-J9 guidance run now includes
 `TestQuietQnx`; the host programs include `TestQuietHold`.
+
+## Experimental v1.5.2-e: v1.2.2 safe area and 2048-packet backlog
+
+Comparison with the v1.2.2 toolbox (`VW_SKODA_ALL_CarPlay_Maps_VC_FULL_MQB_Toolbox_V4.2A_v1.2.2.zip`):
+same bridge as the pre-v2 profiles (`c846e505…`, GCC 4.4.2, unstripped), whose transport and
+recovery constants match ours (1024-packet limit, 30 ms fast write, PSI/PCR every 327 packets).
+Its MU1367/791 core declares `maxFPS` 40, the plain `maps:/car/instrumentcluster/map` scene,
+IDR 5 and safe area 160,20,480,440. v2.0 changed the bridge build and the safe area
+(200,96,400,364) together.
+
+- `src/runtime/card-core/source/display_settings.h`: the map-only `cpvc_display_area` returns
+  160,20,480,440. Only `base/core.so` changes (`RUNTIME.json`); the card-tuning override keeps
+  its layout table, so `tuning/core.so` is unchanged.
+- `altscreen_most_bridge.c`: `TS_LOW_LATENCY_LIMIT_PACKETS` 2048 (was 1024) for every stream
+  setting; the bridge logs `latency-limit packets=… reclaim-window-s=…` at start.
+  `tests/android-auto/e2e/backlog_limit.py` (from `test-aa-host.py`) runs the 2048 build and a
+  1024 build on the same bursts of 145 KB frames: about 1390 queued packets resets only with
+  1024 (car: 1377), about 2650 resets with both.
+- Published v1.5.1-e (`54dfbbab…`) is the base archive. Its main controllers are registered as
+  `release-v1.5.1-e` (they own the bridge, so `@BRIDGE_VERSIONS@` also lists legacy owners) and
+  its Android Auto layer is in `AA_PREVIOUS`. The first v1.5.1-e Android Auto fixture moved to
+  `tests/revisions/release-v1.5.1-e-first`. Migration matrix: 88 combinations.
+
+## Stable v1.5.2
+
+Built from v1.5.2-e (published ZIP and verified package `718b9bb9…`, vehicle-tested).
+
+- Default stream: `display_settings.h` (base and tuning) and `DisplaySettings.DEFAULT_STREAM`
+  use stored value 1, 40 fps / IDR 5. The menu offers positions 25, 30, 40 fps (stored
+  4, 2, 1). Stored 5 and 6 (20 and 27 fps) run at 40 fps natively and map to the 40 fps
+  position in the menu. Guidance, audio, reader and both bridges are byte-identical to
+  v1.5.2-e; only the base and tuning core and menu change (`RUNTIME.json`).
+- P4521: `actions.sh` reports `MU1367_FIRMWARE_TYPE=P4521`; the manifest marks both
+  trains non-experimental.
+- Saved snapshots: `actions.sh` actions `snapshots`, `snapshot-next`, `snapshot-remove`
+  and `snapshots-remove-all`, run through generated `Toolbox/scripts/cpmap_suite_*.sh`
+  wrappers from a new **Tuning** section (`package.py` `SNAPSHOT_ENTRIES`). Listed:
+  `/mnt/app/carplay-mu1367*.removed-<digits>`, `*.stale-<digits>`,
+  `carplay-mu1367-oem-reset.completed-<digits>`, `carplay-mu1367-oem-reset` with
+  `STATE` `complete`, and `/mnt/icab/persistent/cpmap-ui.saved-<digits>`; only real
+  directories, never links or live layers. Sizes come from factory `ls -alR` + `awk`
+  (the unit has no `du`). The selection is `/ramdisk/.cpmap-snapshot-selected`. Removal
+  takes the installer lock, refuses while an install runs and renames the completed
+  reset before deleting it. `parents()` assigns `D`, so the snapshot code uses `SD`.
+  Tests: `test-package.py` `test_saved_snapshots_list_select_remove` and the
+  factory-shell block in `test-actions-qnx.py` (`RELEASE_FACTORY_SNAPSHOTS_PASS`).
+- Published v1.5.2-e controllers are `tests/revisions/release-v1.5.2-e` (registered,
+  bridge owners); its Android Auto build `32e92312bde1` is in `AA_PREVIOUS`. Migration
+  matrix: 96 combinations.
+
+
+## Experimental v1.5.3-e: startup animation and bridge priority
+
+Built on stable v1.5.2 (published ZIP and verified package `63e9f01b…`).
+
+- Startup clip: `src/runtime/vc-runtime/intro/cp_intro_badge_baseline.h264` (800×480
+  Constrained Baseline, 126 access units at 30 fps, one AUD each, IDR + SPS/PPS every
+  14 frames). `tools/make-intro-header.py` turns it into `cpmap_intro_clip.h` (`--check`
+  compares). The CarPlay bridge includes the header; the Android Auto build
+  (`ALTSCREEN_AA_SINGLE_IDR`) compiles all intro code out, because an Android phone
+  cannot answer the IDR request that ends the clip. Embedding avoids a new transaction
+  file: the bridge is already a main-layer payload with an upstream "before" hash.
+- `play_intro_clip()` is the upstream `play_intro_annexb()` reading the built-in clip
+  instead of `$CARPLAY_CLUSTER_INTRO` (which the wrappers unset). After the clip the
+  bridge skips the ring, requests an IDR and resumes on it (`intro-live-resume-idr`).
+  Policy: `cpmap_intro_policy.h` reads the MU UI's `animation.state` (missing:
+  once per boot, damaged: off); the once-per-boot marker is
+  `/ramdisk/carplay-v725-intro-played`. When the clip does not play, the bridge starts as
+  v1.5.2 did (first ring entry, no IDR request). Upstream's "skip the ring and wait for
+  an IDR" branch for that case was never active in our builds and is gone.
+- Menu: `IndependentMenuViewBridge` field 8 uses the existing `AnimationSettings` store
+  and `AnimationMenuMessages` (English row name now "Startup animation"). Base rows
+  `{0,1,3,6,8}`; tuning rows `{0,1,5,6,7,8}`: the page holds six 91 px rows, so
+  animation replaces Wireless CarPlay (test), whose `wireless-carplay.state` nothing
+  reads. Display fields are matched as 6/7 (`display()`), not `>=6`.
+- Priority: `raise_bridge_priority()` sets the input and writer threads to
+  `ALTSCREEN_BRIDGE_PRIORITY` (14) with `pthread_setschedparam`, never lowering a higher
+  value. Heartbeat logs: nav `MR_JobManager`/`MR_OpenGL`/`ADAS::HP` 10, `MapPositioning`
+  13, `AirPlayScreenReceiver` 17, `NvSS_VideoDecod` 19; `devp-iso-mmx` 16. A ring
+  overrun needs the reader to miss 64 frames: past 2048 queued packets it discards
+  rather than blocks, so a stalled writer alone cannot overrun the ring.
+- Tests: `tests/android-auto/e2e/intro_clip.py` (15 checks: byte-exact clip in the TS,
+  requested IDR, once per boot, off, every connection with a reconnect, Android Auto
+  without clip); earlier CarPlay bridge host tests run with the marker present (v1.5.2
+  start path). `test-aa-feeder-qnx.py` asserts `priority … target=14 status=0` for both
+  bridges on the factory libc. `test-runtime.py` adds `TestAnimation.java` →
+  `test_animation.c` (Java writer, C reader) and the 5-row base menu.
+- Published v1.5.2 controllers are `tests/revisions/release-v1.5.2` (registered, bridge
+  owners); its Android Auto build `74fd41b287c3` is in `AA_PREVIOUS`. Migration matrix:
+  104 combinations.
+
+## Stable v1.5.3
+
+Built from the vehicle-tested v1.5.3-e (published ZIP and verified package
+`28de02d3…`). `RUNTIME.json` pins and the clip are unchanged. One bridge fix:
+`play_intro_clip()` no longer writes the IDR request; `intro_skip_and_request_idr()`
+records the ring head first and requests the IDR afterwards (at start and on a
+reconnect). Before, a fast answer could land between the request and the head read,
+be skipped, and leave the bridge waiting for a key frame that had already passed
+(found by `intro_clip.py` case A under host load: `drops=78`, no live frames). The
+test now checks that the answer's ring sequence is above the skipped range (16
+checks). The Android Auto bridge is rebuilt from the same source (intro code compiled
+out). The controller header and banner change, so the layer build IDs are new.
+
+- Published v1.5.3-e controllers are `tests/revisions/release-v1.5.3-e` (registered,
+  bridge owners); its Android Auto build `95f7bc5f3cc4` is in `AA_PREVIOUS`. Migration
+  matrix: 112 combinations.
+
+## Stable v1.5.4
+
+Built on stable v1.5.3 (published ZIP and verified package `011d37a7…`). Both menus,
+audio and reader are unchanged; guidance and both `core.so` change. The bridge and feeder
+sources are unchanged, but Xcode moved Apple clang from 17 to 21, so the CarPlay bridge,
+the Android Auto bridge and the feeder are new binaries (`verify.py` pins their sources to
+v1.5.3 and requires the rebuild); the host and QNX bridge proofs run against them.
+
+- **Arrival time.** `ArrivalClock` reads the OEM choice from
+  `NavigationService.getTimeToDestinationTimeInfo()` (datapool 1110059; 1 = arrival time),
+  as the stock `TimeToDestination.setTimeInfo()` does. The stock arrival values come from
+  the OEM route (ASL list 750), which CarPlay does not have, so the arrival time is the
+  HMI clock (datapool `TIME__HOUR` 1640 / `TIME__MINUTE` 1641, written by
+  `AslTargetSystemDate.dsiUpdateClockTime`, only while `TIME_VALID` 3572) plus the phone's
+  remaining seconds rounded to the nearest minute, modulo 24 h. The datapool comes from the
+  same OSGi lookup as `APIFactory.getService(ASLDatapool.class)`. `timeInfoType=1`,
+  `navigationTimeFormat` as stock (system format 0 → 1), no day/month/year. Without the
+  setting or a valid clock the output is exactly v1.5.3's. Guidance build
+  `MU1367-guidance-v1.5.4`; `adapter-status.txt` adds `eta_setting`, `eta_clock_min`,
+  `eta_arrivals`, `eta_fallbacks`. `TestLive` covers wrap, 12/24 h, invalid clock and
+  setting changes.
+- **Stream test.** `display_settings.h` reads `stream-test.conf` (exactly
+  `fps=N\nidr=N\n`, fps 20–40, idr 5–15) next to `display.state`; when valid it overrides
+  `cpvc_display_fps()` / `cpvc_display_idr()`. The core logs `stream-settings` after
+  `maxFPS` and `stream-idr-interval` per video connection, and re-reads the IDR interval
+  there. `actions.sh stream-*` (eight Toolbox entries in the diagnostics menu) write the
+  file without the installer lock. The firmware has no `printf`, `sleep` or `tail`, its
+  awk aborts on a regular expression passed in a variable, and its ksh aborts on `$(f)`
+  when `f` runs `case "$(…)"`; the actions avoid all of these and are tested on the
+  firmware shell (`RELEASE_FACTORY_STREAM_TEST_PASS`). `tests/diagnostics/test_stream_test.c`
+  checks the parser for both cores.
+- Published v1.5.3 controllers are `tests/revisions/release-v1.5.3` (registered, bridge
+  owners); its Android Auto build `05631145bd45` is in `AA_PREVIOUS`. Migration matrix:
+  120 combinations.

@@ -322,7 +322,7 @@
   "Toolbox/scripts/import_gracenote.sh": "5ab89ae0c9c66acf1d2face73afa1135e2ad4f207c22729e4f50bf2a035274c2",
   "Toolbox/scripts/dump_engdefs.sh": "b643a1da54aae876492efc10ae121ccdda7c3c17208ac997fe6b2c5b04248a49",
   "Toolbox/scripts/util_crc16.sh": "045a5939e2383d62826cb02bd1b36cbed9999dd2c5bad68f6ae1299d08399eee",
-  "Toolbox/scripts/cpmap_diag.sh": "68b8bae25a6047a5bc794dce72f4277e1de90443eeff25f90599312adbe1470c",
+  "Toolbox/scripts/cpmap_diag.sh": "1f08eb65871df5115a3b74dce7f6f663c2764bdc8589228766e77a866c499fe0",
   "Toolbox/scripts/dump_fec.sh": "02bebd05b712a5527b1cad7775b4a1adc7187a22f1ef8bf005b05ff14648a74a",
   "Toolbox/scripts/util_mountsd.sh": "9c8827cf29c70b302ee6223926607dd6d0b785d490d3097048e89e552f40bd69",
   "Toolbox/scripts/install_nav_active_ignore.sh": "464c40a872d24aa0023921be7ad0eb2b001bbc12da18145b0f45fa48f9c16864",

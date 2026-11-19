@@ -40,7 +40,9 @@ public final class IndependentMenuViewBridge {
     private final Container page;
     private final int stockHeight;
     private final WidgetModel[] originalParentChildren, originalViewChildren;
-    private static final int[] FIELDS={0,1,3,6};
+    private static final int[] FIELDS={0,1,3,6,8};
+    /* v1.5.3-e: 8 = startup animation (AnimationSettings, read by the CarPlay bridge). */
+    private static final int ANIMATION=8;
     private final ButtonModel[] rows=new ButtonModel[FIELDS.length], options=new ButtonModel[8], confirmationButtons=new ButtonModel[2];
     private final TextAreaModel[] names=new TextAreaModel[FIELDS.length], values=new TextAreaModel[FIELDS.length], optionLabels=new TextAreaModel[8], confirmationLabels=new TextAreaModel[2];
     private final ListItemModel[] choiceItems=new ListItemModel[8];
@@ -228,7 +230,7 @@ public final class IndependentMenuViewBridge {
         ((TemplateListModel)stockList).setWidgetCloneFactory(new EntryCloneFactory());
         ((ContainerModel)stockList).setChildren(append(originalStockChildren,entryItem));
         view.setChildren(append(append(originalViewChildren,page),popup));
-        log("INDEPENDENT_ENTRY_ATTACHED public_v2=1 fields=4 stock_mirrorlink_untouched=1 wireless_interface_only=1 card_position_selector=1");
+        log("INDEPENDENT_ENTRY_ATTACHED public_v2=1 fields=5 startup_animation=1 stock_mirrorlink_untouched=1 wireless_interface_only=1 card_position_selector=1");
     }
 
     public static void attach(AbstractViewHandler handler) {
@@ -312,8 +314,8 @@ public final class IndependentMenuViewBridge {
             WidgetModel separator=find(rows[i],"Separator");
             if(separator!=null)separator.set_x(569);
             int field=FIELDS[i];
-            names[i].set_text(field>=6?DisplaySettings.name(field):field<2?LinkedMessages.get(language,field):field==3?new StringBuffer(WirelessMenuMessages.get(language)).append(" (test)").toString():CardMenuMessages.get(language,0));
-            values[i].set_text(choice(field,field>=6?DisplaySettings.systemStore().read().choice(field):field<2?state.value(field):field==3?(wirelessStore.read().enabled?1:0):MenuClusterProfile.cardChoice(cardStore.read().position)));
+            names[i].set_text(field==ANIMATION?AnimationMenuMessages.get(language,0):display(field)?DisplaySettings.name(field):field<2?LinkedMessages.get(language,field):field==3?new StringBuffer(WirelessMenuMessages.get(language)).append(" (test)").toString():CardMenuMessages.get(language,0));
+            values[i].set_text(choice(field,field==ANIMATION?AnimationSettings.systemStore().read().mode:display(field)?DisplaySettings.systemStore().read().choice(field):field<2?state.value(field):field==3?(wirelessStore.read().enabled?1:0):MenuClusterProfile.cardChoice(cardStore.read().position)));
             applyFont(names[i]);applyFont(values[i]);
             names[i].set_alignmentHorizontal(rtl?AbstractTextModel.ALIGNMENTHORIZONTAL_RIGHT:AbstractTextModel.ALIGNMENTHORIZONTAL_LEFT);
             values[i].set_alignmentHorizontal(rtl?AbstractTextModel.ALIGNMENTHORIZONTAL_RIGHT:AbstractTextModel.ALIGNMENTHORIZONTAL_LEFT);
@@ -343,7 +345,8 @@ public final class IndependentMenuViewBridge {
         MenuFonts.apply(label,original,language);
     }
     private String choice(int field,int value) {
-        if(field>=6)return DisplaySettings.label(field,value);
+        if(field==ANIMATION)return AnimationMenuMessages.get(language,1+value);
+        if(display(field))return DisplaySettings.label(field,value);
         if(field==5)return MenuClusterProfile.cardLabel(language,value);
         if(field==3)return UiMessages.get(language,value==0?UiMessages.OFF:UiMessages.ON);
         if(field==ProjectionSettings.VC_MAP){
@@ -364,7 +367,7 @@ public final class IndependentMenuViewBridge {
     }
     private void renderChoices() throws Exception {
         ProjectionSettings.State state=store.read();
-        int count=choiceCount(activeField),current=activeField>=6?DisplaySettings.systemStore().read().choice(activeField):activeField<2?state.value(activeField):activeField==3?(wirelessStore.read().enabled?1:0):MenuClusterProfile.cardChoice(cardStore.read().position);
+        int count=choiceCount(activeField),current=activeField==ANIMATION?AnimationSettings.systemStore().read().mode:display(activeField)?DisplaySettings.systemStore().read().choice(activeField):activeField<2?state.value(activeField):activeField==3?(wirelessStore.read().enabled?1:0):MenuClusterProfile.cardChoice(cardStore.read().position);
         confirmation.set_visible(false);choiceList.set_visible(true);
         int visibleRows=Math.min(count,6);
         choiceList.set_height(visibleRows*91+3);
@@ -418,7 +421,12 @@ public final class IndependentMenuViewBridge {
     }
     private void closePopup(){popupBackground.set_visible(false);popup.set_visible(false);activeField=-1;pendingMap=-1;}
     private void commit(int field,int selected)throws Exception {
-        if(field>=6){DisplaySettings.systemStore().select(field,selected);closePopup();refresh();return;}
+        if(field==ANIMATION){
+            AnimationSettings.State animation=AnimationSettings.systemStore().set(selected);
+            log(new StringBuffer("ANIMATION_SAVED mode=").append(animation.mode).append(" generation=").append(animation.generation).toString());
+            closePopup();refresh();return;
+        }
+        if(display(field)){DisplaySettings.systemStore().select(field,selected);closePopup();refresh();return;}
         if(field==5){
             CardPositionSettings.State card=cardStore.set(MenuClusterProfile.cardPosition(selected));
             log(new StringBuffer("CARD_POSITION_SAVED position=").append(card.position).append(" generation=").append(card.generation).toString());
@@ -465,7 +473,8 @@ public final class IndependentMenuViewBridge {
         }
     }
     private static int rowForField(int field){for(int i=0;i<FIELDS.length;i++)if(FIELDS[i]==field)return i;throw new IllegalArgumentException("Unknown public field");}
-    private static int choiceCount(int field){return field>=6?DisplaySettings.count(field):field==5?MenuClusterProfile.cardCount():field==3?2:ProjectionSettings.choiceCount(field);}
+    private static boolean display(int field){return field==DisplaySettings.STREAM||field==DisplaySettings.LAYOUT;}
+    private static int choiceCount(int field){return field==ANIMATION?3:display(field)?DisplaySettings.count(field):field==5?MenuClusterProfile.cardCount():field==3?2:ProjectionSettings.choiceCount(field);}
     private final class EntryCloneFactory implements de.vw.mib.widgets.interfaces.WidgetCloneFactory{
         public de.vw.mib.widgets.interfaces.WidgetCloneable createWidgetCloneable(de.vw.mib.widgets.interfaces.WidgetCloneable source){
             if(source!=entryItem)return originalCloneFactory.createWidgetCloneable(source);

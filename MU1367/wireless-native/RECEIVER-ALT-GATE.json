@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "receiver_sha256": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+  "gate_virtual_address": "0xe4330",
+  "checks": 8,
+  "actual_receiver_code_executed": true,
+  "hardware_opened": false,
+  "log_sha256": "2126900b3a7b6fbf2a86cc966778a3c250d00421f5be9373ea325114d2484b30",
+  "reviewed": "2026-11-18",
+  "gate": "RAM probe OR persistent probe OR (altscreen.conf readable AND no readable wcp_alt_off)",
+  "vehicle_scope": "Receiver accepted session, listener running on 9997, only main display advertised, no alternate feed. Probe requires vehicle confirmation."
+}

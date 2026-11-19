@@ -1,0 +1,36 @@
+{
+  "source_repository": "https://github.com/chrzanowy/mhi2-aid-carplay",
+  "source_commit": "af98480112937b908b7604379fa35e0ddd64fcb4",
+  "hook_upstream": "https://github.com/MacsInSpace/mib-cluster-map",
+  "hook_upstream_commit": "07361db860b1d09e3901e9002b4222889a8a8c18",
+  "license": "GPL-3.0-or-later",
+  "libgal_hook.so": {
+    "sha256": "bdd76a85f22319c9750f7c55849b4053d4ce365446559025195673677bc73b05",
+    "size": 132823,
+    "build_tag": "07361db-pmcp-g2",
+    "recipe": "hook/build.sh <out> gamma (MacsInSpace 07361db + patch_no_sd.py, patch_keyframe.py, patch_config_kf.py, patch_rg.py with pmcp_rg.c)",
+    "toolchain": "qnx65-armv7-toolchain:8.5 sha256:1d63142818e84ae3d10c0774ac455ee0e527e7b4e600410b58d581536aade028",
+    "vehicle_tested": "MU1161 / P4512, AID 791 (upstream); not on MU1367"
+  },
+  "libdmdt_flush.so": {
+    "sha256": "4e3202f0f41b5ad5a96d86ff49adbe574ce550f7b168c9a5f385069ca0e5222f",
+    "size": 5328
+  },
+  "factory_gal": {
+    "sha256": "f84722179cbfb3c0bb92589e0fc58ffcfc3cc0860fabcdf426955e58d900daa0",
+    "size": 1269211,
+    "trains": ["MHI2_ER_VWG13_K4525", "MHI2_ER_VWG13_P4521"]
+  },
+  "factory_libautoreceiver": {
+    "sha256": "b04cb5cf3b8c9a003d2008844ff1434b6763a8e864b037251fafb65ce3a000c8",
+    "size": 1067402
+  },
+  "profile": {
+    "name": "MHI2_ER_VWG13_P4521",
+    "car_tested_upstream": true,
+    "fingerprint": ["0x00237f70", "0x00231e08", "0x00231d18"],
+    "ctor": "0x001d9658",
+    "ctor_first_word": "0xe92d4ff0",
+    "layout": ["0xf0", "0x94", "0xc4", "0x80", "0x84", "0x28", "0x34", "0x58", "0x3b"]
+  }
+}

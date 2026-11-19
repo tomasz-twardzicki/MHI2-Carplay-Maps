@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "command": "pidin -p PID -F '%256n'",
+  "source": "Fresh exact firmware stage1/stage2 extraction; same pidin and sleep on K/P HW50/70.",
+  "utilities": {
+    "K4525-50": {
+      "pidin": "f01eca8910b939417575f64709d22e703d13d535f1b6504c45791344910ac14d",
+      "sleep": "1c8a3144b089b241355588a134051af14af7724716485166eca05d332b071394"
+    },
+    "K4525-70": {
+      "pidin": "f01eca8910b939417575f64709d22e703d13d535f1b6504c45791344910ac14d",
+      "sleep": "1c8a3144b089b241355588a134051af14af7724716485166eca05d332b071394"
+    },
+    "P4521-50": {
+      "pidin": "f01eca8910b939417575f64709d22e703d13d535f1b6504c45791344910ac14d",
+      "sleep": "1c8a3144b089b241355588a134051af14af7724716485166eca05d332b071394"
+    },
+    "P4521-70": {
+      "pidin": "f01eca8910b939417575f64709d22e703d13d535f1b6504c45791344910ac14d",
+      "sleep": "1c8a3144b089b241355588a134051af14af7724716485166eca05d332b071394"
+    }
+  },
+  "executed_fixture": "build-qnx-v161t2-lifecycle-final2",
+  "format_observed": "Long path without leading slash, with a trailing space; default short name truncates launcher.",
+  "documentation": "https://qnx.com/developers/docs/6.5.0SP1.update/com.qnx.doc.neutrino_utilities/p/pidin.html"
+}

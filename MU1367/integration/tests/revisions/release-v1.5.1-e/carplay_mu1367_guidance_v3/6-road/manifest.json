@@ -1,0 +1,21 @@
+{
+  "build_id": "mu1367-guidance-v3-89986b9f89cf",
+  "before": {
+    "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+    "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+    "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+    "parent": "79324273285fd49f4bb00ace7697969fdc550031590eef471b29fca0940fe9cd",
+    "reader": "b683cef78828bfab2b8cdf43e4ea82e5d7c16d0d47730936d936e82af6ee08ac",
+    "bridge": "6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35"
+  },
+  "files": {
+    "core": "d28b6b71ff83a98e43280a943cf56bd3bc52ee236fc4ed3aa9e1a97fc73e5979",
+    "menu": "ed60cd274415a13c64ee68819596950ab987bcd462bd0c5aa66a8000edcc6942",
+    "guidance": "0fd03cd1ad9b811553764d35d476408c44da6e7aef4c0a1a2efa48acd71e0f04",
+    "reader": "3dc291619a06f2894dc1258135586431693078d9b3bc254fe78ca0bf71555073",
+    "bridge": "5d48424f9c2ab319613de9ddb1e075babf126e9280f35e43a27297694958f183"
+  },
+  "parent": "carplay-mu1367-map-only",
+  "variant": "6-road",
+  "on_unit_validated": false
+}

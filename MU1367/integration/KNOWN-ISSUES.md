@@ -1,4 +1,104 @@
+> **Current complete stable release: [v1.6.1](../../releases/MU1367/v1.6.1/START_HERE.md).** This directory retains its exact v1.5.4 base and compatibility migrations; the current stable release builder and recovery flow are in [wireless-native/stable](../wireless-native/stable/README.md).
+
 # Known issues and planned work
+
+## Arrival time and stream test (since v1.5.4)
+
+- Not yet tested in a car. If the AID still shows a duration with **arrival time**
+  selected, or a wrong time, send a diagnostics export: `adapter-status.txt` shows the
+  setting (`eta_setting=`) and the clock (`eta_clock_min=`) the guidance bridge saw.
+- Arrival time sends the time of day only. An arrival on a later day shows as a clock
+  time without the date.
+- The stream test sets what the core asks of the phone. The phone may deliver fewer frames
+  than asked, especially at the higher rates.
+
+## Startup animation and bridge priority (since v1.5.3-e)
+
+- Tested in a car with v1.5.3-e. At the end of the clip, the AID decoder switches from
+  the clip's stream (Constrained Baseline, 800×480) to the phone's stream on a key frame
+  the bridge requests. v1.5.3 fixes a rare case where that key frame was skipped and the
+  clip's last frame stayed on the AID. If the map ever stays grey or blocky after the clip, set
+  **Startup animation > Off** (which starts exactly as v1.5.2) and send a diagnostics
+  export.
+- The clip adds about 4.2 s before the first live map frame on the connections where it
+  plays. Android Auto has no clip.
+- With Tuning installed, **Wireless CarPlay (test)** is no longer in the MU UI. It only
+  saved a value that nothing read; wireless CarPlay is unaffected.
+- The bridge runs at priority 14 (was 10, like the navigation renderer), to shorten the
+  stalls while reversing. Reports from more drives are welcome. If a reverse still
+  stalls, the bridge log's `drops`, `write_us_max` and `latency-reset` values around the
+  `RVC active` line in sloginfo show whether the bridge or the MOST link was waiting.
+
+## isoTX2 open/close flood in sloginfo (under investigation)
+
+- After CarPlay takes the AID map at boot, the factory video encoder keeps trying to
+  open the MOST video output about 20 times a second, for the whole drive. Each attempt
+  logs two `devp-iso-mmx[isoTX2]` lines. This fills the slog buffer: a normal export
+  covers only about the last 6 minutes. Each attempt costs very little CPU; the main
+  cost is the lost log history.
+- A tester's v1.5.2-e boot without the flood had CarPlay take the map before the
+  navigation created its cluster window. The factory encoder then never started.
+  Whether CarPlay wins depends mostly on when the phone appears during boot: the
+  supervisor already takes the map as soon as the CarPlay video stream is ready. There
+  is no video to show earlier, when the phone is only detected. Handing back to the
+  VW map on disconnect stays as it is.
+
+## Stream default and saved snapshots (v1.5.2)
+
+- 40 fps / IDR 5 is the default; the MU UI offers 40, 30 and 25 fps. A saved 20 or
+  27 fps choice from v1.4.5-e to v1.5.2-e runs and shows as 40 fps. Before rolling back
+  to v1.4.5 or older, select 30 or 40 fps again (see INSTALL.md).
+- **Tuning > Saved snapshots** deletes old copies for good. The installed layers keep
+  their own snapshots, so rollback and the OEM reset still work, but an older state
+  kept only in a removed snapshot cannot be restored afterwards. Copy snapshots off the
+  unit first if you may need them.
+
+## Map safe area and bridge backlog (since v1.5.2-e)
+
+- The map-only view uses v1.2.2's taller safe area (160,20,480,440). The phone app
+  decides how to frame the map. v1.5.2-e car tests showed very good results; parts of
+  the map near the top edge or next to the dials can sit under the cluster graphics.
+- The bridge waits for 2048 queued TS packets (about 250 ms) before it drops the
+  backlog and asks for a key frame (was 1024, about 125 ms). During a real stall the
+  picture can lag by up to about 250 ms before it resets.
+
+## CarPlay video bridge at boot (since v1.5.1-e)
+
+- On every boot the factory video encoder briefly takes the MOST video output about
+  15 s after the CarPlay bridge has started. v1.5.1-e's bridge takes it back
+  (`most-reclaim` in the bridge log) instead of exiting. The reclaim is tested off-unit
+  with a simulated failure; v1.5.2-e then ran in cars with very good results. The cause is read from one complete boot log and matches all
+  three boots in the 2026-11-10 exports. A short picture hiccup during the reclaim is
+  expected. If the reclaim fails, the bridge exits and the supervisor restarts it as in
+  earlier releases.
+- The boot itself runs the head unit at 92–98% CPU for about the first minute (factory
+  navigation, speech, HMI and radio services starting together). After that it is about
+  16–25% parked and 25–60% while driving. The CPU load did not cause the bridge exit.
+- The bridge is now built here (clang with the pinned QNX 6.5 SDK linker) instead of
+  the upstream GCC 4.9.4 binary. Report any change in CarPlay map smoothness against
+  v1.4.6.
+
+## Android Auto (since v1.5.0-e, not fully tested)
+
+- **Android Auto support is included but not yet fully tested on MU1367.** CarPlay is
+  the tested path; please report Android Auto results with a diagnostics export. The hook's P4521 profile matches both MU1367
+  trains' factory `gal` exactly and was car-tested upstream; the hook + feeder +
+  route path was car-tested on MU1161 / AID 791 by chrzanowy/mhi2-aid-carplay.
+- The stream starts about 5 s after the phone connects. The phone sends one key
+  frame per session and asking for another breaks its session. v1.5.1-e's Android
+  Auto bridge therefore keeps showing frames after a gap or MOST backlog instead of
+  waiting for a key frame (v1.5.0-e froze there until a reconnect); such a moment may
+  show brief artifacts instead. A dark start still needs a reconnect.
+- First car test (Huawei VOG-L29): USB `CRC_ERR|STALL` disconnects and 13–17 fps on
+  the main screen. A weak USB link limits both Android Auto video streams.
+- No VW arrow for the first ("depart") step; no remaining distance, arrival time,
+  lanes or road name from Android Auto. Track title and artwork stay CarPlay-only.
+- The MU menu frame-rate and turn-card settings do not apply to Android Auto
+  (30 fps, map only). The cluster map on/off setting does.
+- The menu's **RESTORE OEM** removes Android Auto first. The independent reset run
+  without the menu (`RUN_RESTORE.sh`) predates it and leaves the `gal` wrapper (which
+  then runs the factory `gal`); run the saved Android Auto `uninstall` (see INSTALL.md).
+- Wireless Android Auto adapters are untested.
 
 ## Ottocast Mini Pico turn card
 
@@ -94,11 +194,10 @@ reviewed ranges are −180…−170° and 170…179°; exactly +180° selects le
 for right-hand traffic. ±169° remains unchanged at 128. This fixes lane
 encoding and does not change the main maneuver symbols or Mini Pico card URLs.
 
-## P4521 installation (experimental)
+## P4521 installation
 
-The prior P4521 experimental build was confirmed working in a vehicle by the
-user on 2026-11-02. v1.4.3 recognizes P4521 and supplies all current integrated
-features, while P4521 installation remains experimental. Acceptance of this
-new combined package is distinct from that earlier vehicle result. Use the OEM
+P4521 has been tested in vehicles, first with the separate experimental build
+(2026-11-02) and later with the integrated package. It is no longer marked experimental (v1.5.2); the
+installer reports `MU1367_FIRMWARE_TYPE=P4521`. Use the OEM
 reset/reboot path in INSTALL.md when moving from the separate experimental
 bundle or dormant upstream menu files; all old layers and snapshots are retained.

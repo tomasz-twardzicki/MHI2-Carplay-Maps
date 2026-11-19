@@ -1,0 +1,11 @@
+# Firmware bytes, extracted OEM files and converted class archives stay out of Git.
+*.jxe
+*.jar
+*.img
+*.so
+mu1367-fw/
+jxe-out/
+scratch/
+__pycache__/
+/build-*/
+/dist/

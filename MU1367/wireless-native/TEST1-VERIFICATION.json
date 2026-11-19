@@ -1,0 +1,303 @@
+{
+  "reviewed": "2026-11-17",
+  "package": {
+    "passed": true,
+    "version": "1.6.0-e-test1",
+    "build_id": "MU1367-wireless-native-f835c2d913aa",
+    "archive": "CarPlay_Maps_VC_MU1367_791_v1.6.0-e-test1.zip",
+    "archive_sha256": "498e2aee7d157405f2cda0566c9436e177931ce06fc55d2f8dbd219d63b3663b",
+    "files": 741,
+    "wireless_diagnostics": {
+      "menu": "Toolbox/GEM/carplay-maps-vc-wireless.esd",
+      "label": "Collect wireless diagnostics to SD (no reboot)",
+      "wrapper": "Toolbox/scripts/cpmap_wireless_collect.sh",
+      "collector": "Toolbox/scripts/cpmap_wireless_collect_data.sh",
+      "alternate_display_probe": {
+        "label": "Enable AID display probe (until reboot)",
+        "wrapper": "Toolbox/scripts/cpmap_wireless_alt_probe.sh",
+        "script": "Toolbox/scripts/cpmap_wireless_alt_probe_data.sh",
+        "scope": "RAM flag only; explicit off flags respected; full reboot clears it."
+      },
+      "sha256": {
+        "Toolbox/GEM/carplay-maps-vc-wireless.esd": "97c47118eafdf277f63132b535f24e49dcd04024e7abe129b17401debac8ba70",
+        "Toolbox/scripts/cpmap_wireless_collect.sh": "b02db01a8a16a206c4e13d896c8451b9fc69211ff2eb708d1b5c9fc62e5c6af8",
+        "Toolbox/scripts/cpmap_wireless_collect_data.sh": "34388bc715ff1e784364a0636d6845fa214c9f57ca78e6c8447aa4f9b06905af",
+        "collect-wireless.sh": "34388bc715ff1e784364a0636d6845fa214c9f57ca78e6c8447aa4f9b06905af",
+        "Toolbox/scripts/cpmap_wireless_alt_probe.sh": "6644ece52d1712a84c7da9042c27ec552469bbea2bbf01952e2ee2e87b27e2de",
+        "Toolbox/scripts/cpmap_wireless_alt_probe_data.sh": "90926bee78f0d9f36270b5b069c06b1812252c86515b9b8d327401aced8bc070"
+      },
+      "output": "SD:/Log/wireless-diag-<number>",
+      "requires_runtime_reinstall": false
+    },
+    "baseline_runtime_binaries_byte_identical": true,
+    "base_installer_archive_fix": {
+      "passed": true,
+      "changes": {
+        "Custom/carplay_mu1367_guidance_v3/actions.sh": {
+          "before_sha256": "de639177432ace25c70caca239942eb5b2ec79fb70f1039fc80312a8d516c3f9",
+          "after_sha256": "ce63cad706e5e311f0f1744c9d7ce9c243097812b51f5f821ad21024250c1059"
+        },
+        "Custom/carplay_mu1367_map_only/actions.sh": {
+          "before_sha256": "4aa93cc0e861964e3fa58cba01206a57018ad4d0abaed942efe72760ad9f0841",
+          "after_sha256": "395d03295d004731261e0f32ba9f62168ea67b55bbbf9554204c9df0abacc71e"
+        },
+        "Custom/carplay_mu1367_android_auto/control.sh": {
+          "before_sha256": "8a0bf80d1c473a03c50b1864c1b2bf3e7b8ed6fe01d8d85fe69c2ffdd087df08",
+          "after_sha256": "880d500bcd9f2ef57b181f8c517dea74ee40dca360d91474b9a23351c9773bca"
+        },
+        "Custom/carplay_mu1367_guidance_v3/payload-check.sh": {
+          "before_sha256": "7d148e3992c005b59a494c07f9fd2577d97f26647d748deeddcb245cb03f3e5c",
+          "after_sha256": "25c8240caabd9709282069ecdca716c9d4a68983ba715152548f01bd2841443e"
+        },
+        "Custom/carplay_mu1367_map_only/payload-check.sh": {
+          "before_sha256": "7d148e3992c005b59a494c07f9fd2577d97f26647d748deeddcb245cb03f3e5c",
+          "after_sha256": "25c8240caabd9709282069ecdca716c9d4a68983ba715152548f01bd2841443e"
+        },
+        "Custom/carplay_mu1367_refinements/payload-check.sh": {
+          "before_sha256": "7d148e3992c005b59a494c07f9fd2577d97f26647d748deeddcb245cb03f3e5c",
+          "after_sha256": "25c8240caabd9709282069ecdca716c9d4a68983ba715152548f01bd2841443e"
+        }
+      },
+      "firmware_utilities": true,
+      "scope": "Actual retained-session helpers under factory QNX shell/utilities; isolated fixture remount stub; old collision reproduced, existing directories/symlinks preserved, repeat naming and snapshot validation checked. Full base migration not rerun.",
+      "log_sha256": "ea50cb49c575ad3d58ae7694ee7307b32f9b1e5436aa1fb1c3bf59d6d47f77c6"
+    },
+    "baseline_differences": [
+      "Custom/carplay_mu1367_android_auto/control.sh",
+      "Custom/carplay_mu1367_guidance_v3/actions.sh",
+      "Custom/carplay_mu1367_guidance_v3/payload-check.sh",
+      "Custom/carplay_mu1367_map_only/actions.sh",
+      "Custom/carplay_mu1367_map_only/payload-check.sh",
+      "Custom/carplay_mu1367_refinements/payload-check.sh",
+      "FILES_SHA256.json",
+      "MU1367_RELEASE_MANIFEST.json",
+      "README.md",
+      "RELEASE-NOTES.md",
+      "RUN_INSTALL.sh",
+      "RUN_RESET_SETTINGS.sh",
+      "RUN_RESTORE.sh",
+      "START_HERE.md",
+      "Toolbox/scripts/cpmap_suite_disable-cards.sh",
+      "Toolbox/scripts/cpmap_suite_enable-cards.sh",
+      "Toolbox/scripts/cpmap_suite_install.sh",
+      "Toolbox/scripts/cpmap_suite_recover-cards.sh",
+      "Toolbox/scripts/cpmap_suite_recover.sh",
+      "Toolbox/scripts/cpmap_suite_restore-oem.sh",
+      "Toolbox/scripts/cpmap_suite_uninstall.sh"
+    ],
+    "guarded_base_actions_checked": [
+      "RUN_INSTALL.sh",
+      "RUN_RESET_SETTINGS.sh",
+      "RUN_RESTORE.sh",
+      "Toolbox/scripts/cpmap_suite_disable-cards.sh",
+      "Toolbox/scripts/cpmap_suite_enable-cards.sh",
+      "Toolbox/scripts/cpmap_suite_install.sh",
+      "Toolbox/scripts/cpmap_suite_recover-cards.sh",
+      "Toolbox/scripts/cpmap_suite_recover.sh",
+      "Toolbox/scripts/cpmap_suite_restore-oem.sh",
+      "Toolbox/scripts/cpmap_suite_uninstall.sh"
+    ],
+    "zip_readback_verified": true,
+    "on_unit_validated": false
+  },
+  "qnx": {
+    "passed": true,
+    "build_id": "MU1367-wireless-native-f835c2d913aa",
+    "commit_sites": 35,
+    "rollback_cases": 35,
+    "resume_cases": 35,
+    "session_checks": 17,
+    "wireless_input_selftest": true,
+    "h264_fixture_sha256": "bb1bff76a8765c0191f02774a3e6aee0ec82c89d1a2ee84b09a866d6ecd8a0ec",
+    "firmware_utilities": true,
+    "fake_firmware_gate_in_fixture": true,
+    "baseline_seed": "Published v1.5.3 final payload files; old installer not rerun in this fixture.",
+    "qemu_log_sha256": "68345f0be9c1014861c4eb458e66b243455fa6efd5198e9541ab1318cd3bf900",
+    "on_unit_validated": false,
+    "input_test_separate_boot": true,
+    "input_test": {
+      "passed": true,
+      "build_id": "MU1367-wireless-native-f835c2d913aa",
+      "fresh_boot": true,
+      "transaction_log_sha256": "68345f0be9c1014861c4eb458e66b243455fa6efd5198e9541ab1318cd3bf900",
+      "input_log_sha256": "954d3b6280f0c1d2e8f11c941222daab1667b3bf519c31520e8f4da8de36bd4b",
+      "h264_fixture_sha256": "bb1bff76a8765c0191f02774a3e6aee0ec82c89d1a2ee84b09a866d6ecd8a0ec",
+      "fixture_correction": "Initially absent owned directory; SDK boot-helper RAM disk enlarged from 16 to 32 MiB to hold the unchanged 16 MiB + 1808 byte ring. Production binaries and factory utilities unchanged."
+    },
+    "first_combined_run_input_selftest": false
+  },
+  "native": {
+    "passed": true,
+    "supervisor_sha256": "e525fb5bdd4aec959ba2f5619e5ecf0ce653190807acbaac85d5cb66ab2e52f2",
+    "factory_libc_sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+    "strong_imports": [
+      "__aeabi_uldivmod",
+      "__get_errno_ptr",
+      "_exit",
+      "_fini_array",
+      "_init_array",
+      "_init_libc",
+      "_preinit_array",
+      "access",
+      "atexit",
+      "clock_gettime",
+      "close",
+      "dup2",
+      "execl",
+      "execv",
+      "exit",
+      "fclose",
+      "fcntl",
+      "ferror",
+      "fflush",
+      "fgetc",
+      "fileno",
+      "fopen",
+      "fork",
+      "fread",
+      "fscanf",
+      "fstat",
+      "fsync",
+      "ftruncate",
+      "getpid",
+      "kill",
+      "lseek",
+      "lstat",
+      "memchr",
+      "memcmp",
+      "memcpy",
+      "memset",
+      "mkdir",
+      "mmap",
+      "munmap",
+      "open",
+      "pthread_mutex_lock",
+      "pthread_mutex_unlock",
+      "read",
+      "setenv",
+      "signal",
+      "snprintf",
+      "sscanf",
+      "stat",
+      "strchr",
+      "strcmp",
+      "strlen",
+      "strncmp",
+      "strtol",
+      "strtoull",
+      "unlink",
+      "unsetenv",
+      "usleep",
+      "vfprintf",
+      "waitpid",
+      "write"
+    ],
+    "missing": []
+  },
+  "artifact": "dist/v1.6.0-e-test1/CarPlay_Maps_VC_MU1367_791_v1.6.0-e-test1.zip",
+  "instructions": "TEST-PACKAGE.md",
+  "vehicle_acceptance_pending": true,
+  "instructions_revision": {
+    "reason": "Test Bluetooth/CarPlay automatic Wi-Fi association first; manual joining is a diagnostic fallback.",
+    "previous_archive_sha256": "d320a8aa3961d3206dccc44684e4b5e21b8e777add4acc8aa07d319cb0afaecb",
+    "changed_archive_entries": [
+      "Custom/carplay_mu1367_wireless_native/source/TEST-PACKAGE.md",
+      "START_HERE.md",
+      "WIRELESS-FILES.sha256"
+    ],
+    "runtime_payloads_unchanged": true
+  },
+  "base_installer_revision": {
+    "reviewed": "2026-11-18",
+    "reason": "PID reuse collided with retained snapshot archive; choose unused numeric names and preserve existing archives.",
+    "previous_archive_sha256": "9d48606c7d7884f39be661d09d7b47716608236e0997df0216a2156905db0c07",
+    "qnx": {
+      "passed": true,
+      "changes": {
+        "Custom/carplay_mu1367_guidance_v3/actions.sh": {
+          "before_sha256": "de639177432ace25c70caca239942eb5b2ec79fb70f1039fc80312a8d516c3f9",
+          "after_sha256": "ce63cad706e5e311f0f1744c9d7ce9c243097812b51f5f821ad21024250c1059"
+        },
+        "Custom/carplay_mu1367_map_only/actions.sh": {
+          "before_sha256": "4aa93cc0e861964e3fa58cba01206a57018ad4d0abaed942efe72760ad9f0841",
+          "after_sha256": "395d03295d004731261e0f32ba9f62168ea67b55bbbf9554204c9df0abacc71e"
+        },
+        "Custom/carplay_mu1367_android_auto/control.sh": {
+          "before_sha256": "8a0bf80d1c473a03c50b1864c1b2bf3e7b8ed6fe01d8d85fe69c2ffdd087df08",
+          "after_sha256": "880d500bcd9f2ef57b181f8c517dea74ee40dca360d91474b9a23351c9773bca"
+        },
+        "Custom/carplay_mu1367_guidance_v3/payload-check.sh": {
+          "before_sha256": "7d148e3992c005b59a494c07f9fd2577d97f26647d748deeddcb245cb03f3e5c",
+          "after_sha256": "25c8240caabd9709282069ecdca716c9d4a68983ba715152548f01bd2841443e"
+        },
+        "Custom/carplay_mu1367_map_only/payload-check.sh": {
+          "before_sha256": "7d148e3992c005b59a494c07f9fd2577d97f26647d748deeddcb245cb03f3e5c",
+          "after_sha256": "25c8240caabd9709282069ecdca716c9d4a68983ba715152548f01bd2841443e"
+        },
+        "Custom/carplay_mu1367_refinements/payload-check.sh": {
+          "before_sha256": "7d148e3992c005b59a494c07f9fd2577d97f26647d748deeddcb245cb03f3e5c",
+          "after_sha256": "25c8240caabd9709282069ecdca716c9d4a68983ba715152548f01bd2841443e"
+        }
+      },
+      "firmware_utilities": true,
+      "scope": "Actual retained-session helpers under factory QNX shell/utilities; isolated fixture remount stub; old collision reproduced, existing directories/symlinks preserved, repeat naming and snapshot validation checked. Full base migration not rerun.",
+      "log_sha256": "ea50cb49c575ad3d58ae7694ee7307b32f9b1e5436aa1fb1c3bf59d6d47f77c6"
+    },
+    "payload_check_entries_verified": 861,
+    "runtime_binaries_unchanged": true
+  },
+  "collector_revision": {
+    "reviewed": "2026-11-18",
+    "previous_archive_sha256": "2cc7827bef8c3cf058d6308083cb97621e4b46a9e5058e3e1cd54a208377c821",
+    "checks": {
+      "passed": true,
+      "elf_and_jar_files_unchanged": 184,
+      "archive_checksums_verified": 734,
+      "gem_script_reference_resolves": true,
+      "collector_matches_source": true
+    },
+    "host_fixture": {
+      "passed": true,
+      "scope": "Host ksh isolated filesystem fixture; no vehicle or radio simulation.",
+      "gem_action_present_once": true,
+      "mmx_wrapper_and_collector_executed": true,
+      "sd_slot_fallback_checked": true,
+      "unit_files_unchanged": true,
+      "pairing_wifi_private_scope_data_excluded": true,
+      "symlink_scopes_skipped": true
+    },
+    "runtime_reinstall_required": false,
+    "wireless_aid_fix_included": false
+  },
+  "alternate_display_probe_revision": {
+    "reviewed": "2026-11-18",
+    "previous_archive_sha256": "380a4f2b16e4f2ee085b31d624a702b522c19fbb1063ceaa538bbbf59095823d",
+    "gate": {
+      "passed": true,
+      "receiver_sha256": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+      "gate_virtual_address": "0xe4330",
+      "checks": 8,
+      "actual_receiver_code_executed": true,
+      "hardware_opened": false,
+      "log_sha256": "2126900b3a7b6fbf2a86cc966778a3c250d00421f5be9373ea325114d2484b30",
+      "reviewed": "2026-11-18",
+      "gate": "RAM probe OR persistent probe OR (altscreen.conf readable AND no readable wcp_alt_off)",
+      "vehicle_scope": "Receiver accepted session, listener running on 9997, only main display advertised, no alternate feed. Probe requires vehicle confirmation."
+    },
+    "action_checks": {
+      "passed": true,
+      "scope": "Host ksh filesystem fixture; gate itself separately executed in the exact receiver under QNX.",
+      "explicit_off_flags_respected": true,
+      "unknown_receiver_rejected": true,
+      "probe_symlink_rejected": true,
+      "repeat_probe_safe": true,
+      "only_ram_probe_created": true,
+      "probe_state_collected": true,
+      "sd_slot_fallback_checked": true,
+      "persistent_fixture_bytes_unchanged": true
+    },
+    "unchanged_elf_and_jar_files": 184,
+    "persistent_activation_integrated": false,
+    "vehicle_probe_result_pending": true
+  }
+}

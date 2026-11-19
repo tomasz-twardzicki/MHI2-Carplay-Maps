@@ -1,0 +1,24 @@
+{
+  "repository": "https://github.com/omonob/VW-MHI2-Wireless-Carplay-Maps",
+  "commit": "76ed060794b2f5ded1d5fb148b7c99980bcd4045",
+  "reviewed": "2026-11-17",
+  "upstream_version": "3.1 experimental",
+  "profile": "MU1367/791",
+  "baseline_version": "1.5.3",
+  "baseline_zip_sha256": "011d37a7206739d77843f96e5446078d2175e4cbc12fc8702d1842c4035665d8",
+  "payload_prefix": "standalone/SD_ROOT/carplay/payload",
+  "files_sha256": {
+    "wireless/profiles/AID12.3/wcp_receiver": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+    "wireless/profiles/AID12.3/wireless-receiver-exec": "07955ac794986416fa30122a5964eb8de35f3b93955b1d4d2cb7bc51f7dc3140",
+    "wireless/profiles/AID12.3/libomonob-wireless-maps.so": "b40e381e0d8b9c56b55b797570fcafe8861b2f026b3125feb9efeceeadfa1fa7",
+    "wireless/common/runtime/libv75-transport.so": "46a46b9bf2b60cba84c6d9ebeaac39ed56db8abe3b761a5d3c71f75458abbf3b",
+    "wireless/common/ota/btstack_wrap.sh": "37f3cb4369c6ab622cdd8e2b4511cbbe03155f42b9075086d3b41cb5b802ee59",
+    "wireless/common/ota/wcp_autostart.sh": "5c440b7fc11046dcccaba460639029a43160a24ef0a8a2d9b3a5fb07f158bb20",
+    "wireless/common/ota/wcp_ctl.sh": "08c625669a9054a4779f8a09253136cc803f4a85eafce9713020553637517984",
+    "common/merge-wireless.sh": "332a30fcf4d26623d7abdb1ffce51c3b77c83a3456db870c767d0cb6d98f1207",
+    "wireless/native-baselines.tsv": "1b55623e2c9489d8e77c5c5ae1395870ab60ad9c2201eb55798352f4a4b64e06",
+    "wireless/firmware-files.tsv": "837fc1fbf375f0efa30cae1604c94336666451cd7b375eb71ed3b8a7aad2f5ca",
+    "wireless/common/runtime/start-wireless-maps.sh": "db56e775af11b52bf5b4931d4e6c66110f564d3ea2cd1c16ca769a32427051a5",
+    "profiles/MU1367/791/VCMenu.jar": "0c8507b3e330854a13993a92cf7a0314f83872965c4cbaf0e73118d88ee309c3"
+  }
+}

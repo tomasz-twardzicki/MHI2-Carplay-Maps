@@ -51,7 +51,7 @@ public final class FeedRecovery {
     private LiveModel.Frame accept(LiveModel.Frame frame,long now){
         // A valid unchanged mailbox is not a new producer heartbeat.
         if(frame!=null)last=frame;
-        boolean fresh=last!=null && last.active && last.progress>0 && last.changed>=0 && now>=last.changed && now-last.changed<LiveModel.HOLD_MS
+        boolean fresh=last!=null && last.active && last.progress>0 && last.changed>=0 && now>=last.changed && now-last.changed<LiveBridge.holdFor(root)
             && recordAt>=0 && now>=recordAt && now-recordAt<1500;
         live=!reader.ended && fresh;
         if(live && pending){recoveries++;pending=false;error=0;}

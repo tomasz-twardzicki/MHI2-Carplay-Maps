@@ -22,7 +22,7 @@ public final class ArrowProgress {
     }
     static int remaining(LiveModel.Frame f,long now){
         if(f==null || !f.active || !f.validDistance || !shown(f.main)
-            || f.laneAt<0 || now<f.laneAt || now-f.laneAt>=ROUTE_AGE)return -1;
+            || f.laneAt<0 || now<f.laneAt || now-f.laneAt>=LiveBridge.hold())return -1;
         int limit=window(f);
         return f.meters>limit?-1:(int)((long)f.meters*100/limit);
     }

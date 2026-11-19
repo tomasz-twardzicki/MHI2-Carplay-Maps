@@ -4,7 +4,7 @@ import argparse,hashlib,json,shutil,sys
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parents[1]/'port'))
-from firmware import image_files,stage1
+from firmware import image_files,stage1,QNX6
 def sha(b):return hashlib.sha256(b).hexdigest()
 def main():
  p=argparse.ArgumentParser()
@@ -15,7 +15,7 @@ def main():
  controller=(main/'6/control.sh').read_text().replace(real,fake)
  card=(tuning/'6/control.sh').read_text().replace(real,fake).replace(sha((main/'6/control.sh').read_bytes()),sha(controller.encode()))
  extras={'main-actions':actions,'main-control':controller,'tuning-control':card,'legacy-check':main/'legacy-check.sh','release-versions':main/'release-versions.sh'}
- old=HERE/'revisions/release-v1.4.6-e/carplay_mu1367_guidance_v3/6'
+ old=HERE/'revisions/release-v1.4.6/carplay_mu1367_guidance_v3/6'
  legacy=(old/'control.sh').read_text().replace(real,fake)
  legacy_check=(main/'legacy-check.sh').read_text().replace(sha((old/'control.sh').read_bytes()),sha(legacy.encode()))
  extras.update({'legacy-control':legacy,'legacy-check':legacy_check})
@@ -25,6 +25,11 @@ def main():
  extras['png-control']=(png/'control.sh').read_text().replace(real,fake)
  for name in ('artwork-fetch','VERSION','guard'):extras['png-'+name]=png/name
  extras['art-fetch']=art/'artwork-fetch'
+ # v1.5.0-e: the Android Auto layer runs as the last install step under the factory ksh with factory commands only.
+ aa=custom/'carplay_mu1367_android_auto';aam=json.loads((aa/'manifest.json').read_text())
+ extras['aa-control']=(aa/'control.sh').read_text().replace(real,fake)
+ aa_files=('VERSION','gal.wrapper.sh')+tuple(aam['files'])
+ for name in aa_files:extras['aa-'+name]=aa/name
 
  paths={
   'carplaymaps/core.so':custom/'carplay_mu1367_map_only/6/core.so',
@@ -34,10 +39,12 @@ def main():
   'armle/lib/dll/ipod-drvr-iap2.so':custom/'carplay_mu1367_artwork/ipod-drvr-iap2.so',
   'eso/hmi/lsd/jars/CarPlayMU1367Audio.jar':custom/'carplay_mu1367_artwork/CarPlayMU1367Audio.jar',
   'eso/hmi/lsd/jars/CarPlayClusterControls.jar':custom/'carplay_mu1367_settings/CarPlayClusterControls.jar',
-  'carplay-mu1367/rgi-observer':custom/'carplay_mu1367/rgi-observer'}
+  'carplay-mu1367/rgi-observer':custom/'carplay_mu1367/rgi-observer',
+  # v1.5.1-e: the main layer replaces the settings layer's upstream video bridge.
+  'carplaymaps/altscreen-most-bridge':custom/'carplay_mu1367_settings/altscreen-most-bridge'}
  for i,src in enumerate(paths.values()):extras['old-'+str(i)]=src
  for key,root in [('main',main),('tuning',tuning)]:
-  for name in ('guard','VERSION','core.so','VCMenu.jar')+ (('CarPlayMU1367Guidance.jar','rgi-observer') if key=='main' else ()):
+  for name in ('guard','VERSION','core.so','VCMenu.jar')+ (('CarPlayMU1367Guidance.jar','rgi-observer','altscreen-most-bridge') if key=='main' else ()):
    extras[key+'-'+name]=root/'6'/name
  script='''
 set -eu
@@ -66,19 +73,30 @@ chmod 755 "$PNGP/verify"
 cp /proc/boot/factory-zlib "$CPMAP_TEST_ROOT/proc/boot/libz.so.2"
 cp /proc/boot/art-fetch "$APP/carplay-mu1367-artwork/artwork-fetch"
 chmod 755 "$APP/carplay-mu1367-artwork/artwork-fetch"
+AAP=/ramdisk/Custom/carplay_mu1367_android_auto
+mkdir -p "$AAP" "$APP/eso/bin/apps"
+cp /proc/boot/aa-control "$AAP/control.sh"
+cp /proc/boot/verify "$AAP/verify"
+chmod 755 "$AAP/verify"
+cp /proc/boot/factory-gal "$APP/eso/bin/apps/gal"
+chmod 755 "$APP/eso/bin/apps/gal"
+echo '#!/bin/ksh' > "$APP/carplaymaps/altscreen-most-bridge"
 '''
  for key,var in [('main','P'),('tuning','T')]:
-  for name in ('guard','VERSION','core.so','VCMenu.jar')+ (('CarPlayMU1367Guidance.jar','rgi-observer') if key=='main' else ()):
+  for name in ('guard','VERSION','core.so','VCMenu.jar')+ (('CarPlayMU1367Guidance.jar','rgi-observer','altscreen-most-bridge') if key=='main' else ()):
    script+='cp /proc/boot/'+key+'-'+name+' "$'+var+'/6/'+name+'"\n'
   script+='cp /proc/boot/verify "$'+var+'/6/verify"\nchmod 755 "$'+var+'/6/verify"\n'
+ for name in aa_files:script+='cp /proc/boot/aa-'+name+' "$AAP/'+name+'"\n'
  for i,(dest,src) in enumerate(paths.items()):script+='mkdir -p "$APP/'+str(Path(dest).parent)+'"\ncp /proc/boot/old-'+str(i)+' "$APP/'+dest+'"\n'
+ # The unit's settings layer installs the bridge 755 (export listing); the transaction keeps the target's mode.
+ script+='chmod 755 "$APP/carplaymaps/altscreen-most-bridge"\n'
  for live,source in [('carplay-mu1367','carplay_mu1367'),('carplay-mu1367-settings','carplay_mu1367_settings'),('carplay-mu1367-map-only','carplay_mu1367_map_only/6'),('carplay-mu1367-artwork','carplay_mu1367_artwork')]:
   script+='mkdir -p "$APP/'+live+'"\necho installed > "$APP/'+live+'/STATE"\necho '+(custom/source/'VERSION').read_text().strip()+' > "$APP/'+live+'/VERSION"\n'
  script+='''# Exercise train recognition with the actual firmware gawk before writes.
 mkdir -p "$CPMAP_TEST_ROOT/net/rcc/dev/shmem"
 echo 'Current train = "MHI2_ER_VWG13_P4521"' > "$CPMAP_TEST_ROOT/net/rcc/dev/shmem/version.txt"
 /bin/ksh "$P/actions.sh" lane-status "$P" > /ramdisk/train-status || exit 79
-grep 'MU1367_FIRMWARE_TYPE=P4521_EXPERIMENTAL' /ramdisk/train-status || exit 79
+grep '^MU1367_FIRMWARE_TYPE=P4521$' /ramdisk/train-status || exit 79
 echo 'Current train = "MHI2_ER_VWG13_P9999"' > "$CPMAP_TEST_ROOT/net/rcc/dev/shmem/version.txt"
 if /bin/ksh "$P/actions.sh" install "$P";then exit 79;fi
 echo 'Current train = "MHI2_ER_VWG13_K4525_1_AIO_MU1367"' > "$CPMAP_TEST_ROOT/net/rcc/dev/shmem/version.txt"
@@ -88,15 +106,46 @@ echo 'Current train = "MHI2_ER_VWG13_P4521"' > "$CPMAP_TEST_ROOT/net/rcc/dev/shm
 echo RELEASE_FACTORY_TRAIN_RECOGNITION_PASS
 awk 'BEGIN {if(2+2!=4)exit 1}' || exit 80
 /bin/ksh "$P/6/control.sh" install "$P/6" || exit 81
+"$P/verify" "$APP/carplaymaps/altscreen-most-bridge" @CP_BRIDGE@ || exit 81
+test -x "$APP/carplaymaps/altscreen-most-bridge" || exit 81
+echo RELEASE_FACTORY_CARPLAY_BRIDGE_INSTALLED_PASS
+# v1.5.4: Toolbox stream test on the firmware ksh/awk (no printf, tail or sleep on the unit).
+D=$CPMAP_TEST_ROOT/mnt/icab/persistent;mkdir -p "$D" "$CPMAP_TEST_ROOT/ramdisk/carplay_altscreen_handshake"
+/bin/ksh "$P/actions.sh" stream-show "$P" > /ramdisk/diag-out || exit 91
+grep '^MU1367_STREAM_SOURCE=MU_UI$' /ramdisk/diag-out && grep '^MU1367_STREAM_FPS=40$' /ramdisk/diag-out || exit 91
+/bin/ksh "$P/actions.sh" stream-fps-down5 "$P" > /ramdisk/diag-out || exit 92
+/bin/ksh "$P/actions.sh" stream-idr-up "$P" > /ramdisk/diag-out || exit 92
+grep '^MU1367_STREAM_SOURCE=TOOLBOX_TEST$' /ramdisk/diag-out && grep '^MU1367_STREAM_FPS=35$' /ramdisk/diag-out && grep '^MU1367_STREAM_KEYFRAME_EVERY_FRAMES=6$' /ramdisk/diag-out || exit 92
+C="$D/cpmap-ui/stream-test.conf";[ "$(awk 'NR==1' "$C")" = fps=35 ] && [ "$(awk 'NR==2' "$C")" = idr=6 ] && [ "$(awk 'END{print NR}' "$C")" = 2 ] || exit 92
+N=0;while [ $N -lt 12 ];do /bin/ksh "$P/actions.sh" stream-idr-up "$P" > /ramdisk/diag-out || exit 93;N=$((N+1));done
+grep '^MU1367_STREAM_KEYFRAME_EVERY_FRAMES=15$' /ramdisk/diag-out || exit 93
+echo 't_us=9 pid=1 event=stream-settings fps=35 idr=15 source=toolbox-test ptr=0x1 status=0 (0x00000000)' > "$CPMAP_TEST_ROOT/ramdisk/carplay_altscreen_handshake/handshake.log"
+/bin/ksh "$P/actions.sh" stream-show "$P" > /ramdisk/diag-out || exit 93
+grep 'event=stream-settings fps=35 idr=15' /ramdisk/diag-out || exit 93
+/bin/ksh "$P/actions.sh" stream-reset "$P" > /ramdisk/diag-out || exit 94
+test ! -e "$D/cpmap-ui/stream-test.conf" && grep '^MU1367_STREAM_SOURCE=MU_UI$' /ramdisk/diag-out || exit 94
+rm -rf "$D" "$CPMAP_TEST_ROOT/ramdisk/carplay_altscreen_handshake"
+echo RELEASE_FACTORY_STREAM_TEST_PASS
 /bin/ksh "$P/actions.sh" install "$P" > /ramdisk/install-out || exit 82
-grep '^MU1367_INSTALL_STEPS=2 ' /ramdisk/install-out || exit 86
-grep '^\\[1/2\\] MU1367_GUIDANCE_V3_ALREADY_INSTALLED$' /ramdisk/install-out || exit 86
-grep '^\\[2/2\\] MU1367_ARTWORK_PNG_INSTALLED$' /ramdisk/install-out || exit 86
-grep '^MU1367_INSTALL_COMPLETE=2/2$' /ramdisk/install-out || exit 86
+grep '^MU1367_INSTALL_STEPS=3 ' /ramdisk/install-out || exit 86
+grep '^\\[1/3\\] MU1367_GUIDANCE_V3_ALREADY_INSTALLED$' /ramdisk/install-out || exit 86
+grep '^\\[2/3\\] MU1367_ARTWORK_PNG_INSTALLED$' /ramdisk/install-out || exit 86
+grep '^\\[3/3\\] MU1367_ANDROID_AUTO_INSTALLED$' /ramdisk/install-out || exit 86
+grep '^MU1367_INSTALL_COMPLETE=3/3$' /ramdisk/install-out || exit 86
+"$P/verify" "$APP/eso/bin/apps/gal" @WRAPPER@ || exit 86
+"$P/verify" "$APP/carplay-mu1367-android-auto/gal.real" @FACTORY_GAL@ || exit 86
+/bin/ksh -n "$APP/eso/bin/apps/gal" || exit 86
+/bin/ksh "$P/actions.sh" aa-disable "$P" || exit 86
+test -f "$APP/carplay-mu1367-android-auto/DISABLED" || exit 86
+/bin/ksh "$P/actions.sh" aa-enable "$P" || exit 86
+test ! -e "$APP/carplay-mu1367-android-auto/DISABLED" || exit 86
+/bin/ksh "$P/actions.sh" install "$P" > /ramdisk/install-out2 || exit 86
+grep '^\\[3/3\\] MU1367_ANDROID_AUTO_ALREADY_INSTALLED$' /ramdisk/install-out2 || exit 86
+echo RELEASE_FACTORY_ANDROID_AUTO_INSTALL_PASS
 "$P/verify" "$APP/carplay-mu1367-artwork/artwork-fetch" @PNG_FETCH@ || exit 86
 echo RELEASE_FACTORY_DEFAULT_ARTWORK_PNG_PASS
 test ! -e "$CPMAP_TEST_ROOT/ramdisk/.cpmap-install-running" || exit 86
-if grep REBOOT_REQUIRED /ramdisk/install-out | grep -v RELEASE_1_4_6_INSTALLED_FULL_REBOOT_REQUIRED;then exit 86;fi
+if grep REBOOT_REQUIRED /ramdisk/install-out | grep -v RELEASE_1_5_4_INSTALLED_FULL_REBOOT_REQUIRED;then exit 86;fi
 if echo x | { IFS= read -r L; exit 1; };then exit 87;fi
 echo RELEASE_FACTORY_PROGRESS_PASS
 /bin/ksh "$P/actions.sh" enable-cards "$P" || exit 83
@@ -111,17 +160,55 @@ test "$FOUND" = yes || exit 88
 test ! -e "$CPMAP_TEST_ROOT/ramdisk/.carplay-guidance-install-lock" || exit 91
 "$P/verify" "$APP/carplay-mu1367-artwork/artwork-fetch" @ART_FETCH@ || exit 91
 test "$(cat "$APP/carplay-mu1367-artwork-png/STATE")" = removed || exit 91
-'''.replace('@PNG_FETCH@',sha((png/'artwork-fetch').read_bytes())).replace('@ART_FETCH@',sha((art/'artwork-fetch').read_bytes()))
+"$P/verify" "$APP/eso/bin/apps/gal" @FACTORY_GAL@ || exit 91
+test "$(cat "$APP/carplay-mu1367-android-auto/STATE")" = removed || exit 91
+test ! -e "$APP/carplaymaps/aa" || exit 91
+echo RELEASE_FACTORY_ANDROID_AUTO_REMOVE_PASS
+# v1.5.2: saved snapshots listed with factory ls/awk sizes, removed one at a time and all at once.
+S=$APP/carplay-mu1367-lanes.removed-77
+mkdir -p "$S/d"
+awk 'BEGIN {for(i=0;i<2999;i++)printf "x";print ""}' > "$S/f"
+awk 'BEGIN {for(i=0;i<2047;i++)printf "y";print ""}' > "$S/d/g"
+mkdir "$APP/carplay-mu1367-guidance-v3.removed-x1"
+/bin/ksh "$P/actions.sh" snapshots "$P" > /ramdisk/snap-list || exit 102
+cat /ramdisk/snap-list
+grep '^ \[[0-9]*\] carplay-mu1367-lanes.removed-77 5 KB - removed layer from an earlier installation$' /ramdisk/snap-list || exit 102
+grep '^ \[[0-9]*\] carplay-mu1367-turn-cards.removed-[0-9]* [1-9][0-9]* KB - removed turn-card tuning$' /ramdisk/snap-list || exit 102
+if grep 'removed-x1' /ramdisk/snap-list;then exit 102;fi
+grep '^MU1367_SAVED_SNAPSHOTS=[2-9] TOTAL_KB=[1-9]' /ramdisk/snap-list || exit 102
+grep '^MU1367_SNAPSHOTS_LISTED_NO_FILES_CHANGED$' /ramdisk/snap-list || exit 102
+if /bin/ksh "$P/actions.sh" snapshot-remove "$P" > /ramdisk/snap-none;then exit 103;fi
+grep 'SELECT_A_SNAPSHOT_FIRST' /ramdisk/snap-none || exit 103
+/bin/ksh "$P/actions.sh" snapshot-next "$P" > /ramdisk/snap-next || exit 103
+grep '^>\[1\] ' /ramdisk/snap-next || exit 103
+FIRST=$(awk -F= '/^MU1367_SNAPSHOT_SELECTED=/ {print $2}' /ramdisk/snap-next)
+test -d "$APP/$FIRST" || exit 103
+/bin/ksh "$P/actions.sh" snapshot-remove "$P" > /ramdisk/snap-rm || exit 104
+grep "^MU1367_SNAPSHOT_REMOVED=$FIRST"'$' /ramdisk/snap-rm || exit 104
+test ! -e "$APP/$FIRST" || exit 104
+test ! -e "$CPMAP_TEST_ROOT/ramdisk/.carplay-guidance-install-lock" || exit 104
+/bin/ksh "$P/actions.sh" snapshots-remove-all "$P" > /ramdisk/snap-all || exit 105
+grep '^MU1367_SAVED_SNAPSHOTS=0 TOTAL_KB=0$' /ramdisk/snap-all || exit 105
+for D in "$APP"/carplay-mu1367*.removed-[0-9]*;do test ! -e "$D" || exit 105;done
+test -d "$APP/carplay-mu1367-guidance-v3.removed-x1" || exit 105
+rm -r "$APP/carplay-mu1367-guidance-v3.removed-x1"
+test "$(cat "$APP/carplay-mu1367-android-auto/STATE")" = removed || exit 105
+echo RELEASE_FACTORY_SNAPSHOTS_PASS
+'''.replace('@WRAPPER@',aam['wrapper_sha256']).replace('@FACTORY_GAL@',aam['factory_gal']['sha256']).replace('@PNG_FETCH@',sha((png/'artwork-fetch').read_bytes())).replace('@ART_FETCH@',sha((art/'artwork-fetch').read_bytes())).replace('@CP_BRIDGE@',json.loads((main/'6/manifest.json').read_text())['files']['bridge'])
  for dest,src in paths.items():script+='"$P/verify" "$APP/'+dest+'" '+sha(src.read_bytes())+' || exit 92\n'
 
- script+='\n# Install actual published v1.4.6-e release, then exercise release\'s two-stage migration.\nOLD=/ramdisk/legacy\nmkdir -p "$OLD"\ncp /proc/boot/legacy-control "$OLD/control.sh"\ncp /proc/boot/verify "$OLD/verify"\nchmod 755 "$OLD/verify"\nmv "$APP/carplay-mu1367-guidance-v3" "$APP/carplay-mu1367-guidance-v3.removed-fixture"\n'
+ script+='\n# Install actual published v1.4.6 release, then exercise release\'s two-stage migration.\nOLD=/ramdisk/legacy\nmkdir -p "$OLD"\ncp /proc/boot/legacy-control "$OLD/control.sh"\ncp /proc/boot/verify "$OLD/verify"\nchmod 755 "$OLD/verify"\nmv "$APP/carplay-mu1367-guidance-v3" "$APP/carplay-mu1367-guidance-v3.removed-fixture"\n'
  for name in ('guard','VERSION','core.so','VCMenu.jar','CarPlayMU1367Guidance.jar','rgi-observer'):script+='cp /proc/boot/legacy-'+name+' "$OLD/'+name+'"\n'
- script+='/bin/ksh "$OLD/control.sh" install "$OLD" || exit 95\n/bin/ksh "$P/actions.sh" install "$P" || exit 96\ntest -f "$CPMAP_TEST_ROOT/ramdisk/.cpmap-release-migration-reboot" || exit 97\nif /bin/ksh "$P/actions.sh" install "$P";then exit 98;fi\nrm "$CPMAP_TEST_ROOT/ramdisk/.cpmap-release-migration-reboot"\n/bin/ksh "$P/actions.sh" install "$P" || exit 99\n/bin/ksh "$P/actions.sh" uninstall "$P" || exit 100\necho RELEASE_FACTORY_MIGRATION_PASS\n'
+ script+='/bin/ksh "$OLD/control.sh" install "$OLD" || exit 95\n/bin/ksh "$P/actions.sh" install "$P" || exit 96\ntest -f "$CPMAP_TEST_ROOT/ramdisk/.cpmap-release-migration-reboot" || exit 97\nif /bin/ksh "$P/actions.sh" install "$P";then exit 98;fi\nrm "$CPMAP_TEST_ROOT/ramdisk/.cpmap-release-migration-reboot"\n/bin/ksh "$P/actions.sh" install "$P" || exit 99\n/bin/ksh "$P/actions.sh" uninstall "$P" || exit 100\n"$P/verify" "$APP/eso/bin/apps/gal" '+aam['factory_gal']['sha256']+' || exit 101\necho RELEASE_FACTORY_MIGRATION_PASS\n'
  script+='echo RELEASE_FACTORY_ACTIONS_PASS main_install=1 repeat=1 optional_install_remove=2 guard=1 retain_removed=1 rollback_hashes=1\n'
  libs=a.output.parent/(a.output.name+'-libs');libs.mkdir(parents=True,exist_ok=False)
  directory=a.firmware/'MMX2'
  if not directory.is_dir():directory=a.firmware/'mmx2'
  files=image_files(stage1(directory/'mifs-stage1/50/default/mifs-stage1.img'))
+ app=QNX6(directory/'app/50/default/app.img')
+ try:(libs/'factory-gal').write_bytes(app.get('eso/bin/apps/gal'))
+ finally:app.file.close()
+ assert sha((libs/'factory-gal').read_bytes())==aam['factory_gal']['sha256'];extras['factory-gal']=libs/'factory-gal'
  zl=[b for n,b in files.items() if n.endswith('/libz.so.2')];assert len(zl)==1;(libs/'factory-zlib').write_bytes(zl[0]);extras['factory-zlib']=libs/'factory-zlib'
  for name in ('libm.so.2','libsocket.so.3'):
   matches=[b for n,b in files.items() if n.endswith('/'+name)];assert len(matches)==1;(libs/name).write_bytes(matches[0]);extras[name]=libs/name
@@ -130,7 +217,7 @@ test "$(cat "$APP/carplay-mu1367-artwork-png/STATE")" = removed || exit 91
  for n in ('reader-setup','toolchain','firmware-commands','output'):sys.argv+=['--'+n,str(getattr(a,n.replace('-','_')))]
  try:rc=factory_reset.main(script,extras,main/'COMMANDS.json')
  finally:sys.argv=old
- log=(a.output/'qemu.log').read_text(errors='replace');assert 'RELEASE_FACTORY_DEFAULT_ARTWORK_PNG_PASS' in log and 'RELEASE_FACTORY_MIGRATION_PASS' in log and 'RELEASE_FACTORY_TRAIN_RECOGNITION_PASS' in log and 'RELEASE_FACTORY_PROGRESS_PASS' in log
- r=json.loads((a.output/'result.json').read_text());r.update(factory_progress_verified=True,factory_migration_verified=True,firmware_train_recognition_verified=True,map_only_actions_sha256=sha((main/'actions.sh').read_bytes()),main_controller_sha256=sha((main/'6/control.sh').read_bytes()),tuning_controller_sha256=sha((tuning/'6/control.sh').read_bytes()),fixture_changes='Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host',map_only_and_optional_transactions_verified=True,default_artwork_png_verified=True,artwork_png_controller_sha256=sha((png/'control.sh').read_bytes()),sdk_utilities_injected=False)
+ log=(a.output/'qemu.log').read_text(errors='replace');assert 'RELEASE_FACTORY_ANDROID_AUTO_INSTALL_PASS' in log and 'RELEASE_FACTORY_ANDROID_AUTO_REMOVE_PASS' in log and 'RELEASE_FACTORY_DEFAULT_ARTWORK_PNG_PASS' in log and 'RELEASE_FACTORY_MIGRATION_PASS' in log and 'RELEASE_FACTORY_TRAIN_RECOGNITION_PASS' in log and 'RELEASE_FACTORY_PROGRESS_PASS' in log and 'RELEASE_FACTORY_CARPLAY_BRIDGE_INSTALLED_PASS' in log and 'RELEASE_FACTORY_STREAM_TEST_PASS' in log and 'RELEASE_FACTORY_SNAPSHOTS_PASS' in log
+ r=json.loads((a.output/'result.json').read_text());r.update(stream_test_verified=True,factory_progress_verified=True,factory_migration_verified=True,firmware_train_recognition_verified=True,map_only_actions_sha256=sha((main/'actions.sh').read_bytes()),main_controller_sha256=sha((main/'6/control.sh').read_bytes()),tuning_controller_sha256=sha((tuning/'6/control.sh').read_bytes()),fixture_changes='Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host',map_only_and_optional_transactions_verified=True,default_artwork_png_verified=True,android_auto_layer_verified=True,carplay_bridge_install_verified=True,saved_snapshots_verified=True,android_auto_controller_sha256=sha((aa/'control.sh').read_bytes()),artwork_png_controller_sha256=sha((png/'control.sh').read_bytes()),sdk_utilities_injected=False)
  (a.output/'result.json').write_text(json.dumps(r,indent=2)+'\n');return rc
 if __name__=='__main__':raise SystemExit(main())

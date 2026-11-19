@@ -17,6 +17,10 @@ if [ -d "$MAIN" ] && regular "$MAIN/STATE" && [ "$(cat "$MAIN/STATE")" = install
    esac
   fi
   legacy_check "$MAIN" "$IDENTITY" || fail UNKNOWN_OR_DAMAGED_LEGACY_REVISION
+  # A later release with the Android Auto layer installed retires it before its main layer.
+  if [ -d "$APP/carplay-mu1367-android-auto" ] && [ "$(cat "$APP/carplay-mu1367-android-auto/STATE" 2>/dev/null)" != removed ];then
+   /bin/ksh "$APP/carplay-mu1367-android-auto/control.sh" uninstall "$APP/carplay-mu1367-android-auto" || fail LEGACY_ANDROID_AUTO_REMOVAL_FAILED_USE_RECOVERY
+  fi
   if [ "$OLD_TUNING" = yes ];then
    /bin/ksh "$CARDS/control.sh" uninstall || fail LEGACY_TUNING_REMOVAL_FAILED_USE_RECOVERY
   fi

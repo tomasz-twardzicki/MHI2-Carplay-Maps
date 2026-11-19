@@ -8,7 +8,7 @@ static void write_display(const char *root,int stream,int layout,unsigned genera
 }
 int main(int argc,char **argv){
  static const int areas[4][4]={{200,96,400,364},{160,96,480,364},{220,96,360,348},{220,65,360,348}};
- static const int fps[7]={30,40,30,40,25,20,27},idr[7]={5,5,5,5,5,5,5};
+ static const int fps[7]={30,40,30,40,25,40,40},idr[7]={5,5,5,5,5,5,5};
  char root[]="/tmp/mu1367-display-XXXXXX",path[512];int s,l,checks=0;Obj *d,*v,*safe;FILE *f;
  if(argc==2){struct cpvc_display_settings state;int rc=cpvc_display_read(argv[1],&state);if(rc<0)return 2;printf("%d,%d,%llu\n",state.stream,state.layout,(unsigned long long)state.generation);return 0;}
  assert(mkdtemp(root));assert(!setenv("CPVC_DISPLAY_STATE_DIR",root,1));assert(!setenv("CPMAP_CARD_STATE_DIR",root,1));assert(!setenv("CARPLAY_ALTSCREEN_LOG","/dev/null",1));
