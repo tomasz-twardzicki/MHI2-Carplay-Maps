@@ -1,5 +1,7 @@
 # MU1367 / AID 791
 
+**Experimental pre-release: [v1.6.3-e](../releases/MU1367/v1.6.3-e/README.md)** — test2 runtime, extended upstream OEM restoration, complete fresh installation and verified turn-card Off default. Read its [installation and recovery guide](../releases/MU1367/v1.6.3-e/START_HERE.md).
+
 **Current stable: [v1.6.1](../releases/MU1367/v1.6.1/README.md)** for K4525/P4521
 MU1367 and the 12.3-inch AID 791. Includes wired and native wireless CarPlay,
 AID maps and native guidance, OEM ETA/arrival selection, RHD/LHD forwarding,

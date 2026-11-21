@@ -36,6 +36,8 @@ The baseline project is by **omonob (QCDWJ)**. **tomasz-twardzicki** developed t
 
 ## Latest MU1367 / 791 changes
 
+**Experimental pre-release: [MU1367 v1.6.3-e](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.6.3-e)** uses the v1.6.3-e-test2 runtime, extends complete OEM restore to omonob wireless v3.2 and earlier public plaintext releases, and verifies fresh installation from the same complete SD. Turn cards default to Off; saved choices are preserved. See the [experimental installation/recovery guide](releases/MU1367/v1.6.3-e/START_HERE.md).
+
 **[MU1367 v1.6.1](https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.6.1)** is the stable release for K4525/P4521 MU1367 + AID 791.
 
 - **Native wireless CarPlay:** maps on the AID, native route/lane guidance and OEM RHD/LHD forwarding. The runtime is unchanged from the successful v1.6.1-e-test2 vehicle test.
