@@ -1,0 +1,19 @@
+{
+  "version": "1.6.6-e",
+  "package_seed": {
+    "version": "1.6.1",
+    "archive_sha256": "38279833ed495a057f4a513d568c5cf94a9f8d335a38773ebb580d09dcee47c1"
+  },
+  "tested_790_backend": {
+    "version": "overlay790-test3",
+    "archive_sha256": "202ab34e7339324ca204e6ea64ef754d94a1174f76e9d139c41d59bfc28d3359"
+  },
+  "previous_wireless_candidate": {
+    "version": "1.6.5-e-test2",
+    "archive_sha256": "e9b815eb0be0e1b9cf45564278e15b12ddbe4d0436553a40177e54324882fcae"
+  },
+  "oem_reset_seed": {
+    "version": "1.6.3-e",
+    "archive_sha256": "4956ae5e9378f123d32ad371da94c0f9578b1e153586cf11d3f69b1a69234bce"
+  }
+}

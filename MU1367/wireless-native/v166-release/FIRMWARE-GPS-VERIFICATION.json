@@ -1,0 +1,90 @@
+{
+  "passed": true,
+  "profiles": {
+    "K4525-HW50": {
+      "sha256": {
+        "eso/bin/apps/dio_manager": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+        "armle/lib/dll/ipod-drvr-iap2.so": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+        "eso/bin/apps/esoposprovider": "a3e4d7dec7edc6083458109c441107b546fd98c832c3520ae676bde237016eaf"
+      },
+      "identification_sentence_ids": {
+        "GPGGA": 17,
+        "GPRMC": 18,
+        "GPGSV": 19,
+        "PASCD": 20,
+        "PAGCD": 21,
+        "PAACD": 22,
+        "GPHDT": 23
+      },
+      "location_messages": [
+        "0xfffa",
+        "0xfffb",
+        "0xfffc"
+      ]
+    },
+    "K4525-HW70": {
+      "sha256": {
+        "eso/bin/apps/dio_manager": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+        "armle/lib/dll/ipod-drvr-iap2.so": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+        "eso/bin/apps/esoposprovider": "a3e4d7dec7edc6083458109c441107b546fd98c832c3520ae676bde237016eaf"
+      },
+      "identification_sentence_ids": {
+        "GPGGA": 17,
+        "GPRMC": 18,
+        "GPGSV": 19,
+        "PASCD": 20,
+        "PAGCD": 21,
+        "PAACD": 22,
+        "GPHDT": 23
+      },
+      "location_messages": [
+        "0xfffa",
+        "0xfffb",
+        "0xfffc"
+      ]
+    },
+    "P4521-HW50": {
+      "sha256": {
+        "eso/bin/apps/dio_manager": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+        "armle/lib/dll/ipod-drvr-iap2.so": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+        "eso/bin/apps/esoposprovider": "a3e4d7dec7edc6083458109c441107b546fd98c832c3520ae676bde237016eaf"
+      },
+      "identification_sentence_ids": {
+        "GPGGA": 17,
+        "GPRMC": 18,
+        "GPGSV": 19,
+        "PASCD": 20,
+        "PAGCD": 21,
+        "PAACD": 22,
+        "GPHDT": 23
+      },
+      "location_messages": [
+        "0xfffa",
+        "0xfffb",
+        "0xfffc"
+      ]
+    },
+    "P4521-HW70": {
+      "sha256": {
+        "eso/bin/apps/dio_manager": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+        "armle/lib/dll/ipod-drvr-iap2.so": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+        "eso/bin/apps/esoposprovider": "a3e4d7dec7edc6083458109c441107b546fd98c832c3520ae676bde237016eaf"
+      },
+      "identification_sentence_ids": {
+        "GPGGA": 17,
+        "GPRMC": 18,
+        "GPGSV": 19,
+        "PASCD": 20,
+        "PAGCD": 21,
+        "PAACD": 22,
+        "GPHDT": 23
+      },
+      "location_messages": [
+        "0xfffa",
+        "0xfffb",
+        "0xfffc"
+      ]
+    }
+  },
+  "on_unit_validated": false
+}

@@ -1,0 +1,77 @@
+#define ALTSCREEN_BRIDGE_FILE_OUTPUT 1
+#define TS_QUEUE_PACKETS 4096U
+#define CPMAP_WIRELESS_SUMMARY_PATH "recovery-summary.log"
+#define ALT_FRAME_FORCE_IDR_PATH "force-idr"
+#define main production_bridge_main
+#include "@BRIDGE@"
+#undef main
+#include <assert.h>
+static unsigned char *frames[4];
+static size_t sizes[]={100000,1500,2000,1400};
+static uint64_t stamps[]={90000,93000,96000,99999};
+static unsigned char es[110000];
+static int complete(size_t length,unsigned id) {
+    return id<4 && length==sizes[id] && !memcmp(es,frames[id],length);
+}
+static int whole_access_units(const unsigned char *packets,size_t count) {
+    size_t i,used=0;unsigned id=4;int begun=0;
+    for(i=0;i<count;i++) {
+        const unsigned char *p=packets+i*188;unsigned pid=((p[1]&31)<<8)|p[2],offset=4;
+        if(pid!=17 || !(p[3]&0x10))continue;
+        if(p[3]&0x20)offset+=1+p[4];
+        if(offset>=188)return 0;
+        if(p[1]&0x40) {
+            uint64_t pts;unsigned j;
+            if(begun && !complete(used,id))return 0;
+            if(offset+14>188 || p[offset] || p[offset+1] || p[offset+2]!=1 || p[offset+3]!=0xe0)return 0;
+            p+=offset;
+            pts=((uint64_t)(p[9]&14)<<29)|((uint64_t)p[10]<<22)|((uint64_t)(p[11]&254)<<14)|((uint64_t)p[12]<<7)|(p[13]>>1);
+            for(j=0;j<4 && stamps[j]!=pts;j++);
+            if(j==4)return 0;
+            id=j;used=0;begun=1;offset+=14;p=packets+i*188;
+        }
+        if(!begun || used+188-offset>sizeof(es))return 0;
+        memcpy(es+used,p+offset,188-offset);used+=188-offset;
+    }
+    return !begun || complete(used,id);
+}
+int main(void) {
+    unsigned i,wrap,split,tests=0,bad=0;size_t count=0,n;
+    unsigned char *snapshot=malloc(TS_QUEUE_PACKETS*188),*output=malloc(TS_QUEUE_PACKETS*188);
+    static const unsigned char config[]={1,100,0,31,255,225,0,2,103,1,1,0,2,104,1};
+    unsigned char idr[]={0,0,0,4,101,1,2,3};AvcConfig avcc;int idr_result,one_block;
+    assert(snapshot && output && !queue_init(&g_queue));
+    for(i=0;i<4;i++) {
+        frames[i]=malloc(sizes[i]);assert(frames[i]);memset(frames[i],i+1,sizes[i]);
+        frames[i][0]=frames[i][1]=frames[i][2]=0;frames[i][3]=1;frames[i][4]=i==3?101:65;
+        if(i<3)assert(!enqueue_pes(frames[i],sizes[i],stamps[i],0));
+    }
+    while(queue_pop(&g_queue,snapshot+count*188))count++;
+    for(wrap=0;wrap<2;wrap++)for(split=0;split<=count;split++) {
+        g_queue.read_index=g_queue.write_index=wrap?TS_QUEUE_PACKETS-16:0;g_queue.count=0;
+        assert(!queue_push_batch(&g_queue,snapshot,count));
+        n=0;for(i=0;i<split;i++){assert(queue_pop(&g_queue,output+n*188));n++;}
+        queue_discard_all(&g_queue);
+        while(queue_pop(&g_queue,output+n*188))n++;
+        g_discontinuity_pending=1;assert(!enqueue_pes(frames[3],sizes[3],stamps[3],1));
+        while(queue_pop(&g_queue,output+n*188))n++;
+        if(!whole_access_units(output,n))bad++;
+        tests++;
+        if(!wrap && split==count) {
+            FILE *f=fopen("no-reset.ts","wb");assert(f && fwrite(output,188,n,f)==n && !fclose(f));
+        }
+    }
+    /* A fresh current IDR is usable even before the writer has accumulated a
+     * recovery streak. Throwing it away lengthens recovery by another GOP. */
+    memset(&avcc,0,sizeof(avcc));assert(!parse_avcc_config(&avcc,config,sizeof(config)));
+    g_waiting_for_keyframe=1;g_latency_wait_start_us=monotonic_us();
+    g_recovery_writer_generation=g_writer_blocks_completed=0;g_writer_fast_streak=0;
+    idr_result=process_frame(&avcc,idr,sizeof(idr),ALT_FRAME_FLAG_KEYFRAME,1,0);
+    g_recovery_writer_generation=0;g_writer_blocks_completed=1;g_writer_fast_streak=1;
+    one_block=writer_recovered_after_reset();
+    printf("{\"split_cases\":%u,\"truncated_access_units\":%u,\"incoming_idr_preserved\":%s,\"one_fast_block_recovers\":%s}\n",
+        tests,bad,idr_result==0 && !g_waiting_for_keyframe?"true":"false",one_block?"true":"false");
+    free_config(&avcc);queue_destroy(&g_queue);free(snapshot);free(output);
+    for(i=0;i<4;i++)free(frames[i]);
+    return 0;
+}
