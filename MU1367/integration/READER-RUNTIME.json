@@ -1,0 +1,9 @@
+{
+  "version": "1.4.3-e",
+  "experimental": true,
+  "sha256": "b2d8d608ed3dfe7ac730124c3144e0deb0e9539d7140ef71f75fce2dc313de68",
+  "source_sha256": "d99e6705b466a3cc6566465a58bc52987730293e893ccb416ca24bda9523287a",
+  "factory_libc_sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+  "base_version": "1.4.3",
+  "vehicle_tested": false
+}

@@ -1,0 +1,358 @@
+{
+  "passed": true,
+  "scope": "ELF strong-import resolution only; no receiver, radio, decode or MOST hardware execution.",
+  "profiles": {
+    "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318/50": {
+      "passed": true,
+      "modules": {
+        "core.so": {
+          "sha256": "a4bb6ce6e9e63a05cc1b6be20c5257983fb4dcbdf89f55528438acbd8edba8ee",
+          "needed": [
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "wcp_receiver": {
+          "sha256": "396c73bcd7674483245776d0493552832f7ebbcefed399d7b9dd1182a5336c90",
+          "needed": [
+            "libsocket.so.3",
+            "libm.so.2",
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libsocket.so.3",
+            "libm.so.2",
+            "libc.so.3"
+          ],
+          "preload_providers": [
+            "libv75-transport.so",
+            "libomonob-wireless-maps.so"
+          ],
+          "missing": []
+        },
+        "wireless-entry": {
+          "sha256": "99a4e2da5c3b087aec504f38f936a5e5c4987db9b15b9e134572f7c97162d533",
+          "needed": [
+            "libsocket.so.3",
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libsocket.so.3",
+            "libc.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "wireless-receiver-exec": {
+          "sha256": "41d523d4f2456237e6ed99bd89a7a8777aff5c2641c2f1663df697934f821813",
+          "needed": [
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "libomonob-wireless-maps.so": {
+          "sha256": "160d43f227dcdda27a11e4b8a8623c68a0aabe488ae18cc9766992fcd6dc5cfa",
+          "needed": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "libv75-transport.so": {
+          "sha256": "46a46b9bf2b60cba84c6d9ebeaac39ed56db8abe3b761a5d3c71f75458abbf3b",
+          "needed": [
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        }
+      },
+      "factory_sha256": {
+        "libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+        "libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+        "libm.so.2": "715ba06e022f7f9f2d9e2cf6b94a03bf619e034f41f8d832601507cc5073cd83"
+      }
+    },
+    "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318/70": {
+      "passed": true,
+      "modules": {
+        "core.so": {
+          "sha256": "a4bb6ce6e9e63a05cc1b6be20c5257983fb4dcbdf89f55528438acbd8edba8ee",
+          "needed": [
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "wcp_receiver": {
+          "sha256": "396c73bcd7674483245776d0493552832f7ebbcefed399d7b9dd1182a5336c90",
+          "needed": [
+            "libsocket.so.3",
+            "libm.so.2",
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libsocket.so.3",
+            "libm.so.2",
+            "libc.so.3"
+          ],
+          "preload_providers": [
+            "libv75-transport.so",
+            "libomonob-wireless-maps.so"
+          ],
+          "missing": []
+        },
+        "wireless-entry": {
+          "sha256": "99a4e2da5c3b087aec504f38f936a5e5c4987db9b15b9e134572f7c97162d533",
+          "needed": [
+            "libsocket.so.3",
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libsocket.so.3",
+            "libc.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "wireless-receiver-exec": {
+          "sha256": "41d523d4f2456237e6ed99bd89a7a8777aff5c2641c2f1663df697934f821813",
+          "needed": [
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "libomonob-wireless-maps.so": {
+          "sha256": "160d43f227dcdda27a11e4b8a8623c68a0aabe488ae18cc9766992fcd6dc5cfa",
+          "needed": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "libv75-transport.so": {
+          "sha256": "46a46b9bf2b60cba84c6d9ebeaac39ed56db8abe3b761a5d3c71f75458abbf3b",
+          "needed": [
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        }
+      },
+      "factory_sha256": {
+        "libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+        "libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+        "libm.so.2": "715ba06e022f7f9f2d9e2cf6b94a03bf619e034f41f8d832601507cc5073cd83"
+      }
+    },
+    "MHI2_ER_VWG13_P4521_MU1367/50": {
+      "passed": true,
+      "modules": {
+        "core.so": {
+          "sha256": "a4bb6ce6e9e63a05cc1b6be20c5257983fb4dcbdf89f55528438acbd8edba8ee",
+          "needed": [
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "wcp_receiver": {
+          "sha256": "396c73bcd7674483245776d0493552832f7ebbcefed399d7b9dd1182a5336c90",
+          "needed": [
+            "libsocket.so.3",
+            "libm.so.2",
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libsocket.so.3",
+            "libm.so.2",
+            "libc.so.3"
+          ],
+          "preload_providers": [
+            "libv75-transport.so",
+            "libomonob-wireless-maps.so"
+          ],
+          "missing": []
+        },
+        "wireless-entry": {
+          "sha256": "99a4e2da5c3b087aec504f38f936a5e5c4987db9b15b9e134572f7c97162d533",
+          "needed": [
+            "libsocket.so.3",
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libsocket.so.3",
+            "libc.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "wireless-receiver-exec": {
+          "sha256": "41d523d4f2456237e6ed99bd89a7a8777aff5c2641c2f1663df697934f821813",
+          "needed": [
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "libomonob-wireless-maps.so": {
+          "sha256": "160d43f227dcdda27a11e4b8a8623c68a0aabe488ae18cc9766992fcd6dc5cfa",
+          "needed": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "libv75-transport.so": {
+          "sha256": "46a46b9bf2b60cba84c6d9ebeaac39ed56db8abe3b761a5d3c71f75458abbf3b",
+          "needed": [
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        }
+      },
+      "factory_sha256": {
+        "libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+        "libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+        "libm.so.2": "715ba06e022f7f9f2d9e2cf6b94a03bf619e034f41f8d832601507cc5073cd83"
+      }
+    },
+    "MHI2_ER_VWG13_P4521_MU1367/70": {
+      "passed": true,
+      "modules": {
+        "core.so": {
+          "sha256": "a4bb6ce6e9e63a05cc1b6be20c5257983fb4dcbdf89f55528438acbd8edba8ee",
+          "needed": [
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "wcp_receiver": {
+          "sha256": "396c73bcd7674483245776d0493552832f7ebbcefed399d7b9dd1182a5336c90",
+          "needed": [
+            "libsocket.so.3",
+            "libm.so.2",
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libsocket.so.3",
+            "libm.so.2",
+            "libc.so.3"
+          ],
+          "preload_providers": [
+            "libv75-transport.so",
+            "libomonob-wireless-maps.so"
+          ],
+          "missing": []
+        },
+        "wireless-entry": {
+          "sha256": "99a4e2da5c3b087aec504f38f936a5e5c4987db9b15b9e134572f7c97162d533",
+          "needed": [
+            "libsocket.so.3",
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libsocket.so.3",
+            "libc.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "wireless-receiver-exec": {
+          "sha256": "41d523d4f2456237e6ed99bd89a7a8777aff5c2641c2f1663df697934f821813",
+          "needed": [
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "libomonob-wireless-maps.so": {
+          "sha256": "160d43f227dcdda27a11e4b8a8623c68a0aabe488ae18cc9766992fcd6dc5cfa",
+          "needed": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        },
+        "libv75-transport.so": {
+          "sha256": "46a46b9bf2b60cba84c6d9ebeaac39ed56db8abe3b761a5d3c71f75458abbf3b",
+          "needed": [
+            "libc.so.3"
+          ],
+          "host_providers": [
+            "libc.so.3"
+          ],
+          "preload_providers": [],
+          "missing": []
+        }
+      },
+      "factory_sha256": {
+        "libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+        "libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+        "libm.so.2": "715ba06e022f7f9f2d9e2cf6b94a03bf619e034f41f8d832601507cc5073cd83"
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "baseline_commit": "1006274",
+  "source": "MU1367/integration/src/runtime/vc-runtime/runtime/carplay_cluster_supervisor.c",
+  "baseline_sha256": "00ee1705b4e1ec51421178b910965b52d6879523825e5113d3975288ec87e71e",
+  "license": "GPL-3.0-or-later",
+  "repository": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps"
+}

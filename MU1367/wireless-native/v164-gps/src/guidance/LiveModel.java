@@ -1,0 +1,434 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Bounded runtime decoder. Protocol/mapping adapted from rgi_decode.py and
+ * rgi_maneuver.py; LuKa reference attribution is recorded in NATIVE-BRIDGE.md.
+ * No HMI, device I/O, logging of payloads, or dependency on Java > 1.2 APIs.
+ */
+package com.cpmap.rgi;
+
+import java.io.IOException;
+
+public final class LiveModel {
+    final int component;
+    public LiveModel(){this(0x10);}
+    public LiveModel(int desired){if(desired!=1 && desired!=0x10)throw new IllegalArgumentException();component=desired;}
+    static final int SNAP = 33088;
+    /* Phone apps send deltas: Apple Maps can stay silent while stopped or
+     * between distance steps. An active route is held while the producer
+     * heartbeat, session and route state remain valid, bounded by HOLD_MS of
+     * total message silence. Explicit state/session changes still clear it. */
+    static final long HOLD_MS = 180000;
+    /* A captured reroute is 1,5,0,3,1 within about 0.5 s. The list then restarts
+     * at a start-route maneuver reporting 0 m for up to 15 s. The whole episode
+     * is one route: it shows CALC_ROUTE and keeps the last counters until the
+     * phone reports a real distance again. */
+    static final int MAIN_RECALCULATING = 9;
+    static final long STOP_GRACE_MS = 1500, RECOVER_MS = 20000;
+    static final class Message {
+        int id;
+        long[] v = new long[21];
+        byte[][] raw = new byte[21][];
+        boolean[] has = new boolean[21];
+        int[] components, order;
+        LaneData[] lanes=LaneData.EMPTY; boolean invalidLanes;
+    }
+    public static final class Frame {
+        public final boolean active, validDistance;
+        public final int main, direction, meters, remainingMeters, remainingSeconds;
+        public final long progress, changed, epoch;
+        final LaneData[] lanes; final long laneAt;
+        public final String currentRoad; public final long roadAt;
+        public final int maneuverType;
+        Frame(boolean a, int m, int d, int distance, long p, long c, long e) {
+            this(a,m,d,distance,-1,-1,p,c,e);
+        }
+        Frame(boolean a, int m, int d, int distance, int remaining, int seconds, long p, long c, long e) {
+            this(a,m,d,distance,remaining,seconds,p,c,e,LaneData.EMPTY,-1);
+        }
+        Frame(boolean a,int m,int d,int distance,int remaining,int seconds,long p,long c,long e,LaneData[] values,long at) {
+            this(a,m,d,distance,remaining,seconds,p,c,e,values,at,"",-1);
+        }
+        Frame(boolean a,int m,int d,int distance,int remaining,int seconds,long p,long c,long e,LaneData[] values,long at,String road,long roadTime) {
+            this(a,m,d,distance,remaining,seconds,p,c,e,values,at,road,roadTime,-1);
+        }
+        Frame(boolean a,int m,int d,int distance,int remaining,int seconds,long p,long c,long e,LaneData[] values,long at,String road,long roadTime,int kind) {
+            maneuverType=kind;
+            currentRoad=road;roadAt=roadTime;
+            lanes=values;laneAt=at;
+            remainingMeters=remaining; remainingSeconds=seconds;
+            active=a; main=m; direction=d; meters=distance; validDistance=distance>=0;
+            progress=p; changed=c; epoch=e;
+        }
+    }
+    private final LaneData.Cache laneCache=new LaneData.Cache();
+    public long roadFields, roadNonempty, laneMessages, neutralLanes, neutralBranches;
+    private boolean directRoad;
+    private long routeStatusAt=-1;
+    private String currentRoad=""; private long roadAt=-1;
+    private long sec=-1, nsec=-1, wireSession=-1, high=0, seen=0;
+    private long progress=0, changed=-1, epoch=0;
+    private int state=-1, generation=0, distance=-1, distanceHead=-1, distanceGeneration=-1;
+    private int remainingMeters=-1, remainingSeconds=-1;
+    private int[] order=new int[0];
+    private Message[] cache=new Message[32];
+    private long[] ages=new long[32];
+    private long age;
+    private byte[] source, destination;
+    private byte[][] retained=new byte[16][];
+    private boolean rerouting;
+    // Driving side of the last maneuver that carried one: 0 right-hand, 1 left-hand traffic.
+    private int drivingSide=-1;
+    private int reroutingType=-1;
+    private long clock, stopAt=-1, recoverAt=-1;
+
+    static void require(boolean condition) throws IOException {
+        if (!condition) throw new IOException("RGI structural validation failed");
+    }
+    public static long u32(byte[] b, int p) {
+        return (b[p]&255L) | (b[p+1]&255L)<<8 | (b[p+2]&255L)<<16 | (b[p+3]&255L)<<24;
+    }
+    static int be16(byte[] b, int p) { return (b[p]&255)<<8 | b[p+1]&255; }
+    static int u16(byte[] b, int p) { return (b[p]&255) | (b[p+1]&255)<<8; }
+    static byte[] copy(byte[] b, int p, int n) {
+        byte[] result=new byte[n]; System.arraycopy(b,p,result,0,n); return result;
+    }
+    static boolean equal(byte[] a, byte[] b) {
+        if (a==null || b==null) return a==b;
+        if (a.length!=b.length) return false;
+        for (int i=0;i<a.length;i++) if (a[i]!=b[i]) return false;
+        return true;
+    }
+    /* A source name is display text, not an identity. Apple Maps alternates
+     * "Apple Maps" and a localized form ("Mapy Apple") within one session. Taken
+     * as an app switch, that drops maneuver records the phone may not resend,
+     * so guidance stays lost until it reaches a record it has not sent yet. */
+    static boolean sameSource(byte[] a, byte[] b) { return equal(a,b) || apple(a) && apple(b); }
+    private static boolean letter(int c) { c|=32; return c>='a' && c<='z'; }
+    // "Apple" as a whole word, any case. UTF-8 neighbours are not ASCII letters.
+    private static boolean apple(byte[] b) {
+        if (b==null) return false;
+        String word="apple";
+        for (int p=0;p+5<=b.length;p++) {
+            int i=0;
+            while (i<5 && (b[p+i]|32)==word.charAt(i)) i++;
+            if (i==5 && (p==0 || !letter(b[p-1])) && (p+5==b.length || !letter(b[p+5]))) return true;
+        }
+        return false;
+    }
+    // Strict UTF-8, optional one trailing NUL, no embedded/control characters.
+    static void text(byte[] b, int p, int n, int max) throws IOException {
+        require(n<=max); int end=p+n;
+        if (n>0 && b[end-1]==0) end--;
+        while (p<end) {
+            int c=b[p++]&255, count=0, value=c, min=0;
+            if (c>=0xc2 && c<=0xdf) { count=1; value=c&31; min=128; }
+            else if (c>=0xe0 && c<=0xef) { count=2; value=c&15; min=2048; }
+            else if (c>=0xf0 && c<=0xf4) { count=3; value=c&7; min=65536; }
+            else require(c<128);
+            require(p+count<=end);
+            for (int i=0;i<count;i++) { c=b[p++]&255; require((c&192)==128); value=(value<<6)|(c&63); }
+            require(value>=min && value<=0x10ffff && !(value>=0xd800 && value<=0xdfff));
+            require(!(value<32 && value!=9 && value!=10 && value!=13) && !(value>=127 && value<160));
+        }
+    }
+    // Encoding: positive=scalar width, -1=text256, -2=text64, -3=u16 list,
+    // -4=signed angle list, -5=nested TLVs. Unknown IDs stay opaque.
+    static final int[] ROUTE={-3,1,1,-1,-1,8,8,4,-2,1,4,-2,1,-3,2,1,2,2,1,-2,1};
+    static final int[] MANEUVER={-3,2,-1,1,-1,4,-2,1,1,1,-4,2,2,-1};
+    static final int[] LANE={-3,2,-5,-1};
+    static void nested(byte[] b, int p, int end) throws IOException {
+        int count=0;
+        while (p<end) { require(end-p>=4 && ++count<=256); int n=be16(b,p); require(n>=4 && p+n<=end); p+=n; }
+    }
+    // Bounded structural shape of a rejected message: keys and sizes only,
+    // plus component/state values. Never text content.
+    static String shape(byte[] b, int p, int length) {
+        StringBuffer s=new StringBuffer(); int end=p+length, count=0;
+        while (p<end && count<24) {
+            if (end-p<4) { s.append(count>0?",":"").append("tail:").append(end-p); break; }
+            int n=be16(b,p), key=be16(b,p+2);
+            if (count++>0) s.append(',');
+            s.append(key).append(':').append(n-4);
+            if (n<4 || p+n>end) { s.append("!"); break; }
+            if ((key==0 || key==1) && n-4<=8) { s.append('='); for (int i=p+4;i<p+n;i++) { int v=b[i]&255; s.append(Character.forDigit(v>>4,16)).append(Character.forDigit(v&15,16)); } }
+            p+=n;
+        }
+        if (length==0) s.append("empty");
+        return s.toString();
+    }
+    static Message decode(int id, byte[] b, int p, int length) throws IOException {return decode(id,b,p,length,0x10);}
+    static Message decode(int id, byte[] b, int p, int length,int component) throws IOException {
+        int faultField=-1, start=p;
+        try {
+        require(id==0x5201 || id==0x5202 || id==0x5204);
+        Message m=new Message(); m.id=id; int end=p+length, count=0, angles=0, nestedCount=0;
+        int[] schema=id==0x5201?ROUTE:id==0x5202?MANEUVER:LANE;
+        while (p<end) {
+            require(end-p>=4 && ++count<=256); int n=be16(b,p), key=be16(b,p+2);faultField=key;
+            require(n>=4 && p+n<=end); int at=p+4, size=n-4; p+=n;
+            if (key>=schema.length) continue;
+            int kind=schema[key]; boolean repeat=kind==-4 || kind==-5 || id==0x5204 && key==0;
+            require(!m.has[key] || repeat); m.has[key]=true;
+            if (kind>0) {
+                require(size==kind); long value=0;
+                for (int i=0;i<size;i++) value=(value<<8)|(b[at+i]&255L);
+                if (id==0x5202 && key==11) value=(short)value;
+                m.v[key]=value;
+            } else if (kind==-1 || kind==-2) {
+                text(b,at,size,kind==-1?256:64);
+                if (id==0x5201 && (key==3 || key==4 || key==19) || id==0x5202 && key==4) {
+                    if (size>0 && b[at+size-1]==0) size--;
+                    m.raw[key]=copy(b,at,size);
+                }
+            } else if (kind==-3 || kind==-4) {
+                require(size%2==0 && size/2<=(key==0?8:16));
+                if (kind==-4) { angles+=size/2; require(angles<=16); }
+                else {
+                    int[] list=new int[size/2];
+                    for (int i=0;i<list.length;i++) list[i]=be16(b,at+2*i);
+                    if(key==0 && id==0x5204 && m.components!=null){
+                        require(m.components.length+list.length<=8);
+                        int[] both=new int[m.components.length+list.length];
+                        System.arraycopy(m.components,0,both,0,m.components.length);System.arraycopy(list,0,both,m.components.length,list.length);m.components=both;
+                    }else if (key==0) m.components=list; else m.order=list;
+                }
+            } else if(id==0x5204 && key==2) {
+                LaneData lane=LaneData.decode(b,at,size);
+                if(lane==null || m.lanes.length>=16)m.invalidLanes=true;
+                else {
+                    LaneData[] values=new LaneData[m.lanes.length+1];
+                    System.arraycopy(m.lanes,0,values,0,m.lanes.length);values[values.length-1]=lane;m.lanes=values;
+                }
+            } else {
+                nested(b,at,at+size);
+                for (int q=at;q<at+size;q+=be16(b,q)) require(++nestedCount<=256);
+            }
+        }
+        if(id==0x5204 && m.components==null)m.components=new int[]{component};
+        require(m.components!=null && m.components.length>0);
+        for (int i=0;i<m.components.length;i++) for (int j=0;j<i;j++) require(m.components[i]!=m.components[j]);
+        require(id==0x5201 || m.has[1]); return m;
+        }catch(java.io.IOException e){FeedRecovery.Fault f=new FeedRecovery.Fault(id,faultField);f.shape=shape(b,start,length);throw f;}
+    }
+    private void clearCache() {
+        laneCache.clear();routeStatusAt=-1;currentRoad="";roadAt=-1;directRoad=false;
+        cache=new Message[32]; ages=new long[32]; order=new int[0];
+        distance=-1; distanceHead=-1; distanceGeneration=-1; generation++;
+        remainingMeters=remainingSeconds=-1;
+        rerouting=false;reroutingType=-1;stopAt=recoverAt=-1;
+    }
+    // Indexes are reused by the new route, so its maneuvers and lanes must go.
+    private void dropManeuvers() {
+        laneCache.clear();cache=new Message[32];ages=new long[32];order=new int[0];
+    }
+    private boolean guiding(int phase) { return phase==1 || phase==6; }
+    private void endStop() { clearCache();destination=null;state=0; }
+    /** The phone has been silent for 5 s: stop waiting for what it has not sent. */
+    public void quiet() {
+        if(stopAt>=0)endStop();
+        else if(rerouting && guiding(state))rerouting=false;
+    }
+    private void expire(long now) {
+        if(stopAt>=0 && (now<stopAt || now-stopAt>=STOP_GRACE_MS))endStop();
+        else if(rerouting && recoverAt>=0 && (now<recoverAt || now-recoverAt>=RECOVER_MS))rerouting=false;
+    }
+    public void invalidate() { clearCache(); drivingSide=-1; state=-1; source=destination=null; seen=0; changed=-1; epoch++; }
+    private int head() { return order.length>0?order[0]:-1; }
+    private Message current() {
+        if (state!=1 && state!=6) return null;
+        for (int i=0;i<cache.length;i++) if (cache[i]!=null && cache[i].v[1]==head()) return cache[i];
+        return null;
+    }
+    private String passedRoad(Message m) throws IOException {
+        // Only a forward transition within the same known route proves that
+        // a maneuver road is now behind us. An upcoming road is never enough.
+        if(m.id!=0x5201 || !m.has[13] || m.order.length==0 || (state!=1 && state!=6)
+            || m.has[1] && m.v[1]!=1 && m.v[1]!=6
+            || m.has[19] && source!=null && !sameSource(source,m.raw[19])
+            || m.has[4] && destination!=null && !equal(destination,m.raw[4]))return null;
+        for(int j=1;j<order.length;j++)if(order[j]==m.order[0]){
+            int passed=order[j-1];
+            for(int i=0;i<cache.length;i++)if(cache[i]!=null && cache[i].v[1]==passed)
+                return RoadName.decode(cache[i].raw[4]);
+            return "";
+        }
+        return null;
+    }
+    private boolean apply(Message m) {
+        boolean ours=false;
+        for (int i=0;i<m.components.length;i++) if (m.components[i]==component) ours=true;
+        if (!ours) return false;
+        if (m.id!=0x5201) {
+            if (state!=1 && state!=3 && state!=4 && state!=5 && state!=6) return false;
+            if (m.id==0x5204) { laneCache.put((int)m.v[1],LaneData.ordered(m.lanes,m.invalidLanes));return true; }
+            int slot=-1;
+            for (int i=0;i<cache.length;i++) {
+                if (cache[i]==null) { if (slot<0) slot=i; }
+                else if (cache[i].v[1]==m.v[1]) { slot=i; break; }
+            }
+            if (slot<0) {
+                // Same bounded eviction order as the host: outside order first,
+                // then furthest lookahead. Never evict the current head.
+                long oldest=Long.MAX_VALUE; int furthest=-1;
+                for (int i=0;i<cache.length;i++) {
+                    int index=(int)cache[i].v[1], rank=-1;
+                    if (index==head()) continue;
+                    for (int j=0;j<order.length;j++) if (order[j]==index) rank=j;
+                    if (rank<0 && ages[i]<oldest) { slot=i; oldest=ages[i]; }
+                    if (slot<0 && rank>furthest) furthest=rank;
+                }
+                if (slot<0) for (int i=0;i<cache.length;i++) if (cache[i].v[1]==order[furthest]) slot=i;
+            }
+            if (slot<0) return false;
+            cache[slot]=m; ages[slot]=++age;
+            if (m.has[8] && (m.v[8]==0 || m.v[8]==1)) drivingSide=(int)m.v[8];
+            return true;
+        }
+        int next=m.has[1]?(int)m.v[1]:state;
+        boolean sourceChange=m.has[19] && source!=null && !sameSource(source,m.raw[19]);
+        if(m.has[19] && source!=null && !equal(source,m.raw[19]))GuidanceEvidence.flip(clock,state,next,m.has[13],m.has[4],m.has[10],current()!=null,sourceChange);
+        boolean destChange=m.has[4] && destination!=null && destination.length>0 && m.raw[4].length>0 && !equal(destination,m.raw[4]);
+        boolean sameRoute=!sourceChange && !destChange;
+        // A stop inside a reroute is provisional; a real one ends it after the grace period.
+        if (next==0 && rerouting && !guiding(state) && sameRoute) { if(stopAt<0)stopAt=clock; return true; }
+        stopAt=-1;
+        if(next!=3 && next!=5 && !guiding(next) && next!=0)rerouting=false;
+        if (sameRoute && (next==3 || next==5) && guiding(state)) {
+            reroutingType=maneuverType();rerouting=true;recoverAt=-1;dropManeuvers();
+        } else if (sameRoute && (next==3 || next==5) && rerouting) {
+            if(state!=next)dropManeuvers();
+        } else if (next==0 && state!=0 || next>0 && state<=0 || (next==3 || next==5) && state>0 && state!=next || sourceChange || destChange || next>6) {
+            if(sourceChange)GuidanceEvidence.sourceClears++;else if(destChange)GuidanceEvidence.destinationClears++;
+            clearCache(); destination=null; if (sourceChange) source=null;
+        }
+        if(rerouting && guiding(next) && !guiding(state))recoverAt=clock;
+        state=next;
+        if (m.has[19]) source=m.raw[19];
+        if (next>=1 && next<=6) {
+            if (m.has[4]) destination=m.raw[4];
+            if (m.has[13]) order=m.order;
+        }
+        if (!guiding(next) && !rerouting) {remainingMeters=remainingSeconds=-1;currentRoad="";roadAt=-1;directRoad=false;}
+        if(m.has[16])laneCache.selected=(int)m.v[16];
+        if(m.has[18])laneCache.showing=m.v[18]==1;
+        if(!guiding(next)){laneCache.showing=false;if(!rerouting)routeStatusAt=-1;}
+        if (next==2) { cache=new Message[32]; distance=-1;laneCache.clear(); }
+        return true;
+    }
+    public Frame snapshot(byte[] b, long now, boolean bootstrap) throws IOException {
+        require(b.length>=64 && b.length<=SNAP);
+        long sequence=u32(b,20), count=u32(b,24), session=u32(b,16), s=u32(b,40), ns=u32(b,44);
+        require(u32(b,0)==0x31494752L && u32(b,4)==1 && u32(b,8)==SNAP && (u32(b,12)&1)==0);
+        require(u32(b,28)<=1 && u32(b,32)==0 && u32(b,36)<=1 && ns<1000000000L);
+        require(count==Math.min(sequence,16) && (u32(b,36)!=0 || sequence==0) && (u32(b,36)==0 || session!=0));
+        for (int i=48;i<64;i+=4) require(u32(b,i)==0);
+        clock=now;
+        Message[] messages=new Message[(int)count]; byte[][] bytes=new byte[(int)count][];
+        FeedRecovery.Fault[] faults=new FeedRecovery.Fault[(int)count];
+        int pos=64;
+        boolean same=sec==s && nsec==ns && wireSession==session;
+        if (same) require(sequence>=high);
+        // Validate every event and immutable overlap before mutating cache.
+        for (int i=0;i<count;i++) {
+            require(pos+16<=b.length); long seq=sequence-count+1+i;
+            int id=u16(b,pos+4), length=u16(b,pos+6);
+            require(u32(b,pos)==seq && u32(b,pos+8)==session && u32(b,pos+12)==0 && length<=2048 && pos+16+length<=b.length);
+            // A semantically invalid message is rejected alone; the envelope,
+            // ordering and overlap checks above/below still fail the snapshot.
+            try {messages[i]=decode(id,b,pos+16,length,component);}catch(FeedRecovery.Fault e){e.sequence=seq;faults[i]=e;} bytes[i]=copy(b,pos,16+length);
+            byte[] previous=retained[(int)((seq-1)&15)];
+            if (same && seq<=high && previous!=null && u32(previous,0)==seq) require(equal(previous,bytes[i]));
+            pos+=16+length;
+        }
+        require(pos==b.length);
+        long oldHigh=same?high:sequence;
+        if (!same) { invalidate(); sec=s; nsec=ns; wireSession=session; high=0; retained=new byte[16][]; }
+        if (count>0 && sequence-count+1>seen+1) invalidate();
+        if (u32(b,28)!=0 || u32(b,36)==0) { invalidate(); }
+        else for (int i=0;i<count;i++) {
+            long seq=sequence-count+1+i;
+            if (seq>seen) {
+                GuidanceEvidence.message(s*1000003L^ns*31L^session,seq,messages[i],faults[i],now);
+                if (messages[i]==null) {
+                    // An unreadable route update may have carried an end or
+                    // state change: drop route state rather than guess.
+                    if (faults[i].message==0x5201) invalidate();
+                    continue;
+                }
+                String passed=passedRoad(messages[i]);
+                boolean accepted=apply(messages[i]);
+                if (!accepted) GuidanceEvidence.notApplied();
+                if(accepted && messages[i].id==0x5204)
+                    LaneEvidence.received(messages[i].lanes,(int)messages[i].v[1],messages[i].invalidLanes,now);
+                if (!rerouting && (head()!=distanceHead || generation!=distanceGeneration || current()==null)) distance=-1;
+                distanceHead=current()==null?-1:head(); distanceGeneration=generation;
+                if (accepted && seq>oldHigh && !bootstrap) {
+                    progress++; changed=now;
+                    Message m=messages[i];
+                    if(m.id==0x5201 && m.has[3]){roadFields++;if(RoadName.decode(m.raw[3]).length()>0)roadNonempty++;}
+                    if(m.id==0x5204){laneMessages++;for(int j=0;j<m.lanes.length;j++)if(m.lanes[j].recommendation==0){neutralLanes++;neutralBranches+=m.lanes[j].sides.length();}}
+                    if (m.id==0x5201 && (guiding(state) || rerouting)) {
+                        routeStatusAt=now;
+                        if(m.has[3]){currentRoad=RoadName.decode(m.raw[3]);roadAt=now;directRoad=currentRoad.length()>0;}
+                        else if(passed!=null && !directRoad){currentRoad=passed;roadAt=now;}
+                        if (m.has[7]) remainingMeters=m.v[7]>=0 && m.v[7]<=Integer.MAX_VALUE?(int)m.v[7]:-1;
+                        // Unsigned u64 input, bounded to factory RTT's 99h59m.
+                        if (m.has[6]) remainingSeconds=m.v[6]>=0 && m.v[6]<=359940?(int)m.v[6]:-1;
+                    }
+                    if (m.id==0x5201 && m.has[10] && current()!=null && !(rerouting && m.v[10]==0)) {
+                        distance=m.v[10]<=Integer.MAX_VALUE?(int)m.v[10]:-1;
+                        rerouting=false;
+                    }
+                }
+            }
+        }
+        for (int i=0;i<count;i++) retained[(int)((sequence-count+i)&15)]=bytes[i];
+        high=sequence; seen=sequence;
+        expire(now);
+        return frame();
+    }
+    /** The current maneuver's side, else the last one seen; -1 when the phone never sent one. */
+    private int side(){Message m=current();return m!=null && m.has[8] && (m.v[8]==0 || m.v[8]==1)?(int)m.v[8]:drivingSide;}
+    private int maneuverType(){Message m=current();return m!=null && m.has[3]?(int)m.v[3]:-1;}
+    public Frame frame() {
+        int[] symbol=rerouting?symbol(MAIN_RECALCULATING,0):map(current());
+        return new Frame((guiding(state) || rerouting) && changed>=0,symbol[0],symbol[1],distance,remainingMeters,remainingSeconds,progress,changed,epoch,LaneData.forSide(laneCache.current(),side()),routeStatusAt,currentRoad,roadAt,rerouting?reroutingType:maneuverType());
+    }
+    static int turn(int a) { int n=Math.abs(a); return n<=22?0:n<=67?(a<0?32:224):n<=112?(a<0?64:192):(a<0?96:160); }
+    static int[] symbol(int main,int direction) { return new int[]{main,direction}; }
+    static int[] map(Message m) {
+        if (m==null || !m.has[3]) return symbol(0,0);
+        int t=(int)m.v[3], a=(int)m.v[11], j=m.has[9]?(int)m.v[9]:-1, side=m.has[8]?(int)m.v[8]:-1;
+        boolean angle=m.has[11] && a>=-180 && a<=180, sideKnown=side==0 || side==1;
+        if (t<0 || t>53) return symbol(0,0);
+        if (t==0 || t==5 || t==15 || t==17) return symbol(11,0);
+        if (t==10 || t==12 || t==27) return symbol(3,0);
+        if (t==52 || t==53) return symbol(12,t==52?64:192);
+        if (t==11 || t==16 || t==51) return angle?symbol(13,turn(a)):symbol(0,0);
+        if (j!=0 && j!=1) return symbol(0,0);
+        if (t==6) return sideKnown?symbol(13,side==1?64:192):symbol(0,0);
+        if (t==7 || t==19 || t>=28 && t<=46) {
+            if (j!=1 || !sideKnown) return symbol(0,0);
+            if (t==7) return symbol(side==1?27:26,side==1?64:192);
+            if (t==19) return symbol(side==1?22:21,128);
+            int[] bins={128,112,96,80,64,48,32,16,0,240,224,208,192,176,160,144,128};
+            return angle?symbol(side==1?22:21,bins[((a+180)*4+45)/90]):symbol(0,0);
+        }
+        if (j!=0) return symbol(0,0);
+        if (t==24 || t==25) return symbol(3,t==24?64:192);
+        int d=-1;
+        if (t==1 || t==20) d=64; else if (t==2 || t==21) d=192; else if (t==3) d=0;
+        else if (t==13 || t==22 || t==49) d=32; else if (t==14 || t==23 || t==50) d=224;
+        else if (t==47) d=96; else if (t==48) d=160;
+        if (d>=0) {
+            if (angle && (t==20 && a<0 || t==21 && a>0)) d=Math.abs(a)<=67?(t==20?32:224):Math.abs(a)>112?(t==20?96:160):d;
+            return symbol(13,d);
+        }
+        if (t==4 || t==18 || t==26) {
+            // ±180 carries no side; the driving side decides when it is known.
+            if (angle && a!=0 && !(sideKnown && (a==180 || a==-180))) return symbol(25,a<0?64:192);
+            return sideKnown?symbol(25,side==1?192:64):symbol(0,0);
+        }
+        if ((t==8 || t==9) && angle && a!=0) return symbol(13,a<0?32:224);
+        return symbol(0,0);
+    }
+}

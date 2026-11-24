@@ -1,0 +1,13 @@
+{
+  "source_log_sha256": "5cea49c1fab856fdbf9c8e7e3072de7957c6137d74c95e5555ca59b194dbb51e",
+  "received_messages": {
+    "0x5201": 47,
+    "0x5202": 18,
+    "0x5204": 6
+  },
+  "component_ids_in_complete_first_tlv": {
+    "1": 71
+  },
+  "aid_feed_accepted": true,
+  "private_payloads_in_report": false
+}

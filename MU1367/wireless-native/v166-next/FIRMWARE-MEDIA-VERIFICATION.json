@@ -1,0 +1,632 @@
+{
+  "passed": true,
+  "firmware_tables": {
+    "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318/50": {
+      "driver_sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+      "media_item": {
+        "0": {
+          "name": "MediaItemPersistentIdentifier",
+          "flags": "0xc0000"
+        },
+        "1": {
+          "name": "MediaItemTitle",
+          "flags": "0xc0000"
+        },
+        "4": {
+          "name": "MediaItemPlaybackDurationInMilliseconds",
+          "flags": "0xc0000"
+        },
+        "6": {
+          "name": "MediaItemAlbumTitle",
+          "flags": "0xc0000"
+        },
+        "7": {
+          "name": "MediaItemAlbumTrackNumber",
+          "flags": "0xc0000"
+        },
+        "8": {
+          "name": "MediaItemAlbumTrackCount",
+          "flags": "0xc0000"
+        },
+        "9": {
+          "name": "MediaItemAlbumDiscNumber",
+          "flags": "0xc0000"
+        },
+        "10": {
+          "name": "MediaItemAlbumDiscCount",
+          "flags": "0xc0000"
+        },
+        "12": {
+          "name": "MediaItemArtist",
+          "flags": "0xc0000"
+        },
+        "16": {
+          "name": "MediaItemGenre",
+          "flags": "0xc0000"
+        },
+        "18": {
+          "name": "MediaItemComposer",
+          "flags": "0xc0000"
+        },
+        "21": {
+          "name": "MediaItemIsLikeSupported",
+          "flags": "0xc0000"
+        },
+        "22": {
+          "name": "MediaItemIsBanSupported",
+          "flags": "0xc0000"
+        },
+        "23": {
+          "name": "MediaItemIsLiked",
+          "flags": "0xc0000"
+        },
+        "24": {
+          "name": "MediaItemIsBanned",
+          "flags": "0xc0000"
+        },
+        "26": {
+          "name": "MediaItemArtworkFileTransferIdentifier",
+          "flags": "0xc0000"
+        },
+        "27": {
+          "name": "MediaItemChapterCount",
+          "flags": "0xc0000"
+        }
+      },
+      "playback": {
+        "0": {
+          "name": "PlaybackStatus",
+          "flags": "0x80000"
+        },
+        "1": {
+          "name": "PlaybackElapsedTimeInMilliseconds",
+          "flags": "0x60000"
+        },
+        "2": {
+          "name": "PlaybackQueueIndex",
+          "flags": "0x60000"
+        },
+        "3": {
+          "name": "PlaybackQueueCount",
+          "flags": "0x60000"
+        },
+        "4": {
+          "name": "PlaybackQueueChapterIndex",
+          "flags": "0x60000"
+        },
+        "5": {
+          "name": "PlaybackShuffleMode",
+          "flags": "0x80000"
+        },
+        "6": {
+          "name": "PlaybackRepeatMode",
+          "flags": "0x80000"
+        },
+        "7": {
+          "name": "PlaybackAppName",
+          "flags": "0xa0000"
+        },
+        "8": {
+          "name": "PBMediaLibraryUniqueIdentifier",
+          "flags": "0xa0000"
+        },
+        "9": {
+          "name": "PBiTunesRadioAd",
+          "flags": "0x90000"
+        },
+        "10": {
+          "name": "PBiTunesRadioStationName",
+          "flags": "0xa0000"
+        },
+        "11": {
+          "name": "PBiTunesRadioStationMediaPlaylistPersistentID",
+          "flags": "0x70000"
+        },
+        "12": {
+          "name": "PlaybackSpeed",
+          "flags": "0x50000"
+        },
+        "13": {
+          "name": "SetElapsedTimeAvailable",
+          "flags": "0x90000"
+        },
+        "14": {
+          "name": "PlaybackQueueListAvail",
+          "flags": "0x90000"
+        },
+        "15": {
+          "name": "PlaybackQueueListTransferID",
+          "flags": "0x40000"
+        },
+        "16": {
+          "name": "PlaybackAppBundleID",
+          "flags": "0xa0000"
+        }
+      }
+    },
+    "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318/70": {
+      "driver_sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+      "media_item": {
+        "0": {
+          "name": "MediaItemPersistentIdentifier",
+          "flags": "0xc0000"
+        },
+        "1": {
+          "name": "MediaItemTitle",
+          "flags": "0xc0000"
+        },
+        "4": {
+          "name": "MediaItemPlaybackDurationInMilliseconds",
+          "flags": "0xc0000"
+        },
+        "6": {
+          "name": "MediaItemAlbumTitle",
+          "flags": "0xc0000"
+        },
+        "7": {
+          "name": "MediaItemAlbumTrackNumber",
+          "flags": "0xc0000"
+        },
+        "8": {
+          "name": "MediaItemAlbumTrackCount",
+          "flags": "0xc0000"
+        },
+        "9": {
+          "name": "MediaItemAlbumDiscNumber",
+          "flags": "0xc0000"
+        },
+        "10": {
+          "name": "MediaItemAlbumDiscCount",
+          "flags": "0xc0000"
+        },
+        "12": {
+          "name": "MediaItemArtist",
+          "flags": "0xc0000"
+        },
+        "16": {
+          "name": "MediaItemGenre",
+          "flags": "0xc0000"
+        },
+        "18": {
+          "name": "MediaItemComposer",
+          "flags": "0xc0000"
+        },
+        "21": {
+          "name": "MediaItemIsLikeSupported",
+          "flags": "0xc0000"
+        },
+        "22": {
+          "name": "MediaItemIsBanSupported",
+          "flags": "0xc0000"
+        },
+        "23": {
+          "name": "MediaItemIsLiked",
+          "flags": "0xc0000"
+        },
+        "24": {
+          "name": "MediaItemIsBanned",
+          "flags": "0xc0000"
+        },
+        "26": {
+          "name": "MediaItemArtworkFileTransferIdentifier",
+          "flags": "0xc0000"
+        },
+        "27": {
+          "name": "MediaItemChapterCount",
+          "flags": "0xc0000"
+        }
+      },
+      "playback": {
+        "0": {
+          "name": "PlaybackStatus",
+          "flags": "0x80000"
+        },
+        "1": {
+          "name": "PlaybackElapsedTimeInMilliseconds",
+          "flags": "0x60000"
+        },
+        "2": {
+          "name": "PlaybackQueueIndex",
+          "flags": "0x60000"
+        },
+        "3": {
+          "name": "PlaybackQueueCount",
+          "flags": "0x60000"
+        },
+        "4": {
+          "name": "PlaybackQueueChapterIndex",
+          "flags": "0x60000"
+        },
+        "5": {
+          "name": "PlaybackShuffleMode",
+          "flags": "0x80000"
+        },
+        "6": {
+          "name": "PlaybackRepeatMode",
+          "flags": "0x80000"
+        },
+        "7": {
+          "name": "PlaybackAppName",
+          "flags": "0xa0000"
+        },
+        "8": {
+          "name": "PBMediaLibraryUniqueIdentifier",
+          "flags": "0xa0000"
+        },
+        "9": {
+          "name": "PBiTunesRadioAd",
+          "flags": "0x90000"
+        },
+        "10": {
+          "name": "PBiTunesRadioStationName",
+          "flags": "0xa0000"
+        },
+        "11": {
+          "name": "PBiTunesRadioStationMediaPlaylistPersistentID",
+          "flags": "0x70000"
+        },
+        "12": {
+          "name": "PlaybackSpeed",
+          "flags": "0x50000"
+        },
+        "13": {
+          "name": "SetElapsedTimeAvailable",
+          "flags": "0x90000"
+        },
+        "14": {
+          "name": "PlaybackQueueListAvail",
+          "flags": "0x90000"
+        },
+        "15": {
+          "name": "PlaybackQueueListTransferID",
+          "flags": "0x40000"
+        },
+        "16": {
+          "name": "PlaybackAppBundleID",
+          "flags": "0xa0000"
+        }
+      }
+    },
+    "MHI2_ER_VWG13_P4521_MU1367/50": {
+      "driver_sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+      "media_item": {
+        "0": {
+          "name": "MediaItemPersistentIdentifier",
+          "flags": "0xc0000"
+        },
+        "1": {
+          "name": "MediaItemTitle",
+          "flags": "0xc0000"
+        },
+        "4": {
+          "name": "MediaItemPlaybackDurationInMilliseconds",
+          "flags": "0xc0000"
+        },
+        "6": {
+          "name": "MediaItemAlbumTitle",
+          "flags": "0xc0000"
+        },
+        "7": {
+          "name": "MediaItemAlbumTrackNumber",
+          "flags": "0xc0000"
+        },
+        "8": {
+          "name": "MediaItemAlbumTrackCount",
+          "flags": "0xc0000"
+        },
+        "9": {
+          "name": "MediaItemAlbumDiscNumber",
+          "flags": "0xc0000"
+        },
+        "10": {
+          "name": "MediaItemAlbumDiscCount",
+          "flags": "0xc0000"
+        },
+        "12": {
+          "name": "MediaItemArtist",
+          "flags": "0xc0000"
+        },
+        "16": {
+          "name": "MediaItemGenre",
+          "flags": "0xc0000"
+        },
+        "18": {
+          "name": "MediaItemComposer",
+          "flags": "0xc0000"
+        },
+        "21": {
+          "name": "MediaItemIsLikeSupported",
+          "flags": "0xc0000"
+        },
+        "22": {
+          "name": "MediaItemIsBanSupported",
+          "flags": "0xc0000"
+        },
+        "23": {
+          "name": "MediaItemIsLiked",
+          "flags": "0xc0000"
+        },
+        "24": {
+          "name": "MediaItemIsBanned",
+          "flags": "0xc0000"
+        },
+        "26": {
+          "name": "MediaItemArtworkFileTransferIdentifier",
+          "flags": "0xc0000"
+        },
+        "27": {
+          "name": "MediaItemChapterCount",
+          "flags": "0xc0000"
+        }
+      },
+      "playback": {
+        "0": {
+          "name": "PlaybackStatus",
+          "flags": "0x80000"
+        },
+        "1": {
+          "name": "PlaybackElapsedTimeInMilliseconds",
+          "flags": "0x60000"
+        },
+        "2": {
+          "name": "PlaybackQueueIndex",
+          "flags": "0x60000"
+        },
+        "3": {
+          "name": "PlaybackQueueCount",
+          "flags": "0x60000"
+        },
+        "4": {
+          "name": "PlaybackQueueChapterIndex",
+          "flags": "0x60000"
+        },
+        "5": {
+          "name": "PlaybackShuffleMode",
+          "flags": "0x80000"
+        },
+        "6": {
+          "name": "PlaybackRepeatMode",
+          "flags": "0x80000"
+        },
+        "7": {
+          "name": "PlaybackAppName",
+          "flags": "0xa0000"
+        },
+        "8": {
+          "name": "PBMediaLibraryUniqueIdentifier",
+          "flags": "0xa0000"
+        },
+        "9": {
+          "name": "PBiTunesRadioAd",
+          "flags": "0x90000"
+        },
+        "10": {
+          "name": "PBiTunesRadioStationName",
+          "flags": "0xa0000"
+        },
+        "11": {
+          "name": "PBiTunesRadioStationMediaPlaylistPersistentID",
+          "flags": "0x70000"
+        },
+        "12": {
+          "name": "PlaybackSpeed",
+          "flags": "0x50000"
+        },
+        "13": {
+          "name": "SetElapsedTimeAvailable",
+          "flags": "0x90000"
+        },
+        "14": {
+          "name": "PlaybackQueueListAvail",
+          "flags": "0x90000"
+        },
+        "15": {
+          "name": "PlaybackQueueListTransferID",
+          "flags": "0x40000"
+        },
+        "16": {
+          "name": "PlaybackAppBundleID",
+          "flags": "0xa0000"
+        }
+      }
+    },
+    "MHI2_ER_VWG13_P4521_MU1367/70": {
+      "driver_sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+      "media_item": {
+        "0": {
+          "name": "MediaItemPersistentIdentifier",
+          "flags": "0xc0000"
+        },
+        "1": {
+          "name": "MediaItemTitle",
+          "flags": "0xc0000"
+        },
+        "4": {
+          "name": "MediaItemPlaybackDurationInMilliseconds",
+          "flags": "0xc0000"
+        },
+        "6": {
+          "name": "MediaItemAlbumTitle",
+          "flags": "0xc0000"
+        },
+        "7": {
+          "name": "MediaItemAlbumTrackNumber",
+          "flags": "0xc0000"
+        },
+        "8": {
+          "name": "MediaItemAlbumTrackCount",
+          "flags": "0xc0000"
+        },
+        "9": {
+          "name": "MediaItemAlbumDiscNumber",
+          "flags": "0xc0000"
+        },
+        "10": {
+          "name": "MediaItemAlbumDiscCount",
+          "flags": "0xc0000"
+        },
+        "12": {
+          "name": "MediaItemArtist",
+          "flags": "0xc0000"
+        },
+        "16": {
+          "name": "MediaItemGenre",
+          "flags": "0xc0000"
+        },
+        "18": {
+          "name": "MediaItemComposer",
+          "flags": "0xc0000"
+        },
+        "21": {
+          "name": "MediaItemIsLikeSupported",
+          "flags": "0xc0000"
+        },
+        "22": {
+          "name": "MediaItemIsBanSupported",
+          "flags": "0xc0000"
+        },
+        "23": {
+          "name": "MediaItemIsLiked",
+          "flags": "0xc0000"
+        },
+        "24": {
+          "name": "MediaItemIsBanned",
+          "flags": "0xc0000"
+        },
+        "26": {
+          "name": "MediaItemArtworkFileTransferIdentifier",
+          "flags": "0xc0000"
+        },
+        "27": {
+          "name": "MediaItemChapterCount",
+          "flags": "0xc0000"
+        }
+      },
+      "playback": {
+        "0": {
+          "name": "PlaybackStatus",
+          "flags": "0x80000"
+        },
+        "1": {
+          "name": "PlaybackElapsedTimeInMilliseconds",
+          "flags": "0x60000"
+        },
+        "2": {
+          "name": "PlaybackQueueIndex",
+          "flags": "0x60000"
+        },
+        "3": {
+          "name": "PlaybackQueueCount",
+          "flags": "0x60000"
+        },
+        "4": {
+          "name": "PlaybackQueueChapterIndex",
+          "flags": "0x60000"
+        },
+        "5": {
+          "name": "PlaybackShuffleMode",
+          "flags": "0x80000"
+        },
+        "6": {
+          "name": "PlaybackRepeatMode",
+          "flags": "0x80000"
+        },
+        "7": {
+          "name": "PlaybackAppName",
+          "flags": "0xa0000"
+        },
+        "8": {
+          "name": "PBMediaLibraryUniqueIdentifier",
+          "flags": "0xa0000"
+        },
+        "9": {
+          "name": "PBiTunesRadioAd",
+          "flags": "0x90000"
+        },
+        "10": {
+          "name": "PBiTunesRadioStationName",
+          "flags": "0xa0000"
+        },
+        "11": {
+          "name": "PBiTunesRadioStationMediaPlaylistPersistentID",
+          "flags": "0x70000"
+        },
+        "12": {
+          "name": "PlaybackSpeed",
+          "flags": "0x50000"
+        },
+        "13": {
+          "name": "SetElapsedTimeAvailable",
+          "flags": "0x90000"
+        },
+        "14": {
+          "name": "PlaybackQueueListAvail",
+          "flags": "0x90000"
+        },
+        "15": {
+          "name": "PlaybackQueueListTransferID",
+          "flags": "0x40000"
+        },
+        "16": {
+          "name": "PlaybackAppBundleID",
+          "flags": "0xa0000"
+        }
+      }
+    }
+  },
+  "receiver_sha256": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+  "receiver_requested_media_ids": [
+    0,
+    1,
+    4,
+    6,
+    12,
+    26
+  ],
+  "receiver_requested_playback_ids": [
+    0,
+    1,
+    7,
+    12,
+    13,
+    16
+  ],
+  "receiver_anchors": {
+    "alt_sender_create_port9997": {
+      "address": "0xe658c",
+      "bytes": 76,
+      "sha256": "70348472203b7741dc00193c065d0d7036a0afbddfcfceae01079edd784f5c6a"
+    },
+    "csm_log_before_dispatch": {
+      "address": "0xecba0",
+      "bytes": 44,
+      "sha256": "1a9e71429cb1263d56e523efabf484f8b3f6c6dc226031d84edceebda4b0df08"
+    },
+    "ft_first_chunk_copy": {
+      "address": "0xee46c",
+      "bytes": 40,
+      "sha256": "b1bc827fc404bf5b195b8d42c0c6480bf83e729dd5c5e2722594122d041267b4"
+    },
+    "ft_declaration_ack_copy": {
+      "address": "0xedd88",
+      "bytes": 32,
+      "sha256": "bcdfcefb4c4a027ab1941917ebd071fe7e044d89e4977bc800796cbcc9fb8131"
+    },
+    "ft_image_completion": {
+      "address": "0xee658",
+      "bytes": 136,
+      "sha256": "1bb529a665b2efa22a46e1f98871625d1f2e61833785c82c2adc0cf66cf8b6ec"
+    },
+    "ft_empty_completion": {
+      "address": "0xee59c",
+      "bytes": 36,
+      "sha256": "b76e7a408f7637ac78bf8ba58d5f155562da919b5f4ee1a809150859f23bd46f"
+    },
+    "info_refresh": {
+      "address": "0xce974",
+      "bytes": 28,
+      "sha256": "fedcad286fcf42fece456409f8f845956296d82561c3b14f154a06b13fbcd566"
+    }
+  },
+  "scope": "Fresh read-only matching MU1367 firmware extraction; receiver execution and lifetimes tested separately."
+}

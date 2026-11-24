@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "version": "1.6.3-e",
+  "experimental": true,
+  "prerelease": true,
+  "archive": "CarPlay_Maps_VC_MU1367_791_v1.6.3-e.zip",
+  "archive_sha256": "4956ae5e9378f123d32ad371da94c0f9578b1e153586cf11d3f69b1a69234bce",
+  "files": 984,
+  "all_zip_entries_verified": true,
+  "guard_references_verified": 1432,
+  "wireless_runtime_unchanged": true,
+  "on_unit_validated": false
+}

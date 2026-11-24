@@ -1,0 +1,34 @@
+screen CarPlay-Recovery carplay-maps-vc
+
+keyValue
+    value String sys 0x00000000 0
+    label "Recovery - stop on any failure"
+    poll 0
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_suite_restore-oem.sh"
+    label "RESTORE OEM + retain all snapshots (reboot)"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_suite_uninstall.sh"
+    label "Remove latest update only (reboot)"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_suite_recover.sh"
+    label "Recover interrupted latest update (reboot)"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_mu1367_disable.sh"
+    label "Disable native guidance until reboot"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_artwork_disable.sh"
+    label "Disable cluster artwork"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_artwork_enable.sh"
+    label "Enable cluster artwork"
+
+script
+    value sys 1 0x0100 "/eso/hmi/engdefs/scripts/mqb/cpmap_suite_recover-cards.sh"
+    label "Recover interrupted turn-card tuning (reboot)"

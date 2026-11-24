@@ -1,0 +1,68 @@
+{
+  "capture": "/Users/tomasz/Documents/github/personal/Logs/HMIcrashing/vol2/cpmap-diag-8654921",
+  "date": "2026-11-03",
+  "input_sha256": {
+    "preferences/display.previous": "2299f4de1a9bae667f5d4b31e793ec45d323861e2b76c96581df8944bc1368f4",
+    "preferences/display.state": "fb131c9fdaa5d3c492c2ab2e372b043a9dc6166ad7d6ac0581c21e60be33f5b2",
+    "preferences/navigation-card.previous": "4e49fcdd478d93af869439a961e89383dc7e7c15f505eec6409e7e7cc3be0868",
+    "preferences/navigation-card.state": "ed6f030dcc7bb65dacaa4584edad0a1b1a2d961683b918cdef0c2668d6b86469",
+    "preferences/settings.previous": "cbbb3920b056a72653c406504c141e3bb104d9fdc397da89538fb9be6a561e31",
+    "preferences/settings.state": "17b89d05e8538e061d2af236cd88afda9f1c4757678cb0939dbc893acdec164c",
+    "ramdisk/altscreen-most-bridge.log": "19b6fe5d58d98f031c4c27da9c2473d9b8ccbc11f8daf6c8dd279be09dbc9deb",
+    "ramdisk/carplay-altstream.ready": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ramdisk/carplay-cluster-supervisor.log": "772e2ca43b1b93300af1b5f0cb2029e9b28f76c2f517130ecfe327dc5bb60518",
+    "ramdisk/carplay-cluster-supervisor.pid": "75e092b83691f978959ffef9e3f96979159791080e1d9741055e9c40d505ad9e",
+    "ramdisk/carplay-dio-manager.pid": "7154b0636d41e9f93149fa70afee3cec5e39f3dc5f173a8753c62b6210c08392",
+    "ramdisk/carplay-now-playing-n1.status": "edced6f493069f7e1fa2251916fd6f23a2db1ceb7eb11e66edce470fb1465e50",
+    "ramdisk/carplay-route-guidance/adapter-status.txt": "00d8587f7b1d7d57d90ce1ec7d45e1daac412cff021c65c6f3a9b6fdca314cb5",
+    "ramdisk/carplay-route-guidance/lane-evidence.txt": "8e387bdd26bc57e244fd7f95d336dea883b8cafc820e499adf2ac501a03436d3",
+    "ramdisk/carplay-route-guidance/latest.bin": "84dca9e8d8e68789d4528c26bef821ca8abbc355a4afcfb8d8655fcfb7f38622",
+    "ramdisk/carplay-route-guidance/status.txt": "0b568db7c9fcd2a2210e0cee57b45f6e6572301ccaee5d73641a054c5326c497",
+    "ramdisk/carplaymaps-diagnostics/last-bridge.log": "85dc5eb4fc1a35812525f0d34001ceb4a21ea157a498755a938e0462ab0038e0",
+    "ramdisk/carplaymaps-diagnostics/last-supervisor.log": "775ccb939a7aa1debc8c91b8a2719e063d8e881d2e3b768e2ccefadba9843f09",
+    "ramdisk/carplaymaps-launcher.log": "b8c33c00005c47afc551a1aa5ae2b4ac064f80a3c69bd0e6285ed02bac99d992",
+    "ramdisk/carplaymaps-video.log": "b9c8004ee0d2954d232e22064aa102cbcf28fe92af74fd3885b905ee75adc1c8",
+    "ramdisk/cpmap-artwork.status": "3b88ed03cf39b21a694eb93c17a5d8c21b168bbd862dcf3c7dd781828ffb22b1",
+    "ramdisk/cpmap-card-map-status.txt": "13a70c34c4e74866ea9833ba7f9fb36267be0aa342701bfc90283b5aa0e01c8a",
+    "ramdisk/cpmap-card-status.txt": "80bcea9bb85aabf1689abf88c16cd2f495d3aff5d003c592725e2ac92301405c",
+    "ramdisk/cpmap-video-cache.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sloginfo.txt": "20bae10792b6ab5f152595f602cefbddd20d6fe09e3b1a534ca9504cc498299a",
+    "summary.txt": "1ebd1cdb0c2be587a712b976d14066bf104bc7368976684c760eba169c08d497"
+  },
+  "source_sha256": {
+    "MU1427/route-guidance/release/reader.c": "fa4b4ed62ab1969a9b32cdbeb78cdb01292b8c68d5f3ea7008b1a54d8cf2bc8d",
+    "MU1427/route-guidance/test-release-reader.py": "eda235304214f79dcba283d51a2abfa91693fdf78262d824afed53c069539783",
+    "MU1367/integration/src/guidance/LiveBridge.java": "e5f5bfe2f26eeeabbb9c2a6b91bfecc635174699faba8ca5f0026d0764217313",
+    "MU1367/integration/src/guidance/MailboxReader.java": "409084b65806703e81e9f106083ac8901183e708a7668a553e1521fd7d73fdcd",
+    "MU1367/integration/src/guidance/FeedRecovery.java": "dffe76c5a6c8a92b4ee6a4ef99318c19d21ea66e47220ee5308e1289f2925d29"
+  },
+  "mailbox": {
+    "magic": "RGM1",
+    "version": 1,
+    "size": 32,
+    "serial": 2789,
+    "kind": 5,
+    "detail": 3,
+    "nonce_low": 2889,
+    "nonce_high": 0
+  },
+  "host_checks": {
+    "passed": true,
+    "tests": 2,
+    "elapsed_seconds": 3.745,
+    "cases": [
+      "existing blocked-worker regression: END kind=5/detail=3 without restart",
+      "returned SOURCE_READ/ENOMEM: INVALIDATE then snapshot recovery, remains alive until manual stop"
+    ],
+    "method": "Existing Reader fault test with native-only setup; three returned ENOMEM source reads injected in separate process for control. Production reader source unchanged.",
+    "script_sha256": "fd04ee095854812514d2b95f9db9961f26115cf4208e83a79ae002821718da16"
+  },
+  "on_unit_reproduced": false,
+  "unit_binary_hashes_available": false,
+  "finding": "WORKER_FAILED=3, different terminal path from earlier OUTPUT_FAILED=4. Precise worker subreason overwritten by END and unavailable.",
+  "first_unexpected_release_ms": 1428081,
+  "release_reason": 6,
+  "frame_age_ms": 2733,
+  "journal_age_ms": 2317,
+  "runtime_changes": false
+}

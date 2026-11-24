@@ -1,0 +1,81 @@
+{
+  "published": true,
+  "experimental": true,
+  "prerelease": true,
+  "release_url": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/tag/MU1367-v1.4.3-e",
+  "published_at": "2026-11-03T13:26:06Z",
+  "source_commit": "24f84f4b75f661c483fd257a8ff8b87b422a86f8",
+  "source_branch": "release/mu1367-v1.4.3-e",
+  "source_tag": "MU1367-v1.4.3-e",
+  "stable_latest": "MU1367-v1.4.3",
+  "downloaded_archive_sha256": "3ecb5304c8a9e85c43a01dd532dfc5c920c3e1a866321a7c1d667d750260afa5",
+  "all_uploaded_asset_sha256_verified": true,
+  "assets": [
+    {
+      "name": "CarPlay_Maps_VC_MU1367_791_v1.4.3-e.zip",
+      "size": 14422882,
+      "digest": "sha256:3ecb5304c8a9e85c43a01dd532dfc5c920c3e1a866321a7c1d667d750260afa5",
+      "browser_download_url": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3-e/CarPlay_Maps_VC_MU1367_791_v1.4.3-e.zip"
+    },
+    {
+      "name": "KNOWN-ISSUES.md",
+      "size": 3819,
+      "digest": "sha256:a4b497eee1a82cb24a158a3ae33ce592cebb85a224a8db8cecc7a1b4c3e4cab3",
+      "browser_download_url": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3-e/KNOWN-ISSUES.md"
+    },
+    {
+      "name": "manifest.json",
+      "size": 8461,
+      "digest": "sha256:57b0df9f5f8daf891c2dd4881615c6f5c028a93aa53542a417994f2f62ec3631",
+      "browser_download_url": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3-e/manifest.json"
+    },
+    {
+      "name": "MU1367_OEM_RESET_INSTALL.md",
+      "size": 3838,
+      "digest": "sha256:d88e0287cfb43d01ceae94983ed5927ed9363245a8113c460ded93801950ce98",
+      "browser_download_url": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3-e/MU1367_OEM_RESET_INSTALL.md"
+    },
+    {
+      "name": "READER-RECOVERY.md",
+      "size": 5931,
+      "digest": "sha256:1aa15999761e664eff2d9dfaec383b97208590824ab58d8418753d5441d645c1",
+      "browser_download_url": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3-e/READER-RECOVERY.md"
+    },
+    {
+      "name": "README.md",
+      "size": 1833,
+      "digest": "sha256:c9d4b5675685f3da2b07fe4e80b9ec1a0db4bd6859503868bfa8418d1d135974",
+      "browser_download_url": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3-e/README.md"
+    },
+    {
+      "name": "RELEASE-NOTES.md",
+      "size": 1965,
+      "digest": "sha256:2558610acd4ab1d2c6f88612e88a3eebef496382af7022037105464310b06607",
+      "browser_download_url": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3-e/RELEASE-NOTES.md"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "size": 106,
+      "digest": "sha256:9b2d44a1c14428bed9ac8c9aa33ca304e77b2b36936e3ab6b37f93842fb85deb",
+      "browser_download_url": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3-e/SHA256SUMS.txt"
+    },
+    {
+      "name": "SOURCE-PROVENANCE.json",
+      "size": 1904,
+      "digest": "sha256:e95bf8418e82900d854bbd82749406564c51091b2b66c71344dc35dd7bb12d75",
+      "browser_download_url": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3-e/SOURCE-PROVENANCE.json"
+    },
+    {
+      "name": "START_HERE.md",
+      "size": 8896,
+      "digest": "sha256:f1fe1c097db95ea0127df26817bb5df36926549d8d9c68af1228c30568c8d256",
+      "browser_download_url": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3-e/START_HERE.md"
+    },
+    {
+      "name": "VERIFICATION.json",
+      "size": 90224,
+      "digest": "sha256:0f210ec6125826d294619b1e2ea7d81186562edbe0218e674bf85b8d28a6f93b",
+      "browser_download_url": "https://github.com/tomasz-twardzicki/MHI2-Carplay-Maps/releases/download/MU1367-v1.4.3-e/VERIFICATION.json"
+    }
+  ]
+}

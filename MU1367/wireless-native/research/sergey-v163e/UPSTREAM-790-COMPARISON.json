@@ -1,0 +1,143 @@
+{
+  "upstream_release": "https://github.com/omonob/VW-MHI2-Wireless-Carplay-Maps/releases/tag/v3.2",
+  "upstream_zip_sha256": "5b31522046f1abf397fc62723dc7a4a1c3a37e90559d3d48409c8e322b1a9cce",
+  "candidate_zip_sha256": "72b8a568f84ad361bb54505e866987d8588599f2e18554737b597c40cfe11f71",
+  "components": [
+    {
+      "name": "wcp_receiver",
+      "upstream_path": "SD_ROOT/carplay/payload/wireless/profiles/AID10.5-17PM/wcp_receiver",
+      "current_path": "Custom/carplay_mu1367_input_profile/790/payload/wcp_receiver",
+      "byte_identical": true,
+      "upstream_sha256": "396c73bcd7674483245776d0493552832f7ebbcefed399d7b9dd1182a5336c90",
+      "current_sha256": "396c73bcd7674483245776d0493552832f7ebbcefed399d7b9dd1182a5336c90"
+    },
+    {
+      "name": "wireless-entry",
+      "upstream_path": "SD_ROOT/carplay/payload/wireless/profiles/AID10.5-17PM/wireless-entry",
+      "current_path": "Custom/carplay_mu1367_input_profile/790/payload/wireless-entry",
+      "byte_identical": true,
+      "upstream_sha256": "99a4e2da5c3b087aec504f38f936a5e5c4987db9b15b9e134572f7c97162d533",
+      "current_sha256": "99a4e2da5c3b087aec504f38f936a5e5c4987db9b15b9e134572f7c97162d533"
+    },
+    {
+      "name": "wireless-receiver-exec",
+      "upstream_path": "SD_ROOT/carplay/payload/wireless/profiles/AID10.5-17PM/wireless-receiver-exec",
+      "current_path": "Custom/carplay_mu1367_input_profile/790/payload/wireless-receiver-exec",
+      "byte_identical": true,
+      "upstream_sha256": "41d523d4f2456237e6ed99bd89a7a8777aff5c2641c2f1663df697934f821813",
+      "current_sha256": "41d523d4f2456237e6ed99bd89a7a8777aff5c2641c2f1663df697934f821813"
+    },
+    {
+      "name": "libomonob-wireless-maps.so",
+      "upstream_path": "SD_ROOT/carplay/payload/wireless/profiles/AID10.5-17PM/libomonob-wireless-maps.so",
+      "current_path": "Custom/carplay_mu1367_input_profile/790/payload/libomonob-wireless-maps.so",
+      "byte_identical": true,
+      "upstream_sha256": "160d43f227dcdda27a11e4b8a8623c68a0aabe488ae18cc9766992fcd6dc5cfa",
+      "current_sha256": "160d43f227dcdda27a11e4b8a8623c68a0aabe488ae18cc9766992fcd6dc5cfa"
+    },
+    {
+      "name": "v75-wireless-display.conf",
+      "upstream_path": "SD_ROOT/carplay/payload/wireless/profiles/AID10.5-17PM/v75-wireless-display.conf",
+      "current_path": "Custom/carplay_mu1367_input_profile/790/payload/v75-wireless-display.conf",
+      "byte_identical": true,
+      "upstream_sha256": "441fd97351987bdae520ef5bfda85ab3b98d602b4cdbdaf8b0f817df295cc350",
+      "current_sha256": "441fd97351987bdae520ef5bfda85ab3b98d602b4cdbdaf8b0f817df295cc350"
+    },
+    {
+      "name": "cluster-profile",
+      "upstream_path": "SD_ROOT/carplay/payload/wireless/profiles/AID10.5-17PM/cluster-profile",
+      "current_path": "Custom/carplay_mu1367_input_profile/790/payload/cluster-profile",
+      "byte_identical": true,
+      "upstream_sha256": "90d75b0127c1a659159e4848167b5a76d370fc572cd6fc0a25917ab2b7a6782b",
+      "current_sha256": "90d75b0127c1a659159e4848167b5a76d370fc572cd6fc0a25917ab2b7a6782b"
+    },
+    {
+      "name": "altscreen.conf",
+      "upstream_path": "SD_ROOT/carplay/payload/wireless/profiles/AID10.5-17PM/altscreen.conf",
+      "current_path": "Custom/carplay_mu1367_input_profile/790/payload/altscreen.conf",
+      "byte_identical": true,
+      "upstream_sha256": "1519a5c4351d141780f6c2c2744a5d51babe54fb083b302b1968ed6585bbd548",
+      "current_sha256": "1519a5c4351d141780f6c2c2744a5d51babe54fb083b302b1968ed6585bbd548"
+    },
+    {
+      "name": "altscreen.geom",
+      "upstream_path": "SD_ROOT/carplay/payload/wireless/profiles/AID10.5-17PM/altscreen.geom",
+      "current_path": "Custom/carplay_mu1367_input_profile/790/payload/altscreen.geom",
+      "byte_identical": true,
+      "upstream_sha256": "653999c0902be63c6bc7c88a44bc1187fc4ee69c98136646dddbde5f578d4777",
+      "current_sha256": "653999c0902be63c6bc7c88a44bc1187fc4ee69c98136646dddbde5f578d4777"
+    },
+    {
+      "name": "core.so",
+      "upstream_path": "SD_ROOT/carplay/payload/profiles/MU1367/790/core.so",
+      "current_path": "Custom/carplay_mu1367_input_profile/790/payload/core.so",
+      "byte_identical": false,
+      "upstream_sha256": "97ccb829f996b74305099ca54e6f4a693a17381b391d170c1227f44e49ff0769",
+      "current_sha256": "a4bb6ce6e9e63a05cc1b6be20c5257983fb4dcbdf89f55528438acbd8edba8ee"
+    },
+    {
+      "name": "altscreen-most-bridge",
+      "upstream_path": "SD_ROOT/carplay/payload/common/altscreen-most-bridge",
+      "current_path": "Custom/carplay_mu1367_wireless_native/payload/altscreen-most-bridge",
+      "byte_identical": false,
+      "upstream_sha256": "6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35",
+      "current_sha256": "f1e7cefc1db3b34e92bbf1cdb54125a712ac569cd71d7db084c8a67ca62238ad"
+    },
+    {
+      "name": "carplay-cluster-supervisor",
+      "upstream_path": "SD_ROOT/carplay/payload/common/carplay-cluster-supervisor",
+      "current_path": "Custom/carplay_mu1367_wireless_native/payload/carplay-cluster-supervisor",
+      "byte_identical": false,
+      "upstream_sha256": "d078bd323892de96b225472357486cb83bab64d731ec06ff8f628993d3d81244",
+      "current_sha256": "e525fb5bdd4aec959ba2f5619e5ecf0ce653190807acbaac85d5cb66ab2e52f2"
+    },
+    {
+      "name": "libv75-transport.so",
+      "upstream_path": "SD_ROOT/carplay/payload/wireless/common/runtime/libv75-transport.so",
+      "current_path": "Custom/carplay_mu1367_wireless_native/payload/libv75-transport.so",
+      "byte_identical": true,
+      "upstream_sha256": "46a46b9bf2b60cba84c6d9ebeaac39ed56db8abe3b761a5d3c71f75458abbf3b",
+      "current_sha256": "46a46b9bf2b60cba84c6d9ebeaac39ed56db8abe3b761a5d3c71f75458abbf3b"
+    },
+    {
+      "name": "wireless-video-exec",
+      "upstream_path": "SD_ROOT/carplay/payload/wireless/common/runtime/wireless-video-exec",
+      "current_path": "Custom/carplay_mu1367_wireless_native/payload/wireless-video-exec",
+      "byte_identical": true,
+      "upstream_sha256": "f6a5f1581e0ddd7208b6d41a62dd99edc45668066169070427adde3cff527981",
+      "current_sha256": "f6a5f1581e0ddd7208b6d41a62dd99edc45668066169070427adde3cff527981"
+    },
+    {
+      "name": "wcp_video_tap",
+      "upstream_path": "SD_ROOT/carplay/payload/wireless/common/runtime/wcp_video_tap",
+      "current_path": "Custom/carplay_mu1367_wireless_native/payload/wcp_video_tap",
+      "byte_identical": true,
+      "upstream_sha256": "51131142842cdb6bfe640f68d9b37a607b39c8d630dfd2dfb7f3363c484259c7",
+      "current_sha256": "51131142842cdb6bfe640f68d9b37a607b39c8d630dfd2dfb7f3363c484259c7"
+    },
+    {
+      "name": "wcp_video_stock",
+      "upstream_path": "SD_ROOT/carplay/payload/wireless/common/runtime/wcp_video_stock",
+      "current_path": "Custom/carplay_mu1367_wireless_native/payload/wcp_video_stock",
+      "byte_identical": true,
+      "upstream_sha256": "13d3b26f4cf2ca9a847faf4d35db109eef02726c8eef1c4326a09940fc2d9fec",
+      "current_sha256": "13d3b26f4cf2ca9a847faf4d35db109eef02726c8eef1c4326a09940fc2d9fec"
+    },
+    {
+      "name": "libv75-wireless-video-tap.so",
+      "upstream_path": "SD_ROOT/carplay/payload/wireless/common/runtime/libv75-wireless-video-tap.so",
+      "current_path": "Custom/carplay_mu1367_wireless_native/payload/libv75-wireless-video-tap.so",
+      "byte_identical": true,
+      "upstream_sha256": "aa77117143c429a487373642d3baac984789006ae43d0b224575486680628d09",
+      "current_sha256": "aa77117143c429a487373642d3baac984789006ae43d0b224575486680628d09"
+    }
+  ],
+  "shipped_bridge_source_sha256": "e44ac999b18cdd7b3fa503872a62b98a3db12b18b50d5fabb61f0587afe1d3b9",
+  "upstream_phone_profile": "AID10.5-17PM",
+  "legacy_16e_entry_is_alias": true,
+  "changed_map_runtime_components": [
+    "core.so",
+    "altscreen-most-bridge",
+    "carplay-cluster-supervisor"
+  ]
+}

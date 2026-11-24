@@ -1,0 +1,15 @@
+{
+  "build_id": "MU1367-refinements-166715c7fffc",
+  "variant": "7",
+  "before": {
+    "core": "ed4200d5e6dca77c1a1389e37cbf06531e1b1b9a1c1498c3a99ec1565bf70e06",
+    "guidance": "be458ca5336b32255bbc3827bdb7e137950fa3efbf3eefff14729085247d7748",
+    "parent": "fcafbcd6c3bd1d0007c5199cfe413c3c68ad4237a1505c8af2602f4d3e005486"
+  },
+  "files": {
+    "core": "b66c5e2c2fe909fb99177e76cb25cea57435e340c60b0c5ed4195662996fafa9",
+    "guidance": "30eb75f748a33e0fbd150a0f17785cc97dd50edadc34e5d672d0b0eeb277579e"
+  },
+  "immediate_parent": "card-scene",
+  "on_unit_validated": false
+}

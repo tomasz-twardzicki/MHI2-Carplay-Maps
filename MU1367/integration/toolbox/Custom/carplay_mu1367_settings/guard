@@ -1,0 +1,9 @@
+# Preserve the settings layer's recovery order.
+case "${1:-status}" in uninstall|recover)
+ S=${CPMAP_TEST_ROOT:-}
+ if [ -z "$S" ] && [ ! -s /ifs/lsd.jxe ]; then S=/net/mmx; fi
+ S=$S/mnt/app/carplay-mu1367-settings
+ if [ -s "$S/STATE" ] && [ "$(cat "$S/STATE")" != removed ]; then
+  echo MU1367_REMOVE_OR_RECOVER_SETTINGS_LAYER_FIRST; exit 1
+ fi ;;
+esac

@@ -1,0 +1,382 @@
+{
+  "schema": 1,
+  "scope": "offline analysis; no fixes or package built",
+  "logs": "/Users/tomasz/Documents/github/personal/Logs/wireless/v1.6.2e-test1",
+  "packages": {
+    "v1.6.1": {
+      "path": "dist/v1.6.1/CarPlay_Maps_VC_MU1367_791_v1.6.1.zip",
+      "sha256": "38279833ed495a057f4a513d568c5cf94a9f8d335a38773ebb580d09dcee47c1",
+      "components": {
+        "wireless-receiver-exec": "8a7ef2c9e6e76a16d3bf7c00a8dda19631af90e37e6531b3638b3e4c004420dd",
+        "libcpmap-wcp-tap.so": "5b3ee9effff13887ef56bee27bb94142e8f7f33ec0dc44a41d58155a2b3e9911"
+      }
+    },
+    "v1.6.2-e-test1": {
+      "path": "dist/v1.6.2-e-test1/CarPlay_Maps_VC_MU1367_791_v1.6.2-e-test1.zip",
+      "sha256": "01d12c6cd78344fd883c3380b1bb0892f7e236f38c1a18ff0f99e9032a37eb8f",
+      "components": {
+        "wireless-receiver-exec": "2b8cadae1d55d56fd0b9a69b0e4ab2dfce47cbc321728ae1ef7e5c5f099cc12f",
+        "libcpmap-wcp-tap.so": "8a7720cbf931125c8ef73d90fba17f8a780e92894e45ce0d83921484283893b0"
+      }
+    }
+  },
+  "user_clarification": {
+    "date": "2026-11-19",
+    "recorded_before_installing_v162": true,
+    "interpretation": "v1.6.1 baseline captures; not evidence of v1.6.2 installation failure"
+  },
+  "reviewed_source_sha256": {
+    "v161/src/native/wcp_tap.c": "11f64494cf34e6400fc8f18b7f21127d2afdde3a53d8ef28a1bbfa8af45d38d4",
+    "v162/src/native/wcp_tap.c": "3986ccef078278e63ab5071b687e834818e256b70364b0a2f2c21c8fdffa0105",
+    "v162/src/native/wcp_priority.h": "fb95a37774dc5278f0c59d1fc7752eee0a3ddcd1e0918f368c6b37fe58cf8ac6",
+    "v162/tests/receiver-tap.py": "ef1d9d7a34fcb5e54e5d055c21b759d7bf30d60c8b28aa9cc58efab960d4add7",
+    "v162/src/runtime/wcp_ctl.sh": "acef407ce02705e5b58188c13dcaad132bac9b5f310af6144f47c9bcf944c564",
+    "v162/src/runtime/vc-runtime/runtime/altscreen_most_bridge.c": "79a81226c57f964800fe06d3553a9c894efc7084128d329949141a56eb68e91d",
+    "stable/diagnostics.py": "124e8d71dee4a543bd34d9c0b4f6e9e8e881238111aa9e6144390a2f321132d6",
+    "collect-wireless.sh": "34388bc715ff1e784364a0636d6845fa214c9f57ca78e6c8447aa4f9b06905af"
+  },
+  "limits": [
+    "Bridge metrics cover retained tails, not entire drives.",
+    "PTS intervals are not directly measured display freezes.",
+    "An advertised FPS maximum is not a guaranteed delivered FPS.",
+    "Package matches cover the two named native components only; HMI is corroborated by its status."
+  ],
+  "drives": [
+    {
+      "wireless_export": "wireless-diag-45396096",
+      "standard_export": "cpmap-diag-44699776",
+      "runtime_fingerprints": {
+        "wireless-receiver-exec": "8a7ef2c9e6e76a16d3bf7c00a8dda19631af90e37e6531b3638b3e4c004420dd",
+        "libcpmap-wcp-tap.so": "5b3ee9effff13887ef56bee27bb94142e8f7f33ec0dc44a41d58155a2b3e9911"
+      },
+      "matches_package_components": [
+        "v1.6.1"
+      ],
+      "managed_layer_lines": [
+        "=== managed layer state",
+        "carplay-mu1367-wireless-native",
+        "MU1367-wireless-native-f835c2d913aa",
+        "removed",
+        "carplay-mu1367-wireless-native-v161",
+        "MU1367-wireless-native-v161-9fa71c6f6dcb",
+        "removed",
+        "carplay-mu1367-wireless-native-v161t2",
+        "MU1367-wireless-native-v161t2-f6dfb5e724b1",
+        "installed",
+        "carplay-mu1367-guidance-v3",
+        "mu1367-guidance-v3-b20e8ae643d5",
+        "installed",
+        "=== runtime fingerprints"
+      ],
+      "retained_bridge_window": {
+        "metrics_samples": 131,
+        "pts_step_max_ms": 1120.0,
+        "pts_step_max_median_ms": 161.0,
+        "samples_with_pts_step_at_least_200_ms": 33,
+        "samples_with_pts_step_at_least_200_ms_percent": 25.19083969465649,
+        "frame_max_bytes": 59450,
+        "queue_hi_max": 662,
+        "queue_hi_total_max": 662,
+        "fps_median": 22.535,
+        "fps_max_short_window": 42.105,
+        "first_cumulative": {
+          "blocks": 384300,
+          "output_bps": 12246310,
+          "queue": 0,
+          "frames": 66850,
+          "keys": 13067,
+          "drops": 0,
+          "write_us": 7000,
+          "write_us_max": 15000,
+          "slow_writes": 0
+        },
+        "last_cumulative": {
+          "blocks": 401500,
+          "output_bps": 12246310,
+          "queue": 0,
+          "frames": 69872,
+          "keys": 13645,
+          "drops": 0,
+          "write_us": 6000,
+          "write_us_max": 19000,
+          "slow_writes": 0
+        },
+        "first_clock": {
+          "frame": 66841,
+          "ntp": 14284288132382,
+          "pts": 275060880,
+          "step": 1800
+        },
+        "last_clock": {
+          "frame": 69841,
+          "ntp": 14867046474973,
+          "pts": 287272440,
+          "step": 1530
+        },
+        "clock_span_seconds": 135.6840000001248,
+        "cumulative_frames_per_idr": 5.120703554415537,
+        "timing_log_lines": 0,
+        "last_timing": null
+      },
+      "state": {
+        "session.state": "WCPRG1\n1708089\n361348793\n26031\n4\n1\n",
+        "source-status.txt": "WCP161 fps=40 idr=8 rg5201=3424 rg5202=98 lanes5204=80 pending=0 dropped=0\n",
+        "adapter-status.txt": "RG build=MU1367-guidance-v1.6.1-e-test2 run=2 mode=0 context=0 ticks=13676 proposals=3092 writes=64547 releases=4 failures=0 records=23957 arrow_remaining_percent=-1 arrow_window_m=200 road_fields_seen=3409 nonempty_roads_seen=2749 lane_messages_seen=80 neutral_lanes_seen=140 neutral_branches_seen=4 road_present=0 road_at=-1 lane_count=0 lane_at=-1 ownership_history=560363:0:0:2:20:0:23:23:1;561124:4:0:0:-1:0:-1:24:1;562129:0:0:2:43:0:66:66:1;995847:3:0:2:505:505:2075:2075:1;996099:0:0:2:507:505:159:43:1;3214679:3:0:2:3390:3390:2771:2233:-1;3214931:0:0:2:3394:3390:150:33:1;3322591:4:0:0:-1:3390:-1:13:1 first_unexpected_release=995847:3:2075:2075:505:505 owned=0 ownership_reason=4 last_owned_at=3322340 last_release_at=3322591 last_release_reason=4 last_release_context=0 last_release_mode=0 last_release_progress=-1 last_release_floor=3390 last_release_frame_age=-1 last_release_journal_age=13 mailbox_serial=26028 mailbox_kind=1 feed_errors=0 feed_recoveries=0 feed_fatal=0 eta_setting=1 eta_clock_min=769 eta_arrivals=10705 eta_fallbacks=0 error=0 phone=2 root=/ramdisk/wcp-rg\n",
+        "idr.state": null
+      },
+      "now_playing_status": "format=1 build=MU1367-artwork-55008dbaf18e text_output=1 epoch=3 connected=1 context=1 ticks=16998 fills=15949 accepted=7 rejected=16571 failures=0 attach_failures=0 tracks=0 covers=0 io_failures=0 writes=3393\n",
+      "navigation_card": "format=1\nposition=3\ngeneration=5\ncrc32=d29c0f83\n",
+      "display_preferences": "format=1\nstream=1\nlayout=3\ngeneration=37\ncrc32=f268e712\n",
+      "wcp_rotation_count_reported": 17,
+      "retained_now_playing_5001_occurrences": 39,
+      "audio_jitter_counter_lines": [
+        "1970-01-01 12:57:31.698000 AM [AirPlayReceiverSessionScreen] Late frame (163 ms, 227 total late frames): 2d8f000000100000333333bf93ee0000 ... 30581d31b3d47e01d004ee8a70785b92"
+      ],
+      "main_video_final_stats": "[wcp_video 3450.679] 统计:帧=65402 解出=65402 IDR=14 出错=0 丢弃=0 NvSS迟到丢弃=0 | 近 5 秒 24.9 fps,平均 decode 调用 0.22 ms 最长 23.00 ms",
+      "pf_empty_nat_observed": true,
+      "pf_macro_error_observed": true,
+      "false_video_failure_observed": true,
+      "channel_lines": [
+        "[chansync] settled on 11 (uplink idle, 46s after AP up)"
+      ],
+      "supervisor_lifecycle_lines": [
+        "t_us=90296000 event=ring-mapped value1=0 value2=0",
+        "t_us=93572000 event=bridge-started value1=5750917 value2=0",
+        "t_us=164075000 event=video-owner-stop-request value1=1 value2=5750917",
+        "t_us=165191000 event=bridge-stopped-after-flush value1=5750917 value2=0",
+        "t_us=166086000 event=oem-most-restore value1=0 value2=0",
+        "t_us=268350000 event=ring-mapped value1=0 value2=0",
+        "t_us=271055000 event=bridge-started value1=14315653 value2=0"
+      ],
+      "evidence_files": {
+        "wireless-diag-45396096/summary.txt": {
+          "bytes": 3707,
+          "sha256": "2a2244334f87a377dfe3fd51b61cea9930e801d707957550791d2a1509ec7354"
+        },
+        "wireless-diag-45396096/logs/ramdisk-altscreen-most-bridge.log": {
+          "bytes": 88692,
+          "sha256": "91c58f74eff89920020cde823b3d6bda2accea71367c886f8019156f6ae825c9"
+        },
+        "wireless-diag-45396096/logs/wcp.log": {
+          "bytes": 78761,
+          "sha256": "779650456799b9e8de9ef27f406a8ce50632e046b27d3dcd4092a7ec8f93b615"
+        },
+        "wireless-diag-45396096/logs/wcp_autostart.log": {
+          "bytes": 9419,
+          "sha256": "bc6d7fbd73736261c07d2c98af3aa90b19cd41ad960241875473e541aa719e1b"
+        },
+        "wireless-diag-45396096/logs/wcp_video.log": {
+          "bytes": 114333,
+          "sha256": "4539b675c5caa4494f5eead678f3230802ea829a699c596b26b4c4b4b8f2fecc"
+        },
+        "wireless-diag-45396096/state/wcp-rg-session.state": {
+          "bytes": 35,
+          "sha256": "7321e8dc3f9fc29359f39079a7ae339f36feb45d5958b69df0203df5e92bbaba"
+        },
+        "wireless-diag-45396096/state/wcp-rg-source-status.txt": {
+          "bytes": 75,
+          "sha256": "d1186cb41e6a5b110512840f6cd17491f90bc473d2df8c274d3e5096b1b92929"
+        },
+        "wireless-diag-45396096/state/wcp-rg-adapter-status.txt": {
+          "bytes": 1088,
+          "sha256": "d7ce6b6195ddb635d5d15c621d7ee2d1cd3f8b1c69d900e21d075c3b52744ed5"
+        },
+        "cpmap-diag-44699776/ramdisk/carplay-now-playing-n1.status": {
+          "bytes": 210,
+          "sha256": "95a471ccf470ed8577a696f14c4a636f69618d43cf1d644016052c37e7c8f0c1"
+        },
+        "cpmap-diag-44699776/preferences/navigation-card.state": {
+          "bytes": 48,
+          "sha256": "ed6f030dcc7bb65dacaa4584edad0a1b1a2d961683b918cdef0c2668d6b86469"
+        },
+        "cpmap-diag-44699776/preferences/display.state": {
+          "bytes": 56,
+          "sha256": "4453a4ce45dbabd5e4a6436cf63dd7f8c75b7d90c9699d842ec4734eaa640c4d"
+        },
+        "wireless-diag-45396096/logs/ramdisk-carplay-cluster-supervisor.log": {
+          "bytes": 1212,
+          "sha256": "7cacdaa243835d3e96d7bb1eaeab38cded231a81f9a4c30636f3ab004c55eb4b"
+        },
+        "wireless-diag-45396096/logs/ramdisk-omonob-791-input.log": {
+          "bytes": 825,
+          "sha256": "055a3629e1b3caac81321ae35a512533c082e206d8f8cf1d6e4df7bc0798b103"
+        },
+        "wireless-diag-45396096/logs/omonob-phone.log": {
+          "bytes": 426,
+          "sha256": "c3b43b608905647c7a63c8113beb433ce9f7dae4f3b3c1f9c70123ff1c139bc3"
+        }
+      }
+    },
+    {
+      "wireless_export": "wireless-diag-51548255",
+      "standard_export": "cpmap-diag-50896995",
+      "runtime_fingerprints": {
+        "wireless-receiver-exec": "8a7ef2c9e6e76a16d3bf7c00a8dda19631af90e37e6531b3638b3e4c004420dd",
+        "libcpmap-wcp-tap.so": "5b3ee9effff13887ef56bee27bb94142e8f7f33ec0dc44a41d58155a2b3e9911"
+      },
+      "matches_package_components": [
+        "v1.6.1"
+      ],
+      "managed_layer_lines": [
+        "=== managed layer state",
+        "carplay-mu1367-wireless-native",
+        "MU1367-wireless-native-f835c2d913aa",
+        "removed",
+        "carplay-mu1367-wireless-native-v161",
+        "MU1367-wireless-native-v161-9fa71c6f6dcb",
+        "removed",
+        "carplay-mu1367-wireless-native-v161t2",
+        "MU1367-wireless-native-v161t2-f6dfb5e724b1",
+        "installed",
+        "carplay-mu1367-guidance-v3",
+        "mu1367-guidance-v3-b20e8ae643d5",
+        "installed",
+        "=== runtime fingerprints"
+      ],
+      "retained_bridge_window": {
+        "metrics_samples": 181,
+        "pts_step_max_ms": 2155.4,
+        "pts_step_max_median_ms": 99.9888888888889,
+        "samples_with_pts_step_at_least_200_ms": 5,
+        "samples_with_pts_step_at_least_200_ms_percent": 2.7624309392265194,
+        "frame_max_bytes": 31485,
+        "queue_hi_max": 214,
+        "queue_hi_total_max": 1187,
+        "fps_median": 21.674,
+        "fps_max_short_window": 82.84,
+        "first_cumulative": {
+          "blocks": 495900,
+          "output_bps": 12077289,
+          "queue": 11,
+          "frames": 86630,
+          "keys": 10926,
+          "drops": 1,
+          "write_us": 8000,
+          "write_us_max": 38000,
+          "slow_writes": 0
+        },
+        "last_cumulative": {
+          "blocks": 519100,
+          "output_bps": 12215228,
+          "queue": 13,
+          "frames": 90634,
+          "keys": 11433,
+          "drops": 1,
+          "write_us": 7000,
+          "write_us_max": 38000,
+          "slow_writes": 0
+        },
+        "first_clock": {
+          "frame": 86641,
+          "ntp": 17135848204462,
+          "pts": 355526847,
+          "step": 6749
+        },
+        "last_clock": {
+          "frame": 90601,
+          "ntp": 17921378653246,
+          "pts": 371987448,
+          "step": 2250
+        },
+        "clock_span_seconds": 182.8955600000918,
+        "cumulative_frames_per_idr": 7.927403131286626,
+        "timing_log_lines": 32,
+        "last_timing": {
+          "matches": 89521,
+          "misses": 1048,
+          "delay_ms": 246,
+          "age_us": 247701
+        }
+      },
+      "state": {
+        "session.state": "WCPRG1\n1744994\n570599266\n30999\n2\n1\n",
+        "source-status.txt": "WCP161 fps=40 idr=8 rg5201=4731 rg5202=56 lanes5204=52 pending=0 dropped=0\n",
+        "adapter-status.txt": "RG build=MU1367-guidance-v1.6.1-e-test2 run=2 mode=0 context=0 ticks=16474 proposals=4303 writes=93753 releases=3 failures=0 records=30694 arrow_remaining_percent=-1 arrow_window_m=200 road_fields_seen=4718 nonempty_roads_seen=4474 lane_messages_seen=52 neutral_lanes_seen=60 neutral_branches_seen=2 road_present=0 road_at=-1 lane_count=0 lane_at=-1 ownership_history=97519:0:0:2:11:0:16:16:1;2826349:3:0:2:3253:3253:3125:2156:-1;2826601:0:0:2:3256:3253:149:31:1;3743262:3:0:2:4358:4358:2109:2109:1;3743514:0:0:2:4367:4358:253:32:1;4094024:4:0:0:-1:4358:-1:67:1 first_unexpected_release=2826349:3:3125:2156:3253:3253 owned=0 ownership_reason=4 last_owned_at=4093772 last_release_at=4094024 last_release_reason=4 last_release_context=0 last_release_mode=0 last_release_progress=-1 last_release_floor=4358 last_release_frame_age=-1 last_release_journal_age=67 mailbox_serial=30996 mailbox_kind=1 feed_errors=0 feed_recoveries=0 feed_fatal=0 eta_setting=1 eta_clock_min=1103 eta_arrivals=15482 eta_fallbacks=0 error=0 phone=2 root=/ramdisk/wcp-rg\n",
+        "idr.state": "WCPIDR1\n1744994\n2\n4177252000\n"
+      },
+      "now_playing_status": "format=1 build=MU1367-artwork-55008dbaf18e text_output=1 epoch=1 connected=1 context=1 ticks=20516 fills=20437 accepted=2 rejected=20442 failures=0 attach_failures=0 tracks=0 covers=0 io_failures=0 writes=4097\n",
+      "navigation_card": "format=1\nposition=3\ngeneration=5\ncrc32=d29c0f83\n",
+      "display_preferences": "format=1\nstream=1\nlayout=3\ngeneration=37\ncrc32=f268e712\n",
+      "wcp_rotation_count_reported": 16,
+      "retained_now_playing_5001_occurrences": 134,
+      "audio_jitter_counter_lines": [
+        "1970-01-01 01:09:04.378000 AM [AirPlayReceiverSessionScreen] Late frame (155 ms, 427 total late frames): 9209000000000000cccccc18b4160100 ... 7e0c88656875b4ad4fa87fc8b287fada",
+        "1970-01-01 01:09:27.313000 AM [AirPlayReceiverSessionScreen] Late frame (216 ms, 520 total late frames): 185a000000100000ccccccf8ca160100 ... 0c9f38c896355646a6e94210e8f6ede4",
+        "1970-01-01 01:09:27.316000 AM [AirPlayReceiverSessionScreen] Late frame (194 ms, 521 total late frames): 4902000000000000333333ffca160100 ... 90c0df6a5b7b2423b3806a986c06b8e3"
+      ],
+      "main_video_final_stats": "[wcp_video 4163.322] 统计:帧=91618 解出=91618 IDR=7 出错=0 丢弃=0 NvSS迟到丢弃=0 | 近 5 秒 30.3 fps,平均 decode 调用 0.21 ms 最长 24.00 ms",
+      "pf_empty_nat_observed": false,
+      "pf_macro_error_observed": false,
+      "false_video_failure_observed": true,
+      "channel_lines": [
+        "[chansync] settled on 11 (uplink idle, 46s after AP up)"
+      ],
+      "supervisor_lifecycle_lines": [
+        "t_us=39465000 event=ring-mapped value1=0 value2=0",
+        "t_us=42453000 event=bridge-started value1=3526783 value2=0"
+      ],
+      "evidence_files": {
+        "wireless-diag-51548255/summary.txt": {
+          "bytes": 3664,
+          "sha256": "fc690a5dcf2e3982b563a06e09b312b9a9dc0e845781c9094a5301119d77579f"
+        },
+        "wireless-diag-51548255/logs/ramdisk-altscreen-most-bridge.log": {
+          "bytes": 110925,
+          "sha256": "52e47ba55126158698416b2618bbd5d398147fe00531ee6fba30b14ab28ea8c8"
+        },
+        "wireless-diag-51548255/logs/wcp.log": {
+          "bytes": 210048,
+          "sha256": "01cb4a6e6de0daa5112f3613383fa615cd012786a59243fcd498ddbff23cc2e0"
+        },
+        "wireless-diag-51548255/logs/wcp_autostart.log": {
+          "bytes": 1169,
+          "sha256": "26708d9645164c9ca7e5df0baae4e3e3585aeb8a76e0028934a9447a730e2982"
+        },
+        "wireless-diag-51548255/logs/wcp_video.log": {
+          "bytes": 134345,
+          "sha256": "1be37e4df589328716bebfeb419ac79f4e3f1888c2e086cd89222896d8e6d557"
+        },
+        "wireless-diag-51548255/state/wcp-rg-session.state": {
+          "bytes": 35,
+          "sha256": "f14edd99610af9a285e22ab46729f1b466d58c83c1c2459fe8f281ca543bbc36"
+        },
+        "wireless-diag-51548255/state/wcp-rg-source-status.txt": {
+          "bytes": 75,
+          "sha256": "18705de7915c1cb6505d9a5cf09fc311144ddca9bd3ef1a2bfebfa66677e7c5b"
+        },
+        "wireless-diag-51548255/state/wcp-rg-adapter-status.txt": {
+          "bytes": 1044,
+          "sha256": "73ce475fb506f1856da1a6a22326d3918421066346e1a4057f2c827d9873fdfa"
+        },
+        "wireless-diag-51548255/state/wcp-rg-idr.state": {
+          "bytes": 29,
+          "sha256": "dcc79c92c8de3789f213cd5aabfe30fe575ecad19875286e1e681cc5ee6e1d8b"
+        },
+        "cpmap-diag-50896995/ramdisk/carplay-now-playing-n1.status": {
+          "bytes": 210,
+          "sha256": "ea5654f5e5260dcb6e0ac26cdb2c0c24b2ef02dc0a5581e036a3252d37c67dc8"
+        },
+        "cpmap-diag-50896995/preferences/navigation-card.state": {
+          "bytes": 48,
+          "sha256": "ed6f030dcc7bb65dacaa4584edad0a1b1a2d961683b918cdef0c2668d6b86469"
+        },
+        "cpmap-diag-50896995/preferences/display.state": {
+          "bytes": 56,
+          "sha256": "4453a4ce45dbabd5e4a6436cf63dd7f8c75b7d90c9699d842ec4734eaa640c4d"
+        },
+        "wireless-diag-51548255/logs/ramdisk-carplay-cluster-supervisor.log": {
+          "bytes": 405,
+          "sha256": "e773b8408273f6b9594de6145282ff0886cf96595274a92c18b5ee1e16481ff2"
+        },
+        "wireless-diag-51548255/logs/ramdisk-omonob-791-input.log": {
+          "bytes": 292,
+          "sha256": "90802042f2a807e9ccecce758e54979f39dd73b091c0aac4df915a7e557dfcbc"
+        },
+        "wireless-diag-51548255/logs/omonob-phone.log": {
+          "bytes": 127,
+          "sha256": "a6ddcd1c5bff695ff596661e0169772a86545f6a6c00fc26e9f434d27a6b00cd"
+        }
+      }
+    }
+  ]
+}

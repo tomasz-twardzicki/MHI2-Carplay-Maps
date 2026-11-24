@@ -1,0 +1,339 @@
+{
+  "version": "1.6.3-e-test2",
+  "passed": true,
+  "experimental": true,
+  "prerelease": true,
+  "on_unit_validated": false,
+  "build_id": "MU1367-wireless-native-v163t2-dae4bc78d957",
+  "components": {
+    "libcpmap-wcp-tap.so": "83521b9b5fdb29a5f22008353976441e4363d5bef50881e9008ca4b675184648",
+    "wireless-artwork-fetch": "22aa7618a12301bed0bc6ad532f40445a9e3847935065daf315779380e75923e",
+    "wireless-tune": "20dbe91d3b1df848951ba3356beee91696362a102d9a9c15c08818432bb4fb06",
+    "wireless-receiver-exec": "c7ca22748d962989d043082fbb4f60cc797ac1d10224c26df85cfaaf5835e74a",
+    "altscreen-most-bridge": "f1e7cefc1db3b34e92bbf1cdb54125a712ac569cd71d7db084c8a67ca62238ad",
+    "carplay-cluster-supervisor": "e525fb5bdd4aec959ba2f5619e5ecf0ce653190807acbaac85d5cb66ab2e52f2",
+    "CarPlayMU1367Guidance.jar": "e6f4345a2bd72dfdc56aeba0a28a52e02f053af9211d4e4c5deb94e1202bd494",
+    "CarPlayMU1367Audio.jar": "6d1772871f6ed748774cccdd4f3fc44fa05c0f5ee893b9e8ef6fc4e4cd42f992",
+    "CarPlayWireless-CP-55915411.jar": "12f097bd4643ba2ca3a9959c01bf591cea1c5920b3ab2063429890c7a38e0c17"
+  },
+  "development_checkpoint": {
+    "schema": 1,
+    "status": "development bench checkpoint",
+    "checkpoint_date": "2026-11-20",
+    "bench_checks_passed": true,
+    "ready_to_package": false,
+    "on_unit_validated": false,
+    "new_sd_package_created": false,
+    "components": {
+      "libcpmap-wcp-tap.so": "83521b9b5fdb29a5f22008353976441e4363d5bef50881e9008ca4b675184648",
+      "wireless-artwork-fetch": "22aa7618a12301bed0bc6ad532f40445a9e3847935065daf315779380e75923e",
+      "wireless-tune": "20dbe91d3b1df848951ba3356beee91696362a102d9a9c15c08818432bb4fb06",
+      "wireless-receiver-exec": "c7ca22748d962989d043082fbb4f60cc797ac1d10224c26df85cfaaf5835e74a",
+      "altscreen-most-bridge": "f1e7cefc1db3b34e92bbf1cdb54125a712ac569cd71d7db084c8a67ca62238ad",
+      "carplay-cluster-supervisor": "e525fb5bdd4aec959ba2f5619e5ecf0ce653190807acbaac85d5cb66ab2e52f2",
+      "CarPlayMU1367Guidance.jar": "e6f4345a2bd72dfdc56aeba0a28a52e02f053af9211d4e4c5deb94e1202bd494",
+      "CarPlayMU1367Audio.jar": "6d1772871f6ed748774cccdd4f3fc44fa05c0f5ee893b9e8ef6fc4e4cd42f992",
+      "CarPlayWireless-CP-55915411.jar": "12f097bd4643ba2ca3a9959c01bf591cea1c5920b3ab2063429890c7a38e0c17"
+    },
+    "component_directory": "build-v163t2-components-r5",
+    "reports": {
+      "reconnect_old": {
+        "path": "build-v162next-reconnect-old-r1/result.json",
+        "sha256": "1e6f6c6869864bfac0c5bf88f04b7586aa68b3f5f043652217ce1a648f09bddb"
+      },
+      "reconnect_fixed": {
+        "path": "build-v162next-reconnect-fixed-r2/result.json",
+        "sha256": "1be945c00ded2adc152eaa93301279d1af0363c563706bdf8b37c8e31c44260c"
+      },
+      "native_receiver": {
+        "path": "build-v162next-receiver-r4/result.json",
+        "sha256": "561288d2a5be476b7b0af56fffabe8f6f8cf5c7dd72e7b1f6794f55de39b5b88"
+      },
+      "timestamp_old": {
+        "path": "build-v162next-clock-old-r1/result.json",
+        "sha256": "5432dd69be3b6f2f3cc5fc4006c0a6d6fb1e14871131a71938c898591b51248f"
+      },
+      "timestamp_fixed": {
+        "path": "build-v162next-clock-fixed-r3/result.json",
+        "sha256": "4f349df69c0070337e1ca204282e2f0594618a5f1d0c5be495de997c386035c1"
+      },
+      "capture_clock": {
+        "path": "build-v162next-clock-host-r2/result.json",
+        "sha256": "c2e12c853d7db9a0f2a44275d1ea85e277ae95be36bd08cc7c3c1c3c3728b0fe"
+      },
+      "long_diagnostics": {
+        "path": "build-v162next-bridge-diag-r4/result.json",
+        "sha256": "4e6687ad34157a0f2f0ebaa7cee95490aa0380cefcd49acf6b021fdc64526179"
+      },
+      "collector": {
+        "path": "build-v162next-collector-r3/result.json",
+        "sha256": "ab77cf03f3e9886a88f9650a7ef3e0075f9243628a1067a26002998c871dab01"
+      },
+      "lifecycle": {
+        "path": "build-v162next-lifecycle-r3/result.json",
+        "sha256": "6afa47e092c7dad32d6d18620af7dd10ea2f1c72d1c8deda1d73d10d1df4c63e"
+      },
+      "pf_k4525": {
+        "path": "build-v162next-pf-r4/result.json",
+        "sha256": "f4a48d40ce3833a0fdfb1a5c7d2b509a59c7d47e2fcd660a0d0398cc49fc2794"
+      },
+      "pf_p4521": {
+        "path": "build-v162next-pf-r3/result.json",
+        "sha256": "702adecf433e30939fe41746bde5fbaa484049c2166fff042c129bedc2ea050a"
+      },
+      "input_and_launcher": {
+        "path": "build-v162next-tools-r3/result.json",
+        "sha256": "bb45d6279667072e504b136d0091ae9fc2f8bb01a41fc5b18a78a8a70a7fd20a"
+      },
+      "wired_recovery": {
+        "path": "build-v162next-recovery-host-r1/result.json",
+        "sha256": "58ffe11d7c8af3d82478730313bde50f591f1910d25bc04f02d405547b455ce2"
+      },
+      "pf_firmware": {
+        "path": "v162-next/PF-FIRMWARE.json",
+        "sha256": "1eb815cdda83707800411a345d00a96d34e428be90700084375f5fdfe0b22a90"
+      },
+      "media_host": {
+        "path": "build-v163t2-media-host-r7/result.json",
+        "sha256": "a0903ba9096722ca99e059e9eda7fb621fb6b3c4af20c60c57bbbf96931d69cb"
+      },
+      "media_factory_j9": {
+        "path": "build-v163t2-media-qnx-r5/result.json",
+        "sha256": "c1394e8bc9688a9028d1db14d10ebdc67a584b8a19cc79889f2b8f97d3a95dba"
+      },
+      "screen_host": {
+        "path": "build-v163t2-screen-host-r2/result.json",
+        "sha256": "5f19a80c8b7b0943fd05ae2ed2ebe5cb04b2245986aa1d202d288f516d66f927"
+      },
+      "captured_cover": {
+        "path": "build-v163t2-car-cover/result.json",
+        "sha256": "073541dca9ae10723f5fa9bb74575b8f6338526eff2b4608d66d3ffd979b8d56"
+      },
+      "candidate_flow": {
+        "path": "build-v163t2-flow-qnx-r1/result.json",
+        "sha256": "4988105e9723e4a1977e9602a6b68febfec84e7a557c599309144f27f6e7e861"
+      },
+      "imports_K4525_50": {
+        "path": "build-v162next-components-r5/imports-K4525-50.json",
+        "sha256": "db382c85f8981d5242e9914f22d1245457419522853466fb96a8eaec2bb43bc8"
+      },
+      "imports_K4525_70": {
+        "path": "build-v162next-components-r5/imports-K4525-70.json",
+        "sha256": "1ec2f7bfdd228eef3e596ef642ac273b85f6caf12fae1a9fde1f41c853701056"
+      },
+      "imports_P4521_50": {
+        "path": "build-v162next-components-r5/imports-P4521-50.json",
+        "sha256": "fb85d9ff00eb3a92b854d7528915a0b7164bcfeb63a54271b25c74ab2d3e2101"
+      },
+      "imports_P4521_70": {
+        "path": "build-v162next-components-r5/imports-P4521-70.json",
+        "sha256": "497b25fd168861cb4034378c3a7efa942f870e99a7a92e905748c80e47b38d82"
+      }
+    },
+    "sources_sha256": {
+      "src/artwork/fetch.c": "d918ace843277fddad1638f2bd6af132cbb701d223e1f2701e7ce0e891b60d27",
+      "src/artwork/image.c": "e44a004027d934ad4b04bda8fbbb4a6f74145872dc5df2a5f36c0cdf4223c95c",
+      "src/artwork/vendor/stb_image.h": "594c2fe35d49488b4382dbfaec8f98366defca819d916ac95becf3e75f4200b3",
+      "src/artwork/wireless_fetch.c": "81834aa2e5805e2c75bbd8bf564b911c1c00e876d0a818dfc4d5954ff2f9da0c",
+      "src/audio/BuildInfo.java": "4eed89e9e6accb65b000299feb0cc0458a4a9bd6f28faafa7c13e9d68d1e894a",
+      "src/audio/CoverBridge.java": "93efa6e5add2325821da1ebf8fcc94c4ebec04d9e8dbf0596000daf377819461",
+      "src/audio/CoverMeta.java": "7c4e71d98d0ab35e870b96073d4b7c021035657688ae58f90b835b40b4817462",
+      "src/audio/MediaLease.java": "d21322a60b6a395e3b0c7006229f00d7154f565ab425314b6f6697cba8e6073c",
+      "src/audio/TextBridge.java": "46f4e190fba23cc705833be70dce9e76ff157fa88a164eac767390cc740b767e",
+      "src/audio/TextModel.java": "cb9041e49ab277306c8c5451bc3d337fb5dc8b18f121c3412ef6763f756fb962",
+      "src/audio/WirelessFrame.java": "789d597b49c46b4d856d479353499e4283f5580e734ad60801b7a7268edd3245",
+      "src/audio/WirelessMedia.java": "f429df0d4e3af4f957a078fba7eefd67c472cca05244e257b56700e14ac32beb",
+      "src/audio/WirelessMediaEvents.java": "d28786de9dcee5facbdf01738bb1f3bb19331828118d6c358c5dab9a3584d0fe",
+      "src/cp/BorrowedScreen.java": "b47bbf5942594d41eb519b95e581087fc28b6288277412584fc9464c38c61f6f",
+      "src/guidance/ArrivalClock.java": "8d5ca39d1b70e2a287887326c1c392a405d191833d855e60ee6d8ca14e0e72b2",
+      "src/guidance/ArrowProgress.java": "c2e1b8e462efa1cc1834aa469f92afc0d01ba82eee48a5b59dd6571f359ce541",
+      "src/guidance/BuildInfo.java": "e7a65fc88719f85da17c221a50f7bf809bddff8bd83d7f36a8dd344f83ad284d",
+      "src/guidance/DriverSide.java": "bf34bbde833121ba0a3d13191e4a9a169ffe4f343ded0f746e7c42011309ff76",
+      "src/guidance/FeedRecovery.java": "28f95deb5a6f0b68579d5da2c4530fb9c980ee39398dbc5ba7dd8cfbf86c8f27",
+      "src/guidance/GuidanceEvidence.java": "a161bd22cb540783287a05d7d87065ede4a10651e0cb287ef4280a0d88cd8dca",
+      "src/guidance/JournalReader.java": "3f0086dc541fe1cb0ceac83019fcd70c7184dd1fd2de8518129ceb70ec5f3459",
+      "src/guidance/LaneData.java": "148fd896272632c1d4a458101abfc347f64d4cb25df4c666fc1d4b8e1978d4f1",
+      "src/guidance/LaneEvidence.java": "8f20d3f6b8c64d15f960977fb4fd07e77d912af6a00880133eaa29a15059c490",
+      "src/guidance/LiveBridge.java": "b1566f2569594bbf30951328d999cd1409d26acc4dff7dae1214e380b6df4ac0",
+      "src/guidance/LiveModel.java": "4a383a76cc96ec3afabb0ce4255c9a4468e338b30afec219db0063103efec07d",
+      "src/guidance/MailboxReader.java": "65d75fea5c2d67c15ca072a697dba2ddd3b1a7ea4e1777565dc4212a83381196",
+      "src/guidance/RoadName.java": "75353e5c3b3f515f3e2d51676fb1f622536c90a4ef37bbfbf736b315ff0fb67b",
+      "src/guidance/WirelessSource.java": "577298cb5a7f6552cd516569f2d679497756078cc3337b5e948f406e1b795d45",
+      "src/native/wcp_capture_clock.h": "fb8d858b1d3a46cbc8e66eb58586211749e261ef1306efb0bf38ed839b424ff5",
+      "src/native/wcp_driver_side.h": "c178b907e529a23c7ea5c6656e1a8ca8531b52f4aaa18e978e66e59363bb3d48",
+      "src/native/wcp_media.c": "dbb2238a490e9b984d932ef8b2f156d47cd2ffbb44b924f7c8bf4e05e50146d4",
+      "src/native/wcp_media.h": "2bb17a2bf1be690a03b71032359406650486287064ff4cbc373046aa8c518673",
+      "src/native/wcp_media_tap.h": "f1629c08a769997380d9ac5ece1b9aa0e32e220b3e5edac973dbcae4bdfc13b7",
+      "src/native/wcp_priority.h": "cf2d994478e10edb30c87bf13f7c3e4a19114172b167042a5861d5094012fa75",
+      "src/native/wcp_rg.c": "9a90d19caf19a7709646db9cc150f9a5967548e3d314546a200cf87b35d0355a",
+      "src/native/wcp_rg.h": "094c8f7f122a6ea39eeac2edc5fa4681953a3f7648b7a3ba698acb33ba89700e",
+      "src/native/wcp_settings.h": "7ff2138021bb0fa0777742ddb4a066959de8807bb048ddba4002800880db2c2a",
+      "src/native/wcp_sha.h": "427f5d1e5c872e86520c6d5c98776bed7eb8b51a0c390bda2be832048b0c9af9",
+      "src/native/wcp_smoothing.h": "da0eb903bda985e13762f024f1aa9e5c56820027a40cb317d77c7b4b5bdcb53b",
+      "src/native/wcp_tap.S": "696cbf01666f9d19cf4aad2b888f8cc6e6392c113a179c6d2da1fd703563014d",
+      "src/native/wcp_tap.c": "36285756e723d30ffcdd5040d154ed31aeda7047a59e4b2eb7044122471fa4b6",
+      "src/native/wcp_timing.h": "cf273c2f60e28c6bcb0cba959fd18e44aab184252269e9df643b58b5f61d2da5",
+      "src/native/wireless_receiver_exec.c": "fa21d83331434e1b99477e03b9727c94493521e22dfef779b4e7b0d7030de275",
+      "src/native/wireless_session.h": "753a2d055ef52bd29f203d18bad87d27e9834e728050cc061f76f539339ae087",
+      "src/native/wireless_tune.c": "10f5c0eace9090d4b81d0643abcf8e894d5a9ab44673e36f77c7b1f8dcf546e7",
+      "src/runtime/collect-wireless.sh": "aef542857f38663a7719d8822e664db583b489c9b45961d756b7beac785c50d2",
+      "src/runtime/vc-runtime/mirror/carplay_mirror_protocol.h": "0646a69f4c084952d778a75c2040ad4548d4f4f2e6432f9088ba1f2f7890d6dc",
+      "src/runtime/vc-runtime/mirror/carplay_mirror_receiver.c": "e57e1b2ac30762844cbb5cec98718e02d4710583754f77f3940281258a1b83c7",
+      "src/runtime/vc-runtime/mirror/carplay_yuv_shm.h": "d6d99f30ab4753680683f8f38967323fd35d4e1f24754d9141c7442ac1428976",
+      "src/runtime/vc-runtime/mirror/carplay_yuv_shm_tap.c": "c1d642e6147b133da42304baf2544a383243831d986b33e2c55d18186352fd7d",
+      "src/runtime/vc-runtime/mirror/cpvc_canvas.h": "bc79b1cfcd2169e85e8cf3a77f3293edd6db547cba25322cccbd11bb3763d5e4",
+      "src/runtime/vc-runtime/mirror/cpvc_mirror_control.h": "b360a62f518fc9e20ebfbdba9ccc864c4fbf69c2e18263df6b027362f96c8ccd",
+      "src/runtime/vc-runtime/mirror/cpvc_output_contract.h": "ae10b02c7da161b0ec8775b2491a1a557b10b3f448e274b74a0ab11be0ae675a",
+      "src/runtime/vc-runtime/mirror/dmdt_unbuffer.c": "61d50dd95474090ee0ba13da70f7be2a2d0cc47a1a41953928be93893e953eda",
+      "src/runtime/vc-runtime/mirror/feature_video_owner.c": "aeb249c3c8e3774f8780a7afc773c5effa989063bcf67fa8db7ecfb807c03bf3",
+      "src/runtime/vc-runtime/runtime/altscreen_frame_protocol.h": "0cb45ceaeec7a418b2e9e9779a05ac3902d272e6e93cb5bf792ce73c7275a509",
+      "src/runtime/vc-runtime/runtime/altscreen_most_bridge.c": "e44ac999b18cdd7b3fa503872a62b98a3db12b18b50d5fabb61f0587afe1d3b9",
+      "src/runtime/vc-runtime/runtime/carplay_cluster_supervisor.c": "627895e2fa8644068b3443435299dc73346770bf05094490ea871dbe7c35c37f",
+      "src/runtime/vc-runtime/runtime/cpmap_animation_preference.h": "5d989407d49f65ddc491b86378ccd72d4f1914057ace8d9b04275715d084b7e6",
+      "src/runtime/vc-runtime/runtime/cpmap_intro_clip.h": "cc6e66903608c21296b3375746403365cb1285afdc3ec9b04a520a2e0c6db338",
+      "src/runtime/vc-runtime/runtime/cpmap_intro_policy.h": "664b2379f9a040a1174b18bd6bba731badab253734b94f1a99586bc73c41ee92",
+      "src/runtime/vc-runtime/runtime/cpmap_map_preference.h": "5261e86e3c8cf18fe8e2d9e2d171f83a0de4557e23ff063ee34026153996c1d7",
+      "src/runtime/vc-runtime/runtime/cpmap_projection_preferences.h": "608b82f3b591ccf8789e2d2bcc7080518d5db4186a90bfadbced66d32c1be9f3",
+      "src/runtime/vc-runtime/runtime/cpmap_resources.h": "e24d0e3c159d5fc173fff692ac7cd2fcda3195c73c85bc2a8fb67e526a60334b",
+      "src/runtime/vc-runtime/runtime/cpvc_authorized_runtime.h": "c8c3b48eb207bd7989a79f3cb3923ac08a020a7636fc8904c2fc65eb1713f378",
+      "src/runtime/vc-runtime/runtime/cpvc_video_policy.h": "343c825bdb3863b7483cf2934527a622515b7b1a3ef6e3b6475b569bb784cee9",
+      "src/runtime/vc-runtime/runtime/cpvc_wireless_settings.h": "ede00cf3bd7b87691d1766c7883654c381d8808b1b2f7d4b462774c4428448be",
+      "src/runtime/wcp_autostart.sh": "5b6f2d73e4c5ce750cf1e49b0b5fd6c51b04dfe59aa14f5eb68558591821d769",
+      "src/runtime/wcp_ctl.sh": "348ee6e127aad25247156aa97e4de0ed662430155788a481b7b7c47d412bed3a",
+      "src/runtime/wcp_pf.sh": "8a0477463e79dee75ff50f67c39621b02efb4243469bd64c7b5784e6da674e2d",
+      "src/runtime/wcp_pfwatch.sh": "b069548fef73ca4ab5bb185cc3a08870218336b520c225163fd509322ad8af9d",
+      "tools/PatchLive.java": "ad1940d673dd0174eca921422a8ba72b63f2adbe3c912f3955052b79f02a84d3",
+      "tools/PatchWirelessCp.java": "d1937d07eb9288fd60e735f1cefab1ef78fb13ebaf3689f8e2189c990c755bb2",
+      "tools/verify-media-contract.py": "13606eaa2d431f2884f96b026d750c3d502d047876de9d81f158f13a3e73369e",
+      "tests/TestBorrowedScreen.java": "da133c17bd0d784124d0e410a10f5e13631236edcbaf0a3ef8b8148e58b3f575",
+      "tests/TestWireless.java": "30faa8e62a9b4fd15ba7c2e298f22fd5b8168b6ad37c502e0509c2952d0ee52e",
+      "tests/TestWirelessEndToEnd.java": "6adfb4ca1f8b7250b293b5f605ad1e34bf8a5238be870b394dc4c001f7c65e25",
+      "tests/TestWirelessMedia.java": "b8bf6d54e52086abe2c48859695d398451ccb774c03aa720c60d3849c4b192e2",
+      "tests/TestWirelessQnx.java": "c36cca9da02b66433cf5a2d482ffa975ab45b9be3fde77cb82123b4a1c7729e1",
+      "tests/TestWirelessWorker.java.in": "5d0fa3dd427db6b4040567c7e661612edc9a78d32ead5b3569aca11ad189f534",
+      "tests/bridge-diagnostics.py": "e99f0e333a4661ed27267d7af10170c89001f73aea04e0100dbb4156dc592e7a",
+      "tests/bridge-recovery.c.in": "2cd2f7fe736fd6f05d3e1d107944651695a7430f7e4181762b84986fded35f78",
+      "tests/bridge-recovery.py": "aaa21a75913e7217231af690cc2bc20a9a8996d1fcde71d2fa596852df1a8f9e",
+      "tests/capture-clock.c": "fbdf76c9316eb71ebd693761349dbdaebe226a0e19472dc9123cdffd0ff20050",
+      "tests/capture-clock.py": "ea8ff1d358bb13f5d7cb8422c1ced8b15239a4ce0a193ac05531b9a51abeec64",
+      "tests/collector-qnx.py": "4c260cb0b1040cb326af18fd0111aca6ef07062a43058b4c00dbc7f5d0c66a25",
+      "tests/f3s.py": "2e22f2fb74ca864e2412ca82d33737c69a31cb9b5c2a0bbab3574581194cd5bb",
+      "tests/factory-j9.py": "55f6606f10b0aee63132babb7971d5668795255a8190fb477cd49d3516560efc",
+      "tests/host.py": "ca89e15d6277922ee0af917fd2e9d5a98f46f16a6b02dbc5f2a7cff98a37b086",
+      "tests/launch-lifecycle.py": "acf8d9261f9ab569d4963abec98a5a5610b7346facfc70e520f163a07209aa64",
+      "tests/media-host.py": "c3bb9c86dfb7c6df181988339ce88a33a2003c6c7b7b0c5693aadd1cff84528c",
+      "tests/media-native.c": "16d9c8a4070cf3cfe5855e75248ed6a17f8a15648bfaf4f27eb3ab799c8bb24c",
+      "tests/media-qnx.py": "ec70f03f9c3906dada7aa4cfeb9ca51a2e1504ec6e612e38cf3db6024bfac06e",
+      "tests/native-audit.py": "33ab10f150832c425f31c37ff5b718afdaf207e887bd16c61ace8ebe796d8efa",
+      "tests/pf-firmware-audit.py": "1353d13ef9ed4b1c857b6668bf2c2ef567a507aeaf2e36747419094c6f0ba33e",
+      "tests/pf-qnx.py": "9ed9676e3387ed5f62f303d4925a30047409aee6a3a8dac18083f628df011c45",
+      "tests/policy.c": "62ed82af8308abb8c29ea5fa68cc26c9cc836f25ae30a6cb9ccdfb3543d0596c",
+      "tests/publish-fixture.c": "89c34a0672545a2719672311cb500688a29e364ffa918843faa1861c39693868",
+      "tests/receiver-reconnect.py": "9670cc75c4852f5a6fd0df5a7a9417521928182b8caa2c09cfa9ff1a4268cc53",
+      "tests/receiver-tap.py": "c0475b9b4d4bed1ad8b078df65604bbc2ed3e78fab396507829b8a26589d5f7b",
+      "tests/release-host.py": "a069bd2ea8098111d0d464e9c6d66974aa486047372820e3e45c071cbd7214dc",
+      "tests/release-qnx.py": "ed5a198abcad67086e0743f09802f5a354a88cca1fe2defb888658a8f2bc49a7",
+      "tests/screen-host.py": "6302501b45cb336f3bbbd80469a465bdac9018959d448a2f1a39678bc8039000",
+      "tests/timestamp-qnx.py": "67a5cb75012f0455c6e03f9c3edc7164ec9ea968b7915f7a7c3e07f6f68fac6f",
+      "tests/transactions.py": "1541a824a8a2751c150a6dbc217164f0e51c4ae9f26560e7f5cd18d3ee967383",
+      "tests/unit-tools.py": "58341df82fb079796b34796a6d061a5c8452a5d3ce9ce5b82f7c413d4c234089"
+    },
+    "preserved_packages": {
+      "v1.6.1": {
+        "path": "dist/v1.6.1/CarPlay_Maps_VC_MU1367_791_v1.6.1.zip",
+        "sha256": "38279833ed495a057f4a513d568c5cf94a9f8d335a38773ebb580d09dcee47c1",
+        "components": {
+          "wireless-receiver-exec": "8a7ef2c9e6e76a16d3bf7c00a8dda19631af90e37e6531b3638b3e4c004420dd",
+          "libcpmap-wcp-tap.so": "5b3ee9effff13887ef56bee27bb94142e8f7f33ec0dc44a41d58155a2b3e9911"
+        }
+      },
+      "v1.6.2-e-test1": {
+        "path": "dist/v1.6.2-e-test1/CarPlay_Maps_VC_MU1367_791_v1.6.2-e-test1.zip",
+        "sha256": "01d12c6cd78344fd883c3380b1bb0892f7e236f38c1a18ff0f99e9032a37eb8f",
+        "components": {
+          "wireless-receiver-exec": "2b8cadae1d55d56fd0b9a69b0e4ab2dfce47cbc321728ae1ef7e5c5f099cc12f",
+          "libcpmap-wcp-tap.so": "8a7720cbf931125c8ef73d90fba17f8a780e92894e45ce0d83921484283893b0"
+        }
+      }
+    },
+    "limits": [
+      "No radio/MFi/MOST/physical-audio success claimed.",
+      "PF kernel/network queries are explicit stand-ins; real parser cannot complete without network interfaces.",
+      "Candidate is staged; migration/interruption tests and sealing are separate required package gates."
+    ],
+    "pending": [
+      "BT/Wi-Fi ownership, coexistence and call routing",
+      "SDK audio jitter counters and skip/flush timeline",
+      "Navigation-card packaged defaults and ordinary menu access",
+      "Vehicle GPS forwarding",
+      "Complete candidate recovery/regression validation and sealing"
+    ]
+  },
+  "reports": {
+    "host": {
+      "passed": true,
+      "tests": 7,
+      "variants": [
+        "6",
+        "7",
+        "6-road",
+        "7-road"
+      ],
+      "failures": 0,
+      "errors": 0,
+      "scope": "Actual release/base/legacy/AA/OEM shell controllers; host SHA verifier; config-patch replays exact outputs captured and hash-verified from the pinned native QNX helper; mounts/sync mocked; reboot RAM markers cleared by fixture.",
+      "config_replay": {
+        "native_helper_sha256": "00201913a82b00183ee6694a6723b816837cefc1c146e725710fa940eaa8fe26",
+        "actual_qnx_output_sha256": {
+          "connectivity": "95bd36543e4ad2dbe72e72cdb95b2561f573a27ec2787bf0c4e0d27c1d9a2358",
+          "si": "f46349a50b688a8fc441cbe14ce5aa1aabab4e258717d683f005f39f68da77b9"
+        },
+        "source_log_sha256": "f18f04a62946ca87207dc8e6e288c40ec2ca74ae38138c3c89039017be0d26cb"
+      },
+      "version": "1.6.1",
+      "controller_sha256": "99c1db93df45932555e39bfc9fe8867afc903119bffa9e7652d841b42a8619c1"
+    },
+    "flow": {
+      "passed": true,
+      "receiver_sha256": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+      "hardware_opened": false,
+      "log_sha256": "354ea45dcb1b1299ba7ca37994469ad247443593648e74717167cc7e5f0afa90",
+      "production_release_controller_sha256": "99c1db93df45932555e39bfc9fe8867afc903119bffa9e7652d841b42a8619c1",
+      "production_diagnostics_sha256": {
+        "Toolbox/scripts/cpmap_diag.sh": "dbd779942419600086df8579d1482ec1f6b06be29ca8ee0b100701d372e572ad",
+        "Toolbox/scripts/cpmap_wireless_collect_data.sh": "b9cb8dcf37ecae3897260872eb31642823923598d554548ee9df0f9a2391319d"
+      },
+      "scope": "Factory-ksh orchestration, reboot boundary, old OEM snapshot retention and real combined collector; child base/wireless transactions are stand-ins here, separately tested as actual controllers on host.",
+      "receiver_main_executed": false
+    },
+    "transaction": {
+      "passed": true,
+      "build_id": "MU1367-wireless-native-v163t2-dae4bc78d957",
+      "commit_sites": 41,
+      "tested_keys": [
+        "k04",
+        "k05",
+        "k08",
+        "k39",
+        "k40"
+      ],
+      "rollback_cases": 5,
+      "resume_cases": 5,
+      "session_checks": 17,
+      "wireless_input_selftest": true,
+      "h264_fixture_sha256": "bb1bff76a8765c0191f02774a3e6aee0ec82c89d1a2ee84b09a866d6ecd8a0ec",
+      "firmware_utilities": true,
+      "fake_firmware_gate_in_fixture": true,
+      "baseline_seed": "Published v1.5.4 final payload files; old installer not rerun in this fixture.",
+      "qemu_log_sha256": "8b6cea6d7fbd252ee288dc62844db44e9d4d82fd875b6b65e8afec90e0e7bce1",
+      "on_unit_validated": false
+    }
+  },
+  "limits": [
+    "Factory ARM J9 tests execute real notification event creation and listener invocation; the event-loop boundary is controlled by the fixture, not the complete vehicle ASL registry.",
+    "QNX transactions install/remove all 41 targets and inject failures/interruptions at the five named keys; no claim of 41 failure-injection cases.",
+    "PF network/kernel operations use explicit stand-ins. Actual PF parser/apply requires the vehicle AP and /dev/pf.",
+    "No radio, MFi, MOST or physical audio hardware result is established by bench tests.",
+    "BT release remains opt-in; Wi-Fi-first arbitration, SDK jitter/skip tracing, navigation-card defaults and vehicle GNSS forwarding remain open."
+  ]
+}

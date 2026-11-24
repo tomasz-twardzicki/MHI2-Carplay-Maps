@@ -1,0 +1,39 @@
+{
+  "firmware": "K4525 MU1367",
+  "classes": {
+    "de/vw/mib/bap/mqbab2/navsd/functions/DistanceToNextManeuver.class": "8222aa0d2bd086b15b17942bb935a081c028041c788c785ea11dd3c99cfa9e6d",
+    "de/vw/mib/bap/mqbab2/generated/navsd/serializer/DistanceToNextManeuver_Status.class": "e47b045e8977681041fbab25a6380f869b0f53b7619294b959a97235150ef253",
+    "de/vw/mib/bap/mqbab2/generated/navsd/serializer/DistanceToNextManeuver_Status$BargraphInfo.class": "af4b22256a3f7d724a3b557074ff644e652f900fc627dc2437021d3395829810"
+  },
+  "function_id": 18,
+  "bargraph_enabled": 1,
+  "bargraph_disabled": 0,
+  "range": [
+    0,
+    100
+  ],
+  "whitelist_main_elements": [
+    3,
+    4,
+    5,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    32,
+    33,
+    34,
+    35
+  ]
+}

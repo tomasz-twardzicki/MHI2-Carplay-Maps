@@ -1,0 +1,369 @@
+
+MU1367/wireless-native/build-qnx-test1-r3/wireless-entry:	file format elf32-littlearm
+
+Disassembly of section .text:
+
+0010285c <flush_au>:
+  10285c:      	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+  102860:      	add	r4, r0, #532480
+  102864:      	sub	sp, sp, #68
+  102868:      	ldr	r3, [r4, #0x24]
+  10286c:      	cmp	r3, #0
+  102870:      	beq	0x102880 <flush_au+0x24> @ imm = #0x8
+  102874:      	ldr	r3, [r4, #0x18]
+  102878:      	cmp	r3, #0
+  10287c:      	bne	0x102888 <flush_au+0x2c> @ imm = #0x4
+  102880:      	add	sp, sp, #68
+  102884:      	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+  102888:      	movw	r6, #0x6588
+  10288c:      	mov	r5, r0
+  102890:      	movt	r6, #0x10
+  102894:      	ldr	r3, [r6, #0x60]
+  102898:      	cmp	r3, #0
+  10289c:      	beq	0x102a5c <flush_au+0x200> @ imm = #0x1b8
+  1028a0:      	bl	0x101db4 <read_pid.constprop.6> @ imm = #-0xaf4
+  1028a4:      	subs	r7, r0, #0
+  1028a8:      	bne	0x102a8c <flush_au+0x230> @ imm = #0x1dc
+  1028ac:      	ldr	r3, [r4, #0x30]
+  1028b0:      	cmp	r3, #0
+  1028b4:      	beq	0x1028c4 <flush_au+0x68> @ imm = #0x8
+  1028b8:      	ldr	r3, [r4, #0x28]
+  1028bc:      	cmp	r3, #0
+  1028c0:      	beq	0x102a74 <flush_au+0x218> @ imm = #0x1ac
+  1028c4:      	ldr	r3, [r4, #0x1c]
+  1028c8:      	cmp	r3, #0
+  1028cc:      	beq	0x102a74 <flush_au+0x218> @ imm = #0x1a0
+  1028d0:      	ldr	r3, [r4, #0x20]
+  1028d4:      	cmp	r3, #0
+  1028d8:      	beq	0x102a74 <flush_au+0x218> @ imm = #0x194
+  1028dc:      	ldr	r9, [r4, #0x58]
+  1028e0:      	cmp	r9, #0
+  1028e4:      	beq	0x102b2c <flush_au+0x2d0> @ imm = #0x240
+  1028e8:      	ldr	r3, [r4, #0x2c]
+  1028ec:      	cmp	r3, #0
+  1028f0:      	bne	0x102900 <flush_au+0xa4> @ imm = #0x8
+  1028f4:      	ldr	r6, [r4, #0x28]
+  1028f8:      	cmp	r6, #0
+  1028fc:      	beq	0x102918 <flush_au+0xbc> @ imm = #0x14
+  102900:      	mov	r0, r5
+  102904:      	bl	0x101850 <publish_config> @ imm = #-0x10bc
+  102908:      	cmp	r0, #0
+  10290c:      	bne	0x102ac0 <flush_au+0x264> @ imm = #0x1ac
+  102910:      	ldr	r9, [r4, #0x58]
+  102914:      	ldr	r6, [r4, #0x28]
+  102918:      	ldr	r7, [r4, #0x44]
+  10291c:      	add	r10, sp, #32
+  102920:      	adds	r6, r6, #0
+  102924:      	mov	r0, #2
+  102928:      	add	r7, r7, #1
+  10292c:      	mov	r1, r10
+  102930:      	str	r7, [r4, #0x44]
+  102934:      	movne	r6, #1
+  102938:      	bl	0x100db8 <clock_gettime@plt> @ imm = #-0x1b88
+  10293c:      	subs	r11, r0, #0
+  102940:      	movne	r2, #0
+  102944:      	movne	r3, #0
+  102948:      	bne	0x1029cc <flush_au+0x170> @ imm = #0x7c
+  10294c:      	ldr	r0, [sp, #0x24]
+  102950:      	mov	r2, #1000
+  102954:      	mov	r3, #0
+  102958:      	ldr	r8, [sp, #0x20]
+  10295c:      	asr	r1, r0, #31
+  102960:      	bl	0x103c48 <__aeabi_uldivmod> @ imm = #0x12e0
+  102964:      	movw	lr, #0x4240
+  102968:      	movt	lr, #0xf
+  10296c:      	movw	r2, #0x4240
+  102970:      	movt	r2, #0xf
+  102974:      	mov	r3, #0
+  102978:      	umlal	r0, r1, lr, r8
+  10297c:      	strd	r0, r1, [sp, #16]
+  102980:      	bl	0x103c48 <__aeabi_uldivmod> @ imm = #0x12c0
+  102984:      	mov	r3, #0
+  102988:      	mov	r0, r11
+  10298c:      	mov	r1, r2
+  102990:      	movw	r2, #0x4240
+  102994:      	movt	r2, #0xf
+  102998:      	bl	0x103c48 <__aeabi_uldivmod> @ imm = #0x12a8
+  10299c:      	movw	r2, #0x4240
+  1029a0:      	movt	r2, #0xf
+  1029a4:      	mov	r3, #0
+  1029a8:      	strd	r0, r1, [sp, #24]
+  1029ac:      	ldrd	r0, r1, [sp, #16]
+  1029b0:      	bl	0x103c48 <__aeabi_uldivmod> @ imm = #0x1290
+  1029b4:      	mov	r3, r0
+  1029b8:      	ldrd	r0, r1, [sp, #24]
+  1029bc:      	orr	r0, r0, r11
+  1029c0:      	orr	r1, r1, r3
+  1029c4:      	mov	r2, r0
+  1029c8:      	mov	r3, r1
+  1029cc:      	ldr	r1, [r4, #0x18]
+  1029d0:      	add	r5, r5, #262144
+  1029d4:      	strd	r2, r3, [sp]
+  1029d8:      	add	r5, r5, #16
+  1029dc:      	mov	r0, r9
+  1029e0:      	str	r5, [sp, #0x8]
+  1029e4:      	str	r1, [sp, #0xc]
+  1029e8:      	mov	r2, r7
+  1029ec:      	mov	r3, r6
+  1029f0:      	mov	r1, #2
+  1029f4:      	bl	0x1017a0 <forward_ring_message> @ imm = #-0x125c
+  1029f8:      	cmp	r0, #0
+  1029fc:      	blt	0x102ac0 <flush_au+0x264> @ imm = #0xbc
+  102a00:      	ldr	r2, [r4, #0x28]
+  102a04:      	mov	r1, #0
+  102a08:      	ldr	r3, [r4, #0x48]
+  102a0c:      	cmp	r2, #0
+  102a10:      	str	r1, [r4, #0x30]
+  102a14:      	add	r3, r3, #1
+  102a18:      	str	r3, [r4, #0x48]
+  102a1c:      	ldrne	r2, [r4, #0x4c]
+  102a20:      	addne	r2, r2, #1
+  102a24:      	strne	r2, [r4, #0x4c]
+  102a28:      	ldr	r2, [r4, #0x34]
+  102a2c:      	cmp	r2, r1
+  102a30:      	beq	0x102af0 <flush_au+0x294> @ imm = #0xb8
+  102a34:      	movw	r0, #0xcccd
+  102a38:      	movt	r0, #0xcccc
+  102a3c:      	umull	r0, r1, r3, r0
+  102a40:      	lsr	r2, r1, #2
+  102a44:      	add	r2, r2, r2, lsl #2
+  102a48:      	cmp	r3, r2
+  102a4c:      	bne	0x102a74 <flush_au+0x218> @ imm = #0x20
+  102a50:      	ldr	r0, [r4, #0x38]
+  102a54:      	bl	0x101b18 <request_idr.isra.0> @ imm = #-0xf44
+  102a58:      	b	0x102a74 <flush_au+0x218> @ imm = #0x14
+  102a5c:      	bl	0x1025a0 <map_requested.part.2> @ imm = #-0x4c4
+  102a60:      	cmp	r0, #0
+  102a64:      	bne	0x1028a0 <flush_au+0x44> @ imm = #-0x1cc
+  102a68:      	add	r0, r4, #48
+  102a6c:      	add	r1, r4, #52
+  102a70:      	bl	0x101e10 <retire.isra.3> @ imm = #-0xc68
+  102a74:      	mov	r3, #0
+  102a78:      	str	r3, [r4, #0x18]
+  102a7c:      	str	r3, [r4, #0x24]
+  102a80:      	str	r3, [r4, #0x28]
+  102a84:      	add	sp, sp, #68
+  102a88:      	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+  102a8c:      	bl	0x100e0c <getpid@plt>   @ imm = #-0x1c88
+  102a90:      	cmp	r7, r0
+  102a94:      	beq	0x1028ac <flush_au+0x50> @ imm = #-0x1f0
+  102a98:      	mov	r0, r7
+  102a9c:      	mov	r1, #0
+  102aa0:      	bl	0x100e84 <kill@plt>     @ imm = #-0x1c24
+  102aa4:      	cmp	r0, #0
+  102aa8:      	beq	0x102a68 <flush_au+0x20c> @ imm = #-0x48
+  102aac:      	bl	0x100ea8 <__get_errno_ptr@plt> @ imm = #-0x1c0c
+  102ab0:      	ldr	r3, [r0]
+  102ab4:      	cmp	r3, #3
+  102ab8:      	bne	0x102a68 <flush_au+0x20c> @ imm = #-0x58
+  102abc:      	b	0x1028ac <flush_au+0x50> @ imm = #-0x218
+  102ac0:      	ldr	r2, [r4, #0x50]
+  102ac4:      	mov	r3, #0
+  102ac8:      	mov	r1, #1
+  102acc:      	str	r3, [r4, #0x18]
+  102ad0:      	add	r2, r2, r1
+  102ad4:      	str	r3, [r4, #0x24]
+  102ad8:      	str	r2, [r4, #0x50]
+  102adc:      	str	r3, [r4, #0x28]
+  102ae0:      	str	r1, [r4, #0x30]
+  102ae4:      	ldr	r0, [r4, #0x38]
+  102ae8:      	bl	0x101b18 <request_idr.isra.0> @ imm = #-0xfd8
+  102aec:      	b	0x102880 <flush_au+0x24> @ imm = #-0x274
+  102af0:      	bl	0x100e0c <getpid@plt>   @ imm = #-0x1cec
+  102af4:      	movw	r2, #0x43f4
+  102af8:      	movt	r2, #0x10
+  102afc:      	mov	r1, #32
+  102b00:      	mov	r3, r0
+  102b04:      	mov	r0, r10
+  102b08:      	bl	0x100ddc <snprintf@plt> @ imm = #-0x1d34
+  102b0c:      	movw	r0, #0x5abc
+  102b10:      	mov	r1, r10
+  102b14:      	movt	r0, #0x10
+  102b18:      	bl	0x101968 <write_text>   @ imm = #-0x11b8
+  102b1c:      	cmp	r0, #0
+  102b20:      	beq	0x102c48 <flush_au+0x3ec> @ imm = #0x120
+  102b24:      	ldr	r3, [r4, #0x48]
+  102b28:      	b	0x102a34 <flush_au+0x1d8> @ imm = #-0xfc
+  102b2c:      	ldr	r3, [r4, #0x3c]
+  102b30:      	cmp	r3, #0
+  102b34:      	bne	0x102b74 <flush_au+0x318> @ imm = #0x38
+  102b38:      	movw	r7, #0x5abc
+  102b3c:      	movt	r7, #0x10
+  102b40:      	add	r0, r7, #1024
+  102b44:      	bl	0x100fec <pthread_mutex_lock@plt> @ imm = #-0x1b60
+  102b48:      	ldr	r8, [r6, #0x64]
+  102b4c:      	movw	r3, #0x6588
+  102b50:      	cmp	r8, #0
+  102b54:      	movt	r3, #0x10
+  102b58:      	addne	r8, r8, #1
+  102b5c:      	strne	r8, [r3, #0x64]
+  102b60:      	beq	0x102cb0 <flush_au+0x454> @ imm = #0x148
+  102b64:      	ldr	r0, [pc, #0x28c]        @ 0x102df8 <flush_au+0x59c>
+  102b68:      	bl	0x100f98 <pthread_mutex_unlock@plt> @ imm = #-0x1bd8
+  102b6c:      	mov	r3, #1
+  102b70:      	str	r3, [r4, #0x3c]
+  102b74:      	ldr	r0, [pc, #0x280]        @ 0x102dfc <flush_au+0x5a0>
+  102b78:      	movw	r1, #0x102
+  102b7c:      	movw	r2, #0x1b6
+  102b80:      	bl	0x10101c <open@plt>     @ imm = #-0x1b6c
+  102b84:      	subs	r8, r0, #0
+  102b88:      	blt	0x102d38 <flush_au+0x4dc> @ imm = #0x1a8
+  102b8c:      	mov	r1, #1808
+  102b90:      	movt	r1, #0x100
+  102b94:      	bl	0x100e3c <ftruncate@plt> @ imm = #-0x1d60
+  102b98:      	subs	r9, r0, #0
+  102b9c:      	bne	0x102d30 <flush_au+0x4d4> @ imm = #0x18c
+  102ba0:      	mov	r1, #1808
+  102ba4:      	mov	r2, #768
+  102ba8:      	movt	r1, #0x100
+  102bac:      	mov	r3, #1
+  102bb0:      	stm	sp, {r8, r9}
+  102bb4:      	bl	0x100e48 <mmap@plt>     @ imm = #-0x1d74
+  102bb8:      	mov	r7, r0
+  102bbc:      	mov	r0, r8
+  102bc0:      	bl	0x101064 <close@plt>    @ imm = #-0x1b64
+  102bc4:      	cmn	r7, #1
+  102bc8:      	beq	0x102d38 <flush_au+0x4dc> @ imm = #0x168
+  102bcc:      	ldr	r2, [r7]
+  102bd0:      	movw	r3, #0x5247
+  102bd4:      	movt	r3, #0x4350
+  102bd8:      	cmp	r2, r3
+  102bdc:      	beq	0x102c88 <flush_au+0x42c> @ imm = #0xa4
+  102be0:      	mov	r2, #1
+  102be4:      	mov	r1, #0
+  102be8:      	mov	r3, r2
+  102bec:      	str	r1, [r7]
+  102bf0:      	dmb	sy
+  102bf4:      	str	r2, [r7, #0x4]
+  102bf8:      	mov	r2, #0
+  102bfc:      	str	r3, [r7, #0x8]
+  102c00:      	mov	r1, r2
+  102c04:      	mov	r3, r2
+  102c08:      	str	r2, [r7, #0xc]
+  102c0c:      	add	r2, r3, r3, lsl #13
+  102c10:      	rsb	r2, r3, r2, lsl #3
+  102c14:      	add	r3, r3, #1
+  102c18:      	cmp	r3, #64
+  102c1c:      	add	r2, r7, r2, lsl #2
+  102c20:      	str	r1, [r2, #0x10]
+  102c24:      	bne	0x102c0c <flush_au+0x3b0> @ imm = #-0x20
+  102c28:      	movw	r3, #0x5247
+  102c2c:      	dmb	sy
+  102c30:      	movt	r3, #0x4350
+  102c34:      	mov	r2, #1
+  102c38:      	str	r3, [r7]
+  102c3c:      	str	r7, [r4, #0x58]
+  102c40:      	str	r2, [r4, #0x2c]
+  102c44:      	b	0x102900 <flush_au+0xa4> @ imm = #-0x34c
+  102c48:      	movw	r1, #0x482c
+  102c4c:      	ldr	r0, [pc, #0x1ac]        @ 0x102e00 <flush_au+0x5a4>
+  102c50:      	movt	r1, #0x10
+  102c54:      	bl	0x101968 <write_text>   @ imm = #-0x12f4
+  102c58:      	cmp	r0, #0
+  102c5c:      	bne	0x102b24 <flush_au+0x2c8> @ imm = #-0x140
+  102c60:      	ldr	r2, [r4, #0x58]
+  102c64:      	movw	r0, #0x651c
+  102c68:      	movw	r1, #0x43fc
+  102c6c:      	mov	r3, #1
+  102c70:      	movt	r1, #0x10
+  102c74:      	movt	r0, #0x10
+  102c78:      	ldr	r2, [r2, #0x8]
+  102c7c:      	str	r3, [r4, #0x34]
+  102c80:      	bl	0x100e78 <fprintf@plt>  @ imm = #-0x1e10
+  102c84:      	b	0x102b24 <flush_au+0x2c8> @ imm = #-0x168
+  102c88:      	ldr	r3, [r7, #0x4]
+  102c8c:      	cmp	r3, #1
+  102c90:      	bne	0x102be0 <flush_au+0x384> @ imm = #-0xb8
+  102c94:      	ldr	r2, [r7, #0x8]
+  102c98:      	str	r9, [r7]
+  102c9c:      	dmb	sy
+  102ca0:      	cmn	r2, #1
+  102ca4:      	str	r3, [r7, #0x4]
+  102ca8:      	addne	r3, r2, #1
+  102cac:      	b	0x102bf8 <flush_au+0x39c> @ imm = #-0xbc
+  102cb0:      	ldr	r0, [pc, #0x14c]        @ 0x102e04 <flush_au+0x5a8>
+  102cb4:      	movw	r1, #0x102
+  102cb8:      	mov	r2, #384
+  102cbc:      	bl	0x10101c <open@plt>     @ imm = #-0x1ca8
+  102cc0:      	cmp	r0, #0
+  102cc4:      	str	r0, [r7, #0x608]
+  102cc8:      	blt	0x102dc0 <flush_au+0x564> @ imm = #0xf0
+  102ccc:      	add	r10, sp, #32
+  102cd0:      	mov	r1, #2
+  102cd4:      	mov	r2, #1
+  102cd8:      	bl	0x101040 <fcntl@plt>    @ imm = #-0x1ca0
+  102cdc:      	mov	r1, r8
+  102ce0:      	mov	r0, r10
+  102ce4:      	mov	r2, #32
+  102ce8:      	bl	0x100f5c <memset@plt>   @ imm = #-0x1d94
+  102cec:      	mov	r3, #1
+  102cf0:      	strh	r3, [sp, #32]
+  102cf4:      	b	0x102d08 <flush_au+0x4ac> @ imm = #0xc
+  102cf8:      	bl	0x100ea8 <__get_errno_ptr@plt> @ imm = #-0x1e58
+  102cfc:      	ldr	r3, [r0]
+  102d00:      	cmp	r3, #4
+  102d04:      	bne	0x102db0 <flush_au+0x554> @ imm = #0xa4
+  102d08:      	ldr	r0, [r7, #0x608]
+  102d0c:      	mov	r1, #7
+  102d10:      	mov	r2, r10
+  102d14:      	bl	0x101040 <fcntl@plt>    @ imm = #-0x1cdc
+  102d18:      	cmp	r0, #0
+  102d1c:      	blt	0x102cf8 <flush_au+0x49c> @ imm = #-0x2c
+  102d20:      	bne	0x102db0 <flush_au+0x554> @ imm = #0x88
+  102d24:      	mov	r3, #1
+  102d28:      	str	r3, [r6, #0x64]
+  102d2c:      	b	0x102b64 <flush_au+0x308> @ imm = #-0x1d0
+  102d30:      	mov	r0, r8
+  102d34:      	bl	0x101064 <close@plt>    @ imm = #-0x1cd8
+  102d38:      	movw	r5, #0x5abc
+  102d3c:      	mov	r3, #0
+  102d40:      	movt	r5, #0x10
+  102d44:      	str	r3, [r4, #0x58]
+  102d48:      	add	r0, r5, #1024
+  102d4c:      	bl	0x100fec <pthread_mutex_lock@plt> @ imm = #-0x1d68
+  102d50:      	ldr	r3, [r6, #0x64]
+  102d54:      	movw	r2, #0x6588
+  102d58:      	cmp	r3, #0
+  102d5c:      	movt	r2, #0x10
+  102d60:      	beq	0x102d74 <flush_au+0x518> @ imm = #0xc
+  102d64:      	sub	r3, r3, #1
+  102d68:      	str	r3, [r2, #0x64]
+  102d6c:      	cmp	r3, #0
+  102d70:      	beq	0x102de4 <flush_au+0x588> @ imm = #0x6c
+  102d74:      	ldr	r0, [pc, #0x7c]         @ 0x102df8 <flush_au+0x59c>
+  102d78:      	bl	0x100f98 <pthread_mutex_unlock@plt> @ imm = #-0x1de8
+  102d7c:      	ldr	r2, [r4, #0x50]
+  102d80:      	mov	r3, #0
+  102d84:      	mov	r1, #1
+  102d88:      	str	r3, [r4, #0x3c]
+  102d8c:      	add	r2, r2, r1
+  102d90:      	str	r3, [r4, #0x18]
+  102d94:      	str	r2, [r4, #0x50]
+  102d98:      	str	r3, [r4, #0x24]
+  102d9c:      	str	r3, [r4, #0x28]
+  102da0:      	str	r1, [r4, #0x30]
+  102da4:      	ldr	r0, [r4, #0x38]
+  102da8:      	bl	0x101b18 <request_idr.isra.0> @ imm = #-0x1298
+  102dac:      	b	0x102880 <flush_au+0x24> @ imm = #-0x534
+  102db0:      	ldr	r0, [r7, #0x608]
+  102db4:      	bl	0x101064 <close@plt>    @ imm = #-0x1d58
+  102db8:      	mvn	r3, #0
+  102dbc:      	str	r3, [r7, #0x608]
+  102dc0:      	ldr	r0, [pc, #0x30]         @ 0x102df8 <flush_au+0x59c>
+  102dc4:      	bl	0x100f98 <pthread_mutex_unlock@plt> @ imm = #-0x1e34
+  102dc8:      	ldr	r2, [r4, #0x50]
+  102dcc:      	mov	r3, #0
+  102dd0:      	mov	r1, #1
+  102dd4:      	str	r3, [r4, #0x18]
+  102dd8:      	add	r2, r2, r1
+  102ddc:      	str	r2, [r4, #0x50]
+  102de0:      	b	0x102d98 <flush_au+0x53c> @ imm = #-0x50
+  102de4:      	ldr	r0, [r5, #0x608]
+  102de8:      	bl	0x101064 <close@plt>    @ imm = #-0x1d8c
+  102dec:      	mvn	r3, #0
+  102df0:      	str	r3, [r5, #0x608]
+  102df4:      	b	0x102d74 <flush_au+0x518> @ imm = #-0x88
+  102df8: bc 5e 10 00  	.word	0x00105ebc
+  102dfc: c8 60 10 00  	.word	0x001060c8
+  102e00: bc 5c 10 00  	.word	0x00105cbc
+  102e04: c4 5e 10 00  	.word	0x00105ec4

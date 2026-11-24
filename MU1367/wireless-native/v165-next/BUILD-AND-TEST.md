@@ -1,0 +1,23 @@
+# Building and reviewing v1.6.5-e-test1
+
+The build is isolated in `v165-next`; sealed stable v1.6.1, `v164-gps` and prior ZIPs remain unchanged. `assemble.py` requires exact stable v1.6.1 and sealed v1.6.2-e-test1/v1.6.3-e-test2/test3/v1.6.4-e-test1 archive pins. The final component directory is `../build-v165-components-r5`.
+
+`build-components.py` builds the GPS/BT/tap/tuning/launcher code, shared guidance, media and CP JARs against pinned factory classes. Object filenames include their component to avoid reusing a shared source's path across Docker binds. Artwork decoder, MOST bridge and supervisor remain byte-identical to v1.6.4. Native strong imports are checked against independently extracted K4525/P4521 HW50/HW70 libraries, not accepted merely because the SDK links them.
+
+Verification groups:
+
+- `tests/bt-session-qnx.py`: pinned native add-on decision paths, unresolved/resolved/mixed slots, delayed availability, deadline, simulated in-flight resolution, atomic refusal of unknown hooks, lease expiry and takeover. DSO constructor, radio, WC command and RC notification boundaries are controlled.
+- `tests/gps-host.py`, `gps-qnx.py`: sanitized location core, optional OEM probe/clock bootstrap, exact-head next/current/off road labels, fresh prefetched heads, route/source/session resets and preference polling. ARM/J9 runs with and without verification plus a class-version negative control. GPS source callbacks use a controlled Unicode boundary; they do not establish a wireless producer.
+- Saved v1.5.4 `test-guidance.py` plus `tests/factory-j9.py` and `host.py`: all 19 existing guidance groups, factory road/arrow/U-turn/quiet serializers, wireless lease/source isolation, native mailbox and smoothing policy.
+- `tests/media-host.py`, `media-qnx.py`, `screen-host.py`: metadata and native decoder checks, wired regression, server-replacement retry, artwork trace, reverse borrow/manual leave and primary ownership tracing. Actual HMI registry/event-loop/presentation remains a controlled boundary.
+- `tests/receiver-tap.py`, `location-receiver.py`, `launch-lifecycle.py`: actual pinned receiver parser, timing/media/IDR/RHD/audio paths, private serial queue/framing, metadata/FT diagnostics, delayed exec lifecycle and avcC recovery. Location wakeups use QNX pipes and the remote transport is null.
+- `tests/unit-tools.py`: final native component pins, tuning and GPS/road preferences, hash gates, launch timestamps, pre-exec and wrapper fallback. The retained input assertion was diagnosed as ENOSPC while allocating the second 16,779,024-byte ring in a 32 MB fixture. Removing and syncing each isolated ring allows both released control and candidate to pass; production input bytes are unchanged.
+- `tests/collector-qnx.py`: normal and standalone export of current/rotated BT, media, ownership, launch and GPS traces, preferences and optional-file absence, with pairing stores excluded.
+
+Final installer verification uses `tests/transactions.py` for all 45 targets and six selected failure/interruption sites (`k00,k23,k39,k42,k43,k44`). It measures fixture resources between cases. `tests/release-host.py` exercises actual release/base/legacy/AA/OEM controllers over four layouts and prior versions, including v1.6.4 and preference archival. `tests/release-qnx.py` exercises the production orchestrator and combined collector in factory ksh with explicit child stand-ins. The transaction suite uses the real wireless controller, a baseline seeded from published v1.5.4 and a substituted fixture JXE gate.
+
+Host migrations require the saved v1.5.4 fixture at `../build-v161-stable-repo/MU1367/integration` and `../build-v161-stable-host-inputs`. The older current integration fixture lacks the matching factory zlib/GAL seed. Host hashing is a rebuild of the same verifier; config-only output replays pinned native-QNX capture. Mount/reboot boundaries are explicit substitutions. Unknown runtime/controller drift is preserved or refused.
+
+`record-verification.py` binds reports, log hashes, final source hashes and component identity. `seal.py` requires migration, factory-flow and transaction reports, validates the final staged controller/collector/component bytes and ten GEM GPS/probe/road actions, rejects packaged opt-in preference files, checks shell syntax and verifies every ZIP entry on readback. Reports are shipped under `Custom/carplay_mu1367_wireless_native/source/v165t1/verification-reports`.
+
+Bench tests cannot establish actual BT radio behavior, phone receipt/sensor fusion, physical MOST/audio or MU/AID picture presentation. Vehicle GPS raw-source/UTC qualification, the main-only startup freeze and pre-acceptance phone arbitration remain open. Follow `START_HERE.md` for the next car comparison.

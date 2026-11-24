@@ -1,0 +1,476 @@
+{
+  "review_date": "2026-11-20",
+  "input_directory": "/Users/tomasz/Documents/github/personal/Logs/wireless/v1.6.3-e-test2",
+  "exports": [
+    {
+      "export": "cpmap-diag-21598302",
+      "status": {
+        "ramdisk/cpmap-artwork.status": "format=1 artwork=1 enabled=1 handle=-1 attempts=1 errors=1 fetches=1 misses=0 hmi_errors=0 responses=0 clears=1",
+        "ramdisk/carplay-now-playing-n1.status": "format=1 build=MU1367-wireless-media-v163-test2 text_output=1 epoch=1 connected=1 context=1 ticks=2040 fills=356 accepted=10 rejected=356 failures=0 attach_failures=0 tracks=14 covers=19 io_failures=0 writes=229",
+        "wireless/state/wcp-now-playing.status": "WCPMEDIA2 route=asl-dsi-proxy ready=1 active=1 usb=0 polls=1201 queued_tracks=13 queued_playback=3 queued_positions=396 queued_covers=18 delivered_tracks=14 delivered_covers=19 errors=0",
+        "wireless/state/wcp-rg-session.state": "WCPRG1\n2089072\n620417200\n3399\n2\n1"
+      },
+      "metadata": {
+        "session": 2,
+        "generation": 10,
+        "known": 12,
+        "art": 135,
+        "cover": 0,
+        "size": 0
+      },
+      "uid_nonzero": false,
+      "cover": {
+        "session": 2,
+        "generation": 7,
+        "bytes": 18307
+      },
+      "files": {
+        "wireless/logs/btwcp.log": {
+          "bytes": 12865,
+          "sha256": "a88e7b961215fc88042548e82cf0734039060efd259200846a3b56d686204a51"
+        },
+        "wireless/logs/omonob-phone.log": {
+          "bytes": 127,
+          "sha256": "f8b662c9f86bf3935cc958687d22b6a0aa018efbccbf8cfb5d5696395b24f35d"
+        },
+        "wireless/logs/ramdisk-altscreen-most-bridge.log": {
+          "bytes": 117391,
+          "sha256": "f1e7673c0c5cfab5bf3318a505b63f7f991e1b1c9649cf75ab838c4db8e486b4"
+        },
+        "wireless/logs/ramdisk-carplay-cluster-supervisor.log": {
+          "bytes": 413,
+          "sha256": "4397293127fd18b3242bd4d462611907af5614a282853ccc28e7149d5fcad011"
+        },
+        "wireless/logs/ramdisk-cpmap-wireless-summary.log": {
+          "bytes": 1824,
+          "sha256": "15d74fe1e8ea0a74f57a9c85883edf760b52b7a1694b241ed3bc52fc4473ccf4"
+        },
+        "wireless/logs/ramdisk-omonob-791-input.log": {
+          "bytes": 357,
+          "sha256": "ae16bb687abd55476a29de6195e5daa6e0ccc60b3f6996ccb46d61c61f127f4d"
+        },
+        "wireless/logs/wcp.log": {
+          "bytes": 911903,
+          "sha256": "3877f059296f6fc94eb14cc1c7943afca33241c55ecce6b2f31584ffa2ee0d2d"
+        },
+        "wireless/logs/wcp_autostart.log": {
+          "bytes": 1041,
+          "sha256": "f0dce0f9553032372508b9acd29540dcf5f136073df7bdd897d0118260e8f366"
+        },
+        "wireless/logs/wcp_cp.log": {
+          "bytes": 4145,
+          "sha256": "38befa03da17b3d593e04fbb92b131d2c1f3338b088a16900b6f67d82ef04173"
+        },
+        "wireless/logs/wcp_video.log": {
+          "bytes": 14055,
+          "sha256": "17ad07499d68c55c7d5d97754ec528264806022b66aac4773056601a66d8ccc4"
+        },
+        "wireless/state/carplay-altstream.ready": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "wireless/state/carplay-cluster-supervisor.pid": {
+          "bytes": 8,
+          "sha256": "89fc3c105f699fcd5901260e807037faadfab0bcc10b002a9e6f2d7aa2d54d6f"
+        },
+        "wireless/state/carplay-dio-manager.pid": {
+          "bytes": 8,
+          "sha256": "4931b1f706069960d56131042dd39b13ca8e6ae7d2aad4e02e4760740867f4c9"
+        },
+        "wireless/state/cpmap-driver-side.cached.state": {
+          "bytes": 8,
+          "sha256": "f3916eef6bff6d2622673a95ddafd781ad08a63c3e660274c069378e4c6e21a2"
+        },
+        "wireless/state/cpmap-driver-side.state": {
+          "bytes": 8,
+          "sha256": "f3916eef6bff6d2622673a95ddafd781ad08a63c3e660274c069378e4c6e21a2"
+        },
+        "wireless/state/omonob-791-input.pid": {
+          "bytes": 8,
+          "sha256": "4931b1f706069960d56131042dd39b13ca8e6ae7d2aad4e02e4760740867f4c9"
+        },
+        "wireless/state/v75-wireless-native.owner": {
+          "bytes": 74,
+          "sha256": "8503c3a72684dd9b217960129fdd85fb4827bbafc91c1393a0a1eb06b669e13b"
+        },
+        "wireless/state/wcp-now-playing.status": {
+          "bytes": 186,
+          "sha256": "08fb0a00f47924fcb561ab5a189135df2308ae4db0a6d4a7f1b936165fab5cb9"
+        },
+        "wireless/state/wcp-pf.ready": {
+          "bytes": 37,
+          "sha256": "00a68954b084fac129bc7faf63ca572c966f6550ac68a60a39232ca61e6bcb53"
+        },
+        "wireless/state/wcp-rg-adapter-status.txt": {
+          "bytes": 912,
+          "sha256": "807f6fee5e1bf0c6cf88acb2361744fa654d6155d70fedf5b1dc25f2e25bca9e"
+        },
+        "wireless/state/wcp-rg-cover.bin": {
+          "bytes": 18371,
+          "sha256": "c98d6ba1c7b82e342f26f428f6a96baa9b605f91df197f7ef25d57d8842e31c3"
+        },
+        "wireless/state/wcp-rg-idr.state": {
+          "bytes": 28,
+          "sha256": "159df2fa007054a37a8d3b0e6509b5ce25e43123c8137b010eed33b13247edf3"
+        },
+        "wireless/state/wcp-rg-latest.bin": {
+          "bytes": 1976,
+          "sha256": "33c13f19b2c5408f0c4e86f78c085c46bfae376ac5c438e198faf91de93e4ed4"
+        },
+        "wireless/state/wcp-rg-nowplaying.bin": {
+          "bytes": 188,
+          "sha256": "211414961b676b095e4172fc89f1d8929ada01ee2095850a7a4256fe1eb6cb02"
+        },
+        "wireless/state/wcp-rg-session.state": {
+          "bytes": 34,
+          "sha256": "73964955b1c1b445b8400b247a803d312c0d397ba4ab97ae0fddaead767c3ae7"
+        },
+        "wireless/state/wcp-rg-source-status.txt": {
+          "bytes": 127,
+          "sha256": "20381b31fd70b632b86613cccdd3946e807928558194e85ffe42c8f8ed8efa56"
+        },
+        "wireless/state/wcp-video-timing.bin": {
+          "bytes": 7188,
+          "sha256": "8f03e33d6860986942c91906cd68805c1d59dfba658c4f60b0256ea11e3bfee2"
+        },
+        "wireless/state/wcp_alt_probe": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "wireless/state/wcp_cp_session": {
+          "bytes": 1,
+          "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        },
+        "wireless/state/wcp_receiver.pid": {
+          "bytes": 8,
+          "sha256": "c87af9b0b85d5c943e19339b157fd71e563fc567b11b756bd2188cfd970b7879"
+        },
+        "wireless/state/wcp_video.pid": {
+          "bytes": 8,
+          "sha256": "7c19bc77a25aa2414ecbaa3ee49129ca4fe4ca4c7275a6e5d77ac4edc7ae2d5c"
+        }
+      }
+    },
+    {
+      "export": "cpmap-diag-25096290",
+      "status": {
+        "ramdisk/cpmap-artwork.status": "format=1 artwork=1 enabled=1 handle=3 attempts=3 errors=2 fetches=3 misses=0 hmi_errors=0 responses=0 clears=2",
+        "ramdisk/carplay-now-playing-n1.status": "format=1 build=MU1367-wireless-media-v163-test2 text_output=1 epoch=2 connected=1 context=1 ticks=3166 fills=383 accepted=15 rejected=666 failures=0 attach_failures=0 tracks=21 covers=32 io_failures=0 writes=454",
+        "wireless/state/wcp-now-playing.status": "WCPMEDIA2 route=asl-dsi-proxy ready=1 active=1 usb=0 polls=2306 queued_tracks=18 queued_playback=4 queued_positions=650 queued_covers=29 delivered_tracks=21 delivered_covers=32 errors=0",
+        "wireless/state/wcp-rg-session.state": "WCPRG1\n2089072\n620417200\n5208\n4\n1"
+      },
+      "metadata": {
+        "session": 4,
+        "generation": 3,
+        "known": 13,
+        "art": 130,
+        "cover": 5,
+        "size": 116087
+      },
+      "uid_nonzero": true,
+      "cover": {
+        "session": 4,
+        "generation": 3,
+        "bytes": 116087
+      },
+      "files": {
+        "wireless/logs/btwcp.log": {
+          "bytes": 20613,
+          "sha256": "2049b070c530455aa07e063740aee463ce45dc7067cd57dc1410ad5d61df4b41"
+        },
+        "wireless/logs/omonob-phone.log": {
+          "bytes": 203,
+          "sha256": "acd4f71bb29e3d63ab6145682aadd704ed943ac03513af1645cc5e3f1796db90"
+        },
+        "wireless/logs/ramdisk-altscreen-most-bridge.log": {
+          "bytes": 47361,
+          "sha256": "6d43601a64b69b675e19718e7469356beaffe8a17aa08e9117676827c58c7343"
+        },
+        "wireless/logs/ramdisk-carplay-cluster-supervisor.log": {
+          "bytes": 1151,
+          "sha256": "ca7e8a43862e9c62145c5de2391f029b19b0caabdf2f7d2ddf5e1feebc55900b"
+        },
+        "wireless/logs/ramdisk-cpmap-wireless-summary.log": {
+          "bytes": 4112,
+          "sha256": "345e32196bd1cce2edb18544276f63af7ee6ea87f884d01a8977db9d5acabf1c"
+        },
+        "wireless/logs/ramdisk-omonob-791-input.log": {
+          "bytes": 651,
+          "sha256": "2454c0f4f145f6019b622142e34b3cb07d6c335ed0f001d1edb51cdcfbee85e5"
+        },
+        "wireless/logs/wcp.log": {
+          "bytes": 376973,
+          "sha256": "bb75a766256109ea5d23a87ab6ffbcabfee8648449617ad13905698a16236ab0"
+        },
+        "wireless/logs/wcp.log.1": {
+          "bytes": 1056017,
+          "sha256": "80afbf019c9df7b56bb6158b9ba65093d4936010e177e0740963b79f96dc8f52"
+        },
+        "wireless/logs/wcp_autostart.log": {
+          "bytes": 1041,
+          "sha256": "f0dce0f9553032372508b9acd29540dcf5f136073df7bdd897d0118260e8f366"
+        },
+        "wireless/logs/wcp_cp.log": {
+          "bytes": 6070,
+          "sha256": "5c789394f3eed3e4b0b322a8a96889cd505e238706039b606f0a9c02becc46cd"
+        },
+        "wireless/logs/wcp_video.log": {
+          "bytes": 23083,
+          "sha256": "d5ce3c1338f5076162ef493622b981a9cd27fb51a0a6d49e508cef6747b8557a"
+        },
+        "wireless/state/carplay-altstream.ready": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "wireless/state/carplay-cluster-supervisor.pid": {
+          "bytes": 8,
+          "sha256": "89fc3c105f699fcd5901260e807037faadfab0bcc10b002a9e6f2d7aa2d54d6f"
+        },
+        "wireless/state/carplay-dio-manager.pid": {
+          "bytes": 8,
+          "sha256": "4931b1f706069960d56131042dd39b13ca8e6ae7d2aad4e02e4760740867f4c9"
+        },
+        "wireless/state/cpmap-driver-side.cached.state": {
+          "bytes": 8,
+          "sha256": "f3916eef6bff6d2622673a95ddafd781ad08a63c3e660274c069378e4c6e21a2"
+        },
+        "wireless/state/cpmap-driver-side.state": {
+          "bytes": 8,
+          "sha256": "f3916eef6bff6d2622673a95ddafd781ad08a63c3e660274c069378e4c6e21a2"
+        },
+        "wireless/state/omonob-791-input.pid": {
+          "bytes": 8,
+          "sha256": "4931b1f706069960d56131042dd39b13ca8e6ae7d2aad4e02e4760740867f4c9"
+        },
+        "wireless/state/v75-wireless-native.owner": {
+          "bytes": 74,
+          "sha256": "8503c3a72684dd9b217960129fdd85fb4827bbafc91c1393a0a1eb06b669e13b"
+        },
+        "wireless/state/wcp-now-playing.status": {
+          "bytes": 186,
+          "sha256": "2f4991cc9e7694ffecf86a3d4db230a8a9ea6c44329b34ec323e0accb96fc5a0"
+        },
+        "wireless/state/wcp-pf.ready": {
+          "bytes": 37,
+          "sha256": "00a68954b084fac129bc7faf63ca572c966f6550ac68a60a39232ca61e6bcb53"
+        },
+        "wireless/state/wcp-rg-adapter-status.txt": {
+          "bytes": 905,
+          "sha256": "2153187708d27b1302415bae9931c4ba83d03694967a2669884399561341a6b0"
+        },
+        "wireless/state/wcp-rg-cover.bin": {
+          "bytes": 116151,
+          "sha256": "097a7a108a85970852c58c75f3efeb2ded08a7377222c5f809b6751d8621dbdd"
+        },
+        "wireless/state/wcp-rg-idr.state": {
+          "bytes": 28,
+          "sha256": "c760287713f88ee055118ecb2d8a11bde3ecf64003eb273a5cbcc855da27fb37"
+        },
+        "wireless/state/wcp-rg-latest.bin": {
+          "bytes": 96,
+          "sha256": "2cc5ae7ea98fd56d240689fd8757be14239f94945d054d79a057fb23471c38c4"
+        },
+        "wireless/state/wcp-rg-nowplaying.bin": {
+          "bytes": 205,
+          "sha256": "81db3b2634a8dba2b0392d011ab0df2a9d450dc93b2a9e948df477157efa30bc"
+        },
+        "wireless/state/wcp-rg-session.state": {
+          "bytes": 34,
+          "sha256": "edef73686560e96d9c9fa8b1989b5ea81204cad4b7b4c5dcd4e77d0a9651ae34"
+        },
+        "wireless/state/wcp-rg-source-status.txt": {
+          "bytes": 127,
+          "sha256": "20600297fff9773175d7d6bc2f936eb89ed6bc07f9211f3cff76ca39d1401dcf"
+        },
+        "wireless/state/wcp-video-timing.bin": {
+          "bytes": 7188,
+          "sha256": "63b5bf71aace556b80d48f9e44e4538765299b20e2edbc0bcf2521efdde6b5ef"
+        },
+        "wireless/state/wcp_alt_probe": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "wireless/state/wcp_cp_session": {
+          "bytes": 1,
+          "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        },
+        "wireless/state/wcp_receiver.pid": {
+          "bytes": 8,
+          "sha256": "c87af9b0b85d5c943e19339b157fd71e563fc567b11b756bd2188cfd970b7879"
+        },
+        "wireless/state/wcp_video.pid": {
+          "bytes": 8,
+          "sha256": "7c19bc77a25aa2414ecbaa3ee49129ca4fe4ca4c7275a6e5d77ac4edc7ae2d5c"
+        }
+      }
+    },
+    {
+      "export": "cpmap-diag-28536926",
+      "status": {
+        "ramdisk/cpmap-artwork.status": "format=1 artwork=1 enabled=1 handle=-1 attempts=4 errors=3 fetches=4 misses=0 hmi_errors=0 responses=0 clears=4",
+        "ramdisk/carplay-now-playing-n1.status": "format=1 build=MU1367-wireless-media-v163-test2 text_output=1 epoch=3 connected=1 context=1 ticks=4207 fills=402 accepted=22 rejected=1187 failures=0 attach_failures=0 tracks=29 covers=47 io_failures=0 writes=662",
+        "wireless/state/wcp-now-playing.status": "WCPMEDIA2 route=asl-dsi-proxy ready=1 active=1 usb=0 polls=3341 queued_tracks=24 queued_playback=5 queued_positions=830 queued_covers=42 delivered_tracks=29 delivered_covers=47 errors=0",
+        "wireless/state/wcp-rg-session.state": "WCPRG1\n2089072\n620417200\n7018\n6\n1"
+      },
+      "metadata": {
+        "session": 6,
+        "generation": 6,
+        "known": 12,
+        "art": 133,
+        "cover": 0,
+        "size": 0
+      },
+      "uid_nonzero": false,
+      "cover": {
+        "session": 6,
+        "generation": 5,
+        "bytes": 18307
+      },
+      "files": {
+        "wireless/logs/btwcp.log": {
+          "bytes": 28539,
+          "sha256": "9de8a4e7f9c89f85e7883f45d4eeb318d8ebbd1e6363a720f4a327ff47dc0c32"
+        },
+        "wireless/logs/omonob-phone.log": {
+          "bytes": 279,
+          "sha256": "748949f9848685457c404f1f7a9d1336ecc0d7dbcb8c6d468147a987a8986ee1"
+        },
+        "wireless/logs/ramdisk-altscreen-most-bridge.log": {
+          "bytes": 39938,
+          "sha256": "587774c6dcce1f37f94f78de09061a8a2c2199ce8d280618e8ccd2c9486dd62a"
+        },
+        "wireless/logs/ramdisk-carplay-cluster-supervisor.log": {
+          "bytes": 1889,
+          "sha256": "1fc9a63b382f88340282865d20907935fc6e9beabe54ab3ba79698e2f9543c0c"
+        },
+        "wireless/logs/ramdisk-cpmap-wireless-summary.log": {
+          "bytes": 5478,
+          "sha256": "9e4d7c7a940b530a0fa98945b7a66c46876c923fdb44ecbae1c1fb37aa6c067b"
+        },
+        "wireless/logs/ramdisk-omonob-791-input.log": {
+          "bytes": 945,
+          "sha256": "3a92aee0f2c6b8998f60ba4e56e0ed5c7a21dc2cb2078f80a41b667c80f8bf85"
+        },
+        "wireless/logs/wcp.log": {
+          "bytes": 738905,
+          "sha256": "25468551d11c083106b046e3b8277856eab8f510f78fc4b1a8d706cda751ca1a"
+        },
+        "wireless/logs/wcp.log.1": {
+          "bytes": 1056017,
+          "sha256": "80afbf019c9df7b56bb6158b9ba65093d4936010e177e0740963b79f96dc8f52"
+        },
+        "wireless/logs/wcp_autostart.log": {
+          "bytes": 1041,
+          "sha256": "f0dce0f9553032372508b9acd29540dcf5f136073df7bdd897d0118260e8f366"
+        },
+        "wireless/logs/wcp_cp.log": {
+          "bytes": 8565,
+          "sha256": "3324c86bb395990a1072c201bc579b0bd755e36eb068274cb6e7076385c32c7a"
+        },
+        "wireless/logs/wcp_video.log": {
+          "bytes": 30642,
+          "sha256": "e058ed9c59269f77ad6b33d898dd6fe705cff4279e5f62d06b006c799b251717"
+        },
+        "wireless/state/carplay-altstream.ready": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "wireless/state/carplay-cluster-supervisor.pid": {
+          "bytes": 8,
+          "sha256": "89fc3c105f699fcd5901260e807037faadfab0bcc10b002a9e6f2d7aa2d54d6f"
+        },
+        "wireless/state/carplay-dio-manager.pid": {
+          "bytes": 8,
+          "sha256": "4931b1f706069960d56131042dd39b13ca8e6ae7d2aad4e02e4760740867f4c9"
+        },
+        "wireless/state/cpmap-driver-side.cached.state": {
+          "bytes": 8,
+          "sha256": "f3916eef6bff6d2622673a95ddafd781ad08a63c3e660274c069378e4c6e21a2"
+        },
+        "wireless/state/cpmap-driver-side.state": {
+          "bytes": 8,
+          "sha256": "f3916eef6bff6d2622673a95ddafd781ad08a63c3e660274c069378e4c6e21a2"
+        },
+        "wireless/state/omonob-791-input.pid": {
+          "bytes": 8,
+          "sha256": "4931b1f706069960d56131042dd39b13ca8e6ae7d2aad4e02e4760740867f4c9"
+        },
+        "wireless/state/v75-wireless-native.owner": {
+          "bytes": 74,
+          "sha256": "8503c3a72684dd9b217960129fdd85fb4827bbafc91c1393a0a1eb06b669e13b"
+        },
+        "wireless/state/wcp-now-playing.status": {
+          "bytes": 186,
+          "sha256": "3c071faa8941ba3d7a6cb73d8508bbe4648755cf8768b4943263a5b90e98ca01"
+        },
+        "wireless/state/wcp-pf.ready": {
+          "bytes": 37,
+          "sha256": "00a68954b084fac129bc7faf63ca572c966f6550ac68a60a39232ca61e6bcb53"
+        },
+        "wireless/state/wcp-rg-adapter-status.txt": {
+          "bytes": 905,
+          "sha256": "6572c06bd8819c9e6b784f7ad6c16555ef7b01ae1203a8aba5437b6373b63717"
+        },
+        "wireless/state/wcp-rg-cover.bin": {
+          "bytes": 18371,
+          "sha256": "9f51a44648a145afb586cbcce4c64359412ed652fdaf514e518f85573419e0dd"
+        },
+        "wireless/state/wcp-rg-idr.state": {
+          "bytes": 28,
+          "sha256": "75aeda90407a941ca2968ebeb2e5f882b59128630f1188dc142dd7a75dd1af8f"
+        },
+        "wireless/state/wcp-rg-latest.bin": {
+          "bytes": 96,
+          "sha256": "8294b977a08ec3871febbb5920cdf5e0475cdb0f32a217c77ec1ce47245e7a02"
+        },
+        "wireless/state/wcp-rg-nowplaying.bin": {
+          "bytes": 221,
+          "sha256": "25759b9b9b3b861500e9bbfc21ff1ecb43f2fa0774743f687ccdc0cb0fca915a"
+        },
+        "wireless/state/wcp-rg-session.state": {
+          "bytes": 34,
+          "sha256": "b3243aeab76b3cb0cbfafad1792e68fb7c1a9b2c6b4ac23c3e0159878d55dee8"
+        },
+        "wireless/state/wcp-rg-source-status.txt": {
+          "bytes": 127,
+          "sha256": "ec09fefec6bb2c4ff8f139c911b905abcaf8ec8a44cadd0b9c795854296247ce"
+        },
+        "wireless/state/wcp-video-timing.bin": {
+          "bytes": 7188,
+          "sha256": "39cbbcf607626cc845b484cf1e686ffbb74b7067e0ecec31eba7a5c1f8f50179"
+        },
+        "wireless/state/wcp_alt_probe": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "wireless/state/wcp_cp_session": {
+          "bytes": 1,
+          "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        },
+        "wireless/state/wcp_receiver.pid": {
+          "bytes": 8,
+          "sha256": "c87af9b0b85d5c943e19339b157fd71e563fc567b11b756bd2188cfd970b7879"
+        },
+        "wireless/state/wcp_video.pid": {
+          "bytes": 8,
+          "sha256": "7c19bc77a25aa2414ecbaa3ee49129ca4fe4ca4c7275a6e5d77ac4edc7ae2d5c"
+        }
+      }
+    }
+  ],
+  "one_boot_three_sessions": true,
+  "bt_library_sha256": "95a75391792c7266eb8c759c20f3b35745d2cd890b74fad45e2c36a5406e9d4e",
+  "maintainer_clarification": {
+    "reconnect_trigger": "Toggled Wi-Fi on the iPhone",
+    "scope": "Both reconnects; actual Wi-Fi loss and rejoin, not an isolated BT-only transport close",
+    "date": "2026-11-20",
+    "source": "Direct reply to reconnect-trigger question"
+  },
+  "bt_only_loss_followup": {
+    "date": "2026-11-20",
+    "source": "Direct maintainer feedback after the Wi-Fi-toggle clarification",
+    "tested": "Dropping either phone Bluetooth or Wi-Fi ends CarPlay in either order",
+    "bt_trace": "iAP2 loss emits WC bye while the Wi-Fi/control session is reported healthy",
+    "interpretation": "BT-only failure is now confirmed separately; Wi-Fi-loss teardown remains expected"
+  }
+}

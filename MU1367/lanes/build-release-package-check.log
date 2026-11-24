@@ -1,0 +1,8 @@
+MU1367/lanes/build-release-v1.4.0/sd-card/Toolbox/scripts/cpmap_diag.sh: warning: line 20: `...` obsolete, use $(...)
+MU1367/lanes/build-release-v1.4.0/sd-card/Toolbox/scripts/cpmap_status.sh: warning: line 16: `...` obsolete, use $(...)
+MU1367/lanes/build-release-v1.4.0/sd-card/Toolbox/scripts/cpmap_status.sh: warning: line 20: `...` obsolete, use $(...)
+MU1367/lanes/build-release-v1.4.0/sd-card/Toolbox/scripts/cpmap_status.sh: warning: line 20: `...` obsolete, use $(...)
+MU1367/lanes/build-release-v1.4.0/sd-card/Toolbox/scripts/cpmap_status.sh: warning: line 21: `...` obsolete, use $(...)
+MU1367/lanes/build-release-v1.4.0/sd-card/Toolbox/scripts/cpmap_status.sh: warning: line 21: `...` obsolete, use $(...)
+{"passed": true, "checks": 1659, "archive_sha256": "942c9d2a1b38e7f417f97e1a8806e42559b29565f3605215c92b932d58c1259f", "test_sha256": "96c3b9b513a0791845bc51d682a2326cb22a2a2ce67e45c48d27f214c71f8eac", "full_settings_hmi_video_factory_restore_without_sd": true, "parent_payloads_unchanged": true, "on_unit_validated": false}
+{"passed": true, "checks": 1659, "archive_sha256": "942c9d2a1b38e7f417f97e1a8806e42559b29565f3605215c92b932d58c1259f", "test_sha256": "c49c313a171993ab2114a03591d361da02da16a23c6a0a1e8c3d9c850b932bb6", "full_settings_hmi_video_factory_restore_without_sd": true, "parent_payloads_unchanged": true, "on_unit_validated": false, "full_lanes_settings_hmi_video_factory_restore_without_sd": true, "original_v130_payload_files_unchanged": 322, "complete_lane_source_snapshot": true}

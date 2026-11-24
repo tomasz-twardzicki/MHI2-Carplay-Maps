@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "test_sha256": "a723e9a8cc5cdc3651c957613c2ef77fc83f9f3ed1a9ab96c6287cc0f3381b67",
+  "bundle_sha256": "19a136685d1e55d8630bfe38146a75a8b999fad0198a3a0f850f075f631a50b9",
+  "resource_stress": "RESOURCE_LOG_BOUNDS_PASS checks=120002 core_high=262080 bridge_high=131072 same_inode=1 ring_bytes=16779024",
+  "enospc_faults": {
+    "mailbox_write": "RG status=ended polls=1 valid=1 invalid=0 sequence=2 bytes=32 reason=4",
+    "status_write": "RG status=ended polls=10 valid=10 invalid=0 sequence=2 bytes=32 reason=4",
+    "mailbox_rename": "RG status=ended polls=1 valid=1 invalid=0 sequence=2 bytes=32 reason=4"
+  },
+  "java_terminal_record": {
+    "captured": [
+      "0,0,0,-1,-1,-1,-1",
+      "same"
+    ],
+    "reproduced": [
+      "0,0,0,-1,-1,-1,-1",
+      "same"
+    ]
+  },
+  "reader_source_sha256": "fa4b4ed62ab1969a9b32cdbeb78cdb01292b8c68d5f3ea7008b1a54d8cf2bc8d",
+  "resource_header_sha256": "e24d0e3c159d5fc173fff692ac7cd2fcda3195c73c85bc2a8fb67e526a60334b",
+  "core_includes_shipped_logging": true,
+  "runtime_binary_sha256": {
+    "core.so": "28b32ff2076281c7dc7b2931cbd08ec0916f2ffceeeff4462b46d218265938af",
+    "altscreen-most-bridge": "6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35",
+    "carplay-cluster-supervisor": "350f617c5618046cef806d38c66a422fe5ac7d34ded50b70393d72f8582c4794"
+  },
+  "input_log_sha256": {
+    "ramdisk/altscreen-most-bridge.log": "a596942ba684dc2b6c90cb1224a36ac9719e0e6a6bbf819b81573bef34e6699b",
+    "ramdisk/carplay-cluster-supervisor.log": "75712353532235f2b4156a459d4b6fc6bf34819245ef68fe931dc7b5cd525138",
+    "ramdisk/carplay-cluster-supervisor.pid": "6c4dde9025edadd972908b21f0632acaa0498b51b66f36509ac8a1a4e802d55e",
+    "ramdisk/carplay-dio-manager.pid": "e24d7a71022cbb582eec8e03a7ece0848d06230850359a4d766318fb3f8d51f9",
+    "ramdisk/carplay-maps-session.log": "0b13dee9b8f9e2f07c1517b548edef61c86bbe7dafde4a66f2853eb894ed9263",
+    "ramdisk/carplay-now-playing-n1.status": "56dd31ea9f727be45fc944bf61c9de4738a3c52410a0d6d8320f5fa158772dc0",
+    "ramdisk/carplay-now-playing-n1.status.new": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ramdisk/carplay-route-guidance/adapter-status.tmp": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ramdisk/carplay-route-guidance/adapter-status.txt": "73c3e48b261577735884c9e80ced1af00e658d4c221bd5c0eb52a6336a36a968",
+    "ramdisk/carplay-route-guidance/latest.bin": "eac254fe8aac7a8629a677d06fd33116a7b4ea98da3bc2e65c3ff22e7620914f",
+    "ramdisk/carplay-route-guidance/status.txt": "4fa8aed64a8670989d97f557d163ab7bbc136462350a70aef325b274cc4008f0",
+    "ramdisk/carplaymaps-launcher.log": "de77e609b8ad661ff280e765c26673784007d4bfc105e2974b119a571c9a111d",
+    "ramdisk/carplaymaps-video.log": "ddd3f8cd516d878e41b7c38e4a0e6cef491971a4ebc80cd40d6e6d675726d655",
+    "sloginfo.txt": "fa4f89b5278e2072c87d42cae9c577fae5985da4ae1ab13624bf7a4a650e5e12",
+    "summary.txt": "ed2ea1e91ac32aac0d173fac3f4e5e0af380b36d326d9eaa7e691bb59c31f3d3"
+  },
+  "elapsed_40_minute_vehicle_run": false,
+  "on_unit_validated": false,
+  "diagnosis_report": "MU1427/route-guidance/HMI-OUTPUT-FAILURE-2026-10-28.md",
+  "diagnosis_report_sha256": "cd03386d7d616e076b21cabe844c190a5bdb9db706c8e10d78c0b677e219c116",
+  "production_payloads_changed": false
+}

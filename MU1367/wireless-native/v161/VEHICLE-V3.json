@@ -1,0 +1,33 @@
+{
+  "candidate_tested_on_vehicle": "1.6.1-e",
+  "source": "Local Logs/wireless/v3, wireless-diag-19439667 and wireless-diag-23593054; sanitized state/log findings only",
+  "reported_behavior": {
+    "wired": "Working",
+    "wireless_main_display": "Working, wrong LHD layout on coded RHD car",
+    "wireless_aid": "Stuck starting map view"
+  },
+  "observed": {
+    "receiver_pid_file_captured": false,
+    "controller_reports_start_failure": true,
+    "wireless_guidance_accepted": false,
+    "live_oem_driver_side": 2,
+    "later_bridge_avcc_ready_records": 0,
+    "later_bridge_frames": 0,
+    "later_bridge_drops": 1653
+  },
+  "causes": [
+    "The launcher waits five seconds for HMI coding; the controller checks for wcp_receiver after two seconds, fails and deletes its PID file before same-PID exec.",
+    "The accepted-session predicate correctly rejects the receiver without its PID receipt, disabling guidance, timing and receiver IDR cadence.",
+    "The input adapter's old periodic IDR was suppressed without proof that the replacement cadence was active; bridge startup after initial IDRs cannot obtain avcC.",
+    "Driver coding becomes available after the receiver has loaded its startup config, with no cache or request-time refresh."
+  ],
+  "corrections": [
+    "Remove pre-exec HMI wait and recognize the exact launcher during preflight with factory-tested full pidin name formatting.",
+    "Preserve strict accepted-session checks; retain PID across exec and permit stopping the owned launcher.",
+    "Suppress old periodic input IDR only while an accepted receiver's successful cadence receipt is fresh; stale, absent or unaccepted receipts fall back.",
+    "Request a bridge recovery IDR on frames without valid avcC, with one-second retry limit.",
+    "Persist last-known OEM coding independently of pairing data, prefer live coding, refresh the pinned receiver's in-memory /info dictionaries for late coding."
+  ],
+  "first_uncached_boot_limit": "If initial /info precedes all known OEM coding, reconnect once after the HMI is ready. The saved value is available immediately on subsequent cold boots.",
+  "corrected_candidate_on_unit_validated": false
+}

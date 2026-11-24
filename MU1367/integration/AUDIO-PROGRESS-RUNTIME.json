@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "test_build": true,
+  "on_unit_validated": false,
+  "jar_sha256": "86d70b62d2561bd17882999a5c9748029189731da22a65d2b30b37a15179dd40",
+  "factory_classes": {
+    "de/vw/mib/asl/internal/carplay/target/HsmTarget.class": "aa0af288a8670f977093f3415f3effdc24617d54f1a43193b85e9cbad77a9ea8",
+    "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationInfo.class": "1dda7c3a59f4202edf2b252d2487ea1b486629390ea86490ebf56663a170f1de",
+    "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationHandle.class": "9fbbc62918c60b6e99b43f783f16e6d4170f4323d1c97196be7e71f16aad62e0",
+    "de/vw/mib/asl/internal/kombipictureserver/usecaces/CoverArt.class": "319027dfaa3f39948bb8039a01ad4dbacaba8e9ecde71d91c30bc39ca83d0962",
+    "de/vw/mib/bap/mqbab2/generated/audiosd/BAPAudioSDDataPool.class": "e0e46c6756992fc774af5229f62e38629fa29a5abf574d5c23344e9865dc93b7",
+    "de/vw/mib/bap/mqbab2/audiosd/functions/FunctionList.class": "3da6953b3564dd5bff40586b33bc158948f072123a053d561daf62c20f770562"
+  },
+  "source_sha256": {
+    "src/audio/BuildInfo.java": "335a2eb101f98f14af1a4172db213e6bd071f75165ff4c3f844dfddc5a127f38",
+    "src/audio/CoverBridge.java": "bf54e0c68acbcded28ba816fab0ef816cbdd54d748225f68978e8b72c8c4eec6",
+    "src/audio/CoverMeta.java": "663502d801f6e0596c23f80aae0ee873bd0ecca4026b8de6b17d45f2a6c2dd8d",
+    "src/audio/ProgressModel.java": "93cc136e7650c665c725c1da4475eb99584377dfa3f0bcb0ffc95e163189c289",
+    "src/audio/TextBridge.java": "7ede35e7a1331626de06b9209eb5afec3b421aad27ec801dbace590088c8b2fa",
+    "src/audio/TextModel.java": "3ecb617a02943364acc20818c307778905b546c1c8d433bb877d6983d9625830",
+    "src/audio/TrackProgress.java": "3c0d366e78f85c9337e9458ae1c1bb3ae794e6a2735c9b70e775138e368575ee",
+    "tools/PatchTextObserver.java": "53b6c3627df8fe79a003bd795eb29f3349739c8e70967ecea39762c9ff0082b7",
+    "tools/PatchText.java": "ef91ce8d771024e7236ce64e629b733208774be7b5c957db1c02e5893cf8e720",
+    "tools/PatchCover.java": "ab041a5e8e012bdbc716712f8f5852dbd17748e152a1d0935ecf6193ca025150",
+    "tools/PatchProgress.java": "1f4196c559d92d2dbfa4f89edcc870cdf6c5660f538a5c81537b3472cb38e8ea"
+  }
+}

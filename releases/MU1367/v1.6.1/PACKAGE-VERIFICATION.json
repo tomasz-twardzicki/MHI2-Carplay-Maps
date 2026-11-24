@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "version": "1.6.1",
+  "archive_sha256": "38279833ed495a057f4a513d568c5cf94a9f8d335a38773ebb580d09dcee47c1",
+  "files": 844,
+  "runtime_identical_to_vehicle_test": true,
+  "all_zip_entries_verified": true,
+  "public_seed_rebuild": {
+    "passed": true,
+    "seed_archive_sha256": "38279833ed495a057f4a513d568c5cf94a9f8d335a38773ebb580d09dcee47c1",
+    "checked_entries": 607,
+    "runtime_and_entrypoints_identical": true
+  }
+}

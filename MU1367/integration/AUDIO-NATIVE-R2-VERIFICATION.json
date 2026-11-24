@@ -1,0 +1,229 @@
+{
+  "passed": true,
+  "date": "2026-11-02",
+  "test_build": true,
+  "revision": "r2",
+  "purpose": "Native-only diagnostics after the R1 Ottocast field failure; not a validated playback-time or artwork-latency fix.",
+  "archive": "build-audio-native-r2-ready/CarPlay_Maps_VC_MU1367_791_Audio_Native_R2_Probe.zip",
+  "archive_sha256": "ffb6b3d617ba6157cbf8a6215c3d154085723d955bfe763af5d8210eff95a628",
+  "audio_sha256": "1b29ead7059890e07d27036eef46440cc4620c8da1d33d6d66774b84a89b9eba",
+  "controller_sha256": "615474000d3e92705f59e989bec9e11eef7a220354073cf4710267bf5af7efe6",
+  "baseline_release_changed": false,
+  "on_unit_validated": false,
+  "native_time_fixed": null,
+  "artwork_latency_improved": null,
+  "host_assertions": 126,
+  "factory_j9_assertions_per_mode": 160,
+  "factory_transaction_scenarios": 17,
+  "archive_files_verified": 615,
+  "runtime_rebuild_reproduced": true,
+  "r1_upgrade_and_restore_verified": true,
+  "limits": [
+    "DSI method return is not an AID acknowledgement; callbacks are not physical rendering proof.",
+    "Artwork timing instrumentation retains existing polling/worker and has not measured vehicle latency.",
+    "QNX tests use matching firmware utilities and J9; storage remounts are mocked and transaction JXE fingerprints use a small fixture."
+  ],
+  "evidence": {
+    "build": {
+      "path": "build-audio-native-r2-final/manifest.json",
+      "sha256": "e45d0fb00165d59659f3c52a04466ff6cf4556b5302fa796eeb490904e99674e",
+      "result": {
+        "passed": true,
+        "test_build": true,
+        "on_unit_validated": false,
+        "jar_sha256": "1b29ead7059890e07d27036eef46440cc4620c8da1d33d6d66774b84a89b9eba",
+        "factory_classes": {
+          "de/vw/mib/asl/internal/carplay/target/HsmTarget.class": "aa0af288a8670f977093f3415f3effdc24617d54f1a43193b85e9cbad77a9ea8",
+          "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationInfo.class": "1dda7c3a59f4202edf2b252d2487ea1b486629390ea86490ebf56663a170f1de",
+          "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationHandle.class": "9fbbc62918c60b6e99b43f783f16e6d4170f4323d1c97196be7e71f16aad62e0",
+          "de/vw/mib/asl/internal/kombipictureserver/usecaces/CoverArt.class": "319027dfaa3f39948bb8039a01ad4dbacaba8e9ecde71d91c30bc39ca83d0962",
+          "de/vw/mib/bap/mqbab2/generated/audiosd/BAPAudioSDDataPool.class": "e0e46c6756992fc774af5229f62e38629fa29a5abf574d5c23344e9865dc93b7",
+          "de/vw/mib/bap/mqbab2/audiosd/functions/FunctionList.class": "3da6953b3564dd5bff40586b33bc158948f072123a053d561daf62c20f770562",
+          "de/vw/mib/bap/mqbab2/common/marshalling/BAPServiceProxy.class": "0d8c347dcadd77538f5ebd88691500e5757af88b3dbd30ef5cc7b52d3d0c501c",
+          "de/vw/mib/bap/internal/dispatcher/BAPDispatcherTarget.class": "75e8ad0af11e11c626ed67f2b04a92e26b4d9a72a1c2ed7c1bc9da3c4be40bae"
+        },
+        "source_sha256": {
+          "src/audio/AudioDiagnostics.java": "b2d86aaf19c5138e68bda4fce565bc0046926105fcb153e4f341eb7543adbbcb",
+          "src/audio/BuildInfo.java": "39ff892b1e16064a85df668875a0ca0b3b124bd47a961fd1415be2c6fe0b2170",
+          "src/audio/CoverBridge.java": "9e80b56a8d1a0bb3d9ebc58d8ba392c6103a3f3cf2b17d15c6e10acf58128986",
+          "src/audio/CoverMeta.java": "663502d801f6e0596c23f80aae0ee873bd0ecca4026b8de6b17d45f2a6c2dd8d",
+          "src/audio/CoverTiming.java": "a00b65f1720f2b96170a3ea9dc1b880c9d8d4304ca4e6b210d4a01bc542445a6",
+          "src/audio/ProgressModel.java": "93cc136e7650c665c725c1da4475eb99584377dfa3f0bcb0ffc95e163189c289",
+          "src/audio/TextBridge.java": "77b5a22cffccc3a4f9d43289fdd161eed7697c84961153dddf118cee78fb8de9",
+          "src/audio/TextModel.java": "3ecb617a02943364acc20818c307778905b546c1c8d433bb877d6983d9625830",
+          "src/audio/TrackProgress.java": "077209d027350a85c5348e613f6b65e53287f419801ef3b3a1bd5ebae5cac3a5",
+          "tools/PatchTextObserver.java": "53b6c3627df8fe79a003bd795eb29f3349739c8e70967ecea39762c9ff0082b7",
+          "tools/PatchText.java": "ef91ce8d771024e7236ce64e629b733208774be7b5c957db1c02e5893cf8e720",
+          "tools/PatchCover.java": "ab041a5e8e012bdbc716712f8f5852dbd17748e152a1d0935ecf6193ca025150",
+          "tools/PatchProgress.java": "e22f26007d7ea8d6779ccad3dde0e310800a89d61610cfb1861cbdd064d6da7d"
+        }
+      }
+    },
+    "host": {
+      "path": "build-audio-native-r2-host-final/result.json",
+      "sha256": "cf08b2ce438d455f036b20fe4ca511b86ce8f86cec9ba0c6c5e9a742fafdc1b7",
+      "result": {
+        "passed": true,
+        "audio_sha256": "1b29ead7059890e07d27036eef46440cc4620c8da1d33d6d66774b84a89b9eba",
+        "results": {
+          "TestText": "{\"text_assertions\":41}",
+          "TestCover": "ARTWORK_JAVA_PASS checks=49",
+          "TestProgress": "AUDIO_PROGRESS_PASS checks=36"
+        },
+        "test_sha256": "8927c4d23336713dd0ccfaee340921105661f0b631738f25e48cc2a418a63ffd",
+        "source_sha256": {
+          "java/TestText.java": "57128ef52cae32092550e5db5c6d80217b1f56614316faa86d07e6762aba123c",
+          "java/TestCover.java": "11b321850f430e247ca4e6794da5fa45e202157b3350e8d713099504d4f18801",
+          "java/TestProgress.java": "3c387fc2a5bfdb089379fdb0f6e09af636556adf55cc0e22ee6c568e98706f1e"
+        },
+        "on_unit_validated": false
+      }
+    },
+    "factory_j9": {
+      "path": "build-audio-native-r2-qnx-final/result.json",
+      "sha256": "effed598cc5fb876d0471bbbbb6415e810f9c79e70b301c8bef822ad5a79287b",
+      "result": {
+        "passed": true,
+        "audio_sha256": "1b29ead7059890e07d27036eef46440cc4620c8da1d33d6d66774b84a89b9eba",
+        "factory_j9_verified": true,
+        "verified_and_noverify": true,
+        "class49_negative_rejected": true,
+        "on_unit_validated": false,
+        "qemu_log_sha256": "81e5794916bac5fda882c0517cdadc35733eb7c8e73ffcf53b3de7c00b09f2fd",
+        "test_sha256": "d2dfdb214c842e50aac27002fbbb17e17ce89b32ef123203b470d4bcae5ecaf9",
+        "results": {
+          "NOVERIFY": [
+            "ARTWORK_JAVA_PASS checks=49",
+            "AUDIO_PROGRESS_PASS checks=36",
+            "ARTWORK_WORKER_PASS tracks=10 cache_files=8 checks=34"
+          ],
+          "VERIFY": [
+            "ARTWORK_JAVA_PASS checks=49",
+            "AUDIO_PROGRESS_PASS checks=36",
+            "ARTWORK_WORKER_PASS tracks=10 cache_files=8 checks=34"
+          ],
+          "NEGATIVE": []
+        }
+      }
+    },
+    "factory_transactions": {
+      "path": "build-audio-native-r2-transactions-final/result.json",
+      "sha256": "ef59f406bd643ed305689c80520af2d84a94765701601cbc7f0aefb3c9f9cc66",
+      "result": {
+        "passed": true,
+        "controller_sha256": "615474000d3e92705f59e989bec9e11eef7a220354073cf4710267bf5af7efe6",
+        "audio_sha256": "1b29ead7059890e07d27036eef46440cc4620c8da1d33d6d66774b84a89b9eba",
+        "actual_qnx_ksh": true,
+        "sdk_utilities_injected": false,
+        "mounts_mocked": true,
+        "fixture_change": "Small-JXE fingerprint and dependent R1 controller hash only; verifier/driver/audio/worker use full real files.",
+        "tests": 17,
+        "r1_upgrade_verified": true,
+        "qemu_log_sha256": "9762925c5bce5500473e62faced5dc6c0ffc79c952feb679565ba589caed1f37",
+        "on_unit_validated": false
+      }
+    },
+    "package": {
+      "path": "build-audio-native-r2-package-proof.json",
+      "sha256": "db5b6b533a49fb3a1c63c0d3d45d528bb97c57bf1538901c91a83ce0484949b3",
+      "result": {
+        "passed": true,
+        "archive_sha256": "ffb6b3d617ba6157cbf8a6215c3d154085723d955bfe763af5d8210eff95a628",
+        "audio_sha256": "1b29ead7059890e07d27036eef46440cc4620c8da1d33d6d66774b84a89b9eba",
+        "controller_sha256": "615474000d3e92705f59e989bec9e11eef7a220354073cf4710267bf5af7efe6",
+        "verified_files": 615,
+        "baseline_changed_files": [
+          "Custom/carplay_mu1367_guidance_v3/payload-check.sh",
+          "Custom/carplay_mu1367_map_only/payload-check.sh",
+          "Custom/carplay_mu1367_refinements/payload-check.sh",
+          "FILES_SHA256.json",
+          "README.md",
+          "Toolbox/GEM/carplay-maps-vc.esd"
+        ],
+        "added_files": [
+          "AUDIO-NATIVE-R2.md",
+          "AUDIO-PROGRESS.md",
+          "Custom/carplay_mu1367_audio_progress_r2/CarPlayMU1367Audio.jar",
+          "Custom/carplay_mu1367_audio_progress_r2/VERSION",
+          "Custom/carplay_mu1367_audio_progress_r2/control.sh",
+          "Custom/carplay_mu1367_audio_progress_r2/guard",
+          "Custom/carplay_mu1367_audio_progress_r2/verify",
+          "Toolbox/scripts/cpmap_audio_progress_install.sh",
+          "Toolbox/scripts/cpmap_audio_progress_recover.sh",
+          "Toolbox/scripts/cpmap_audio_progress_status.sh",
+          "Toolbox/scripts/cpmap_audio_progress_uninstall.sh"
+        ],
+        "transaction_scenarios": 17,
+        "on_unit_validated": false
+      }
+    },
+    "unit_feedback": {
+      "path": "evidence/audio-progress-2026-11-02.json",
+      "sha256": "be712b4369f64565fa7fc72f0d8fb5cba9175ef88a15c1c70605a0c718cca59f",
+      "result": {
+        "date": "2026-11-02",
+        "source": "/Users/tomasz/Documents/github/personal/Logs/AudioProgress/cpmap-diag-4350086",
+        "source_sha256": {
+          "summary.txt": "e05b5ac41644cd333d85d14a14ef33409c07eaf36b83ab444006fa4f2baecccd",
+          "sloginfo.txt": "1c6c01bee0e7b2af6de1c1858927d661873edd952fc4cf5966c4d218cc6e80b8",
+          "ramdisk/carplay-now-playing-n1.status": "6bbd1a63648a5cfad59fc6ba3589aa2afbd2a2a3e2fc64b318cdcd13e3f2a128",
+          "ramdisk/cpmap-artwork.status": "d3046b932cb40b12bd0767b7a3a57a45de17dd2b762dc56effcffb0e6024e5da"
+        },
+        "user_observation": {
+          "adapter": "Ottocast",
+          "apps": [
+            "Apple Music",
+            "Spotify"
+          ],
+          "native_playback_time_visible": false,
+          "artwork_delay_seconds": true,
+          "requested_scope": "Native display only; no time appended to metadata"
+        },
+        "audio_status": "format=1 build=MU1367-audio-progress-2cba4d5cfd48 text_output=1 epoch=1 connected=1 context=1 ticks=708 fills=53 accepted=11 rejected=49 failures=0 attach_failures=0 tracks=12 covers=0 io_failures=0 writes=123\n positions=199 playbacks=3 progress_sends=186 progress_errors=0",
+        "artwork_status": "format=1 artwork=1 enabled=1 handle=7 attempts=37 errors=0 fetches=7 misses=30 hmi_errors=0 responses=0 clears=6",
+        "findings": [
+          "Input position callbacks are present; native DSI payload values were not exported in R1.",
+          "progress_sends counts local attempts, not native acknowledgements or AID rendering.",
+          "progress_errors excludes the R1 stage indication-error callback. Zero does not prove native acceptance.",
+          "Seven successful fetches and 30 aggregate misses; R1 has no per-stage timing or miss-reason breakdown.",
+          "responses=0 counts explicit artwork indication callbacks, not proactive picture pushes."
+        ],
+        "unresolved": [
+          "Native stack acceptance/capability of function 0x34 and physical AID rendering",
+          "Artwork time spent in metadata matching, fetch subprocess and picture publication"
+        ],
+        "next_probe": "AUDIO-NATIVE-R2.md"
+      }
+    }
+  },
+  "source_sha256": {
+    "src/audio/AudioDiagnostics.java": "b2d86aaf19c5138e68bda4fce565bc0046926105fcb153e4f341eb7543adbbcb",
+    "src/audio/BuildInfo.java": "39ff892b1e16064a85df668875a0ca0b3b124bd47a961fd1415be2c6fe0b2170",
+    "src/audio/CoverBridge.java": "9e80b56a8d1a0bb3d9ebc58d8ba392c6103a3f3cf2b17d15c6e10acf58128986",
+    "src/audio/CoverMeta.java": "663502d801f6e0596c23f80aae0ee873bd0ecca4026b8de6b17d45f2a6c2dd8d",
+    "src/audio/CoverTiming.java": "a00b65f1720f2b96170a3ea9dc1b880c9d8d4304ca4e6b210d4a01bc542445a6",
+    "src/audio/ProgressModel.java": "93cc136e7650c665c725c1da4475eb99584377dfa3f0bcb0ffc95e163189c289",
+    "src/audio/TextBridge.java": "77b5a22cffccc3a4f9d43289fdd161eed7697c84961153dddf118cee78fb8de9",
+    "src/audio/TextModel.java": "3ecb617a02943364acc20818c307778905b546c1c8d433bb877d6983d9625830",
+    "src/audio/TrackProgress.java": "077209d027350a85c5348e613f6b65e53287f419801ef3b3a1bd5ebae5cac3a5",
+    "tools/PatchTextObserver.java": "53b6c3627df8fe79a003bd795eb29f3349739c8e70967ecea39762c9ff0082b7",
+    "tools/PatchText.java": "ef91ce8d771024e7236ce64e629b733208774be7b5c957db1c02e5893cf8e720",
+    "tools/PatchCover.java": "ab041a5e8e012bdbc716712f8f5852dbd17748e152a1d0935ecf6193ca025150",
+    "tools/PatchProgress.java": "e22f26007d7ea8d6779ccad3dde0e310800a89d61610cfb1861cbdd064d6da7d",
+    "tools/build-audio.py": "175dd497d2c23838a9a148f18345dfbe3454609de328bcce7b518323ce1f58fb",
+    "tools/package-audio.py": "e5191513b5122aac4905b3f4ddbc060e0bf2f1901b83fd1f8a1b5e7dafbc5e00",
+    "tools/payload_checks.py": "3a11e4a8767cf2e2f75a1af91c00ec85efe55f2f4245549c3c1a09cbaf1c7c4c",
+    "tools/transaction.sh": "c49cfef517b013b2c152b0f02ee54e196c5d0b216e8c4fd1b40cb07269e35d52",
+    "tests/test-audio.py": "8927c4d23336713dd0ccfaee340921105661f0b631738f25e48cc2a418a63ffd",
+    "tests/test-audio-qnx.py": "d2dfdb214c842e50aac27002fbbb17e17ce89b32ef123203b470d4bcae5ecaf9",
+    "tests/test-audio-package.py": "216040e3beeb0b87f4faafdde94b6446b8072ce796eb7f3f336e7c28f0ee063a",
+    "tests/test-audio-package-qnx.py": "fa71b1a53a292cf8d5989231e3681210e0f5058159568ce198b49a9004bbc8f8",
+    "tests/TestCoverWorker.java.in": "b709bff96f713e0d6505c0b2fde2c261e80961e79e5804e1ca8cffe8533e509c",
+    "tests/java/TestText.java": "57128ef52cae32092550e5db5c6d80217b1f56614316faa86d07e6762aba123c",
+    "tests/java/TestCover.java": "11b321850f430e247ca4e6794da5fa45e202157b3350e8d713099504d4f18801",
+    "tests/java/TestProgress.java": "3c387fc2a5bfdb089379fdb0f6e09af636556adf55cc0e22ee6c568e98706f1e",
+    "AUDIO-PROGRESS-FACTORY.json": "a2cd891172ced3fd7eda1756f22caa154efaad4540dead280409ac755ebaf101",
+    "AUDIO-PROGRESS-R2-RUNTIME.json": "e45d0fb00165d59659f3c52a04466ff6cf4556b5302fa796eeb490904e99674e",
+    "AUDIO-NATIVE-R2.md": "c82e0c6e5d476dfaa01488a061be26977270f14fa720340e31f642eaf346d2bb"
+  }
+}

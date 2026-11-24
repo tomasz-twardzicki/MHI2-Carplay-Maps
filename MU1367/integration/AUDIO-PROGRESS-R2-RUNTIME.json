@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "test_build": true,
+  "on_unit_validated": false,
+  "jar_sha256": "1b29ead7059890e07d27036eef46440cc4620c8da1d33d6d66774b84a89b9eba",
+  "factory_classes": {
+    "de/vw/mib/asl/internal/carplay/target/HsmTarget.class": "aa0af288a8670f977093f3415f3effdc24617d54f1a43193b85e9cbad77a9ea8",
+    "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationInfo.class": "1dda7c3a59f4202edf2b252d2487ea1b486629390ea86490ebf56663a170f1de",
+    "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationHandle.class": "9fbbc62918c60b6e99b43f783f16e6d4170f4323d1c97196be7e71f16aad62e0",
+    "de/vw/mib/asl/internal/kombipictureserver/usecaces/CoverArt.class": "319027dfaa3f39948bb8039a01ad4dbacaba8e9ecde71d91c30bc39ca83d0962",
+    "de/vw/mib/bap/mqbab2/generated/audiosd/BAPAudioSDDataPool.class": "e0e46c6756992fc774af5229f62e38629fa29a5abf574d5c23344e9865dc93b7",
+    "de/vw/mib/bap/mqbab2/audiosd/functions/FunctionList.class": "3da6953b3564dd5bff40586b33bc158948f072123a053d561daf62c20f770562",
+    "de/vw/mib/bap/mqbab2/common/marshalling/BAPServiceProxy.class": "0d8c347dcadd77538f5ebd88691500e5757af88b3dbd30ef5cc7b52d3d0c501c",
+    "de/vw/mib/bap/internal/dispatcher/BAPDispatcherTarget.class": "75e8ad0af11e11c626ed67f2b04a92e26b4d9a72a1c2ed7c1bc9da3c4be40bae"
+  },
+  "source_sha256": {
+    "src/audio/AudioDiagnostics.java": "b2d86aaf19c5138e68bda4fce565bc0046926105fcb153e4f341eb7543adbbcb",
+    "src/audio/BuildInfo.java": "39ff892b1e16064a85df668875a0ca0b3b124bd47a961fd1415be2c6fe0b2170",
+    "src/audio/CoverBridge.java": "9e80b56a8d1a0bb3d9ebc58d8ba392c6103a3f3cf2b17d15c6e10acf58128986",
+    "src/audio/CoverMeta.java": "663502d801f6e0596c23f80aae0ee873bd0ecca4026b8de6b17d45f2a6c2dd8d",
+    "src/audio/CoverTiming.java": "a00b65f1720f2b96170a3ea9dc1b880c9d8d4304ca4e6b210d4a01bc542445a6",
+    "src/audio/ProgressModel.java": "93cc136e7650c665c725c1da4475eb99584377dfa3f0bcb0ffc95e163189c289",
+    "src/audio/TextBridge.java": "77b5a22cffccc3a4f9d43289fdd161eed7697c84961153dddf118cee78fb8de9",
+    "src/audio/TextModel.java": "3ecb617a02943364acc20818c307778905b546c1c8d433bb877d6983d9625830",
+    "src/audio/TrackProgress.java": "077209d027350a85c5348e613f6b65e53287f419801ef3b3a1bd5ebae5cac3a5",
+    "tools/PatchTextObserver.java": "53b6c3627df8fe79a003bd795eb29f3349739c8e70967ecea39762c9ff0082b7",
+    "tools/PatchText.java": "ef91ce8d771024e7236ce64e629b733208774be7b5c957db1c02e5893cf8e720",
+    "tools/PatchCover.java": "ab041a5e8e012bdbc716712f8f5852dbd17748e152a1d0935ecf6193ca025150",
+    "tools/PatchProgress.java": "e22f26007d7ea8d6779ccad3dde0e310800a89d61610cfb1861cbdd064d6da7d"
+  }
+}

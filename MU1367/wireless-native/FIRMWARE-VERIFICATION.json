@@ -1,0 +1,699 @@
+{
+  "status": "targeted-offline-and-qnx-checks-pass",
+  "reviewed": "2026-11-17",
+  "firmware": "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318",
+  "firmware_root": "/Users/tomasz/Documents/github/personal/MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318",
+  "variants_checked": [
+    "50",
+    "70"
+  ],
+  "upstream_commit": "76ed060794b2f5ded1d5fb148b7c99980bcd4045",
+  "wireless_profile": "AID12.3 / planned MU1367/791 integration",
+  "source_images": {
+    "50": {
+      "app": {
+        "sha256": "03d175509b92ec320073a80ac697552132d603a8ef70caa83f926c4a02a1a418",
+        "size": 1438613504
+      },
+      "mifs-stage1": {
+        "sha256": "50cac1abc119ce638ad0c60d869b3125e0e9a34afb6a5e3ceb86cfe433a5cd76",
+        "size": 3145728
+      },
+      "mifs-stage2": {
+        "sha256": "4a569c03bfb3f20c6fd862188aaa351310b5221217f67f9dad0d0325498ca6f2",
+        "size": 48234496
+      },
+      "efs-sys": {
+        "sha256": "b15fcb3fb54a64b71f54ac9d5a3ffe000ba424f4da82015bbb3a5e0d34bb584f",
+        "size": 2097152
+      }
+    },
+    "70": {
+      "app": {
+        "sha256": "0d264bb0cf2584c2aab453a2be0207a773555552b29588e3c56bcd63eac43370",
+        "size": 1438613504
+      },
+      "mifs-stage1": {
+        "sha256": "b2f1764d2b9e80bbc49be80f0c094be127257954075a6b8c721d0653e9152fc6",
+        "size": 3145728
+      },
+      "mifs-stage2": {
+        "sha256": "12a7b41c89091bc48063c9bc68bbf5afc3c71f2d26f815c48717637a2f016a84",
+        "size": 44040192
+      },
+      "efs-sys": {
+        "sha256": "3f955f5d7cce938572cf71e1777faf374a4e39e021094710982b24757eaee924",
+        "size": 2097152
+      }
+    }
+  },
+  "factory_files": {
+    "50": {
+      "eso/bin/apps/btstack": {
+        "sha256": "dd80ce8f6d95589cc4db6674150a595b8412d132e2d9e689fbfe9f72e5789251",
+        "size": 1846503
+      },
+      "eso/bin/apps/connectionmanager": {
+        "sha256": "61069e02053104e93f06ee81b26ade79ac0bd1c50907b930ed3b6441a6e533d1",
+        "size": 758302
+      },
+      "eso/bin/apps/smartphone_integrator": {
+        "sha256": "a566f3bebfd76b87ef8ffb83ddcfb3d97201e05a2a0ac5693f6dc1bf827a6623",
+        "size": 806540
+      },
+      "eso/bin/apps/dio_manager": {
+        "sha256": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+        "size": 684305
+      },
+      "eso/bin/apps/check_auth_chip.sh": {
+        "sha256": "19322aa9f60e5da3677b869a5a39215943c4f9f9553bad445e0d44490c6a8f9c",
+        "size": 382
+      },
+      "eso/hmi/lsd/lsd.sh": {
+        "sha256": "fe4f9cc8bd68282238546605c53b36ca0add985eafc8a100a477a7f827f4a731",
+        "size": 16567
+      },
+      "eso/hmi/lsd/config/bundles.properties": {
+        "sha256": "cc4f753e6a367cc0974e8f3fedde03c3c58d2e940e72880385a819a3fbd9157d",
+        "size": 13121
+      }
+    },
+    "70": {
+      "eso/bin/apps/btstack": {
+        "sha256": "dd80ce8f6d95589cc4db6674150a595b8412d132e2d9e689fbfe9f72e5789251",
+        "size": 1846503
+      },
+      "eso/bin/apps/connectionmanager": {
+        "sha256": "61069e02053104e93f06ee81b26ade79ac0bd1c50907b930ed3b6441a6e533d1",
+        "size": 758302
+      },
+      "eso/bin/apps/smartphone_integrator": {
+        "sha256": "a566f3bebfd76b87ef8ffb83ddcfb3d97201e05a2a0ac5693f6dc1bf827a6623",
+        "size": 806540
+      },
+      "eso/bin/apps/dio_manager": {
+        "sha256": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+        "size": 684305
+      },
+      "eso/bin/apps/check_auth_chip.sh": {
+        "sha256": "19322aa9f60e5da3677b869a5a39215943c4f9f9553bad445e0d44490c6a8f9c",
+        "size": 382
+      },
+      "eso/hmi/lsd/lsd.sh": {
+        "sha256": "fe4f9cc8bd68282238546605c53b36ca0add985eafc8a100a477a7f827f4a731",
+        "size": 16567
+      },
+      "eso/hmi/lsd/config/bundles.properties": {
+        "sha256": "cc4f753e6a367cc0974e8f3fedde03c3c58d2e940e72880385a819a3fbd9157d",
+        "size": 13121
+      }
+    }
+  },
+  "factory_variants_match_for_checked_files": true,
+  "native_gate": {
+    "stock_btstack_matches_upstream_MU1367_pin": true,
+    "stock_connectionmanager_matches_upstream_MU1367_pin": true,
+    "connectionmanager_action": "preserve stock; no 20 MHz patch tested"
+  },
+  "hmi": {
+    "fresh_jxe_sha256": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a",
+    "fresh_jxe_size": 55840541,
+    "stock_archive_content_sha256": "37bb839fb026bd1d5c0cb5066d189bd58bbde93f5d355eac8473809799f10a48",
+    "stock_classes": 26291,
+    "converted_archive_source": "Existing archive verified against the pinned MU1367 entry-name/content digest; conversion was not rerun.",
+    "wireless_and_phone_classes": [
+      "de/vw/mib/asl/internal/system/input/CpWcpTouch",
+      "de/vw/mib/asl/internal/system/input/TouchInputDeviceImpl",
+      "de/vw/mib/asl/internal/wcpcp/WcpCp",
+      "de/vw/mib/asl/internal/wcpcp/WcpCpInvoker",
+      "de/vw/mib/asl/internal/wcpcp/WcpHotspot",
+      "de/vw/mib/asl/internal/wcpsi/WcpSi",
+      "de/vw/mib/asl/internal/wcpsi/WcpSiInterceptor",
+      "org/omonob/cpmap/wireless/WirelessMapsBootstrap",
+      "org/omonob/phone/OwnedDataNotice",
+      "org/omonob/phone/OwnedDataNotice$1",
+      "org/omonob/phone/OwnedDataNotice$2",
+      "org/omonob/phone/OwnedDataNotice$3",
+      "org/omonob/phone/OwnedDataNotice$Context",
+      "org/omonob/phone/OwnedDataNotice$NativeContext",
+      "org/omonob/phone/PhoneConnectionRuntime",
+      "org/omonob/phone/PhoneConnectionRuntime$1",
+      "org/omonob/phone/PhoneConnectionRuntime$2",
+      "org/omonob/phone/PhoneConnectionSettings",
+      "org/omonob/phone/PhoneConnectionSettings$State",
+      "org/omonob/phone/PhoneSelectionPolicy",
+      "org/omonob/phone/QuietNoticeSelection",
+      "org/omonob/phone/TransportLease",
+      "org/omonob/phone/WirelessClusterGrant"
+    ],
+    "all_class_majors": 46,
+    "oem_member_instruction_references_checked": 36,
+    "missing_oem_member_instruction_references": 0,
+    "reference_scope": "Unique field/method references used by instructions, resolved through stock hierarchy with exact descriptors; excludes Java/JCL and references satisfied by the combined wireless/phone closure.",
+    "touch_replacement": {
+      "same_superclass_interfaces_and_class_access": true,
+      "same_field_descriptors": 10,
+      "same_method_descriptors": 19,
+      "instruction_identical_methods": 17,
+      "original_body_preserved_after_hook": [
+        {
+          "method": "createKeyPanelListener()Lorg/dsi/ifc/keypanel/DSIKeyPanelListener;",
+          "prepended_instructions": 2
+        },
+        {
+          "method": "updateTouchInput(IIIIIII)V",
+          "prepended_instructions": 10
+        }
+      ],
+      "access_changes": "ACC_SYNTHETIC only, on one field and two helper methods"
+    },
+    "factory_j9_load_with_verify": true,
+    "factory_j9_binaries_match_fresh_firmware": true,
+    "factory_j9_binaries_identical_in_50_and_70": true,
+    "upstream_jars_sha256": {
+      "wireless/common/jars/CarPlayWireless-CP-55915411.jar": "d158a3c98aa26159b51c25eb76eb16e3c666efd62fdb6c7d76b90ce771894453",
+      "wireless/common/jars/CarPlayWireless-SI-55915411.jar": "b4d961c9e33e82b23452b5c268b4a3b5a1b563229d2029d6b9bb110bca347174",
+      "wireless/common/jars/CarPlayWireless-Touch-55915411.jar": "95173d48e2de91f599748a650d9ff1c5156ef1b56a34ee0821a8e34f24c133d0",
+      "wireless/common/jars/WirelessMapsBootstrap.jar": "4f497fe959707e5d1dae77e69a1b4cefcbcbd5264d6ce112c0bb44499e3220fe",
+      "profiles/MU1367/791/VCMenu.jar": "0c8507b3e330854a13993a92cf7a0314f83872965c4cbaf0e73118d88ee309c3"
+    }
+  },
+  "bluetooth": {
+    "libbtwcp_sha256": "95a75391792c7266eb8c759c20f3b35745d2cd890b74fad45e2c36a5406e9d4e",
+    "profile": "0x1c79",
+    "stock_btstack_sha256": "dd80ce8f6d95589cc4db6674150a595b8412d132e2d9e689fbfe9f72e5789251",
+    "signature_probes": [
+      {
+        "address": "0x2774dc",
+        "bytes_checked": 8,
+        "signature_matches": true
+      },
+      {
+        "address": "0x277210",
+        "bytes_checked": 8,
+        "signature_matches": true
+      },
+      {
+        "address": "0x277410",
+        "bytes_checked": 8,
+        "signature_matches": true
+      },
+      {
+        "address": "0x277a30",
+        "bytes_checked": 8,
+        "signature_matches": true
+      },
+      {
+        "address": "0x20725c",
+        "bytes_checked": 8,
+        "signature_matches": true
+      },
+      {
+        "address": "0x1dbf94",
+        "bytes_checked": 8,
+        "signature_matches": true
+      },
+      {
+        "address": "0x1dd764",
+        "bytes_checked": 8,
+        "signature_matches": true
+      },
+      {
+        "address": "0x277354",
+        "bytes_checked": 8,
+        "signature_matches": true
+      },
+      {
+        "address": "0x277174",
+        "bytes_checked": 8,
+        "signature_matches": true
+      },
+      {
+        "address": "0x1db6e0",
+        "bytes_checked": 8,
+        "signature_matches": true
+      },
+      {
+        "address": "0x1dd44c",
+        "bytes_checked": 12,
+        "signature_matches": true
+      },
+      {
+        "address": "0x1e4f28",
+        "bytes_checked": 12,
+        "signature_matches": true
+      },
+      {
+        "address": "0x1dd264",
+        "bytes_checked": 12,
+        "signature_matches": true
+      }
+    ],
+    "all_13_match": true,
+    "runtime_execution_tested": false
+  },
+  "native_linkage": {
+    "payloads": {
+      "common/ota/libbtwcp.so": {
+        "sha256": "95a75391792c7266eb8c759c20f3b35745d2cd890b74fad45e2c36a5406e9d4e",
+        "needed": [
+          "libc.so.3"
+        ],
+        "missing_libraries": [],
+        "strong_imports": 35,
+        "missing_strong_imports": [],
+        "weak_imports": [],
+        "required_versions": []
+      },
+      "common/ota/wcp_video": {
+        "sha256": "13d3b26f4cf2ca9a847faf4d35db109eef02726c8eef1c4326a09940fc2d9fec",
+        "needed": [
+          "libsocket.so.3",
+          "libc.so.3"
+        ],
+        "missing_libraries": [],
+        "strong_imports": 55,
+        "missing_strong_imports": [],
+        "weak_imports": [
+          "_Jv_RegisterClasses",
+          "__cxa_finalize",
+          "__deregister_frame_info",
+          "__register_frame_info"
+        ],
+        "required_versions": [
+          {
+            "library": "libsocket.so.3",
+            "version": "libsocket.so.2",
+            "present": true
+          }
+        ]
+      },
+      "common/runtime/libv75-transport.so": {
+        "sha256": "46a46b9bf2b60cba84c6d9ebeaac39ed56db8abe3b761a5d3c71f75458abbf3b",
+        "needed": [
+          "libc.so.3"
+        ],
+        "missing_libraries": [],
+        "strong_imports": 14,
+        "missing_strong_imports": [],
+        "weak_imports": [
+          "_ITM_deregisterTMCloneTable",
+          "_ITM_registerTMCloneTable",
+          "_Jv_RegisterClasses",
+          "__cxa_finalize",
+          "__deregister_frame_info",
+          "__register_frame_info"
+        ],
+        "required_versions": []
+      },
+      "common/runtime/libv75-wireless-video-tap.so": {
+        "sha256": "aa77117143c429a487373642d3baac984789006ae43d0b224575486680628d09",
+        "needed": [],
+        "missing_libraries": [],
+        "strong_imports": 22,
+        "missing_strong_imports": [],
+        "weak_imports": [
+          "_ITM_deregisterTMCloneTable",
+          "_ITM_registerTMCloneTable",
+          "_Jv_RegisterClasses",
+          "__cxa_finalize",
+          "__deregister_frame_info",
+          "__register_frame_info"
+        ],
+        "required_versions": []
+      },
+      "common/runtime/wcp_video_stock": {
+        "sha256": "13d3b26f4cf2ca9a847faf4d35db109eef02726c8eef1c4326a09940fc2d9fec",
+        "needed": [
+          "libsocket.so.3",
+          "libc.so.3"
+        ],
+        "missing_libraries": [],
+        "strong_imports": 55,
+        "missing_strong_imports": [],
+        "weak_imports": [
+          "_Jv_RegisterClasses",
+          "__cxa_finalize",
+          "__deregister_frame_info",
+          "__register_frame_info"
+        ],
+        "required_versions": [
+          {
+            "library": "libsocket.so.3",
+            "version": "libsocket.so.2",
+            "present": true
+          }
+        ]
+      },
+      "common/runtime/wcp_video_tap": {
+        "sha256": "51131142842cdb6bfe640f68d9b37a607b39c8d630dfd2dfb7f3363c484259c7",
+        "needed": [
+          "libsocket.so.3",
+          "libc.so.3"
+        ],
+        "missing_libraries": [],
+        "strong_imports": 55,
+        "missing_strong_imports": [],
+        "weak_imports": [
+          "_Jv_RegisterClasses",
+          "__cxa_finalize",
+          "__deregister_frame_info",
+          "__register_frame_info"
+        ],
+        "required_versions": [
+          {
+            "library": "libsocket.so.3",
+            "version": "libsocket.so.2",
+            "present": true
+          }
+        ]
+      },
+      "common/runtime/wireless-video-exec": {
+        "sha256": "f6a5f1581e0ddd7208b6d41a62dd99edc45668066169070427adde3cff527981",
+        "needed": [
+          "libc.so.3"
+        ],
+        "missing_libraries": [],
+        "strong_imports": 16,
+        "missing_strong_imports": [],
+        "weak_imports": [
+          "__deregister_frame_info",
+          "__register_frame_info"
+        ],
+        "required_versions": []
+      },
+      "config-patch": {
+        "sha256": "00201913a82b00183ee6694a6723b816837cefc1c146e725710fa940eaa8fe26",
+        "needed": [
+          "libc.so.3"
+        ],
+        "missing_libraries": [],
+        "strong_imports": 20,
+        "missing_strong_imports": [],
+        "weak_imports": [
+          "__deregister_frame_info",
+          "__register_frame_info"
+        ],
+        "required_versions": []
+      },
+      "profiles/AID12.3/libomonob-wireless-maps.so": {
+        "sha256": "b40e381e0d8b9c56b55b797570fcafe8861b2f026b3125feb9efeceeadfa1fa7",
+        "needed": [
+          "libc.so.3",
+          "libsocket.so.3"
+        ],
+        "missing_libraries": [],
+        "strong_imports": 42,
+        "missing_strong_imports": [],
+        "weak_imports": [
+          "_ITM_deregisterTMCloneTable",
+          "_ITM_registerTMCloneTable",
+          "_Jv_RegisterClasses",
+          "__cxa_finalize",
+          "__deregister_frame_info",
+          "__register_frame_info"
+        ],
+        "required_versions": [
+          {
+            "library": "libsocket.so.3",
+            "version": "libsocket.so.2",
+            "present": true
+          }
+        ]
+      },
+      "profiles/AID12.3/wcp_receiver": {
+        "sha256": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+        "needed": [
+          "libsocket.so.3",
+          "libm.so.2",
+          "libc.so.3"
+        ],
+        "missing_libraries": [],
+        "strong_imports": 167,
+        "missing_strong_imports": [],
+        "weak_imports": [
+          "_Jv_RegisterClasses",
+          "__cxa_finalize",
+          "__deregister_frame_info",
+          "__register_frame_info"
+        ],
+        "required_versions": [
+          {
+            "library": "libsocket.so.3",
+            "version": "libsocket.so.2",
+            "present": true
+          }
+        ]
+      },
+      "profiles/AID12.3/wireless-entry": {
+        "sha256": "54c765fc74b00ee06e9d740384817b8c39740a96c1b012a3057d990878a614e8",
+        "needed": [
+          "libsocket.so.3",
+          "libc.so.3"
+        ],
+        "missing_libraries": [],
+        "strong_imports": 57,
+        "missing_strong_imports": [],
+        "weak_imports": [
+          "_Jv_RegisterClasses",
+          "__deregister_frame_info",
+          "__register_frame_info"
+        ],
+        "required_versions": [
+          {
+            "library": "libsocket.so.3",
+            "version": "libsocket.so.2",
+            "present": true
+          }
+        ]
+      },
+      "profiles/AID12.3/wireless-receiver-exec": {
+        "sha256": "07955ac794986416fa30122a5964eb8de35f3b93955b1d4d2cb7bc51f7dc3140",
+        "needed": [
+          "libc.so.3"
+        ],
+        "missing_libraries": [],
+        "strong_imports": 21,
+        "missing_strong_imports": [],
+        "weak_imports": [
+          "__deregister_frame_info",
+          "__register_frame_info"
+        ],
+        "required_versions": []
+      }
+    },
+    "strong_import_checks_total": 559,
+    "missing_strong_imports": 0,
+    "factory_library_providers": {
+      "libm.so.2": {
+        "path": "stage1/lib/libm.so.2",
+        "sha256": "715ba06e022f7f9f2d9e2cf6b94a03bf619e034f41f8d832601507cc5073cd83",
+        "size": 159537
+      },
+      "libsocket.so.3": {
+        "path": "stage1/lib/libsocket.so.3",
+        "sha256": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+        "size": 179441
+      },
+      "libc.so.3": {
+        "path": "stage1/proc/boot/libc.so.3",
+        "sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+        "size": 560715
+      },
+      "libKD.so": {
+        "path": "stage2/lib/libKD.so",
+        "sha256": "072129ad297f8c3d30a2b490739ae9b12271267d46871459b9080173bb987069",
+        "size": 155648
+      },
+      "libnvss_video.so": {
+        "path": "app/armle/lib/libnvss_video.so",
+        "sha256": "19d69f39d0cddf64342d01f1bc74e87462de6db26599b45a64a2249dd1730502",
+        "size": 73304
+      },
+      "libnvaudio.so": {
+        "path": "app/armle/usr/lib/libnvaudio.so",
+        "sha256": "2b71bb3327a44f3aa942f86a10c9e46526a09d219ee5c959be7bab2e77958f57",
+        "size": 35861
+      }
+    },
+    "decoder_dynamic_symbols": {
+      "symbols": {
+        "NvSSVideoOpen": true,
+        "NvSSVideoClose": true,
+        "NvSSVideoStreamConfigure": true,
+        "NvSSVideoGetAttribs": true,
+        "NvSSVideoSetAttribs": true,
+        "NvSSVideoDecode": true,
+        "kdInitializeNV": true,
+        "kdTerminateNV": true
+      },
+      "hardware_decode_tested": false
+    },
+    "checked_factory_libraries_identical_in_50_and_70": {
+      "libc.so.3": true,
+      "libsocket.so.3": true,
+      "libm.so.2": true,
+      "libKD.so": true,
+      "libnvss_video.so": true,
+      "libnvaudio.so": true
+    }
+  },
+  "production_configs": {
+    "50": {
+      "connectivity.json": {
+        "path": "/mnt/system/etc/eso/production/connectivity.json",
+        "mode": "0o100755",
+        "extents": [
+          [
+            8,
+            13
+          ]
+        ],
+        "size": 8699,
+        "sha256": "b2641ce4e817c27c8db53aa25fa0de43083c06f7dcbba4c5966caf8b0d1692ef"
+      },
+      "smartphone_integrator.json": {
+        "path": "/mnt/system/etc/eso/production/smartphone_integrator.json",
+        "mode": "0o100755",
+        "extents": [
+          [
+            5,
+            29
+          ]
+        ],
+        "size": 7360,
+        "sha256": "bfcf8cefcf28107e7c6465914b4f94652e81f9ec8a385664cf93a6543bd5b837"
+      },
+      "pf.conf": {
+        "path": "/mnt/system/etc/pf.conf",
+        "mode": "0o100755",
+        "extents": [
+          [
+            3,
+            38
+          ]
+        ],
+        "size": 11419,
+        "sha256": "dcf529324be3b477f65d0b4e32fb603931c0583d622a16b15c4235aad240c3fe"
+      },
+      "pf.mlan0.conf": {
+        "path": "/mnt/system/etc/pf.mlan0.conf",
+        "mode": "0o100755",
+        "extents": [
+          [
+            3,
+            48
+          ]
+        ],
+        "size": 12735,
+        "sha256": "119aea48de5d7a53af12330e3f930471018884d7760417d45ada03da96897f82"
+      }
+    },
+    "70": {
+      "connectivity.json": {
+        "path": "/mnt/system/etc/eso/production/connectivity.json",
+        "mode": "0o100755",
+        "extents": [
+          [
+            8,
+            13
+          ]
+        ],
+        "size": 8699,
+        "sha256": "b2641ce4e817c27c8db53aa25fa0de43083c06f7dcbba4c5966caf8b0d1692ef"
+      },
+      "smartphone_integrator.json": {
+        "path": "/mnt/system/etc/eso/production/smartphone_integrator.json",
+        "mode": "0o100755",
+        "extents": [
+          [
+            6,
+            4
+          ]
+        ],
+        "size": 7360,
+        "sha256": "bfcf8cefcf28107e7c6465914b4f94652e81f9ec8a385664cf93a6543bd5b837"
+      },
+      "pf.conf": {
+        "path": "/mnt/system/etc/pf.conf",
+        "mode": "0o100755",
+        "extents": [
+          [
+            3,
+            40
+          ]
+        ],
+        "size": 11419,
+        "sha256": "dcf529324be3b477f65d0b4e32fb603931c0583d622a16b15c4235aad240c3fe"
+      },
+      "pf.mlan0.conf": {
+        "path": "/mnt/system/etc/pf.mlan0.conf",
+        "mode": "0o100755",
+        "extents": [
+          [
+            3,
+            50
+          ]
+        ],
+        "size": 12735,
+        "sha256": "119aea48de5d7a53af12330e3f930471018884d7760417d45ada03da96897f82"
+      }
+    }
+  },
+  "qnx_emulation": {
+    "passed": true,
+    "kernel": "Existing ARM virt harness kernel; not the MU1367 Tegra kernel.",
+    "target_components": "K4525 libc/libsocket/libm, shell, awk and file utilities; matching factory J9/JCL/JXE.",
+    "receiver_verify_only_passed": true,
+    "receiver_version_load_with_matched_preloads_passed": true,
+    "receiver_version": "0.4.0-touch / AirPlay SDK srcvers 320.17",
+    "configuration_merges": {
+      "conn1": {
+        "sha256": "95bd36543e4ad2dbe72e72cdb95b2561f573a27ec2787bf0c4e0d27c1d9a2358",
+        "idempotent": true
+      },
+      "si1": {
+        "sha256": "f46349a50b688a8fc441cbe14ce5aa1aabab4e258717d683f005f39f68da77b9",
+        "idempotent": true
+      },
+      "lsd1": {
+        "sha256": "14e57ef7dc37f16295d5f8ef96c0b8bb8c923b7a3f45ae27fa673550abd37965",
+        "idempotent": true
+      },
+      "bundles1": {
+        "sha256": "9b744221246af733c16b73d17e0b0233d54f0d53956cd8a2273b25f3eacad088",
+        "idempotent": true
+      }
+    },
+    "bluetooth_merge_only_changes_known_executable_entry": true,
+    "bluetooth_same_named_settings_preserved": true,
+    "stock_si_merge_semantically_unchanged": true,
+    "bundle_slot": 97,
+    "full_receiver_service_started": false,
+    "wireless_session_established": false,
+    "final_log_sha256": "f18f04a62946ca87207dc8e6e288c40ec2ca74ae38138c3c89039017be0d26cb",
+    "harness_files_sha256": {
+      "test.build": "f974db71955ba181bf749f266c9b5efe866218c9263f924e9e1e2c8201659ca2",
+      "review.sh": "8fab6322246afc9ad2de1d9ad76e02cb01019e87d7f5c264d080c56cbf486983",
+      "WirelessLoadProbe.java": "a5a0ccc738b2d6fd1258451d13693d0a0d2626387158baf87081a9c76004d6d0",
+      "probe.jar": "37e5e988eab1cfc3ba09544bd85140c88f3e562d03841a0b89f94862dd80a324",
+      "wireless.jar": "3f1bbe282c457967f675fd6a030aaf5ebed74108b2e60e36b3774701fe0a83aa"
+    },
+    "earlier_fixture_attempts": "Retained in ignored scratch: image-builder payload rewriting, inappropriate raw boot-kernel mode, and Java class-literal use in the generated probe were corrected before the passing run; upstream payloads were unchanged."
+  },
+  "auth_hardware": {
+    "stock_check_auth_chip_script_uses": "/dev/i2c8, address 0x11",
+    "coprocessor_presence_tested": false,
+    "mfi_challenge_tested": false
+  },
+  "not_established": [
+    "On-car wireless association, MFi authentication, video decoding/display, audio/input or smartphone_integrator session acceptance",
+    "Integrated v1.5.3 installation, migration/rollback, cluster/guidance/artwork or Android Auto regressions",
+    "P4521 firmware acceptance",
+    "AID 790 support",
+    "Bluetooth hook runtime behavior and private/native structure semantics beyond the recorded signatures",
+    "Endurance, ignition/sleep/wake or real-phone/iOS compatibility"
+  ],
+  "private_evidence_directory": "MU1367/wireless-native/scratch (ignored; contains extracted firmware and local test tools, not release inputs to commit)",
+  "scope": "Exact K4525 static compatibility plus bounded QNX configuration/load checks. No installation or full wireless acceptance is claimed."
+}

@@ -1,0 +1,82 @@
+{
+  "reviewed": "2026-10-31",
+  "input_name": "3072_CAR2_20250830.img",
+  "input_bytes": 15320064,
+  "input_sha256": "e9eb0489cf1f0ac3fc23ccffd0a3dea18e985d160e8da6e17548c1bbc960d67e",
+  "image_format": "Allwinner IMAGEWTY 0x300",
+  "container_entries": 36,
+  "selected_partitions": [
+    {
+      "name": "rootfs.fex",
+      "type": "RFSFAT16",
+      "subtype": "ROOTFS_FEX000000",
+      "offset": 6682624,
+      "stored": 4198400,
+      "original": 4198400,
+      "sha256": "5fd3bf5f7a56f4ae6ed7e87e6d9d291fa3218be278d08abd7268e564d9cd02f0"
+    },
+    {
+      "name": "customer.fex",
+      "type": "RFSFAT16",
+      "subtype": "CUSTOMER_FEX0000",
+      "offset": 11014144,
+      "stored": 4304896,
+      "original": 4304896,
+      "sha256": "f9985b20d5e690221e38fbb754506b22a9312563d782069031c20f30922be9bd"
+    }
+  ],
+  "filesystem_entries": 492,
+  "regular_files": 289,
+  "app_version": "25083011.3072.2",
+  "target": "v851s-lybox_rtl8733/generic v2.1",
+  "architecture": "ARM 32-bit LE EABI5",
+  "selected_file_sha256": {
+    "lylinkapp": "833a460c9e18384b0e4bd01076df9613126f81cdb89a4ce38839c2f4dc770e06",
+    "libwcarplay_new.so": "aeb1970a3ddb5e97c48108de29c98775b3002786a89af78a430a73a65c7f53e8",
+    "lypack": "280e541218b2c7d9d2c8b93fbcdfe20945135140f70c6a46dd9f920bb47534ed",
+    "lyLink.sh": "e3cdb5e54d5408ee973a1374ba857010c89315827a0d65f6ba6b5eb99c845e1a",
+    "system.json": "7700c174636984f17e96ed3d3672d12709fb3b1609742a15aa73ac58fa1b9dd5"
+  },
+  "static_evidence": {
+    "ReceiveRequestUI": {
+      "virtual_address": "0x1903c",
+      "file_offset": 36924,
+      "size": 140,
+      "sha256": "6eda0d0327b1d53750266d5d782ff27e18d58dd15e94e1e7e73e870ccd5fdfce"
+    },
+    "show_wrapper": {
+      "virtual_address": "0x1b654",
+      "file_offset": 46676,
+      "size": 92,
+      "sha256": "6e0ed76ec037111d8de3d7e085383bbe188500dd39cd2ffeb58163686396d71d"
+    },
+    "show_command_handler": {
+      "virtual_address": "0x1ee7c",
+      "file_offset": 61052,
+      "size": 44,
+      "sha256": "5c51b31df159326431149509511f34f54d444429198358490620abbb95c83087"
+    }
+  },
+  "show_command_id": "0x2027",
+  "show_command_label": "COMMAD_SHOWUI_EVENT",
+  "show_command_url": "maps:/car/instrumentcluster",
+  "show_command_display_index": 1,
+  "show_wrapper_import": "ShowUI",
+  "show_import_plt": "0x145c8",
+  "show_import_got": "0x3e638",
+  "receive_request_ui_notification": "0x3002",
+  "receive_request_ui_forwards_url": false,
+  "receive_request_ui_protocol_direction_established": false,
+  "packed_rcpservice_examined": false,
+  "mini_pico_binary_match_established": false,
+  "mini_pico_card_cause_confirmed": false,
+  "firmware_modified": false,
+  "vendor_executable_run": false,
+  "firmware_flashed": false,
+  "new_unit_commands": [],
+  "analysis_packages": {
+    "dissect.squashfs": "1.12",
+    "pyelftools": "0.33",
+    "capstone": "5.0.9"
+  }
+}

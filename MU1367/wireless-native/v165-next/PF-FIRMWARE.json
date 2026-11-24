@@ -1,0 +1,138 @@
+{
+  "passed": true,
+  "profiles": {
+    "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318/50": {
+      "templates": {
+        "pf.conf": {
+          "path": "/mnt/system/etc/pf.conf",
+          "sha256": "dcf529324be3b477f65d0b4e32fb603931c0583d622a16b15c4235aad240c3fe",
+          "anchor_count": 1
+        },
+        "pf.mlan0.conf": {
+          "path": "/mnt/system/etc/pf.mlan0.conf",
+          "sha256": "119aea48de5d7a53af12330e3f930471018884d7760417d45ada03da96897f82",
+          "anchor_count": 1
+        },
+        "pf.ecm0.conf": {
+          "path": "/mnt/system/etc/pf.ecm0.conf",
+          "sha256": "05171d7f9c657a95ed74bc427899152d6ff9975042aa1a8564bfaaf4298d119e",
+          "anchor_count": 1
+        },
+        "pf.ppp0.conf": {
+          "path": "/mnt/system/etc/pf.ppp0.conf",
+          "sha256": "ea34113b0697a42e63660892a274682c02c8ddfd22d148fcada2db0a29b8f9d1",
+          "anchor_count": 1
+        }
+      },
+      "required_tools": {
+        "ifconfig": "d43c603a8ccacf28d2c956aa97ba704963aac25df05fad4d8f2d4bbf9f939077",
+        "grep": "2def0eef89a356c569ce5263fbf3d7f629bf83900a822b5b2311122af723fe47",
+        "cat": "04495daaf52a86fbff8897d885961959982b8c400514526fabeb5990491aa02e",
+        "rm": "b4935f2b45300d9f3ac5168a5de969751735d51c90967bd5a46fa5642c48eae3",
+        "mv": "5478f1ccb35395107d93bca389178537079baf5550b7b4ce141ce1f1d96e5771",
+        "ksh": "11288c35bdb7a5e31e361d8301258fdda6546cd357dde68d721868eec819d3f9",
+        "pfctl": "f5967ff28f65f443ee55f68a1aac3a5491aa513a8489e416751615fcb02a163e"
+      }
+    },
+    "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318/70": {
+      "templates": {
+        "pf.conf": {
+          "path": "/mnt/system/etc/pf.conf",
+          "sha256": "dcf529324be3b477f65d0b4e32fb603931c0583d622a16b15c4235aad240c3fe",
+          "anchor_count": 1
+        },
+        "pf.mlan0.conf": {
+          "path": "/mnt/system/etc/pf.mlan0.conf",
+          "sha256": "119aea48de5d7a53af12330e3f930471018884d7760417d45ada03da96897f82",
+          "anchor_count": 1
+        },
+        "pf.ecm0.conf": {
+          "path": "/mnt/system/etc/pf.ecm0.conf",
+          "sha256": "05171d7f9c657a95ed74bc427899152d6ff9975042aa1a8564bfaaf4298d119e",
+          "anchor_count": 1
+        },
+        "pf.ppp0.conf": {
+          "path": "/mnt/system/etc/pf.ppp0.conf",
+          "sha256": "ea34113b0697a42e63660892a274682c02c8ddfd22d148fcada2db0a29b8f9d1",
+          "anchor_count": 1
+        }
+      },
+      "required_tools": {
+        "ifconfig": "d43c603a8ccacf28d2c956aa97ba704963aac25df05fad4d8f2d4bbf9f939077",
+        "grep": "2def0eef89a356c569ce5263fbf3d7f629bf83900a822b5b2311122af723fe47",
+        "cat": "04495daaf52a86fbff8897d885961959982b8c400514526fabeb5990491aa02e",
+        "rm": "b4935f2b45300d9f3ac5168a5de969751735d51c90967bd5a46fa5642c48eae3",
+        "mv": "5478f1ccb35395107d93bca389178537079baf5550b7b4ce141ce1f1d96e5771",
+        "ksh": "11288c35bdb7a5e31e361d8301258fdda6546cd357dde68d721868eec819d3f9",
+        "pfctl": "f5967ff28f65f443ee55f68a1aac3a5491aa513a8489e416751615fcb02a163e"
+      }
+    },
+    "MHI2_ER_VWG13_P4521_MU1367/50": {
+      "templates": {
+        "pf.conf": {
+          "path": "/mnt/system/etc/pf.conf",
+          "sha256": "dcf529324be3b477f65d0b4e32fb603931c0583d622a16b15c4235aad240c3fe",
+          "anchor_count": 1
+        },
+        "pf.mlan0.conf": {
+          "path": "/mnt/system/etc/pf.mlan0.conf",
+          "sha256": "119aea48de5d7a53af12330e3f930471018884d7760417d45ada03da96897f82",
+          "anchor_count": 1
+        },
+        "pf.ecm0.conf": {
+          "path": "/mnt/system/etc/pf.ecm0.conf",
+          "sha256": "05171d7f9c657a95ed74bc427899152d6ff9975042aa1a8564bfaaf4298d119e",
+          "anchor_count": 1
+        },
+        "pf.ppp0.conf": {
+          "path": "/mnt/system/etc/pf.ppp0.conf",
+          "sha256": "ea34113b0697a42e63660892a274682c02c8ddfd22d148fcada2db0a29b8f9d1",
+          "anchor_count": 1
+        }
+      },
+      "required_tools": {
+        "ifconfig": "d43c603a8ccacf28d2c956aa97ba704963aac25df05fad4d8f2d4bbf9f939077",
+        "grep": "2def0eef89a356c569ce5263fbf3d7f629bf83900a822b5b2311122af723fe47",
+        "cat": "04495daaf52a86fbff8897d885961959982b8c400514526fabeb5990491aa02e",
+        "rm": "b4935f2b45300d9f3ac5168a5de969751735d51c90967bd5a46fa5642c48eae3",
+        "mv": "5478f1ccb35395107d93bca389178537079baf5550b7b4ce141ce1f1d96e5771",
+        "ksh": "11288c35bdb7a5e31e361d8301258fdda6546cd357dde68d721868eec819d3f9",
+        "pfctl": "f5967ff28f65f443ee55f68a1aac3a5491aa513a8489e416751615fcb02a163e"
+      }
+    },
+    "MHI2_ER_VWG13_P4521_MU1367/70": {
+      "templates": {
+        "pf.conf": {
+          "path": "/mnt/system/etc/pf.conf",
+          "sha256": "dcf529324be3b477f65d0b4e32fb603931c0583d622a16b15c4235aad240c3fe",
+          "anchor_count": 1
+        },
+        "pf.mlan0.conf": {
+          "path": "/mnt/system/etc/pf.mlan0.conf",
+          "sha256": "119aea48de5d7a53af12330e3f930471018884d7760417d45ada03da96897f82",
+          "anchor_count": 1
+        },
+        "pf.ecm0.conf": {
+          "path": "/mnt/system/etc/pf.ecm0.conf",
+          "sha256": "05171d7f9c657a95ed74bc427899152d6ff9975042aa1a8564bfaaf4298d119e",
+          "anchor_count": 1
+        },
+        "pf.ppp0.conf": {
+          "path": "/mnt/system/etc/pf.ppp0.conf",
+          "sha256": "ea34113b0697a42e63660892a274682c02c8ddfd22d148fcada2db0a29b8f9d1",
+          "anchor_count": 1
+        }
+      },
+      "required_tools": {
+        "ifconfig": "d43c603a8ccacf28d2c956aa97ba704963aac25df05fad4d8f2d4bbf9f939077",
+        "grep": "2def0eef89a356c569ce5263fbf3d7f629bf83900a822b5b2311122af723fe47",
+        "cat": "04495daaf52a86fbff8897d885961959982b8c400514526fabeb5990491aa02e",
+        "rm": "b4935f2b45300d9f3ac5168a5de969751735d51c90967bd5a46fa5642c48eae3",
+        "mv": "5478f1ccb35395107d93bca389178537079baf5550b7b4ce141ce1f1d96e5771",
+        "ksh": "11288c35bdb7a5e31e361d8301258fdda6546cd357dde68d721868eec819d3f9",
+        "pfctl": "f5967ff28f65f443ee55f68a1aac3a5491aa513a8489e416751615fcb02a163e"
+      }
+    }
+  },
+  "kernel_rule_application_tested": false
+}

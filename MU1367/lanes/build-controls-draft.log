@@ -1,0 +1,23 @@
+test_active_phone_refused (__main__.Controls.test_active_phone_refused) ... ok
+test_both_parent_guards_and_reverse_order (__main__.Controls.test_both_parent_guards_and_reverse_order) ... ok
+test_changed_installed_file_refuses_idempotence_and_removal (__main__.Controls.test_changed_installed_file_refuses_idempotence_and_removal) ... ok
+test_corrupt_backup_refuses_before_any_restore (__main__.Controls.test_corrupt_backup_refuses_before_any_restore) ... ok
+test_crash_recovery_without_sd_and_stale_stages (__main__.Controls.test_crash_recovery_without_sd_and_stale_stages) ... ok
+test_existing_settings_recovery_never_overwritten (__main__.Controls.test_existing_settings_recovery_never_overwritten) ... ok
+test_final_guard_rename_failure_restores_all_five (__main__.Controls.test_final_guard_rename_failure_restores_all_five) ... ok
+test_install_idempotence_no_sd_uninstall (__main__.Controls.test_install_idempotence_no_sd_uninstall) ... ok
+test_preferences_survive_install_and_restore (__main__.Controls.test_preferences_survive_install_and_restore) ... ok
+test_recovery_symlink_refused (__main__.Controls.test_recovery_symlink_refused) ... ok
+test_shared_lock_respected (__main__.Controls.test_shared_lock_respected) ... ok
+test_stale_stage_refused_until_recovery (__main__.Controls.test_stale_stage_refused_until_recovery) ... ok
+test_target_symlink_refused (__main__.Controls.test_target_symlink_refused) ... ok
+test_unknown_existing_core_refused (__main__.Controls.test_unknown_existing_core_refused) ... ok
+test_unknown_guard_refused (__main__.Controls.test_unknown_guard_refused) ... ok
+test_unknown_payload_refused (__main__.Controls.test_unknown_payload_refused) ... ok
+test_wrong_cluster_refused (__main__.Controls.test_wrong_cluster_refused) ... ok
+test_wrong_parent_or_firmware_refused (__main__.Controls.test_wrong_parent_or_firmware_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 58.523s
+
+OK

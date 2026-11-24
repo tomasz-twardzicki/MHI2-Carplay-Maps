@@ -1,0 +1,315 @@
+{
+  "passed": true,
+  "on_unit_validated": false,
+  "archive": "MU1367/lane-type/build-package-ready/CarPlay_Maps_VC_MU1367_791_Guidance_v3r3_Normal_Lanes.zip",
+  "archive_sha256": "68e3275cbd433eb5e93f1aa2566e04abc94a8e5d7eb55a6e381da8ea21e54376",
+  "live_build": "MU1367-guidance-31dfc8d5a6f2",
+  "files": {
+    "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+    "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+    "guidance": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914"
+  },
+  "functional_change": "Only LaneData.getLaneType: supplied drawable geometry uses normal 1; unknown remains unspecified 0. Recommendations unchanged.",
+  "new_unit_commands": [],
+  "mini_pico_card_fix": false,
+  "unused_outline_rendering_confirmed": false,
+  "previous_v3r2_vehicle_result": "Placeholder works; unused outlines and Mini Pico card suppression fail. Full cluster reply contains unused direction/description 0/type 0.",
+  "upstream": {
+    "repository": "https://github.com/fifthBro/mh2p-cluster",
+    "commit": "c73765097e20d2b38ee158e5106a475f58464107",
+    "tree": "b73f19b96df7c437a6f3d90aa3c5613585fdebc9",
+    "reviewed": "2026-10-31",
+    "source_sha256": {
+      "lsd/de/audi/app/terminalmode/smartphone/carplay/CarPlayClusterIntegration.java": "0f769ca2749b99ac7022cad3ef1771e6da1d9a1125472d68b9a292ca724fadf6",
+      "lsd/de/audi/app/terminalmode/smartphone/carplay/CarPlayDSIManager.java": "6031ce75edef5c791d270a44c0da2ae383692222adbf421e2dbd293ee4e23564",
+      "src/dio_manager_preload.c": "18bf676820105011a179dc566d13332d40eb2a29ae166660a2fdf10a12323af5",
+      "src/mib2q-carplay-rgi/c_hook/routeguidance/rgd_tlv.c": "19adc90da3872c9f406e8dcb43257e7bc26feaa18b52272886e9783855bcf15d",
+      "README.md": "35a3b53e87efb63270a8b90787ce18571fe4aa6afd69ea8c73c1ce828b6ca040"
+    },
+    "vendored_runtime": false
+  },
+  "source_sha256": {
+    "package.py": "397cde661e620dd0ccc5d39d50bd51f55fbe66380ebc13195c47d58d4ba2636b",
+    "build-final-inventory.json": "d885c582928d0237bcbb457a493b077a55b2529a39cf5907a1ad786ac48f6555",
+    "test-host.py": "291be81249e825c5bb40844ef08282d066d6b9e782ed1516293546b1aca9580e",
+    "test-package.py": "63861708b52d4666fb18ac6895b8028fc0ddb8b588efa69bbd3e2446c130a07f",
+    "TestNormalLanes.java": "cc2bc6bc7adeff11ac8297c8d157dda59fb5fd9ef677101bd95335eeb4ea894c",
+    "build-jar-diff.json": "f5b0fef753e259e84fc2dc53ae4644604e501362786a7632aed1ecfd74bc88db",
+    "build-revision-upgrade-verified.json": "3f0b4bdecbfc4d266df0bbed762caf7cf2ab41e0a02e8dfb5fe191eb5606ba5e",
+    "build-guidance.py": "2ddde7940d35eefd4681ba2497599dc0c144be25f6d2b577706a32498a25d044",
+    "CAPTURE.json": "960663ba92f2e256a651a6d786b3c90147be9bbb9251481a1e0ec470f89906e3",
+    "build-package-tests.json": "8a903bcf995b2c189669e214fa20da2a65b96f1a277fe5e2ab6787e1439a7077",
+    "INSTALL.md": "2d07ea44db8ce749d86e66f840aebe138784511f230a89b545949762bfff972f",
+    "build-unchanged-proof.json": "f8ac0fc911c1d222c4e2e2a6971ffa73c56dd95eb09f12695a4eed8a34141392",
+    "README.md": "755a30026539f1719e6703c0c50e08aac74a8286583c07ae8e5576208733af9c",
+    ".gitignore": "567b695afdf6b5606c7a691d99fdf32f25d5588972c53a08f2b85a4c5e86f3b9",
+    "test-qnx.py": "9641c2adc1b54698fdb0b4acbf5bb8269af83fe19b202d736410ddd3f280ee2b",
+    "TestLaneOutlinesQnx.java": "4b077cdc1bd6804e7b9419f57b5dee890ff89be567ffcf4256b61f50e23e6131",
+    "build-revision-upgrade.json": "84ed0fa8a0214d5743ee087b8beb0d1688f363372a52ef7678953b0c257c04b6",
+    "verify.py": "188d993fe4965eb1049391f579e628b6ce0e26c01329a768e1ca62c805ee7279",
+    "test-revision-upgrade.py": "8b1e638fd2fed003ec27c552c2510ee0f19aac5db25103c0831761ad93458b7e",
+    "REVIEW.md": "2508847df8f97c425460f351af0fbc54f992389163a75d4f993e63439529b12a",
+    "UPSTREAM.json": "a07a1c18a0e103a5fa267795445a3188e57ce1a1c78d14f7e0d103f22babb884",
+    "staging.py": "ba5b2dd6ea77b3ac35ba30f6cb914a186d93c6e4b9cb1c26ac1d4e2bbcdc902c"
+  },
+  "evidence": {
+    "host": {
+      "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lane-type/build-host-final/result.json",
+      "sha256": "c27b468884251a92417dd8f116ae0c12c8927f9335e557722b0a1a8590e72288",
+      "result": {
+        "passed": true,
+        "guidance_sha256": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914",
+        "results": {
+          "TestLive": "{\"factory_integration_assertions\":124}",
+          "TestLanes": "LANES_PASS checks=761 actual_factory_builder=1 no_maneuver_dependency=1 independent_freshness=1",
+          "TestRecovery": "RECOVERY_PASS checks=538 strict_validation=1 fresh_after_baseline=1 actual_bridge=1 first_failure_bounded=1 private_captures=1",
+          "TestRoad": "ROAD_PRIVATE_CAPTURE records=16 nonempty_current_roads=0\nROAD_NAME_PASS checks=49 actual_factory_stage=1 own_freshness=1 oem_priority=1 bounded_utf8=1",
+          "TestLaneOutlines": "LANE_OUTLINES_PASS checks=26 neutral_geometry=1 real_recommendations=1 factory_raw_bytes=1",
+          "TestArrow": "ARROW_PROGRESS_PASS checks=16575 actual_factory_stage=1 real_distance=1 route_freshness=1 oem_priority=1",
+          "TestArrowQnx": "ARROW_FACTORY_J9_PASS checks=13 factory_serialization=1 countdown=1 oem=1 clear=1",
+          "TestSessions": "SESSION_BOUNDARY_PASS checks=14 atomic_producer_restart=1 old_floor_reset=1 release_evidence=1",
+          "TestLaneCanonical": "CANONICAL_LANE_PASS checks=630 real_factory_getArray=1 record_0_1_2_3=1 no_duplicate_primary=1 bounded_retained_evidence=1",
+          "TestPlaceholder": "PLACEHOLDER_PASS checks=16 active_only=1 real_symbols=1 no_fake_distance=1 oem_stale_disconnect=1",
+          "TestLaneWindow": "LANE_WINDOW_PASS checks=52 full_prefetch=1 active_protected=1 explicit_empty=1 bounded_32=1 cancel_clear=1",
+          "TestNormalLanes": "NORMAL_LANE_PASS checks=247 captured_layout=1 factory_type=1 unknown_unspecified=1 real_recommendations=1"
+        },
+        "test_sha256": "08fa0e218528ae62579b7f2f7c8536e05eb3bc1f0f99b57390dba3c9f9f35565",
+        "on_unit_validated": false,
+        "lane_window_test_sha256": "fbc68bd0ade0c6ca28629892d2aeeb6b5d63917496b813253c954a5e2be77e2a",
+        "normal_lane_test_sha256": "cc2bc6bc7adeff11ac8297c8d157dda59fb5fd9ef677101bd95335eeb4ea894c"
+      }
+    },
+    "factory_arm_j9": {
+      "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lane-type/build-qnx/result.json",
+      "sha256": "de15daabe638d7a90140a8548bb8e007de262c8186a1d2bedf9aae2cf0a6cf8b",
+      "result": {
+        "passed": true,
+        "files": {
+          "core.so": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+          "VCMenu.jar": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+          "CarPlayClusterControls.jar": "91d3cf2cf7d5fb19fe1042ea4985c9929b61955f90b7217800ea3904d3cb63c8",
+          "CarPlayMU1367Guidance.jar": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914"
+        },
+        "combined_parent_settings_j9": true,
+        "settings_checks_per_mode": 7,
+        "class_major": 46,
+        "class49_negative_rejected": true,
+        "core_factory_dlopen": true,
+        "java_c_preferences_factory_verified": true,
+        "core_imports_verified": [
+          "__aeabi_uldivmod",
+          "__get_errno_ptr",
+          "_in6addr_any",
+          "accept",
+          "access",
+          "bind",
+          "calloc",
+          "clock_gettime",
+          "close",
+          "dlsym",
+          "fclose",
+          "fcntl",
+          "ferror",
+          "fflush",
+          "fileno",
+          "fopen",
+          "fprintf",
+          "fputc",
+          "fputs",
+          "fread",
+          "free",
+          "fstat",
+          "ftruncate",
+          "fwrite",
+          "getenv",
+          "getpid",
+          "getsockname",
+          "in6addr_any",
+          "listen",
+          "lseek",
+          "lstat",
+          "malloc",
+          "memchr",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "mmap",
+          "munmap",
+          "open",
+          "pthread_create",
+          "pthread_detach",
+          "pthread_mutex_lock",
+          "pthread_mutex_unlock",
+          "realloc",
+          "recv",
+          "rename",
+          "select",
+          "setsockopt",
+          "snprintf",
+          "socket",
+          "sscanf",
+          "strcmp",
+          "strcpy",
+          "strlen",
+          "strstr",
+          "strtol",
+          "unlink",
+          "usleep"
+        ],
+        "test_sha256": "71b73b814c314fec3027b6f88f5353e8726810eb79cf6792ac4f70349a78d34b",
+        "qemu_log_sha256": "e1aabbff1fb3b16033f002d1619fabf0b254b60e3dfd24ffc8767ed3afc725be",
+        "on_unit_validated": false,
+        "lane_factory_fields_verified": true,
+        "card_default_java_c_verified": true,
+        "recovery_factory_verified": true,
+        "audio_sha256": "c5a0f63c22b8f9b10fc4b54b8239bea57e2693cbecc15d7d71119e999feefff3",
+        "artwork_factory_verified": true,
+        "artwork_checks_per_mode": 44,
+        "artwork_worker_tracks_per_mode": 10,
+        "artwork_worker_cache_limit": 8,
+        "guidance_sha256": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914",
+        "road_factory_checks_per_mode": 11,
+        "lane_outline_factory_checks_per_mode": 49,
+        "arrow_factory_checks_per_mode": 13,
+        "arrow_factory_serialization_verified": true,
+        "arrow_test_sha256": "0c090f80b49e4cb72abc907b0fd57f9ed9a86bba1a20d3ff8c5ec20e45076c1c",
+        "map_only_ui_factory_verified": true,
+        "session_generation_factory_verified": true,
+        "canonical_lane_factory_requests_verified": true,
+        "placeholder_factory_verified": true,
+        "supplied_lane_availability_factory_verified": true,
+        "stream_default_30_5_factory_verified": true,
+        "lane_window_factory_verified": true,
+        "normal_lane_factory_verified": true
+      }
+    },
+    "factory_actions": {
+      "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lane-type/build-actions-qnx/result.json",
+      "sha256": "69330be7baabf5d84c9061e28f94e9007d1d40fa588ae2baf13f9312873f382a",
+      "result": {
+        "passed": true,
+        "controller_sha256": "0f53d6454db562139e978057e58551a018243e3a86829fe90364adf98d660725",
+        "fixture_controller_sha256": "c19a374d3ca7a26b1404a843d5a8790a8a9e8078b579ff820d55f16c239ede15",
+        "fixture_only_change": "JXE_SHA constant for small RAM-disk fixture; host tests use full real JXE",
+        "verifier_sha256": "0512b28bd589336fe8a32f8e514f90b2646e2117064454160a660daff48f9a7a",
+        "factory_libc_sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+        "actual_qnx_ksh": true,
+        "mounts_mocked": true,
+        "on_unit_validated": false,
+        "factory_utilities_sha256": {
+          "ksh": "11288c35bdb7a5e31e361d8301258fdda6546cd357dde68d721868eec819d3f9",
+          "cat": "04495daaf52a86fbff8897d885961959982b8c400514526fabeb5990491aa02e",
+          "cp": "b2f2839de260165a85a29c64dbd460d1a59556ecb4b2c199ce43c2d8b116ce1c",
+          "mv": "5478f1ccb35395107d93bca389178537079baf5550b7b4ce141ce1f1d96e5771",
+          "rm": "b4935f2b45300d9f3ac5168a5de969751735d51c90967bd5a46fa5642c48eae3",
+          "mkdir": "55cbb03fa6195782df31a7e7a4564fd5ec59dfe6a0a6b5706100193b4444fdf7",
+          "chmod": "896cd46394bb3c8200359ff364205a2fa41830f3a8efcddf977f5308b139578c",
+          "sync": "4ae64a41e79173a6dbe324dd07ba7a52325f9cf76b3ec67a4c8344694aca8bdf",
+          "mount": "a6fd3a6c168b80cc1838d93fecf302736a76bd8c632c1a1734b1fb673fc5f957",
+          "on": "c6479282b46b248b03780cb3fb15846d239946505220134798b04bc3e699b166",
+          "df": "784d003440972ca859d2a6dc7ff19f70dbdaac3e4295311c295823bac017301c",
+          "slay": "330538235b0f67cfb65d48caf4a220118b3d934e6d9ed654184101c699699fdc",
+          "ls": "7986897575f6a2f0c493fb310e570850c709b44dad2bffde65d2c33c5cb4f444",
+          "grep": "2def0eef89a356c569ce5263fbf3d7f629bf83900a822b5b2311122af723fe47",
+          "touch": "d4c49146093e7e4a2ec93029b5933d53b84fe7e1ca6d507a64facc979f0e498c",
+          "awk": "beb8949b08896ed8f20f5db265552bee47aa50b5925b75cfe77a808c31fb994b",
+          "basename": "e2a5646af0ae391e4613002f7d399423a3b83665e12c40e92e9fd055928076c0"
+        },
+        "sdk_utilities_injected": false,
+        "rmdir_absent_factory_gawk_present": true,
+        "lock_cleanup_verified": true,
+        "qemu_log_sha256": "4a4428de3ee453ffb98042615e7f172a656c054002f175a0190c4c9c33516027",
+        "test_sha256": "41d60652edcfbea66457609a91117d187631438e7bd38760cb31e3c70a1def23",
+        "map_only_actions_sha256": "b3d168c98ad713cc0a13f153b3844da732fd9c84703a4d91b7f43e622e885d16",
+        "main_controller_sha256": "be40db4059bbfe5363c3a553fe0afd933c9c2ae5cecf9101e2b9e88ce660e6e4",
+        "tuning_controller_sha256": "93853ccb912fb2ec6ad36e15c2451a1520b8efe03ce2d58fa19071c1ff1627d0",
+        "fixture_changes": "Only small-JXE fingerprint and the dependent main-controller before hash; complete SD preflight is a fixture return 0, checked in full on host",
+        "map_only_and_optional_transactions_verified": true,
+        "guidance_v3_actions_factory_verified": true,
+        "reset_twelve_roots_factory_verified": true,
+        "v3_test_sha256": "b0fb54f6f7bd761ea8b05ee5f0a4e9d2dcffcf771158b94de6568cc8f1abf5fd"
+      }
+    },
+    "all_baselines_and_write_faults": {
+      "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lane-type/build-package-tests.json",
+      "sha256": "8a903bcf995b2c189669e214fa20da2a65b96f1a277fe5e2ab6787e1439a7077",
+      "result": {
+        "passed": true,
+        "tests": 2,
+        "inventory_checks": 2585,
+        "archive_sha256": "c1adc1174a9426b90b315c77ad3649fccb78be55cffd102ccd95e71d07bd744f",
+        "mounts_and_sync_mocked_on_host": true,
+        "on_unit_validated": false
+      }
+    },
+    "actual_v3r2_to_v3r3": {
+      "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lane-type/build-revision-upgrade-verified.json",
+      "sha256": "3f0b4bdecbfc4d266df0bbed762caf7cf2ab41e0a02e8dfb5fe191eb5606ba5e",
+      "result": {
+        "passed": true,
+        "tests": 1,
+        "inventory_checks": 2587,
+        "archive_sha256": "05a29729026c89836a7c65d3a6f566c11571e0778eac9da700a3bb190c1230ea",
+        "mounts_and_sync_mocked_on_host": true,
+        "on_unit_validated": false
+      }
+    },
+    "jar_delta": {
+      "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lane-type/build-jar-diff.json",
+      "sha256": "f5b0fef753e259e84fc2dc53ae4644604e501362786a7632aed1ecfd74bc88db",
+      "result": {
+        "passed": true,
+        "changed_entries": [
+          "com/cpmap/rgi/BuildInfo.class",
+          "com/cpmap/rgi/LaneData.class",
+          "com/cpmap/rgi/LiveBridge.class"
+        ],
+        "beyond_build_id": [
+          "com/cpmap/rgi/LaneData.class"
+        ],
+        "only_lane_type_getter_changed": true
+      }
+    },
+    "unchanged_actions_core_menu_reset": {
+      "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lane-type/build-unchanged-proof.json",
+      "sha256": "f8ac0fc911c1d222c4e2e2a6971ffa73c56dd95eb09f12695a4eed8a34141392",
+      "result": {
+        "same_as_v3r2": {
+          "Custom/carplay_mu1367_guidance_v3/actions.sh": "b3d168c98ad713cc0a13f153b3844da732fd9c84703a4d91b7f43e622e885d16",
+          "Custom/carplay_mu1367_oem_reset/control.sh": "0f53d6454db562139e978057e58551a018243e3a86829fe90364adf98d660725",
+          "Custom/carplay_mu1367_guidance_v3/6/core.so": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+          "Custom/carplay_mu1367_guidance_v3/6/VCMenu.jar": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37",
+          "Custom/carplay_mu1367_guidance_v3/COMMANDS.json": "e3ff037c5ba751b7b21192db453486e2480fa8ce1c6a7b8aade6c9964c511bee"
+        },
+        "same_as_v3_reset_proof": true,
+        "reset_fault_tests_reused": 36,
+        "new_unit_commands": [],
+        "passed": true
+      }
+    },
+    "final_archive_inventory": {
+      "path": "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lane-type/build-final-inventory.json",
+      "sha256": "d885c582928d0237bcbb457a493b077a55b2529a39cf5907a1ad786ac48f6555",
+      "result": {
+        "passed": true,
+        "archive_sha256": "68e3275cbd433eb5e93f1aa2566e04abc94a8e5d7eb55a6e381da8ea21e54376",
+        "inventory_checks": 2588,
+        "runtime_menu_and_scripts_match_tested_package": true,
+        "filesystem_tests": {
+          "passed": true,
+          "tests": 2,
+          "inventory_checks": 2585,
+          "archive_sha256": "c1adc1174a9426b90b315c77ad3649fccb78be55cffd102ccd95e71d07bd744f",
+          "mounts_and_sync_mocked_on_host": true,
+          "on_unit_validated": false
+        },
+        "on_unit_validated": false
+      }
+    }
+  },
+  "limits": [
+    "Host mounts/sync mocked; factory QNX mount mocked; physical durability not emulated.",
+    "Package upgrade/removal and rollback tests prove file handling, not physical AID rasterization.",
+    "Core/menu/actions/reset are unchanged from v3r2. Exact reset controller retains its preceding 36-case fault proof."
+  ]
+}

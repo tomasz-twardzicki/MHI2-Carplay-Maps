@@ -1,0 +1,13 @@
+> Development prototype: the text below was copied from sealed test2 as a baseline. It does not describe a new package. Current scope and evidence are in PROGRESS.md and CHECKPOINT.json.
+
+# Build and test v1.6.5-e-test2
+
+Isolated source: v165-test2. Components: ../build-v165t2-components-r2. Build inputs remain the exact MU1367 stock.jar, firmware extracts, QNX toolchain and pinned offline container. No sealed prior package is changed.
+
+BT uses named-handle libc open/write with audited offsets. Its QNX fixture intentionally interposes only the global symbol lookup, verifies native call-through, and retains refusal of a real competing slot hook, lazy-resolution races, delayed attachment, accepted ownership, expiry, wired takeover and real user preferences. Native radio/RC command boundaries remain controlled.
+
+The guidance JAR adds one hash-gated factory class, CurrentPositionInfo. The existing seven hooks remain; function 19 is optional and independently refreshed/retried. Full host guidance regressions and actual factory ARM/J9 road/arrow/U-turn/quiet tests run in both verification modes. TestPositionSplit exercises actual function 19 and 20 stages with different values, off/current mode, rejection retry, clearing and OEM takeover. It cannot prove cluster consumer selection.
+
+Unchanged tap/media/decoder/bridge/supervisor/CP components reuse their byte-identical test1 evidence. GPS source, tuning and launcher rebuild only to relocate owned preference metadata and bind the new BT hash; native tools and GPS/road ARM/J9 checks cover these paths. The input fixture uses 64 MB RAM capacity after the 32 MB fixture again returned ENOSPC for a 16.8 MB ring despite cleanup/sync. The full transaction fixture uses 96 MB to accommodate its retained payloads, snapshots and subsequent independent input ring; its earlier 64 MB run passed all six rollback/resume cases but failed the final input assertion. Both raw results are retained. Real released-control and candidate assertions remain required; production input bytes are unchanged.
+
+Final managed gates cover all 45 targets, six failure/interrupt sites, actual host migration/OEM controllers across four layouts and prior versions including test1, factory-ksh orchestration/combined diagnostics, exact import resolution for K4525/P4521 HW50/HW70, checksum guards and every ZIP entry. Host mounts/reboots and native config outputs use the established explicit fixtures. Retain GPS off and the stable stream settings for vehicle acceptance.

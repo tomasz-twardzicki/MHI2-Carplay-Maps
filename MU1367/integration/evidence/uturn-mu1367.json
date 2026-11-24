@@ -1,0 +1,15 @@
+{
+  "firmware": "K4525 MU1367",
+  "jxe_sha256": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a",
+  "factory_class": "de/vw/mib/asl/internal/navigation/guidance/laneguidance/HsmTargetLaneGuidance.class",
+  "factory_class_sha256": "3c1a3f39db9e09155b42f5743e769d7dcd1716b6b12caf7917329b68452c4509",
+  "factory_system_constant_defaults": {
+    "NAV_UTURN_MAPPING": true,
+    "NAV_UTURN_LEFT_DIRECTION": 114,
+    "NAV_UTURN_RIGHT_DIRECTION": 146
+  },
+  "pull_request": 8,
+  "head_commit": "48a3dee979e422d643cd7ccc0660bf954a2d876f",
+  "mu1367_vehicle_rendering_verified": false,
+  "note": "Constants and MU1367 factory transport verified off-unit. The PR reports a vehicle result on MU1161 + AID 791. Head-unit HMI constants alone do not prove cluster glyph behavior."
+}

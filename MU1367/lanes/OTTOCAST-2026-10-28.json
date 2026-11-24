@@ -1,0 +1,97 @@
+{
+  "date": "2026-10-28",
+  "scope": "Offline diagnosis only; no runtime/package changes",
+  "released_guidance_jar_sha256": "90f12f3b7a92bbdc00671c7698ec967cfa905c28923cb580c36cafc0b73af6ab",
+  "captures": [
+    {
+      "capture": "cpmap-diag-4788359",
+      "files": {
+        "ramdisk/carplay-route-guidance/status.txt": {
+          "size": 85,
+          "sha256": "0b2b00261693c6043136f89328e3c9c267d84333487c546c08ed662687954930"
+        },
+        "ramdisk/carplay-route-guidance/adapter-status.txt": {
+          "size": 162,
+          "sha256": "35b6dc764c4d13c936cbaeedc3fb6391c7f74746f23a3c96cc9852fb5d0cc710"
+        },
+        "ramdisk/carplay-route-guidance/latest.bin": {
+          "size": 3128,
+          "sha256": "5f5cd01f5f947e49326e0e6b0d118cbd4f91fe4d66db4fdd7d198b3e0275ea2b"
+        },
+        "ramdisk/carplay-now-playing-n1.status": {
+          "size": 201,
+          "sha256": "b654cafdf2bb468cf67191affbfd82c1cb3c453a706e586ca2c065fa7a622eae"
+        },
+        "sloginfo.txt": {
+          "size": 704318,
+          "sha256": "7eb831897b0db5fd1539a22a4876f0a64f052521f8c467b7a17bfb7d4ac66eff"
+        }
+      },
+      "ramdisk/carplay-route-guidance/status.txt": "RG status=running polls=1664 valid=1258 invalid=406 sequence=132 bytes=3048 reason=0",
+      "ramdisk/carplay-route-guidance/adapter-status.txt": "RG build=MU1367-guidance-4cfed248ab4a run=1 mode=0 context=0 ticks=699 proposals=75 writes=1493 releases=1 failures=0 records=182 lane_count=0 lane_at=-1 error=1",
+      "mailbox_kind": 1,
+      "mailbox_serial": 334,
+      "retained_message_counts": {
+        "0x5201": 16
+      },
+      "route_states": [
+        1
+      ],
+      "lane_show_flags": [
+        0
+      ],
+      "production_fresh_reader_replay_passed": true
+    },
+    {
+      "capture": "cpmap-diag-5681287",
+      "files": {
+        "ramdisk/carplay-route-guidance/status.txt": {
+          "size": 85,
+          "sha256": "cebfd557d5dd7c177e161bad8faa7ecfda91f0bad6f08412a9c6990b3ee46928"
+        },
+        "ramdisk/carplay-route-guidance/adapter-status.txt": {
+          "size": 158,
+          "sha256": "357462fec06f54a65ae13030d741049b8d0d1a43095ca3fd624ab7421c6831da"
+        },
+        "ramdisk/carplay-route-guidance/latest.bin": {
+          "size": 2336,
+          "sha256": "87cefea894e3fb44c852c78d4499700af95009afd8d0f922746f63215064579f"
+        },
+        "ramdisk/carplay-now-playing-n1.status": {
+          "size": 204,
+          "sha256": "821c7570804d489efc831ebeff00e978ec776640b5d8d4617c22e0b525cf977e"
+        },
+        "sloginfo.txt": {
+          "size": 1329827,
+          "sha256": "02be21e91f76af85e491ab612f5053e3584854e603a56ac5689a19c833d69959"
+        }
+      },
+      "ramdisk/carplay-route-guidance/status.txt": "RG status=running polls=3648 valid=3241 invalid=407 sequence=158 bytes=2335 reason=0",
+      "ramdisk/carplay-route-guidance/adapter-status.txt": "RG build=MU1367-guidance-4cfed248ab4a run=1 mode=0 context=0 ticks=1562 proposals=0 writes=0 releases=0 failures=0 records=16 lane_count=0 lane_at=-1 error=1",
+      "mailbox_kind": 1,
+      "mailbox_serial": 751,
+      "retained_message_counts": {
+        "0x5202": 1,
+        "0x5201": 15
+      },
+      "route_states": [
+        1
+      ],
+      "lane_show_flags": [
+        0
+      ],
+      "production_fresh_reader_replay_passed": true
+    }
+  ],
+  "replay": "Both saved mailboxes and all 32 retained events accepted by the released production decoder on a fresh MailboxReader; trigger of earlier error is not retained",
+  "hmi_error_latch_confirmed_in_source": true,
+  "card_command_or_preference_evidence_present": false,
+  "full_logs_or_location_payloads_copied": false,
+  "user_report": {
+    "adapter_model": "Ottocast Mini Pico",
+    "adapter_build": "26101215.6071",
+    "possible_sequence": "First export may be direct USB after switching away from adapter; another after reboot and retry",
+    "sequence_confirmed": false,
+    "capture_connection_types_confirmed": false
+  }
+}

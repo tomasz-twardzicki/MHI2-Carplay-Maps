@@ -1,0 +1,17 @@
+{
+  "stock_content_sha256": "37bb839fb026bd1d5c0cb5066d189bd58bbde93f5d355eac8473809799f10a48",
+  "classes": {
+    "de/esolutions/fw/dsi/navigation/DSINavigationDispatcher.class": "565ff143dcb242cea117a8fa00aaba1d857a13dc7c4ffc873058d4cb3a8ded20",
+    "de/esolutions/fw/dsi/cartimeunitslanguage/DSICarTimeUnitsLanguageDispatcher.class": "a771747cebb570ddb9daa066f10872bee00f269554f88f46436322599014698f"
+  },
+  "wired_location": {
+    "iap2_driver_sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+    "start_dispatch": "0x1359c:0x1374c -> gps_start_recv 0x9990",
+    "stop_dispatch": "0x135a8:0x13760 -> gps_stop_recv 0x995c",
+    "data_message": "gps_info_send 0x9758 -> link_send_message 0xfffb",
+    "data_string": "gps_info_send 0x9734:0x9744 -> packet_addparam_str id=0",
+    "component": "ident_info_gpscomp 0xcb70:0xce60 -> parameter 22, id/name, presence TLVs for sentence types",
+    "sentence_identification_table": "0x27db0: GPGGA=17, GPRMC=18; distinct from StartLocationInformation request IDs 1/2"
+  },
+  "limits": "Experimental passive OEM callback capture and native receiver control-queue extension. Hardware source availability and iPhone acceptance require a vehicle test."
+}

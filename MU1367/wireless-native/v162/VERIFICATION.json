@@ -1,0 +1,2212 @@
+{
+  "version": "1.6.2-e-test1",
+  "passed": true,
+  "experimental": true,
+  "prerelease": true,
+  "on_unit_validated": false,
+  "components": {
+    "libcpmap-wcp-tap.so": "8a7720cbf931125c8ef73d90fba17f8a780e92894e45ce0d83921484283893b0",
+    "wireless-artwork-fetch": "22aa7618a12301bed0bc6ad532f40445a9e3847935065daf315779380e75923e",
+    "wireless-tune": "1db7bdd04ee87ee908e979c0774b5b51f959f6510c2f3d7c10522288f46e90c8",
+    "wireless-receiver-exec": "2b8cadae1d55d56fd0b9a69b0e4ab2dfce47cbc321728ae1ef7e5c5f099cc12f",
+    "altscreen-most-bridge": "86718855b82272498d3e15bcecde1e997e7e93797e08308e98f27058bcc7a1db",
+    "carplay-cluster-supervisor": "e525fb5bdd4aec959ba2f5619e5ecf0ce653190807acbaac85d5cb66ab2e52f2",
+    "CarPlayMU1367Guidance.jar": "e6f4345a2bd72dfdc56aeba0a28a52e02f053af9211d4e4c5deb94e1202bd494",
+    "CarPlayMU1367Audio.jar": "146bbdc664c1bfa671ed9d6874bb3bfff66295dcee362f046afaacfb5aef2fc2"
+  },
+  "build_id": "MU1367-wireless-native-v162-21f950ce9521",
+  "native_firmware_linkage": {
+    "K4525/50": {
+      "variant": "50",
+      "firmware": "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318",
+      "passed": true,
+      "factory_libraries": {
+        "libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+        "libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+        "libz.so.2": "2fd9ce7b0616f325417ad6ca8c58e2e840f05e215fe8acdcc2506111a150617e"
+      },
+      "components": {
+        "libcpmap-wcp-tap.so": {
+          "sha256": "8a7720cbf931125c8ef73d90fba17f8a780e92894e45ce0d83921484283893b0",
+          "needed": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_uidivmod",
+            "__aeabi_uldivmod",
+            "__get_errno_ptr",
+            "_exit",
+            "access",
+            "clock_gettime",
+            "close",
+            "dlsym",
+            "fclose",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fread",
+            "free",
+            "fseek",
+            "ftruncate",
+            "fwrite",
+            "getenv",
+            "getpid",
+            "kill",
+            "lstat",
+            "malloc",
+            "memchr",
+            "memcmp",
+            "memset",
+            "mkdir",
+            "mmap",
+            "nanosleep",
+            "open",
+            "pthread_detach",
+            "pthread_getschedparam",
+            "pthread_mutex_lock",
+            "pthread_mutex_unlock",
+            "pthread_self",
+            "pthread_setschedparam",
+            "rename",
+            "snprintf",
+            "sscanf",
+            "strchr",
+            "strcmp",
+            "strlen",
+            "strncmp",
+            "unlink",
+            "write"
+          ],
+          "missing": []
+        },
+        "wireless-artwork-fetch": {
+          "sha256": "22aa7618a12301bed0bc6ad532f40445a9e3847935065daf315779380e75923e",
+          "needed": [
+            "libz.so.2",
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_idiv",
+            "__aeabi_idivmod",
+            "__aeabi_uidiv",
+            "__aeabi_uldivmod",
+            "__assert",
+            "__get_errno_ptr",
+            "_exit",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "clock_gettime",
+            "close",
+            "crc32",
+            "deflate",
+            "deflateEnd",
+            "deflateInit_",
+            "exit",
+            "fork",
+            "free",
+            "fstat",
+            "kill",
+            "lstat",
+            "malloc",
+            "memcmp",
+            "memcpy",
+            "memset",
+            "mkdir",
+            "nanosleep",
+            "open",
+            "pipe",
+            "puts",
+            "read",
+            "rmdir",
+            "select",
+            "signal",
+            "unlink",
+            "waitpid",
+            "write"
+          ],
+          "missing": []
+        },
+        "wireless-tune": {
+          "sha256": "1db7bdd04ee87ee908e979c0774b5b51f959f6510c2f3d7c10522288f46e90c8",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__get_errno_ptr",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "atexit",
+            "close",
+            "exit",
+            "fclose",
+            "ferror",
+            "fgetc",
+            "fopen",
+            "fread",
+            "fsync",
+            "getpid",
+            "memchr",
+            "mkdir",
+            "open",
+            "printf",
+            "puts",
+            "rename",
+            "snprintf",
+            "sscanf",
+            "strcmp",
+            "strtoul",
+            "unlink",
+            "write"
+          ],
+          "missing": []
+        },
+        "wireless-receiver-exec": {
+          "sha256": "2b8cadae1d55d56fd0b9a69b0e4ab2dfce47cbc321728ae1ef7e5c5f099cc12f",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__get_errno_ptr",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "clock_gettime",
+            "close",
+            "execl",
+            "exit",
+            "fclose",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fopen",
+            "fread",
+            "getenv",
+            "getpid",
+            "lstat",
+            "memchr",
+            "memset",
+            "mkdir",
+            "open",
+            "printf",
+            "rmdir",
+            "setenv",
+            "snprintf",
+            "sprintf",
+            "sscanf",
+            "strcmp",
+            "strlen",
+            "write"
+          ],
+          "missing": []
+        },
+        "altscreen-most-bridge": {
+          "sha256": "86718855b82272498d3e15bcecde1e997e7e93797e08308e98f27058bcc7a1db",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_uldivmod",
+            "__get_errno_ptr",
+            "_exit",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "calloc",
+            "clock_gettime",
+            "close",
+            "devctl",
+            "dup2",
+            "execve",
+            "exit",
+            "fclose",
+            "fcntl",
+            "feof",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fileno",
+            "fopen",
+            "fork",
+            "fread",
+            "free",
+            "fstat",
+            "ftruncate",
+            "kill",
+            "lseek",
+            "lstat",
+            "malloc",
+            "memchr",
+            "memcmp",
+            "memcpy",
+            "memset",
+            "mmap",
+            "munmap",
+            "open",
+            "open64",
+            "pthread_create",
+            "pthread_getschedparam",
+            "pthread_join",
+            "pthread_mutex_destroy",
+            "pthread_mutex_init",
+            "pthread_mutex_lock",
+            "pthread_mutex_unlock",
+            "pthread_self",
+            "pthread_setschedparam",
+            "signal",
+            "snprintf",
+            "sscanf",
+            "strchr",
+            "strcmp",
+            "strerror",
+            "strlen",
+            "strncmp",
+            "unlink",
+            "usleep",
+            "vfprintf",
+            "waitpid",
+            "write"
+          ],
+          "missing": []
+        },
+        "carplay-cluster-supervisor": {
+          "sha256": "e525fb5bdd4aec959ba2f5619e5ecf0ce653190807acbaac85d5cb66ab2e52f2",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_uldivmod",
+            "__get_errno_ptr",
+            "_exit",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "clock_gettime",
+            "close",
+            "dup2",
+            "execl",
+            "execv",
+            "exit",
+            "fclose",
+            "fcntl",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fileno",
+            "fopen",
+            "fork",
+            "fread",
+            "fscanf",
+            "fstat",
+            "fsync",
+            "ftruncate",
+            "getpid",
+            "kill",
+            "lseek",
+            "lstat",
+            "memchr",
+            "memcmp",
+            "memcpy",
+            "memset",
+            "mkdir",
+            "mmap",
+            "munmap",
+            "open",
+            "pthread_mutex_lock",
+            "pthread_mutex_unlock",
+            "read",
+            "setenv",
+            "signal",
+            "snprintf",
+            "sscanf",
+            "stat",
+            "strchr",
+            "strcmp",
+            "strlen",
+            "strncmp",
+            "strtol",
+            "strtoull",
+            "unlink",
+            "unsetenv",
+            "usleep",
+            "vfprintf",
+            "waitpid",
+            "write"
+          ],
+          "missing": []
+        }
+      }
+    },
+    "K4525/70": {
+      "variant": "70",
+      "firmware": "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318",
+      "passed": true,
+      "factory_libraries": {
+        "libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+        "libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+        "libz.so.2": "2fd9ce7b0616f325417ad6ca8c58e2e840f05e215fe8acdcc2506111a150617e"
+      },
+      "components": {
+        "libcpmap-wcp-tap.so": {
+          "sha256": "8a7720cbf931125c8ef73d90fba17f8a780e92894e45ce0d83921484283893b0",
+          "needed": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_uidivmod",
+            "__aeabi_uldivmod",
+            "__get_errno_ptr",
+            "_exit",
+            "access",
+            "clock_gettime",
+            "close",
+            "dlsym",
+            "fclose",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fread",
+            "free",
+            "fseek",
+            "ftruncate",
+            "fwrite",
+            "getenv",
+            "getpid",
+            "kill",
+            "lstat",
+            "malloc",
+            "memchr",
+            "memcmp",
+            "memset",
+            "mkdir",
+            "mmap",
+            "nanosleep",
+            "open",
+            "pthread_detach",
+            "pthread_getschedparam",
+            "pthread_mutex_lock",
+            "pthread_mutex_unlock",
+            "pthread_self",
+            "pthread_setschedparam",
+            "rename",
+            "snprintf",
+            "sscanf",
+            "strchr",
+            "strcmp",
+            "strlen",
+            "strncmp",
+            "unlink",
+            "write"
+          ],
+          "missing": []
+        },
+        "wireless-artwork-fetch": {
+          "sha256": "22aa7618a12301bed0bc6ad532f40445a9e3847935065daf315779380e75923e",
+          "needed": [
+            "libz.so.2",
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_idiv",
+            "__aeabi_idivmod",
+            "__aeabi_uidiv",
+            "__aeabi_uldivmod",
+            "__assert",
+            "__get_errno_ptr",
+            "_exit",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "clock_gettime",
+            "close",
+            "crc32",
+            "deflate",
+            "deflateEnd",
+            "deflateInit_",
+            "exit",
+            "fork",
+            "free",
+            "fstat",
+            "kill",
+            "lstat",
+            "malloc",
+            "memcmp",
+            "memcpy",
+            "memset",
+            "mkdir",
+            "nanosleep",
+            "open",
+            "pipe",
+            "puts",
+            "read",
+            "rmdir",
+            "select",
+            "signal",
+            "unlink",
+            "waitpid",
+            "write"
+          ],
+          "missing": []
+        },
+        "wireless-tune": {
+          "sha256": "1db7bdd04ee87ee908e979c0774b5b51f959f6510c2f3d7c10522288f46e90c8",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__get_errno_ptr",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "atexit",
+            "close",
+            "exit",
+            "fclose",
+            "ferror",
+            "fgetc",
+            "fopen",
+            "fread",
+            "fsync",
+            "getpid",
+            "memchr",
+            "mkdir",
+            "open",
+            "printf",
+            "puts",
+            "rename",
+            "snprintf",
+            "sscanf",
+            "strcmp",
+            "strtoul",
+            "unlink",
+            "write"
+          ],
+          "missing": []
+        },
+        "wireless-receiver-exec": {
+          "sha256": "2b8cadae1d55d56fd0b9a69b0e4ab2dfce47cbc321728ae1ef7e5c5f099cc12f",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__get_errno_ptr",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "clock_gettime",
+            "close",
+            "execl",
+            "exit",
+            "fclose",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fopen",
+            "fread",
+            "getenv",
+            "getpid",
+            "lstat",
+            "memchr",
+            "memset",
+            "mkdir",
+            "open",
+            "printf",
+            "rmdir",
+            "setenv",
+            "snprintf",
+            "sprintf",
+            "sscanf",
+            "strcmp",
+            "strlen",
+            "write"
+          ],
+          "missing": []
+        },
+        "altscreen-most-bridge": {
+          "sha256": "86718855b82272498d3e15bcecde1e997e7e93797e08308e98f27058bcc7a1db",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_uldivmod",
+            "__get_errno_ptr",
+            "_exit",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "calloc",
+            "clock_gettime",
+            "close",
+            "devctl",
+            "dup2",
+            "execve",
+            "exit",
+            "fclose",
+            "fcntl",
+            "feof",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fileno",
+            "fopen",
+            "fork",
+            "fread",
+            "free",
+            "fstat",
+            "ftruncate",
+            "kill",
+            "lseek",
+            "lstat",
+            "malloc",
+            "memchr",
+            "memcmp",
+            "memcpy",
+            "memset",
+            "mmap",
+            "munmap",
+            "open",
+            "open64",
+            "pthread_create",
+            "pthread_getschedparam",
+            "pthread_join",
+            "pthread_mutex_destroy",
+            "pthread_mutex_init",
+            "pthread_mutex_lock",
+            "pthread_mutex_unlock",
+            "pthread_self",
+            "pthread_setschedparam",
+            "signal",
+            "snprintf",
+            "sscanf",
+            "strchr",
+            "strcmp",
+            "strerror",
+            "strlen",
+            "strncmp",
+            "unlink",
+            "usleep",
+            "vfprintf",
+            "waitpid",
+            "write"
+          ],
+          "missing": []
+        },
+        "carplay-cluster-supervisor": {
+          "sha256": "e525fb5bdd4aec959ba2f5619e5ecf0ce653190807acbaac85d5cb66ab2e52f2",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_uldivmod",
+            "__get_errno_ptr",
+            "_exit",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "clock_gettime",
+            "close",
+            "dup2",
+            "execl",
+            "execv",
+            "exit",
+            "fclose",
+            "fcntl",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fileno",
+            "fopen",
+            "fork",
+            "fread",
+            "fscanf",
+            "fstat",
+            "fsync",
+            "ftruncate",
+            "getpid",
+            "kill",
+            "lseek",
+            "lstat",
+            "memchr",
+            "memcmp",
+            "memcpy",
+            "memset",
+            "mkdir",
+            "mmap",
+            "munmap",
+            "open",
+            "pthread_mutex_lock",
+            "pthread_mutex_unlock",
+            "read",
+            "setenv",
+            "signal",
+            "snprintf",
+            "sscanf",
+            "stat",
+            "strchr",
+            "strcmp",
+            "strlen",
+            "strncmp",
+            "strtol",
+            "strtoull",
+            "unlink",
+            "unsetenv",
+            "usleep",
+            "vfprintf",
+            "waitpid",
+            "write"
+          ],
+          "missing": []
+        }
+      }
+    },
+    "P4521/50": {
+      "variant": "50",
+      "firmware": "MHI2_ER_VWG13_P4521_MU1367",
+      "passed": true,
+      "factory_libraries": {
+        "libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+        "libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+        "libz.so.2": "2fd9ce7b0616f325417ad6ca8c58e2e840f05e215fe8acdcc2506111a150617e"
+      },
+      "components": {
+        "libcpmap-wcp-tap.so": {
+          "sha256": "8a7720cbf931125c8ef73d90fba17f8a780e92894e45ce0d83921484283893b0",
+          "needed": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_uidivmod",
+            "__aeabi_uldivmod",
+            "__get_errno_ptr",
+            "_exit",
+            "access",
+            "clock_gettime",
+            "close",
+            "dlsym",
+            "fclose",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fread",
+            "free",
+            "fseek",
+            "ftruncate",
+            "fwrite",
+            "getenv",
+            "getpid",
+            "kill",
+            "lstat",
+            "malloc",
+            "memchr",
+            "memcmp",
+            "memset",
+            "mkdir",
+            "mmap",
+            "nanosleep",
+            "open",
+            "pthread_detach",
+            "pthread_getschedparam",
+            "pthread_mutex_lock",
+            "pthread_mutex_unlock",
+            "pthread_self",
+            "pthread_setschedparam",
+            "rename",
+            "snprintf",
+            "sscanf",
+            "strchr",
+            "strcmp",
+            "strlen",
+            "strncmp",
+            "unlink",
+            "write"
+          ],
+          "missing": []
+        },
+        "wireless-artwork-fetch": {
+          "sha256": "22aa7618a12301bed0bc6ad532f40445a9e3847935065daf315779380e75923e",
+          "needed": [
+            "libz.so.2",
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_idiv",
+            "__aeabi_idivmod",
+            "__aeabi_uidiv",
+            "__aeabi_uldivmod",
+            "__assert",
+            "__get_errno_ptr",
+            "_exit",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "clock_gettime",
+            "close",
+            "crc32",
+            "deflate",
+            "deflateEnd",
+            "deflateInit_",
+            "exit",
+            "fork",
+            "free",
+            "fstat",
+            "kill",
+            "lstat",
+            "malloc",
+            "memcmp",
+            "memcpy",
+            "memset",
+            "mkdir",
+            "nanosleep",
+            "open",
+            "pipe",
+            "puts",
+            "read",
+            "rmdir",
+            "select",
+            "signal",
+            "unlink",
+            "waitpid",
+            "write"
+          ],
+          "missing": []
+        },
+        "wireless-tune": {
+          "sha256": "1db7bdd04ee87ee908e979c0774b5b51f959f6510c2f3d7c10522288f46e90c8",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__get_errno_ptr",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "atexit",
+            "close",
+            "exit",
+            "fclose",
+            "ferror",
+            "fgetc",
+            "fopen",
+            "fread",
+            "fsync",
+            "getpid",
+            "memchr",
+            "mkdir",
+            "open",
+            "printf",
+            "puts",
+            "rename",
+            "snprintf",
+            "sscanf",
+            "strcmp",
+            "strtoul",
+            "unlink",
+            "write"
+          ],
+          "missing": []
+        },
+        "wireless-receiver-exec": {
+          "sha256": "2b8cadae1d55d56fd0b9a69b0e4ab2dfce47cbc321728ae1ef7e5c5f099cc12f",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__get_errno_ptr",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "clock_gettime",
+            "close",
+            "execl",
+            "exit",
+            "fclose",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fopen",
+            "fread",
+            "getenv",
+            "getpid",
+            "lstat",
+            "memchr",
+            "memset",
+            "mkdir",
+            "open",
+            "printf",
+            "rmdir",
+            "setenv",
+            "snprintf",
+            "sprintf",
+            "sscanf",
+            "strcmp",
+            "strlen",
+            "write"
+          ],
+          "missing": []
+        },
+        "altscreen-most-bridge": {
+          "sha256": "86718855b82272498d3e15bcecde1e997e7e93797e08308e98f27058bcc7a1db",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_uldivmod",
+            "__get_errno_ptr",
+            "_exit",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "calloc",
+            "clock_gettime",
+            "close",
+            "devctl",
+            "dup2",
+            "execve",
+            "exit",
+            "fclose",
+            "fcntl",
+            "feof",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fileno",
+            "fopen",
+            "fork",
+            "fread",
+            "free",
+            "fstat",
+            "ftruncate",
+            "kill",
+            "lseek",
+            "lstat",
+            "malloc",
+            "memchr",
+            "memcmp",
+            "memcpy",
+            "memset",
+            "mmap",
+            "munmap",
+            "open",
+            "open64",
+            "pthread_create",
+            "pthread_getschedparam",
+            "pthread_join",
+            "pthread_mutex_destroy",
+            "pthread_mutex_init",
+            "pthread_mutex_lock",
+            "pthread_mutex_unlock",
+            "pthread_self",
+            "pthread_setschedparam",
+            "signal",
+            "snprintf",
+            "sscanf",
+            "strchr",
+            "strcmp",
+            "strerror",
+            "strlen",
+            "strncmp",
+            "unlink",
+            "usleep",
+            "vfprintf",
+            "waitpid",
+            "write"
+          ],
+          "missing": []
+        },
+        "carplay-cluster-supervisor": {
+          "sha256": "e525fb5bdd4aec959ba2f5619e5ecf0ce653190807acbaac85d5cb66ab2e52f2",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_uldivmod",
+            "__get_errno_ptr",
+            "_exit",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "clock_gettime",
+            "close",
+            "dup2",
+            "execl",
+            "execv",
+            "exit",
+            "fclose",
+            "fcntl",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fileno",
+            "fopen",
+            "fork",
+            "fread",
+            "fscanf",
+            "fstat",
+            "fsync",
+            "ftruncate",
+            "getpid",
+            "kill",
+            "lseek",
+            "lstat",
+            "memchr",
+            "memcmp",
+            "memcpy",
+            "memset",
+            "mkdir",
+            "mmap",
+            "munmap",
+            "open",
+            "pthread_mutex_lock",
+            "pthread_mutex_unlock",
+            "read",
+            "setenv",
+            "signal",
+            "snprintf",
+            "sscanf",
+            "stat",
+            "strchr",
+            "strcmp",
+            "strlen",
+            "strncmp",
+            "strtol",
+            "strtoull",
+            "unlink",
+            "unsetenv",
+            "usleep",
+            "vfprintf",
+            "waitpid",
+            "write"
+          ],
+          "missing": []
+        }
+      }
+    },
+    "P4521/70": {
+      "variant": "70",
+      "firmware": "MHI2_ER_VWG13_P4521_MU1367",
+      "passed": true,
+      "factory_libraries": {
+        "libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+        "libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+        "libz.so.2": "2fd9ce7b0616f325417ad6ca8c58e2e840f05e215fe8acdcc2506111a150617e"
+      },
+      "components": {
+        "libcpmap-wcp-tap.so": {
+          "sha256": "8a7720cbf931125c8ef73d90fba17f8a780e92894e45ce0d83921484283893b0",
+          "needed": [
+            "libc.so.3",
+            "libsocket.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_uidivmod",
+            "__aeabi_uldivmod",
+            "__get_errno_ptr",
+            "_exit",
+            "access",
+            "clock_gettime",
+            "close",
+            "dlsym",
+            "fclose",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fread",
+            "free",
+            "fseek",
+            "ftruncate",
+            "fwrite",
+            "getenv",
+            "getpid",
+            "kill",
+            "lstat",
+            "malloc",
+            "memchr",
+            "memcmp",
+            "memset",
+            "mkdir",
+            "mmap",
+            "nanosleep",
+            "open",
+            "pthread_detach",
+            "pthread_getschedparam",
+            "pthread_mutex_lock",
+            "pthread_mutex_unlock",
+            "pthread_self",
+            "pthread_setschedparam",
+            "rename",
+            "snprintf",
+            "sscanf",
+            "strchr",
+            "strcmp",
+            "strlen",
+            "strncmp",
+            "unlink",
+            "write"
+          ],
+          "missing": []
+        },
+        "wireless-artwork-fetch": {
+          "sha256": "22aa7618a12301bed0bc6ad532f40445a9e3847935065daf315779380e75923e",
+          "needed": [
+            "libz.so.2",
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_idiv",
+            "__aeabi_idivmod",
+            "__aeabi_uidiv",
+            "__aeabi_uldivmod",
+            "__assert",
+            "__get_errno_ptr",
+            "_exit",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "clock_gettime",
+            "close",
+            "crc32",
+            "deflate",
+            "deflateEnd",
+            "deflateInit_",
+            "exit",
+            "fork",
+            "free",
+            "fstat",
+            "kill",
+            "lstat",
+            "malloc",
+            "memcmp",
+            "memcpy",
+            "memset",
+            "mkdir",
+            "nanosleep",
+            "open",
+            "pipe",
+            "puts",
+            "read",
+            "rmdir",
+            "select",
+            "signal",
+            "unlink",
+            "waitpid",
+            "write"
+          ],
+          "missing": []
+        },
+        "wireless-tune": {
+          "sha256": "1db7bdd04ee87ee908e979c0774b5b51f959f6510c2f3d7c10522288f46e90c8",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__get_errno_ptr",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "atexit",
+            "close",
+            "exit",
+            "fclose",
+            "ferror",
+            "fgetc",
+            "fopen",
+            "fread",
+            "fsync",
+            "getpid",
+            "memchr",
+            "mkdir",
+            "open",
+            "printf",
+            "puts",
+            "rename",
+            "snprintf",
+            "sscanf",
+            "strcmp",
+            "strtoul",
+            "unlink",
+            "write"
+          ],
+          "missing": []
+        },
+        "wireless-receiver-exec": {
+          "sha256": "2b8cadae1d55d56fd0b9a69b0e4ab2dfce47cbc321728ae1ef7e5c5f099cc12f",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__get_errno_ptr",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "clock_gettime",
+            "close",
+            "execl",
+            "exit",
+            "fclose",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fopen",
+            "fread",
+            "getenv",
+            "getpid",
+            "lstat",
+            "memchr",
+            "memset",
+            "mkdir",
+            "open",
+            "printf",
+            "rmdir",
+            "setenv",
+            "snprintf",
+            "sprintf",
+            "sscanf",
+            "strcmp",
+            "strlen",
+            "write"
+          ],
+          "missing": []
+        },
+        "altscreen-most-bridge": {
+          "sha256": "86718855b82272498d3e15bcecde1e997e7e93797e08308e98f27058bcc7a1db",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_uldivmod",
+            "__get_errno_ptr",
+            "_exit",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "calloc",
+            "clock_gettime",
+            "close",
+            "devctl",
+            "dup2",
+            "execve",
+            "exit",
+            "fclose",
+            "fcntl",
+            "feof",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fileno",
+            "fopen",
+            "fork",
+            "fread",
+            "free",
+            "fstat",
+            "ftruncate",
+            "kill",
+            "lseek",
+            "lstat",
+            "malloc",
+            "memchr",
+            "memcmp",
+            "memcpy",
+            "memset",
+            "mmap",
+            "munmap",
+            "open",
+            "open64",
+            "pthread_create",
+            "pthread_getschedparam",
+            "pthread_join",
+            "pthread_mutex_destroy",
+            "pthread_mutex_init",
+            "pthread_mutex_lock",
+            "pthread_mutex_unlock",
+            "pthread_self",
+            "pthread_setschedparam",
+            "signal",
+            "snprintf",
+            "sscanf",
+            "strchr",
+            "strcmp",
+            "strerror",
+            "strlen",
+            "strncmp",
+            "unlink",
+            "usleep",
+            "vfprintf",
+            "waitpid",
+            "write"
+          ],
+          "missing": []
+        },
+        "carplay-cluster-supervisor": {
+          "sha256": "e525fb5bdd4aec959ba2f5619e5ecf0ce653190807acbaac85d5cb66ab2e52f2",
+          "needed": [
+            "libc.so.3"
+          ],
+          "strong_imports": [
+            "__aeabi_uldivmod",
+            "__get_errno_ptr",
+            "_exit",
+            "_fini_array",
+            "_init_array",
+            "_init_libc",
+            "_preinit_array",
+            "access",
+            "atexit",
+            "clock_gettime",
+            "close",
+            "dup2",
+            "execl",
+            "execv",
+            "exit",
+            "fclose",
+            "fcntl",
+            "ferror",
+            "fflush",
+            "fgetc",
+            "fileno",
+            "fopen",
+            "fork",
+            "fread",
+            "fscanf",
+            "fstat",
+            "fsync",
+            "ftruncate",
+            "getpid",
+            "kill",
+            "lseek",
+            "lstat",
+            "memchr",
+            "memcmp",
+            "memcpy",
+            "memset",
+            "mkdir",
+            "mmap",
+            "munmap",
+            "open",
+            "pthread_mutex_lock",
+            "pthread_mutex_unlock",
+            "read",
+            "setenv",
+            "signal",
+            "snprintf",
+            "sscanf",
+            "stat",
+            "strchr",
+            "strcmp",
+            "strlen",
+            "strncmp",
+            "strtol",
+            "strtoull",
+            "unlink",
+            "unsetenv",
+            "usleep",
+            "vfprintf",
+            "waitpid",
+            "write"
+          ],
+          "missing": []
+        }
+      }
+    }
+  },
+  "media_firmware_contract": {
+    "passed": true,
+    "firmware_tables": {
+      "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318/50": {
+        "driver_sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+        "media_item": {
+          "0": {
+            "name": "MediaItemPersistentIdentifier",
+            "flags": "0xc0000"
+          },
+          "1": {
+            "name": "MediaItemTitle",
+            "flags": "0xc0000"
+          },
+          "4": {
+            "name": "MediaItemPlaybackDurationInMilliseconds",
+            "flags": "0xc0000"
+          },
+          "6": {
+            "name": "MediaItemAlbumTitle",
+            "flags": "0xc0000"
+          },
+          "7": {
+            "name": "MediaItemAlbumTrackNumber",
+            "flags": "0xc0000"
+          },
+          "8": {
+            "name": "MediaItemAlbumTrackCount",
+            "flags": "0xc0000"
+          },
+          "9": {
+            "name": "MediaItemAlbumDiscNumber",
+            "flags": "0xc0000"
+          },
+          "10": {
+            "name": "MediaItemAlbumDiscCount",
+            "flags": "0xc0000"
+          },
+          "12": {
+            "name": "MediaItemArtist",
+            "flags": "0xc0000"
+          },
+          "16": {
+            "name": "MediaItemGenre",
+            "flags": "0xc0000"
+          },
+          "18": {
+            "name": "MediaItemComposer",
+            "flags": "0xc0000"
+          },
+          "21": {
+            "name": "MediaItemIsLikeSupported",
+            "flags": "0xc0000"
+          },
+          "22": {
+            "name": "MediaItemIsBanSupported",
+            "flags": "0xc0000"
+          },
+          "23": {
+            "name": "MediaItemIsLiked",
+            "flags": "0xc0000"
+          },
+          "24": {
+            "name": "MediaItemIsBanned",
+            "flags": "0xc0000"
+          },
+          "26": {
+            "name": "MediaItemArtworkFileTransferIdentifier",
+            "flags": "0xc0000"
+          },
+          "27": {
+            "name": "MediaItemChapterCount",
+            "flags": "0xc0000"
+          }
+        },
+        "playback": {
+          "0": {
+            "name": "PlaybackStatus",
+            "flags": "0x80000"
+          },
+          "1": {
+            "name": "PlaybackElapsedTimeInMilliseconds",
+            "flags": "0x60000"
+          },
+          "2": {
+            "name": "PlaybackQueueIndex",
+            "flags": "0x60000"
+          },
+          "3": {
+            "name": "PlaybackQueueCount",
+            "flags": "0x60000"
+          },
+          "4": {
+            "name": "PlaybackQueueChapterIndex",
+            "flags": "0x60000"
+          },
+          "5": {
+            "name": "PlaybackShuffleMode",
+            "flags": "0x80000"
+          },
+          "6": {
+            "name": "PlaybackRepeatMode",
+            "flags": "0x80000"
+          },
+          "7": {
+            "name": "PlaybackAppName",
+            "flags": "0xa0000"
+          },
+          "8": {
+            "name": "PBMediaLibraryUniqueIdentifier",
+            "flags": "0xa0000"
+          },
+          "9": {
+            "name": "PBiTunesRadioAd",
+            "flags": "0x90000"
+          },
+          "10": {
+            "name": "PBiTunesRadioStationName",
+            "flags": "0xa0000"
+          },
+          "11": {
+            "name": "PBiTunesRadioStationMediaPlaylistPersistentID",
+            "flags": "0x70000"
+          },
+          "12": {
+            "name": "PlaybackSpeed",
+            "flags": "0x50000"
+          },
+          "13": {
+            "name": "SetElapsedTimeAvailable",
+            "flags": "0x90000"
+          },
+          "14": {
+            "name": "PlaybackQueueListAvail",
+            "flags": "0x90000"
+          },
+          "15": {
+            "name": "PlaybackQueueListTransferID",
+            "flags": "0x40000"
+          },
+          "16": {
+            "name": "PlaybackAppBundleID",
+            "flags": "0xa0000"
+          }
+        }
+      },
+      "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318/70": {
+        "driver_sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+        "media_item": {
+          "0": {
+            "name": "MediaItemPersistentIdentifier",
+            "flags": "0xc0000"
+          },
+          "1": {
+            "name": "MediaItemTitle",
+            "flags": "0xc0000"
+          },
+          "4": {
+            "name": "MediaItemPlaybackDurationInMilliseconds",
+            "flags": "0xc0000"
+          },
+          "6": {
+            "name": "MediaItemAlbumTitle",
+            "flags": "0xc0000"
+          },
+          "7": {
+            "name": "MediaItemAlbumTrackNumber",
+            "flags": "0xc0000"
+          },
+          "8": {
+            "name": "MediaItemAlbumTrackCount",
+            "flags": "0xc0000"
+          },
+          "9": {
+            "name": "MediaItemAlbumDiscNumber",
+            "flags": "0xc0000"
+          },
+          "10": {
+            "name": "MediaItemAlbumDiscCount",
+            "flags": "0xc0000"
+          },
+          "12": {
+            "name": "MediaItemArtist",
+            "flags": "0xc0000"
+          },
+          "16": {
+            "name": "MediaItemGenre",
+            "flags": "0xc0000"
+          },
+          "18": {
+            "name": "MediaItemComposer",
+            "flags": "0xc0000"
+          },
+          "21": {
+            "name": "MediaItemIsLikeSupported",
+            "flags": "0xc0000"
+          },
+          "22": {
+            "name": "MediaItemIsBanSupported",
+            "flags": "0xc0000"
+          },
+          "23": {
+            "name": "MediaItemIsLiked",
+            "flags": "0xc0000"
+          },
+          "24": {
+            "name": "MediaItemIsBanned",
+            "flags": "0xc0000"
+          },
+          "26": {
+            "name": "MediaItemArtworkFileTransferIdentifier",
+            "flags": "0xc0000"
+          },
+          "27": {
+            "name": "MediaItemChapterCount",
+            "flags": "0xc0000"
+          }
+        },
+        "playback": {
+          "0": {
+            "name": "PlaybackStatus",
+            "flags": "0x80000"
+          },
+          "1": {
+            "name": "PlaybackElapsedTimeInMilliseconds",
+            "flags": "0x60000"
+          },
+          "2": {
+            "name": "PlaybackQueueIndex",
+            "flags": "0x60000"
+          },
+          "3": {
+            "name": "PlaybackQueueCount",
+            "flags": "0x60000"
+          },
+          "4": {
+            "name": "PlaybackQueueChapterIndex",
+            "flags": "0x60000"
+          },
+          "5": {
+            "name": "PlaybackShuffleMode",
+            "flags": "0x80000"
+          },
+          "6": {
+            "name": "PlaybackRepeatMode",
+            "flags": "0x80000"
+          },
+          "7": {
+            "name": "PlaybackAppName",
+            "flags": "0xa0000"
+          },
+          "8": {
+            "name": "PBMediaLibraryUniqueIdentifier",
+            "flags": "0xa0000"
+          },
+          "9": {
+            "name": "PBiTunesRadioAd",
+            "flags": "0x90000"
+          },
+          "10": {
+            "name": "PBiTunesRadioStationName",
+            "flags": "0xa0000"
+          },
+          "11": {
+            "name": "PBiTunesRadioStationMediaPlaylistPersistentID",
+            "flags": "0x70000"
+          },
+          "12": {
+            "name": "PlaybackSpeed",
+            "flags": "0x50000"
+          },
+          "13": {
+            "name": "SetElapsedTimeAvailable",
+            "flags": "0x90000"
+          },
+          "14": {
+            "name": "PlaybackQueueListAvail",
+            "flags": "0x90000"
+          },
+          "15": {
+            "name": "PlaybackQueueListTransferID",
+            "flags": "0x40000"
+          },
+          "16": {
+            "name": "PlaybackAppBundleID",
+            "flags": "0xa0000"
+          }
+        }
+      },
+      "MHI2_ER_VWG13_P4521_MU1367/50": {
+        "driver_sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+        "media_item": {
+          "0": {
+            "name": "MediaItemPersistentIdentifier",
+            "flags": "0xc0000"
+          },
+          "1": {
+            "name": "MediaItemTitle",
+            "flags": "0xc0000"
+          },
+          "4": {
+            "name": "MediaItemPlaybackDurationInMilliseconds",
+            "flags": "0xc0000"
+          },
+          "6": {
+            "name": "MediaItemAlbumTitle",
+            "flags": "0xc0000"
+          },
+          "7": {
+            "name": "MediaItemAlbumTrackNumber",
+            "flags": "0xc0000"
+          },
+          "8": {
+            "name": "MediaItemAlbumTrackCount",
+            "flags": "0xc0000"
+          },
+          "9": {
+            "name": "MediaItemAlbumDiscNumber",
+            "flags": "0xc0000"
+          },
+          "10": {
+            "name": "MediaItemAlbumDiscCount",
+            "flags": "0xc0000"
+          },
+          "12": {
+            "name": "MediaItemArtist",
+            "flags": "0xc0000"
+          },
+          "16": {
+            "name": "MediaItemGenre",
+            "flags": "0xc0000"
+          },
+          "18": {
+            "name": "MediaItemComposer",
+            "flags": "0xc0000"
+          },
+          "21": {
+            "name": "MediaItemIsLikeSupported",
+            "flags": "0xc0000"
+          },
+          "22": {
+            "name": "MediaItemIsBanSupported",
+            "flags": "0xc0000"
+          },
+          "23": {
+            "name": "MediaItemIsLiked",
+            "flags": "0xc0000"
+          },
+          "24": {
+            "name": "MediaItemIsBanned",
+            "flags": "0xc0000"
+          },
+          "26": {
+            "name": "MediaItemArtworkFileTransferIdentifier",
+            "flags": "0xc0000"
+          },
+          "27": {
+            "name": "MediaItemChapterCount",
+            "flags": "0xc0000"
+          }
+        },
+        "playback": {
+          "0": {
+            "name": "PlaybackStatus",
+            "flags": "0x80000"
+          },
+          "1": {
+            "name": "PlaybackElapsedTimeInMilliseconds",
+            "flags": "0x60000"
+          },
+          "2": {
+            "name": "PlaybackQueueIndex",
+            "flags": "0x60000"
+          },
+          "3": {
+            "name": "PlaybackQueueCount",
+            "flags": "0x60000"
+          },
+          "4": {
+            "name": "PlaybackQueueChapterIndex",
+            "flags": "0x60000"
+          },
+          "5": {
+            "name": "PlaybackShuffleMode",
+            "flags": "0x80000"
+          },
+          "6": {
+            "name": "PlaybackRepeatMode",
+            "flags": "0x80000"
+          },
+          "7": {
+            "name": "PlaybackAppName",
+            "flags": "0xa0000"
+          },
+          "8": {
+            "name": "PBMediaLibraryUniqueIdentifier",
+            "flags": "0xa0000"
+          },
+          "9": {
+            "name": "PBiTunesRadioAd",
+            "flags": "0x90000"
+          },
+          "10": {
+            "name": "PBiTunesRadioStationName",
+            "flags": "0xa0000"
+          },
+          "11": {
+            "name": "PBiTunesRadioStationMediaPlaylistPersistentID",
+            "flags": "0x70000"
+          },
+          "12": {
+            "name": "PlaybackSpeed",
+            "flags": "0x50000"
+          },
+          "13": {
+            "name": "SetElapsedTimeAvailable",
+            "flags": "0x90000"
+          },
+          "14": {
+            "name": "PlaybackQueueListAvail",
+            "flags": "0x90000"
+          },
+          "15": {
+            "name": "PlaybackQueueListTransferID",
+            "flags": "0x40000"
+          },
+          "16": {
+            "name": "PlaybackAppBundleID",
+            "flags": "0xa0000"
+          }
+        }
+      },
+      "MHI2_ER_VWG13_P4521_MU1367/70": {
+        "driver_sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+        "media_item": {
+          "0": {
+            "name": "MediaItemPersistentIdentifier",
+            "flags": "0xc0000"
+          },
+          "1": {
+            "name": "MediaItemTitle",
+            "flags": "0xc0000"
+          },
+          "4": {
+            "name": "MediaItemPlaybackDurationInMilliseconds",
+            "flags": "0xc0000"
+          },
+          "6": {
+            "name": "MediaItemAlbumTitle",
+            "flags": "0xc0000"
+          },
+          "7": {
+            "name": "MediaItemAlbumTrackNumber",
+            "flags": "0xc0000"
+          },
+          "8": {
+            "name": "MediaItemAlbumTrackCount",
+            "flags": "0xc0000"
+          },
+          "9": {
+            "name": "MediaItemAlbumDiscNumber",
+            "flags": "0xc0000"
+          },
+          "10": {
+            "name": "MediaItemAlbumDiscCount",
+            "flags": "0xc0000"
+          },
+          "12": {
+            "name": "MediaItemArtist",
+            "flags": "0xc0000"
+          },
+          "16": {
+            "name": "MediaItemGenre",
+            "flags": "0xc0000"
+          },
+          "18": {
+            "name": "MediaItemComposer",
+            "flags": "0xc0000"
+          },
+          "21": {
+            "name": "MediaItemIsLikeSupported",
+            "flags": "0xc0000"
+          },
+          "22": {
+            "name": "MediaItemIsBanSupported",
+            "flags": "0xc0000"
+          },
+          "23": {
+            "name": "MediaItemIsLiked",
+            "flags": "0xc0000"
+          },
+          "24": {
+            "name": "MediaItemIsBanned",
+            "flags": "0xc0000"
+          },
+          "26": {
+            "name": "MediaItemArtworkFileTransferIdentifier",
+            "flags": "0xc0000"
+          },
+          "27": {
+            "name": "MediaItemChapterCount",
+            "flags": "0xc0000"
+          }
+        },
+        "playback": {
+          "0": {
+            "name": "PlaybackStatus",
+            "flags": "0x80000"
+          },
+          "1": {
+            "name": "PlaybackElapsedTimeInMilliseconds",
+            "flags": "0x60000"
+          },
+          "2": {
+            "name": "PlaybackQueueIndex",
+            "flags": "0x60000"
+          },
+          "3": {
+            "name": "PlaybackQueueCount",
+            "flags": "0x60000"
+          },
+          "4": {
+            "name": "PlaybackQueueChapterIndex",
+            "flags": "0x60000"
+          },
+          "5": {
+            "name": "PlaybackShuffleMode",
+            "flags": "0x80000"
+          },
+          "6": {
+            "name": "PlaybackRepeatMode",
+            "flags": "0x80000"
+          },
+          "7": {
+            "name": "PlaybackAppName",
+            "flags": "0xa0000"
+          },
+          "8": {
+            "name": "PBMediaLibraryUniqueIdentifier",
+            "flags": "0xa0000"
+          },
+          "9": {
+            "name": "PBiTunesRadioAd",
+            "flags": "0x90000"
+          },
+          "10": {
+            "name": "PBiTunesRadioStationName",
+            "flags": "0xa0000"
+          },
+          "11": {
+            "name": "PBiTunesRadioStationMediaPlaylistPersistentID",
+            "flags": "0x70000"
+          },
+          "12": {
+            "name": "PlaybackSpeed",
+            "flags": "0x50000"
+          },
+          "13": {
+            "name": "SetElapsedTimeAvailable",
+            "flags": "0x90000"
+          },
+          "14": {
+            "name": "PlaybackQueueListAvail",
+            "flags": "0x90000"
+          },
+          "15": {
+            "name": "PlaybackQueueListTransferID",
+            "flags": "0x40000"
+          },
+          "16": {
+            "name": "PlaybackAppBundleID",
+            "flags": "0xa0000"
+          }
+        }
+      }
+    },
+    "receiver_sha256": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+    "receiver_requested_media_ids": [
+      0,
+      1,
+      4,
+      6,
+      12,
+      26
+    ],
+    "receiver_requested_playback_ids": [
+      0,
+      1,
+      7,
+      12,
+      13,
+      16
+    ],
+    "receiver_anchors": {
+      "alt_sender_create_port9997": {
+        "address": "0xe658c",
+        "bytes": 76,
+        "sha256": "70348472203b7741dc00193c065d0d7036a0afbddfcfceae01079edd784f5c6a"
+      },
+      "csm_log_before_dispatch": {
+        "address": "0xecba0",
+        "bytes": 44,
+        "sha256": "1a9e71429cb1263d56e523efabf484f8b3f6c6dc226031d84edceebda4b0df08"
+      },
+      "ft_first_chunk_copy": {
+        "address": "0xee46c",
+        "bytes": 40,
+        "sha256": "b1bc827fc404bf5b195b8d42c0c6480bf83e729dd5c5e2722594122d041267b4"
+      },
+      "ft_declaration_ack_copy": {
+        "address": "0xedd88",
+        "bytes": 32,
+        "sha256": "bcdfcefb4c4a027ab1941917ebd071fe7e044d89e4977bc800796cbcc9fb8131"
+      },
+      "ft_image_completion": {
+        "address": "0xee658",
+        "bytes": 136,
+        "sha256": "1bb529a665b2efa22a46e1f98871625d1f2e61833785c82c2adc0cf66cf8b6ec"
+      },
+      "ft_empty_completion": {
+        "address": "0xee59c",
+        "bytes": 36,
+        "sha256": "b76e7a408f7637ac78bf8ba58d5f155562da919b5f4ee1a809150859f23bd46f"
+      },
+      "info_refresh": {
+        "address": "0xce974",
+        "bytes": 28,
+        "sha256": "fedcad286fcf42fece456409f8f845956296d82561c3b14f154a06b13fbcd566"
+      }
+    },
+    "scope": "Fresh read-only matching MU1367 firmware extraction; receiver execution and lifetimes tested separately."
+  },
+  "vehicle_v4": {
+    "source": "Logs/wireless/v4",
+    "wcp_log_sha256": "6fc381312868d552eebaee15261cef6f606ef31134e2b09734e3bdd02ecb3e67",
+    "nowplaying_packets": 465,
+    "payload_lengths": {
+      "9": 1,
+      "12": 463,
+      "155": 1
+    },
+    "parsed_track_updates": 1,
+    "completed_covers": [
+      {
+        "format": "jpg",
+        "bytes": 196527
+      }
+    ],
+    "main_findings": [
+      "Media reaches the receiver but does not reach the existing HMI text/picture adapters.",
+      "Receiver scheduling includes unnamed threads at priority 10 and native screen threads at 60; the fix selects only the alternate sender and dedicated 9997 adapter and preserves existing higher priorities.",
+      "Reverse-load freeze timing is vehicle feedback; reduction has not been verified in the vehicle."
+    ]
+  },
+  "reports": {
+    "host": {
+      "passed": true,
+      "tests": 7,
+      "variants": [
+        "6",
+        "7",
+        "6-road",
+        "7-road"
+      ],
+      "failures": 0,
+      "errors": 0,
+      "scope": "Actual release/base/legacy/AA/OEM shell controllers; host SHA verifier; config-patch replays exact outputs captured and hash-verified from the pinned native QNX helper; mounts/sync mocked; reboot RAM markers cleared by fixture.",
+      "config_replay": {
+        "native_helper_sha256": "00201913a82b00183ee6694a6723b816837cefc1c146e725710fa940eaa8fe26",
+        "actual_qnx_output_sha256": {
+          "connectivity": "95bd36543e4ad2dbe72e72cdb95b2561f573a27ec2787bf0c4e0d27c1d9a2358",
+          "si": "f46349a50b688a8fc441cbe14ce5aa1aabab4e258717d683f005f39f68da77b9"
+        },
+        "source_log_sha256": "f18f04a62946ca87207dc8e6e288c40ec2ca74ae38138c3c89039017be0d26cb"
+      },
+      "version": "1.6.1",
+      "controller_sha256": "1766b8bb6b0d4484e9640351fbe47364aa1c799779db7f15d8405e5a04bdd1ca"
+    },
+    "flow": {
+      "passed": true,
+      "receiver_sha256": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+      "hardware_opened": false,
+      "log_sha256": "ba304c39cfac4b955d3a0464314e82f393c0e32f9930d663220503b126cd4c5f",
+      "production_release_controller_sha256": "1766b8bb6b0d4484e9640351fbe47364aa1c799779db7f15d8405e5a04bdd1ca",
+      "production_diagnostics_sha256": {
+        "Toolbox/scripts/cpmap_diag.sh": "dbd779942419600086df8579d1482ec1f6b06be29ca8ee0b100701d372e572ad",
+        "Toolbox/scripts/cpmap_wireless_collect_data.sh": "baf42a14059de8ffaa4b1a33b1a95fc5d2f6bd2c9bcd0521136c363cd77906cb"
+      },
+      "scope": "Factory-ksh orchestration, reboot boundary, old OEM snapshot retention and real combined collector; child base/wireless transactions are stand-ins here, separately tested as actual controllers on host.",
+      "receiver_main_executed": false
+    },
+    "receiver": {
+      "passed": true,
+      "receiver_sha256": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+      "hardware_opened": false,
+      "log_sha256": "97555995757c49cfff28a5de2ee7698cd8156f9f122166e6e23a57aa42006450",
+      "actual_receiver_parser": "0xec5ec",
+      "actual_fprintf_site": "0xecbc8",
+      "ids": [
+        "0x5201",
+        "0x5202",
+        "0x5204"
+      ],
+      "production_arm_shim": true,
+      "scoped_preload_chain": [
+        "owned tap source",
+        "libv75-transport.so",
+        "libomonob-wireless-maps.so"
+      ],
+      "production_sources_sha256": {
+        "wcp_tap.c": "3986ccef078278e63ab5071b687e834818e256b70364b0a2f2c21c8fdffa0105",
+        "wcp_priority.h": "fb95a37774dc5278f0c59d1fc7752eee0a3ddcd1e0918f368c6b37fe58cf8ac6",
+        "wcp_media.c": "dbb2238a490e9b984d932ef8b2f156d47cd2ffbb44b924f7c8bf4e05e50146d4",
+        "wcp_rg.c": "9a90d19caf19a7709646db9cc150f9a5967548e3d314546a200cf87b35d0355a",
+        "wcp_timing.h": "cf273c2f60e28c6bcb0cba959fd18e44aab184252269e9df643b58b5f61d2da5",
+        "wcp_sha.h": "427f5d1e5c872e86520c6d5c98776bed7eb8b51a0c390bda2be832048b0c9af9",
+        "wireless_tune.c": "7a704ba125bf04aad973b7f74d3f48f09543db9cccd86ea67ffa542be35ed9e4",
+        "wireless_session.h": "753a2d055ef52bd29f203d18bad87d27e9834e728050cc061f76f539339ae087",
+        "wcp_media_tap.h": "f1629c08a769997380d9ac5ece1b9aa0e32e220b3e5edac973dbcae4bdfc13b7",
+        "wcp_driver_side.h": "c178b907e529a23c7ea5c6656e1a8ca8531b52f4aaa18e978e66e59363bb3d48",
+        "wcp_tap.S": "696cbf01666f9d19cf4aad2b888f8cc6e6392c113a179c6d2da1fd703563014d",
+        "wireless_receiver_exec.c": "fa21d83331434e1b99477e03b9727c94493521e22dfef779b4e7b0d7030de275",
+        "wcp_smoothing.h": "da0eb903bda985e13762f024f1aa9e5c56820027a40cb317d77c7b4b5bdcb53b",
+        "wcp_settings.h": "7ff2138021bb0fa0777742ddb4a066959de8807bb048ddba4002800880db2c2a",
+        "wcp_media.h": "2bb17a2bf1be690a03b71032359406650486287064ff4cbc373046aa8c518673",
+        "wcp_rg.h": "094c8f7f122a6ea39eeac2edc5fa4681953a3f7648b7a3ba698acb33ba89700e"
+      }
+    },
+    "tools": {
+      "passed": true,
+      "receiver_sha256": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+      "hardware_opened": false,
+      "log_sha256": "1ac2d86cddbea83685024b4a9432b490541221e97c650580394c7fb0cd49d2a8",
+      "owned_components": {
+        "libcpmap-wcp-tap.so": "8a7720cbf931125c8ef73d90fba17f8a780e92894e45ce0d83921484283893b0",
+        "wireless-artwork-fetch": "22aa7618a12301bed0bc6ad532f40445a9e3847935065daf315779380e75923e",
+        "wireless-tune": "1db7bdd04ee87ee908e979c0774b5b51f959f6510c2f3d7c10522288f46e90c8",
+        "wireless-receiver-exec": "2b8cadae1d55d56fd0b9a69b0e4ab2dfce47cbc321728ae1ef7e5c5f099cc12f",
+        "altscreen-most-bridge": "86718855b82272498d3e15bcecde1e997e7e93797e08308e98f27058bcc7a1db",
+        "carplay-cluster-supervisor": "e525fb5bdd4aec959ba2f5619e5ecf0ce653190807acbaac85d5cb66ab2e52f2",
+        "CarPlayMU1367Guidance.jar": "e6f4345a2bd72dfdc56aeba0a28a52e02f053af9211d4e4c5deb94e1202bd494",
+        "CarPlayMU1367Audio.jar": "146bbdc664c1bfa671ed9d6874bb3bfff66295dcee362f046afaacfb5aef2fc2"
+      },
+      "receiver_main_executed": false,
+      "launcher_exec_stubbed": true,
+      "input_preload_selftest": true
+    },
+    "media_host": {
+      "passed": true,
+      "sanitizers": [
+        "address",
+        "undefined"
+      ],
+      "parser": "WIRELESS_MEDIA_NATIVE_PASS fuzz=50000 delta_merge=1 malformed_atomic=1 utf8=1 bounds=1",
+      "decoders": {
+        "jpg": {
+          "normalized_dimensions": [
+            256,
+            256
+          ],
+          "wrong_uid_rejected": true,
+          "wrong_generation_rejected": true,
+          "truncated_rejected": true
+        },
+        "png": {
+          "normalized_dimensions": [
+            256,
+            256
+          ],
+          "wrong_uid_rejected": true,
+          "wrong_generation_rejected": true,
+          "truncated_rejected": true
+        }
+      },
+      "java": "{\"text_assertions\":41}\nWIRELESS_MEDIA_JAVA_PASS checks=41 real_dispatcher=1 pending_subscriptions=1 wired_regression=1",
+      "components": {
+        "libcpmap-wcp-tap.so": "8a7720cbf931125c8ef73d90fba17f8a780e92894e45ce0d83921484283893b0",
+        "wireless-artwork-fetch": "22aa7618a12301bed0bc6ad532f40445a9e3847935065daf315779380e75923e",
+        "wireless-tune": "1db7bdd04ee87ee908e979c0774b5b51f959f6510c2f3d7c10522288f46e90c8",
+        "wireless-receiver-exec": "2b8cadae1d55d56fd0b9a69b0e4ab2dfce47cbc321728ae1ef7e5c5f099cc12f",
+        "altscreen-most-bridge": "86718855b82272498d3e15bcecde1e997e7e93797e08308e98f27058bcc7a1db",
+        "carplay-cluster-supervisor": "e525fb5bdd4aec959ba2f5619e5ecf0ce653190807acbaac85d5cb66ab2e52f2",
+        "CarPlayMU1367Guidance.jar": "e6f4345a2bd72dfdc56aeba0a28a52e02f053af9211d4e4c5deb94e1202bd494",
+        "CarPlayMU1367Audio.jar": "146bbdc664c1bfa671ed9d6874bb3bfff66295dcee362f046afaacfb5aef2fc2"
+      },
+      "on_unit_validated": false
+    },
+    "media_qnx": {
+      "passed": true,
+      "audio_sha256": "146bbdc664c1bfa671ed9d6874bb3bfff66295dcee362f046afaacfb5aef2fc2",
+      "factory_j9_verified": true,
+      "verified_and_noverify": true,
+      "class49_negative_rejected": true,
+      "on_unit_validated": false,
+      "qemu_log_sha256": "8f01fb408f2cc04b868db7b253aee80f4d8b7590510db40d247f82fec8d527e8",
+      "test_sha256": "36801098bd1d83a5cc217915938d651d7b661992be399b7d41e6006e97f3643a",
+      "results": {
+        "NOVERIFY": [
+          "ARTWORK_JAVA_PASS checks=44",
+          "ARTWORK_WORKER_PASS tracks=10 cache_files=8 checks=34",
+          "ARTWORK_WORKER_PASS native_decode=1 aid_picture=1 mu_locator=1 expired_session=1"
+        ],
+        "VERIFY": [
+          "ARTWORK_JAVA_PASS checks=44",
+          "ARTWORK_WORKER_PASS tracks=10 cache_files=8 checks=34",
+          "ARTWORK_WORKER_PASS native_decode=1 aid_picture=1 mu_locator=1 expired_session=1"
+        ],
+        "NEGATIVE": []
+      },
+      "wireless_media_factory_j9": true,
+      "wireless_native_decoder_sha256": "22aa7618a12301bed0bc6ad532f40445a9e3847935065daf315779380e75923e"
+    },
+    "transaction": {
+      "passed": true,
+      "build_id": "MU1367-wireless-native-v162-21f950ce9521",
+      "commit_sites": 41,
+      "tested_keys": [
+        "k39",
+        "k40"
+      ],
+      "rollback_cases": 2,
+      "resume_cases": 2,
+      "session_checks": 17,
+      "wireless_input_selftest": true,
+      "h264_fixture_sha256": "bb1bff76a8765c0191f02774a3e6aee0ec82c89d1a2ee84b09a866d6ecd8a0ec",
+      "firmware_utilities": true,
+      "fake_firmware_gate_in_fixture": true,
+      "baseline_seed": "Published v1.5.4 final payload files; old installer not rerun in this fixture.",
+      "qemu_log_sha256": "d3a9f3d96df35e867aa5abff846433387d39ff6f400ff2940017b7180502e245",
+      "on_unit_validated": false
+    }
+  },
+  "host_installer_hash_only_update": {
+    "passed": true,
+    "substitutions": {
+      "MU1367-wireless-native-v162-ee29ed13af91": "MU1367-wireless-native-v162-21f950ce9521",
+      "9f187f91447ed2d38a14aaa2a26e55d1e72e78730fea5af43885a4503236f3b8": "cc1cbc6ad2b126af9ca66cc427a54bc1fa678f61edfa05be230e5552b524ca80",
+      "19cbf802f260e3c7eea41d07ce483ca01a72886b7a7f810fd3206ccce1b060eb": "2b8cadae1d55d56fd0b9a69b0e4ab2dfce47cbc321728ae1ef7e5c5f099cc12f",
+      "adfb8d7dba2cce67267103195c9ecb4fc332c99946252f1fc5562adf11da6f76": "8a7720cbf931125c8ef73d90fba17f8a780e92894e45ce0d83921484283893b0"
+    },
+    "explanation": "Same 41 targets and exact release/child shell logic. Only payload hash pins/build ID differ from the complete host migration/OEM matrix. Final QNX transaction test executes the final controller/payload pins."
+  },
+  "limits": [
+    "Vehicle reverse-load timing and actual MU/AID rendering remain to be tested.",
+    "Final QNX rollback and interrupted-recovery checks target both added media files; full install/removal checks all 41 targets. This is not a claim of 41 new failure-injection cases.",
+    "Factory-flow child transactions are explicit stand-ins; real migration/OEM controllers run in the host matrix.",
+    "Native receiver tests exercise actual parser/copy/completion code before hardware main. They do not emulate Bluetooth, MFi, MOST or a phone."
+  ]
+}

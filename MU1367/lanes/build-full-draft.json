@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "checks": 1653,
+  "archive_sha256": "537caeddc39eb3ecd0122fdeeea1ab7f046d610589b830f29f0c716123fe9073",
+  "test_sha256": "20cf03759b8e3d21ddbdfa28e7a186db75b9a970467b6f649dc2ff2e45417663",
+  "full_settings_hmi_video_factory_restore_without_sd": true,
+  "parent_payloads_unchanged": true,
+  "on_unit_validated": false,
+  "full_lanes_settings_hmi_video_factory_restore_without_sd": true,
+  "original_v130_payload_files_unchanged": 322
+}

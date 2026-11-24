@@ -1,0 +1,320 @@
+
+MU1367/wireless-native/build-qnx-test1-r3/wireless-entry:	file format elf32-littlearm
+
+Disassembly of section .text:
+
+00103280 <selftest>:
+  103280:      	movw	r12, #0x3fac
+  103284:      	movt	r12, #0x10
+  103288:      	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}
+  10328c:      	mov	r4, r0
+  103290:      	mov	r7, r1
+  103294:      	sub	sp, sp, #4096
+  103298:      	ldm	r12!, {r0, r1, r2, r3}
+  10329c:      	sub	sp, sp, #44
+  1032a0:      	add	lr, sp, #16
+  1032a4:      	stm	lr!, {r0, r1, r2, r3}
+  1032a8:      	ldm	r12, {r0, r1}
+  1032ac:      	stm	lr, {r0, r1}
+  1032b0:      	mov	r0, r4
+  1032b4:      	mov	r1, #448
+  1032b8:      	bl	0x10104c <mkdir@plt>    @ imm = #-0x2274
+  1032bc:      	subs	r6, r0, #0
+  1032c0:      	beq	0x1032d8 <selftest+0x58> @ imm = #0x10
+  1032c4:      	mov	r5, #2
+  1032c8:      	mov	r0, r5
+  1032cc:      	add	sp, sp, #4096
+  1032d0:      	add	sp, sp, #44
+  1032d4:      	pop	{r4, r5, r6, r7, r8, r9, r10, r11, pc}
+  1032d8:      	movw	r2, #0x4430
+  1032dc:      	ldr	r0, [pc, #0x460]        @ 0x103744 <selftest+0x4c4>
+  1032e0:      	movt	r2, #0x10
+  1032e4:      	mov	r1, #512
+  1032e8:      	mov	r3, r4
+  1032ec:      	bl	0x100ddc <snprintf@plt> @ imm = #-0x2518
+  1032f0:      	cmp	r0, #512
+  1032f4:      	bge	0x1032c4 <selftest+0x44> @ imm = #-0x38
+  1032f8:      	movw	r2, #0x443c
+  1032fc:      	ldr	r0, [pc, #0x444]        @ 0x103748 <selftest+0x4c8>
+  103300:      	movt	r2, #0x10
+  103304:      	mov	r1, #512
+  103308:      	mov	r3, r4
+  10330c:      	bl	0x100ddc <snprintf@plt> @ imm = #-0x2538
+  103310:      	cmp	r0, #512
+  103314:      	bge	0x1032c4 <selftest+0x44> @ imm = #-0x58
+  103318:      	movw	r0, #0x5abc
+  10331c:      	movw	r2, #0x4448
+  103320:      	movt	r0, #0x10
+  103324:      	movt	r2, #0x10
+  103328:      	mov	r1, #512
+  10332c:      	mov	r3, r4
+  103330:      	bl	0x100ddc <snprintf@plt> @ imm = #-0x255c
+  103334:      	cmp	r0, #512
+  103338:      	bge	0x1032c4 <selftest+0x44> @ imm = #-0x7c
+  10333c:      	movw	r2, #0x4454
+  103340:      	ldr	r0, [pc, #0x404]        @ 0x10374c <selftest+0x4cc>
+  103344:      	movt	r2, #0x10
+  103348:      	mov	r1, #512
+  10334c:      	mov	r3, r4
+  103350:      	bl	0x100ddc <snprintf@plt> @ imm = #-0x257c
+  103354:      	cmp	r0, #512
+  103358:      	bge	0x1032c4 <selftest+0x44> @ imm = #-0x9c
+  10335c:      	movw	r2, #0x445c
+  103360:      	mov	r3, r4
+  103364:      	movt	r2, #0x10
+  103368:      	ldr	r0, [pc, #0x3e0]        @ 0x103750 <selftest+0x4d0>
+  10336c:      	mov	r1, #512
+  103370:      	bl	0x100ddc <snprintf@plt> @ imm = #-0x259c
+  103374:      	cmp	r0, #512
+  103378:      	bge	0x1032c4 <selftest+0x44> @ imm = #-0xbc
+  10337c:      	movw	r3, #0x6588
+  103380:      	mov	r10, r6
+  103384:      	movt	r3, #0x10
+  103388:      	mov	r2, #1
+  10338c:      	str	r2, [r3, #0x60]
+  103390:      	movw	r1, #0x205c
+  103394:      	mov	r0, #1
+  103398:      	movt	r1, #0x8
+  10339c:      	bl	0x100e60 <calloc@plt>   @ imm = #-0x2544
+  1033a0:      	subs	r4, r0, #0
+  1033a4:      	beq	0x1032c4 <selftest+0x44> @ imm = #-0xe8
+  1033a8:      	add	r11, r4, #532480
+  1033ac:      	movw	r1, #0x3fd4
+  1033b0:      	mvn	r2, #0
+  1033b4:      	mov	r3, #1
+  1033b8:      	str	r2, [r11, #0x38]
+  1033bc:      	movt	r1, #0x10
+  1033c0:      	str	r3, [r11, #0x30]
+  1033c4:      	mov	r0, r7
+  1033c8:      	bl	0x100f50 <fopen@plt>    @ imm = #-0x2480
+  1033cc:      	subs	r5, r0, #0
+  1033d0:      	beq	0x1032c4 <selftest+0x44> @ imm = #-0x114
+  1033d4:      	add	r3, sp, #16
+  1033d8:      	ldr	r8, [r3, r6, lsl #2]
+  1033dc:      	b	0x1033e4 <selftest+0x164> @ imm = #0x0
+  1033e0:      	bl	0x103018 <input_bytes>  @ imm = #-0x3d0
+  1033e4:      	mov	r1, #1
+  1033e8:      	mov	r2, r8
+  1033ec:      	add	r0, sp, #40
+  1033f0:      	mov	r3, r5
+  1033f4:      	bl	0x100f20 <fread@plt>    @ imm = #-0x24dc
+  1033f8:      	add	r1, sp, #40
+  1033fc:      	subs	r2, r0, #0
+  103400:      	mov	r0, r4
+  103404:      	bne	0x1033e0 <selftest+0x160> @ imm = #-0x2c
+  103408:      	mov	r0, r5
+  10340c:      	bl	0x100ec0 <ferror@plt>   @ imm = #-0x2554
+  103410:      	cmp	r0, #0
+  103414:      	bne	0x1032c4 <selftest+0x44> @ imm = #-0x158
+  103418:      	mov	r0, r5
+  10341c:      	bl	0x100f68 <fclose@plt>   @ imm = #-0x24bc
+  103420:      	subs	r5, r0, #0
+  103424:      	bne	0x1032c4 <selftest+0x44> @ imm = #-0x168
+  103428:      	ldr	r8, [r11, #0x10]
+  10342c:      	mov	r0, r4
+  103430:      	mov	r2, r5
+  103434:      	mov	r1, r8
+  103438:      	bl	0x101328 <prefix>       @ imm = #-0x2118
+  10343c:      	cmp	r0, #0
+  103440:      	cmpne	r8, r0
+  103444:      	bhi	0x10370c <selftest+0x48c> @ imm = #0x2c0
+  103448:      	mov	r3, #0
+  10344c:      	mov	r0, r4
+  103450:      	str	r3, [r11, #0x10]
+  103454:      	bl	0x10285c <flush_au>     @ imm = #-0xc00
+  103458:      	cmp	r6, #0
+  10345c:      	ldr	r2, [r11, #0x48]
+  103460:      	ldreq	r10, [r11, #0x48]
+  103464:      	cmp	r10, #100
+  103468:      	movhi	r3, #0
+  10346c:      	movls	r3, #1
+  103470:      	cmp	r10, r2
+  103474:      	orrne	r3, r3, #1
+  103478:      	cmp	r3, #0
+  10347c:      	bne	0x10348c <selftest+0x20c> @ imm = #0x8
+  103480:      	ldr	r3, [r11, #0x4c]
+  103484:      	cmp	r3, #0
+  103488:      	bne	0x1036f0 <selftest+0x470> @ imm = #0x260
+  10348c:      	movw	r0, #0x446c
+  103490:      	movw	r1, #0x44c8
+  103494:      	movt	r0, #0x10
+  103498:      	movt	r1, #0x10
+  10349c:      	mov	r2, #157
+  1034a0:      	ldr	r3, [pc, #0x2ac]        @ 0x103754 <selftest+0x4d4>
+  1034a4:      	bl	0x101028 <__assert@plt> @ imm = #-0x2484
+  1034a8:      	mov	r3, #0
+  1034ac:      	add	r2, sp, #40
+  1034b0:      	str	r3, [sp, #0xc]
+  1034b4:      	mov	r8, #0
+  1034b8:      	str	r2, [sp, #0x8]
+  1034bc:      	mov	r9, #0
+  1034c0:      	strd	r8, r9, [sp]
+  1034c4:      	mov	r1, #2
+  1034c8:      	mov	r2, #1
+  1034cc:      	ldr	r0, [r11, #0x58]
+  1034d0:      	bl	0x1017a0 <forward_ring_message> @ imm = #-0x1d38
+  1034d4:      	cmn	r0, #1
+  1034d8:      	beq	0x1034f8 <selftest+0x278> @ imm = #0x18
+  1034dc:      	movw	r0, #0x44f8
+  1034e0:      	movw	r1, #0x44c8
+  1034e4:      	movt	r0, #0x10
+  1034e8:      	movt	r1, #0x10
+  1034ec:      	mov	r2, #158
+  1034f0:      	ldr	r3, [pc, #0x25c]        @ 0x103754 <selftest+0x4d4>
+  1034f4:      	bl	0x101028 <__assert@plt> @ imm = #-0x24d4
+  1034f8:      	mov	r3, #1
+  1034fc:      	add	r2, sp, #40
+  103500:      	movt	r3, #0x4
+  103504:      	str	r2, [sp, #0x8]
+  103508:      	str	r3, [sp, #0xc]
+  10350c:      	mov	r2, #0
+  103510:      	mov	r3, #0
+  103514:      	strd	r2, r3, [sp]
+  103518:      	mov	r1, #2
+  10351c:      	mov	r2, #1
+  103520:      	ldr	r0, [r11, #0x58]
+  103524:      	mov	r3, #0
+  103528:      	bl	0x1017a0 <forward_ring_message> @ imm = #-0x1d90
+  10352c:      	cmn	r0, #1
+  103530:      	beq	0x103550 <selftest+0x2d0> @ imm = #0x18
+  103534:      	movw	r0, #0x453c
+  103538:      	movw	r1, #0x44c8
+  10353c:      	movt	r0, #0x10
+  103540:      	movt	r1, #0x10
+  103544:      	mov	r2, #159
+  103548:      	ldr	r3, [pc, #0x204]        @ 0x103754 <selftest+0x4d4>
+  10354c:      	bl	0x101028 <__assert@plt> @ imm = #-0x252c
+  103550:      	mov	r3, #1
+  103554:      	mov	r0, #0
+  103558:      	add	r2, sp, #40
+  10355c:      	str	r3, [sp, #0xc]
+  103560:      	str	r2, [sp, #0x8]
+  103564:      	mov	r1, #2
+  103568:      	mov	r2, r3
+  10356c:      	mov	r8, #0
+  103570:      	mov	r3, r0
+  103574:      	mov	r9, #0
+  103578:      	strd	r8, r9, [sp]
+  10357c:      	bl	0x1017a0 <forward_ring_message> @ imm = #-0x1de4
+  103580:      	cmn	r0, #1
+  103584:      	beq	0x1035a4 <selftest+0x324> @ imm = #0x18
+  103588:      	movw	r0, #0x4588
+  10358c:      	movw	r1, #0x44c8
+  103590:      	movt	r0, #0x10
+  103594:      	movt	r1, #0x10
+  103598:      	mov	r2, #160
+  10359c:      	ldr	r3, [pc, #0x1b0]        @ 0x103754 <selftest+0x4d4>
+  1035a0:      	bl	0x101028 <__assert@plt> @ imm = #-0x2580
+  1035a4:      	ldr	r2, [r11, #0x58]
+  1035a8:      	mov	r1, #28
+  1035ac:      	movt	r1, #0x4
+  1035b0:      	ldr	r3, [r2, #0xc]
+  1035b4:      	sub	r3, r3, #1
+  1035b8:      	and	r3, r3, #63
+  1035bc:      	mla	r3, r1, r3, r2
+  1035c0:      	ldr	r1, [r3, #0x10]
+  1035c4:      	ldr	r3, [r2, #0xc]
+  1035c8:      	cmp	r1, r3
+  1035cc:      	beq	0x1035ec <selftest+0x36c> @ imm = #0x18
+  1035d0:      	movw	r0, #0x45c8
+  1035d4:      	movw	r1, #0x44c8
+  1035d8:      	movt	r0, #0x10
+  1035dc:      	movt	r1, #0x10
+  1035e0:      	mov	r2, #161
+  1035e4:      	ldr	r3, [pc, #0x168]        @ 0x103754 <selftest+0x4d4>
+  1035e8:      	bl	0x101028 <__assert@plt> @ imm = #-0x25c8
+  1035ec:      	mov	r0, r4
+  1035f0:      	add	r6, r6, #1
+  1035f4:      	bl	0x1031d4 <free_input>   @ imm = #-0x428
+  1035f8:      	cmp	r6, #6
+  1035fc:      	add	r4, r6, r6, lsl #2
+  103600:      	bne	0x103390 <selftest+0x110> @ imm = #-0x278
+  103604:      	movw	r1, #0x205c
+  103608:      	mov	r0, #1
+  10360c:      	movt	r1, #0x8
+  103610:      	bl	0x100e60 <calloc@plt>   @ imm = #-0x27b8
+  103614:      	subs	r7, r0, #0
+  103618:      	beq	0x103720 <selftest+0x4a0> @ imm = #0x100
+  10361c:      	add	r6, r7, #532480
+  103620:      	mvn	r2, #0
+  103624:      	mov	r3, #1
+  103628:      	str	r2, [r6, #0x38]
+  10362c:      	str	r3, [r6, #0x30]
+  103630:      	movw	r1, #0x463c
+  103634:      	mov	r0, r7
+  103638:      	movt	r1, #0x10
+  10363c:      	mov	r2, #4
+  103640:      	bl	0x102e08 <nal>          @ imm = #-0x840
+  103644:      	ldr	r3, [r6, #0x50]
+  103648:      	cmp	r3, #1
+  10364c:      	bne	0x10365c <selftest+0x3dc> @ imm = #0x8
+  103650:      	ldr	r3, [r6, #0x48]
+  103654:      	cmp	r3, #0
+  103658:      	beq	0x103678 <selftest+0x3f8> @ imm = #0x18
+  10365c:      	movw	r0, #0x4644
+  103660:      	movw	r1, #0x44c8
+  103664:      	movt	r0, #0x10
+  103668:      	movt	r1, #0x10
+  10366c:      	mov	r2, #164
+  103670:      	ldr	r3, [pc, #0xdc]         @ 0x103754 <selftest+0x4d4>
+  103674:      	bl	0x101028 <__assert@plt> @ imm = #-0x2654
+  103678:      	movw	r3, #0xfffe
+  10367c:      	mov	r0, r7
+  103680:      	movt	r3, #0x3
+  103684:      	ldr	r1, [pc, #0xcc]         @ 0x103758 <selftest+0x4d8>
+  103688:      	str	r3, [r6, #0x18]
+  10368c:      	mov	r2, #3
+  103690:      	bl	0x102e08 <nal>          @ imm = #-0x890
+  103694:      	ldr	r3, [r6, #0x50]
+  103698:      	cmp	r3, #2
+  10369c:      	bne	0x1036ac <selftest+0x42c> @ imm = #0x8
+  1036a0:      	ldr	r3, [r6, #0x18]
+  1036a4:      	cmp	r3, #0
+  1036a8:      	beq	0x1036c8 <selftest+0x448> @ imm = #0x18
+  1036ac:      	movw	r0, #0x4660
+  1036b0:      	movw	r1, #0x44c8
+  1036b4:      	movt	r0, #0x10
+  1036b8:      	movt	r1, #0x10
+  1036bc:      	mov	r2, #165
+  1036c0:      	ldr	r3, [pc, #0x8c]         @ 0x103754 <selftest+0x4d4>
+  1036c4:      	bl	0x101028 <__assert@plt> @ imm = #-0x26a4
+  1036c8:      	mov	r0, r7
+  1036cc:      	bl	0x1031d4 <free_input>   @ imm = #-0x500
+  1036d0:      	movw	r0, #0x64c8
+  1036d4:      	movw	r1, #0x4680
+  1036d8:      	add	r2, r4, #2
+  1036dc:      	mov	r3, r10
+  1036e0:      	movt	r1, #0x10
+  1036e4:      	movt	r0, #0x10
+  1036e8:      	bl	0x100e78 <fprintf@plt>  @ imm = #-0x2878
+  1036ec:      	b	0x1032c8 <selftest+0x48> @ imm = #-0x42c
+  1036f0:      	ldr	r2, [r11, #0x54]
+  1036f4:      	cmp	r3, r2
+  1036f8:      	bne	0x10348c <selftest+0x20c> @ imm = #-0x274
+  1036fc:      	ldr	r3, [r11, #0x50]
+  103700:      	cmp	r3, #0
+  103704:      	beq	0x1034a8 <selftest+0x228> @ imm = #-0x264
+  103708:      	b	0x10348c <selftest+0x20c> @ imm = #-0x284
+  10370c:      	rsb	r2, r0, r8
+  103710:      	add	r1, r4, r0
+  103714:      	mov	r0, r4
+  103718:      	bl	0x102e08 <nal>          @ imm = #-0x918
+  10371c:      	b	0x103448 <selftest+0x1c8> @ imm = #-0x2dc
+  103720:      	movw	r0, #0x470c
+  103724:      	movw	r1, #0x44c8
+  103728:      	movt	r0, #0x10
+  10372c:      	movt	r1, #0x10
+  103730:      	mov	r2, #164
+  103734:      	ldr	r3, [pc, #0x18]         @ 0x103754 <selftest+0x4d4>
+  103738:      	bl	0x101028 <__assert@plt> @ imm = #-0x2718
+  10373c:      	mov	r6, #532480
+  103740:      	b	0x103630 <selftest+0x3b0> @ imm = #-0x118
+  103744: c8 60 10 00  	.word	0x001060c8
+  103748: bc 5c 10 00  	.word	0x00105cbc
+  10374c: c8 62 10 00  	.word	0x001062c8
+  103750: c4 5e 10 00  	.word	0x00105ec4
+  103754: c4 3f 10 00  	.word	0x00103fc4
+  103758: d0 3f 10 00  	.word	0x00103fd0
+
+0010375c <serve.constprop.5>:
+  10375c:      	push	{r4, r5, r6, r7, r8, r9, r10, r11, lr}

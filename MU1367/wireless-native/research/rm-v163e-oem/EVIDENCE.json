@@ -1,0 +1,271 @@
+{
+  "review_date": "2026-11-23",
+  "input_directory": "/Users/tomasz/Documents/github/personal/Logs/wireless/v1.6.3-e pre-release/RM/OEMrestore",
+  "user_observation": "Instrument-cluster map disappears/reloads while left selected and untouched after OEM restore. Possible onset after upstream v3.1 is unconfirmed.",
+  "same_boot": true,
+  "first_slog_exact_prefix_of_second": true,
+  "archives": [
+    {
+      "name": "cpmap-diag-2179142.7z",
+      "sha256": "e28a9c422bffcce992cd2766c209ebc3c8c8532f13a695c7c486dee297767a8a",
+      "size": 22455,
+      "files": {
+        "preferences/animation.previous": {
+          "sha256": "d8535ff4fecd65cdd853857a187ad3f40c3a715c65472cc0e1cf5192f640bb00",
+          "size": 44
+        },
+        "preferences/animation.state": {
+          "sha256": "083cf8ad967f4388e37ed3c0f27ceeff82680f355b2f3503dbec0a3090e5b638",
+          "size": 44
+        },
+        "preferences/display.previous": {
+          "sha256": "56537c3cf051e7b844a2ede4dffda99cc8d61c4699cd0c642464d45672736bf2",
+          "size": 54
+        },
+        "preferences/display.state": {
+          "sha256": "bc309c6d99549ae1214557741d37e4eef6694e648025a7cc9288d1235435abc3",
+          "size": 55
+        },
+        "preferences/settings.previous": {
+          "sha256": "ae1fefeea51a556b7a44376441fbc240dfaaa02eec557be298319be63eb2ffa5",
+          "size": 91
+        },
+        "preferences/settings.state": {
+          "sha256": "8db783a1d4b164655baa4d419b66e69ce773541491e00d1372ceed9ec6f1099e",
+          "size": 91
+        },
+        "preferences/wireless-carplay.previous": {
+          "sha256": "41493f28541db3c2b21394126070f9a8404f814512136426323a5e0f25bfa45a",
+          "size": 48
+        },
+        "preferences/wireless-carplay.state": {
+          "sha256": "96b56c6d8ddb1ae406fa5a7bb8d370ac0c25bba5c5c1ab9142629dbb6354306f",
+          "size": 48
+        },
+        "sloginfo.txt": {
+          "sha256": "68ddb1ce718451cce57c183fa6229b05fcb4328212e01914f2b554194a232948",
+          "size": 159546
+        },
+        "summary.txt": {
+          "sha256": "56fd1d0c918a93b1126941cddd29139dcb7c68d386b1966907e35695d9c0925f",
+          "size": 3776
+        },
+        "wireless/network.txt": {
+          "sha256": "1fa2decbe01cde11e756e51c2b60f6ffe5d15b2e2d98273b029107647c4744ab",
+          "size": 10972
+        },
+        "wireless/preferences/settings.previous": {
+          "sha256": "ae1fefeea51a556b7a44376441fbc240dfaaa02eec557be298319be63eb2ffa5",
+          "size": 91
+        },
+        "wireless/preferences/settings.state": {
+          "sha256": "8db783a1d4b164655baa4d419b66e69ce773541491e00d1372ceed9ec6f1099e",
+          "size": 91
+        },
+        "wireless/preferences/wireless-carplay.previous": {
+          "sha256": "41493f28541db3c2b21394126070f9a8404f814512136426323a5e0f25bfa45a",
+          "size": 48
+        },
+        "wireless/preferences/wireless-carplay.state": {
+          "sha256": "96b56c6d8ddb1ae406fa5a7bb8d370ac0c25bba5c5c1ab9142629dbb6354306f",
+          "size": 48
+        },
+        "wireless/state/cpmap-driver-side.cached.state": {
+          "sha256": "42e0b26c0d23eaeb0b2feef03745781abbfc3f6655ba03ce13aeb8e4bf62d7e5",
+          "size": 8
+        },
+        "wireless/summary.txt": {
+          "sha256": "11af16eae84141671f3782f11904e6fd7cde0db2928f8ba48f81b0d1d7341281",
+          "size": 3855
+        },
+        "wireless-export.txt": {
+          "sha256": "2202daa01a77686db639a9cf6aecbaba253bb7aea0501428d360f48e35e115fa",
+          "size": 172
+        }
+      },
+      "slog_lines": 1645,
+      "slog_last_timestamp": "Jan 01 00:01:17",
+      "encoder_evidence": [
+        {
+          "line": 624,
+          "text": "Jan 01 00:00:07    5 10113     1 HB: T=031C, CPU=n/a, Free mem=1660MB"
+        },
+        {
+          "line": 1145,
+          "text": "Jan 01 00:00:27    5 10113     1 HB: T=032C, CPU=85%, Free mem=1254MB"
+        },
+        {
+          "line": 1191,
+          "text": "Jan 01 00:00:38    2 43690     0 TsMux: Muxing only single stream, Audio is absent "
+        },
+        {
+          "line": 1233,
+          "text": "Jan 01 00:00:40    2 43690     0 NvVideoStreamEncoderClose: Success"
+        },
+        {
+          "line": 1242,
+          "text": "Jan 01 00:00:40    2 43690     0 TsMux: Muxing only single stream, Audio is absent "
+        },
+        {
+          "line": 1246,
+          "text": "Jan 01 00:00:42    5 10113     1 HB: T=034C, CPU=85%, Free mem=1027MB"
+        },
+        {
+          "line": 1284,
+          "text": "Jan 01 00:00:47    5 10113     1 HB: T=034C, CPU=88%, Free mem=974MB"
+        },
+        {
+          "line": 1361,
+          "text": "Jan 01 00:00:57    5 10113     1 HB: T=034C, CPU=48%, Free mem=920MB"
+        }
+      ]
+    },
+    {
+      "name": "cpmap-diag-3076166.7z",
+      "sha256": "9695b29d524d7d2215469a2a340ebbb613701a6ad89ffd3f0cba6b4c268bbed1",
+      "size": 22981,
+      "files": {
+        "preferences/animation.previous": {
+          "sha256": "d8535ff4fecd65cdd853857a187ad3f40c3a715c65472cc0e1cf5192f640bb00",
+          "size": 44
+        },
+        "preferences/animation.state": {
+          "sha256": "083cf8ad967f4388e37ed3c0f27ceeff82680f355b2f3503dbec0a3090e5b638",
+          "size": 44
+        },
+        "preferences/display.previous": {
+          "sha256": "56537c3cf051e7b844a2ede4dffda99cc8d61c4699cd0c642464d45672736bf2",
+          "size": 54
+        },
+        "preferences/display.state": {
+          "sha256": "bc309c6d99549ae1214557741d37e4eef6694e648025a7cc9288d1235435abc3",
+          "size": 55
+        },
+        "preferences/settings.previous": {
+          "sha256": "ae1fefeea51a556b7a44376441fbc240dfaaa02eec557be298319be63eb2ffa5",
+          "size": 91
+        },
+        "preferences/settings.state": {
+          "sha256": "8db783a1d4b164655baa4d419b66e69ce773541491e00d1372ceed9ec6f1099e",
+          "size": 91
+        },
+        "preferences/wireless-carplay.previous": {
+          "sha256": "41493f28541db3c2b21394126070f9a8404f814512136426323a5e0f25bfa45a",
+          "size": 48
+        },
+        "preferences/wireless-carplay.state": {
+          "sha256": "96b56c6d8ddb1ae406fa5a7bb8d370ac0c25bba5c5c1ab9142629dbb6354306f",
+          "size": 48
+        },
+        "sloginfo.txt": {
+          "sha256": "ef96e9bc8da233933b2babcba8eeeefb841fca396b7aca2824c09863194a895b",
+          "size": 167226
+        },
+        "summary.txt": {
+          "sha256": "91a850ea1a88df48ef347d3a45fa6e1e3fa7342f3ebfa22af1050b862d44d0e0",
+          "size": 3776
+        },
+        "wireless/network.txt": {
+          "sha256": "b2025e73f0aec857f869db8fd60cb4b73abfa269fe2d8b77b0bde18af36aeb83",
+          "size": 10972
+        },
+        "wireless/preferences/settings.previous": {
+          "sha256": "ae1fefeea51a556b7a44376441fbc240dfaaa02eec557be298319be63eb2ffa5",
+          "size": 91
+        },
+        "wireless/preferences/settings.state": {
+          "sha256": "8db783a1d4b164655baa4d419b66e69ce773541491e00d1372ceed9ec6f1099e",
+          "size": 91
+        },
+        "wireless/preferences/wireless-carplay.previous": {
+          "sha256": "41493f28541db3c2b21394126070f9a8404f814512136426323a5e0f25bfa45a",
+          "size": 48
+        },
+        "wireless/preferences/wireless-carplay.state": {
+          "sha256": "96b56c6d8ddb1ae406fa5a7bb8d370ac0c25bba5c5c1ab9142629dbb6354306f",
+          "size": 48
+        },
+        "wireless/state/cpmap-driver-side.cached.state": {
+          "sha256": "42e0b26c0d23eaeb0b2feef03745781abbfc3f6655ba03ce13aeb8e4bf62d7e5",
+          "size": 8
+        },
+        "wireless/summary.txt": {
+          "sha256": "11af16eae84141671f3782f11904e6fd7cde0db2928f8ba48f81b0d1d7341281",
+          "size": 3855
+        },
+        "wireless-export.txt": {
+          "sha256": "ba1ded44fa26a395753d2f9764870b27bf2449856fecbe45278bd35188bde1e6",
+          "size": 172
+        }
+      },
+      "slog_lines": 1754,
+      "slog_last_timestamp": "Jan 01 00:02:46",
+      "encoder_evidence": [
+        {
+          "line": 624,
+          "text": "Jan 01 00:00:07    5 10113     1 HB: T=031C, CPU=n/a, Free mem=1660MB"
+        },
+        {
+          "line": 1145,
+          "text": "Jan 01 00:00:27    5 10113     1 HB: T=032C, CPU=85%, Free mem=1254MB"
+        },
+        {
+          "line": 1191,
+          "text": "Jan 01 00:00:38    2 43690     0 TsMux: Muxing only single stream, Audio is absent "
+        },
+        {
+          "line": 1233,
+          "text": "Jan 01 00:00:40    2 43690     0 NvVideoStreamEncoderClose: Success"
+        },
+        {
+          "line": 1242,
+          "text": "Jan 01 00:00:40    2 43690     0 TsMux: Muxing only single stream, Audio is absent "
+        },
+        {
+          "line": 1246,
+          "text": "Jan 01 00:00:42    5 10113     1 HB: T=034C, CPU=85%, Free mem=1027MB"
+        },
+        {
+          "line": 1284,
+          "text": "Jan 01 00:00:47    5 10113     1 HB: T=034C, CPU=88%, Free mem=974MB"
+        },
+        {
+          "line": 1361,
+          "text": "Jan 01 00:00:57    5 10113     1 HB: T=034C, CPU=48%, Free mem=920MB"
+        },
+        {
+          "line": 1660,
+          "text": "Jan 01 00:01:47    5 10113     1 HB: T=035C, CPU=32%, Free mem=910MB"
+        },
+        {
+          "line": 1688,
+          "text": "Jan 01 00:01:55    2 43690     0 NvVideoStreamEncoderClose: Success"
+        },
+        {
+          "line": 1706,
+          "text": "Jan 01 00:02:13    2 43690     0 TsMux: Muxing only single stream, Audio is absent "
+        },
+        {
+          "line": 1709,
+          "text": "Jan 01 00:02:37    5 10113     1 HB: T=036C, CPU=24%, Free mem=906MB"
+        },
+        {
+          "line": 1737,
+          "text": "Jan 01 00:02:42    2 43690     0 NvVideoStreamEncoderClose: Success"
+        }
+      ]
+    }
+  ],
+  "upstream_v31": {
+    "archive": "/private/tmp/cpmap-upstream-v31/Wireless_CarPlay_Maps_Standalone_v3.1.zip",
+    "sha256": "99fcf7b32485253fcd346758736a2c7b11085b2d86c23ac7671132c4a12872c0",
+    "managed_paths_audit": "../../v163-release/UPSTREAM-RESTORE-AUDIT.json",
+    "installer_shell_inspection": "No coding, EEPROM or dataset write operation found; packaged native/JAR runtime behavior was not exhaustively audited."
+  },
+  "limitations": [
+    "No OEM verify result/journal or restored target hashes in exports.",
+    "No DisplayManager client/context/system snapshots.",
+    "No cluster or RCC control trace or fault scan.",
+    "No exact visual dropout-to-log timestamp correlation."
+  ]
+}

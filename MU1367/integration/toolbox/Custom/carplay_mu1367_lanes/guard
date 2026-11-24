@@ -1,0 +1,9 @@
+# Keep lane recovery ahead of either parent layer.
+case "${1:-status}" in uninstall|recover)
+ L=${CPMAP_TEST_ROOT:-}
+ if [ -z "$L" ] && [ ! -s /ifs/lsd.jxe ];then L=/net/mmx;fi
+ L=$L/mnt/app/carplay-mu1367-lanes
+ if [ -s "$L/STATE" ] && [ "$(cat "$L/STATE")" != removed ];then
+  echo MU1367_REMOVE_OR_RECOVER_LANES_LAYER_FIRST;exit 1
+ fi;;
+esac

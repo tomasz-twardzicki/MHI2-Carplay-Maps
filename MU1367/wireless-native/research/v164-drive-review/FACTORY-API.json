@@ -1,0 +1,47 @@
+{
+  "factory_class_sha256": {
+    "org/dsi/ifc/navigation/DSINavigation.class": "ac72cbb4b06267737639fa1abbab40890de115e19b55f41abb85726a321dc007",
+    "org/dsi/ifc/navigation/PosPosition.class": "f704086345e7e8fa19304e6c4c0d9befe385deb211721b086903f9516e68efab",
+    "org/dsi/ifc/navigation/PosTimeInfo.class": "d420d78f7837cc7b09a4d2bcd228c9d026e8876a94d16d5d0d53aceb483d191f",
+    "org/dsi/ifc/cartimeunitslanguage/DSICarTimeUnitsLanguage.class": "6a4aa6c53b0ab29b8735795d6d38df6b33387c17c566b8323adcc9855833ce9e",
+    "org/dsi/ifc/cartimeunitslanguage/ClockGPSSyncData.class": "921d2a36d88b30a749f0477321f934e63dd58adfe3633ccb07b6eb989361a37f"
+  },
+  "position": {
+    "notification": 28,
+    "gps_state_3d": 2,
+    "reliability_map_matched_bit": 1024,
+    "reliability_calibrated_bit": 512,
+    "ticks_per_degree": 11930464,
+    "observed_reliabilities": {
+      "44544": {
+        "map_matched": true
+      },
+      "43520": {
+        "map_matched": false
+      }
+    },
+    "raw_gnss_not_established": true
+  },
+  "time": {
+    "clock_gps_sync_notification": 9,
+    "observed_clock_gps_sync_events": 0,
+    "so_pos_time_information_notification": 97,
+    "so_pos_time_information_fields": [
+      "timeZoneOffset",
+      "summerTimeValidity",
+      "summerTimeMonthFrom",
+      "summerTimeDayFrom",
+      "summerTimeHourFrom",
+      "summerTimeMonthTo",
+      "summerTimeDayTo",
+      "summerTimeHourTo",
+      "summerTimeYearFrom",
+      "summerTimeYearTo"
+    ],
+    "so_pos_time_information_is_utc_source": false
+  },
+  "limits": [
+    "Values are factory class contracts, not a new active service or proven UTC/position producer.",
+    "Clearing the map-matched bit alone does not prove the remaining position is raw GNSS."
+  ]
+}

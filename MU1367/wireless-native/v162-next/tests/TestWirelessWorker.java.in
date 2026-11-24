@@ -1,0 +1,34 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later. Factory J9/QNX decoder integration. */
+package com.cpmap.audio;
+import java.io.*;
+public final class TestWirelessWorker {
+    static void check(boolean b)throws Exception{if(!b)throw new Exception("wireless artwork worker");}
+    static byte[] image={@IMAGE@};
+    static void write(String path,byte[] bytes)throws Exception {
+        FileOutputStream f=new FileOutputStream(path);try{f.write(bytes);}finally{f.close();}
+    }
+    public static void main(String[] args)throws Exception {
+        new File("/ramdisk/wcp-rg").mkdir();
+        WirelessFrame frame=TestWirelessMedia.sample(1000,1,42,1);check(frame.size==image.length);
+        byte[] snapshot=new byte[64+image.length];snapshot[0]='W';snapshot[1]='C';snapshot[2]='A';snapshot[3]='1';
+        TestWirelessMedia.le(snapshot,4,1);TestWirelessMedia.le(snapshot,8,snapshot.length);TestWirelessMedia.le(snapshot,12,23);TestWirelessMedia.le(snapshot,16,123);
+        TestWirelessMedia.le(snapshot,24,1);TestWirelessMedia.le(snapshot,28,42);TestWirelessMedia.le(snapshot,32,42);TestWirelessMedia.le(snapshot,40,0x84);TestWirelessMedia.le(snapshot,44,1);TestWirelessMedia.le(snapshot,48,image.length);
+        System.arraycopy(image,0,snapshot,64,image.length);write("/ramdisk/wcp-rg/cover.bin",snapshot);
+        TextBridge.epoch=100;TextBridge.source=new TextBridge.Source(null,100);TextBridge.INSTANCE.connected=true;
+        TestWirelessMedia.route(TextBridge.source,TestWirelessMedia.observer);
+        WirelessMedia.usb=false;TestWirelessMedia.deliver(frame,TestCover.clock);
+        CoverBridge.stage=null;CoverBridge.server=null;CoverBridge.picture=null;CoverBridge.heartbeat=-1;
+        Thread worker=new Thread(CoverBridge.INSTANCE,"WirelessArtworkWorkerProbe");worker.setDaemon(true);worker.start();
+        try {
+            CoverBridge.Picture p=null;
+            for(int n=0;n<60;n++) {
+                WirelessMedia.observed=System.currentTimeMillis();TestCover.clock+=100;Thread.sleep(100);
+                p=CoverBridge.current(TestCover.clock);if(p!=null&&p.meta.wireless!=null)break;
+            }
+            check(p!=null&&p.meta.uid==42&&p.meta.wireless.sameCover(frame));check(new File(p.path).length()>0&&new File(p.path).length()<200000);
+            TestWirelessMedia.deliver(frame,TestCover.clock);check(TestWirelessMedia.locator!=null&&TestWirelessMedia.locator.url.equals(p.path));
+            WirelessMedia.observed=System.currentTimeMillis()-2000;check(CoverBridge.current(TestCover.clock)==null);
+        }finally{WirelessMedia.frame=null;TextBridge.source.live=false;worker.interrupt();worker.join(7000);}
+        check(!worker.isAlive());System.out.println("WIRELESS_ARTWORK_WORKER_PASS native_decode=1 aid_picture=1 mu_locator=1 expired_session=1");
+    }
+}

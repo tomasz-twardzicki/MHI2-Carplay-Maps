@@ -1,0 +1,17 @@
+{
+  "build_id": "mu1367-guidance-v3-730b6fb33ab4",
+  "before": {
+    "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+    "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+    "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3",
+    "parent": "b6f77ec9fe27271eb0b4ac0664d6b9d2ab9fd4346c0ed75082062e1a8f21e5e2"
+  },
+  "files": {
+    "core": "edf7fd6ed4371e8530a6a6f3278b9574735d661e18f143c8f0459daa5619e3a5",
+    "guidance": "36a49648e240440485dd0d7ce5bf22c3899d1c8c1e0402b428458c0afdfb0b64",
+    "menu": "1fb90298ddccdcad00bcfe9deb752d4da0f00e02e3fcac704bbc2ae9b2ef5c37"
+  },
+  "parent": "carplay-mu1367-map-only",
+  "variant": "7",
+  "on_unit_validated": false
+}

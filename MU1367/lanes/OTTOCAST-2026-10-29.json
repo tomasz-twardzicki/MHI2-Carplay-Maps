@@ -1,0 +1,210 @@
+{
+  "date": "2026-10-29",
+  "capture": "cpmap-diag-9560199",
+  "adapter": {
+    "model": "Ottocast Mini Pico",
+    "build": "26101215.6071"
+  },
+  "connection_at_export": "Wireless according to user report; no independent end-to-end protocol trace",
+  "files": {
+    "preferences/display.previous": {
+      "size": 55,
+      "sha256": "3e3a4f674a61578a0407a8dfa267503e6767ec4ac29912cb80a07cb0ed3d26d7"
+    },
+    "preferences/display.state": {
+      "size": 55,
+      "sha256": "231e8e598ca55bb09b215a8487bef0b023d3ab3869a567983b29d09a996abb57"
+    },
+    "preferences/navigation-card.previous": {
+      "size": 48,
+      "sha256": "f8827ffc56ff76d255258d80b4e7d8500bc1de8e631d27d6c4e525ce04bb2024"
+    },
+    "preferences/navigation-card.state": {
+      "size": 48,
+      "sha256": "0ee2a83772ff02eee7b1f9b4df63b16e3079595f392ae2d985db3e78ff839c29"
+    },
+    "ramdisk/altscreen-most-bridge.log": {
+      "size": 21651,
+      "sha256": "e9960d442a48333ec428da69582e5858373b793d654d477c8b52a2ae4b97123e"
+    },
+    "ramdisk/carplay-altstream.ready": {
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "ramdisk/carplay-cluster-supervisor.log": {
+      "size": 3127,
+      "sha256": "fe826ae32dec4fcfd5638901a383d9a0a7d7e4e06159ccb8b7b40f55c6906151"
+    },
+    "ramdisk/carplay-cluster-supervisor.pid": {
+      "size": 8,
+      "sha256": "f64edf4f7e0a3ef21326d85f343b965d41df0e32fad4afb6ca709ee8e0dd44b0"
+    },
+    "ramdisk/carplay-dio-manager.pid": {
+      "size": 8,
+      "sha256": "aaff229f7a2d8b71f2209ac9bb15797fc42d1c2c1ea89a460e47a6949fd84895"
+    },
+    "ramdisk/carplay-now-playing-n1.status": {
+      "size": 207,
+      "sha256": "4b1a9fc432c341047558704bd7b73f4897637da7f042b0a292d8d8a31e3ea994"
+    },
+    "ramdisk/carplay-route-guidance/adapter-status.txt": {
+      "size": 211,
+      "sha256": "c40abc765c01430d97236b44f175a8ba6519a19bb070b792b41da75a563d9dc7"
+    },
+    "ramdisk/carplay-route-guidance/failure-first.txt": {
+      "size": 137,
+      "sha256": "8b26f9c3c04cb6a3b90b6e6afa6daa5980b59842428c0078c3eaacf35f3e279f"
+    },
+    "ramdisk/carplay-route-guidance/latest.bin": {
+      "size": 32,
+      "sha256": "4f50afa907b2e0940ba615972158ac5a2e340387a064c7339e5b7757a1aee1e9"
+    },
+    "ramdisk/carplay-route-guidance/status.txt": {
+      "size": 82,
+      "sha256": "d9bbc59a44bcc49fe820a2f13ef9749525059dc19e9433c3986e401d51b33b3b"
+    },
+    "ramdisk/carplaymaps-diagnostics/last-bridge.log": {
+      "size": 33313,
+      "sha256": "16e9f9c53a98aa97d57d6a3c6f0239a2281160594b16eb89fafd366ffc3a96b1"
+    },
+    "ramdisk/carplaymaps-diagnostics/last-supervisor.log": {
+      "size": 2542,
+      "sha256": "6f0c4129e8a0dd0470d4eb78d52cfc715331c226de028cad67bd51c52a021d7a"
+    },
+    "ramdisk/carplaymaps-launcher.log": {
+      "size": 79,
+      "sha256": "b8c33c00005c47afc551a1aa5ae2b4ac064f80a3c69bd0e6285ed02bac99d992"
+    },
+    "ramdisk/carplaymaps-video.log": {
+      "size": 213668,
+      "sha256": "adc66dbed26ec21ee11752b99aab2bfe634b0ce163037d89cc0eaa5693572ec5"
+    },
+    "ramdisk/cpmap-artwork.status": {
+      "size": 117,
+      "sha256": "592adba02469fbe1b3b6ec5c46eb1c0684d4f9b67c8f4b56b68a188789f3f7e6"
+    },
+    "ramdisk/cpmap-card-status.txt": {
+      "size": 237,
+      "sha256": "4d23946cb11d1953b77b40c7a142c8f72126b70a41af42372248a50863dbf218"
+    },
+    "ramdisk/cpmap-video-cache.lock": {
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sloginfo.txt": {
+      "size": 1328884,
+      "sha256": "4d2d35f80015facb131fed782b894f3ed32603e1d038d95bab9e3a2f5864e5aa"
+    },
+    "summary.txt": {
+      "size": 6616,
+      "sha256": "a5b2978452108ce793702f4573845a2176364c63584281b161d884e54626f3bd"
+    }
+  },
+  "card": {
+    "format": 1,
+    "preference": 3,
+    "pref_generation": 6,
+    "pref_source": 1,
+    "pref_read": 1,
+    "declared": 3,
+    "epoch": 1,
+    "ready": 1,
+    "busy": 0,
+    "blocked": 0,
+    "applied": 3,
+    "sent_op": 3,
+    "sent_position": 3,
+    "sent_token": 2,
+    "send_result": 0,
+    "ack_op": 3,
+    "ack_position": 3,
+    "ack_token": 2,
+    "ack_result": 0,
+    "ack_accepted": 1
+  },
+  "card_current": {
+    "values": {
+      "format": 1,
+      "position": 3,
+      "generation": 6
+    },
+    "crc_valid": true
+  },
+  "card_previous": {
+    "values": {
+      "format": 1,
+      "position": 2,
+      "generation": 5
+    },
+    "crc_valid": true
+  },
+  "display": {
+    "values": {
+      "format": 1,
+      "stream": 2,
+      "layout": 2,
+      "generation": 5
+    },
+    "crc_valid": true
+  },
+  "guidance": {
+    "run": 19,
+    "mode": 0,
+    "context": 0,
+    "ticks": 3549,
+    "proposals": 158,
+    "writes": 2982,
+    "releases": 2,
+    "failures": 0,
+    "records": 340,
+    "lane_count": 0,
+    "lane_at": -1,
+    "feed_errors": 18,
+    "feed_recoveries": 3,
+    "feed_fatal": 0,
+    "error": 0
+  },
+  "first_feed_fault": {
+    "format": 1,
+    "time_ms": 319448,
+    "fatal": 0,
+    "serial": 463,
+    "kind": 1,
+    "nonce": 2796,
+    "sequence": 1,
+    "message": 20993,
+    "field": 1
+  },
+  "artwork": {
+    "format": 1,
+    "artwork": 1,
+    "enabled": 1,
+    "handle": 24,
+    "attempts": 54,
+    "errors": 10,
+    "fetches": 24,
+    "misses": 30,
+    "hmi_errors": 0,
+    "responses": 0,
+    "clears": 19
+  },
+  "suggest_ui_received": 25,
+  "suggest_ui_not_handled": 25,
+  "card_first_failure_present": false,
+  "rendered_card_off_confirmed": false,
+  "user_report": {
+    "native_guidance_via_adapter": "works",
+    "artwork_cable": "works",
+    "artwork_wireless": "works",
+    "wireless_card": "remains ON despite OFF and ON/OFF with reconnects",
+    "apps": null,
+    "endurance_minutes": null
+  },
+  "interpretation": "OFF stored/read/declared; applied=3 implies local scene completion under this exact policy. Last retained ack is IDR, not a scene render acknowledgement. Adapter forwarding/application remains unproven.",
+  "retained_video_scene_evidence": {
+    "show_ui_requests": 0,
+    "show_ui_completions": 0,
+    "initial_url_mentions": 0,
+    "other_command_requests": 249
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "passed": true,
+  "test_build": true,
+  "on_unit_validated": false,
+  "archive": "MU1367/integration/build-reader-ready/CarPlay_Maps_VC_MU1367_791_Reader_Recovery_Test.zip",
+  "archive_sha256": "da58dde95cb77233e6e2e752018e8cffa12cf38c918e1b23dc42662d37778a39",
+  "reader_sha256": "f85d98cd3fd852f4c23e93937121da5a5e1368949abffe80cc43af2dd3327b57",
+  "build_id": "MU1367-reader-recovery-f85d98cd3fd8",
+  "baseline_archive_sha256": "eca859b20f3dbaf4251243340b2f3a236ff1ffb2f1420fccb7d95945eead9121",
+  "original_reader_source_sha256": "fa4b4ed62ab1969a9b32cdbeb78cdb01292b8c68d5f3ea7008b1a54d8cf2bc8d",
+  "unchanged_snapshot_validation": true,
+  "unchanged_mailbox_format_and_atomic_writer": true,
+  "source_sha256": {
+    "src/reader/reader.c": "da6eacfe8790548dc19ef1e013a77cc44660489ead2474688941410959d29ccf",
+    "tools/build-reader.py": "86ac3c41d228df81777b4c131f64c38887a552d74e907146d536c317339f55dc",
+    "tools/package-reader.py": "e6c793a5ee7e250dd695b5c012a60711ff9f45e1c309db4f7de4067ca39f0da1",
+    "tests/test-reader.py": "ec7f8459d4388b319d28c7384178b906dc67a822325e9568c7cbffeaae931a76",
+    "tests/reader-faults.c": "06f606023968ade74df522fd1e6b6ccc65d14eadcb83fb193dbe530c5aaf1d41",
+    "tests/reader-qnx.c": "310cd6714dba5fd54d6b38f301af1cef34a5c6940edd392fed4ef86ba1ed98a6",
+    "tests/java/TestReaderRecovery.java": "348ef3718d53ea34cdfedae3293ec31224a4cb1669e6e4a06a51dd171c179d46",
+    "tests/test-reader-qnx.py": "16f454ea4656f3873eb69f42f3946f175bfc4d2be307bcca2a3ae0984cd2f81b",
+    "tests/test-reader-package-qnx.py": "9e1194c5a87bc28da2183376558bb1a45e109949dc38ba780984098de5f45ca8",
+    "tests/test-reader-package.py": "d21f2f983ef56f73c3f6b53bda8cfd5870cd963684e79bf51a464f96c5e58b98",
+    "READER-RECOVERY.md": "e9a07436359e2001075f5f33bfc21041181b1dbec2505b5627868111dff8bab1"
+  },
+  "proofs": {
+    "build": {
+      "path": "MU1367/integration/build-reader-arm/manifest.json",
+      "sha256": "af82d901b4cea15f5ab1026af41eb9bab1f9abd40193cd8e97c82fae6e9f314a",
+      "result": {
+        "passed": true,
+        "test_build": true,
+        "sha256": "f85d98cd3fd852f4c23e93937121da5a5e1368949abffe80cc43af2dd3327b57",
+        "source_sha256": "da6eacfe8790548dc19ef1e013a77cc44660489ead2474688941410959d29ccf",
+        "factory_libc_sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+        "image_id": "sha256:93b565ff63ba51c470c1a1e70a6d16607d36df502dfb20ae63a69911f8529bea",
+        "toolchain_commit": "baa45224f18ae6b13c2e9c77c6663bb8181eb6a1",
+        "imports_verified": [
+          "__get_errno_ptr",
+          "_exit",
+          "_fini_array",
+          "_init_array",
+          "_init_libc",
+          "_preinit_array",
+          "access",
+          "atexit",
+          "chdir",
+          "clock_gettime",
+          "close",
+          "dup2",
+          "exit",
+          "fclose",
+          "fcntl",
+          "fgets",
+          "fopen",
+          "fork",
+          "fprintf",
+          "fputs",
+          "kill",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "mkdir",
+          "nanosleep",
+          "open",
+          "perror",
+          "pipe",
+          "puts",
+          "read",
+          "rename",
+          "select",
+          "setsid",
+          "signal",
+          "strcmp",
+          "strncmp",
+          "strtoul",
+          "umask",
+          "unlink",
+          "waitpid",
+          "write"
+        ],
+        "flags": [
+          "--target=armv7-none-eabi",
+          "-D__QNXNTO__",
+          "-D__QNX__",
+          "-D__ARM__",
+          "-D__LITTLEENDIAN__",
+          "--sysroot=/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/integration/build-reader-arm",
+          "-isystem",
+          "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/integration/build-reader-arm/sdk-include",
+          "-march=armv7-a",
+          "-mfloat-abi=softfp",
+          "-mno-unaligned-access",
+          "-fno-short-enums",
+          "-fno-builtin",
+          "-fno-stack-protector",
+          "-std=c99",
+          "-O2",
+          "-Wall",
+          "-Wextra",
+          "-Werror"
+        ],
+        "on_unit_validated": false
+      }
+    },
+    "host": {
+      "path": "MU1367/integration/build-reader-host.json",
+      "sha256": "3327399478331e42beab17191dac9537e8179b0f07354dd849709b1b02b3fdbc",
+      "result": {
+        "passed": true,
+        "tests": 17,
+        "seconds": 44.482,
+        "reader_source_sha256": "da6eacfe8790548dc19ef1e013a77cc44660489ead2474688941410959d29ccf",
+        "guidance_sha256": "d8bad2e74a6a2ec6a3197141d5943622f937ca9503b704b7cf70b30d81d02914",
+        "test_sha256": "ec7f8459d4388b319d28c7384178b906dc67a822325e9568c7cbffeaae931a76",
+        "fault_shim_sha256": "06f606023968ade74df522fd1e6b6ccc65d14eadcb83fb193dbe530c5aaf1d41",
+        "on_unit_validated": false
+      }
+    },
+    "qnx_native": {
+      "path": "MU1367/integration/build-reader-qnx/result.json",
+      "sha256": "2dcdf455f9529d2296763c7ea0301466050d962644c2fd9bd49c87667c6b7c2f",
+      "result": {
+        "passed": true,
+        "reader_sha256": "f85d98cd3fd852f4c23e93937121da5a5e1368949abffe80cc43af2dd3327b57",
+        "factory_libc_sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+        "factory_pipe_sha256": "22afd3e7f46b0ed007f5fdf5deedc3f94ccf6590e196f06f6f8c825fe2cf134b",
+        "native_timeout_and_recovery": true,
+        "new_nonce_verified": true,
+        "first_failure_retained": true,
+        "foreground_and_daemon": true,
+        "qemu_log_sha256": "13d6ed9cd56c8c643825f8e5c222c3fbdf11729140e8b8ab3e27e14e091237ee",
+        "test_sha256": "16f454ea4656f3873eb69f42f3946f175bfc4d2be307bcca2a3ae0984cd2f81b",
+        "on_unit_validated": false
+      }
+    },
+    "qnx_transactions": {
+      "path": "MU1367/integration/build-reader-transactions-qnx-final/result.json",
+      "sha256": "3468b01930f1b46a5da48ab769b1c1d1af7daa8e24077b8ff198023bc44e5e64",
+      "result": {
+        "passed": true,
+        "controller_sha256": "9adc070b0d40d579edf07bf7d9343624780323fbd8b6e8492d25721565981ccc",
+        "reader_sha256": "f85d98cd3fd852f4c23e93937121da5a5e1368949abffe80cc43af2dd3327b57",
+        "actual_qnx_ksh": true,
+        "sdk_utilities_injected": false,
+        "mounts_mocked": true,
+        "fixture_change": "Small-JXE fingerprint only; real reader/JAR/controllers/verifier and firmware utilities. One injected second-commit rename failure.",
+        "tests": 15,
+        "qemu_log_sha256": "343da0ac87337b55bf5e2a756dd5af7a6450b13bb25698106fba4693ed21fd8f",
+        "test_sha256": "9e1194c5a87bc28da2183376558bb1a45e109949dc38ba780984098de5f45ca8",
+        "on_unit_validated": false
+      }
+    },
+    "archive": {
+      "path": "MU1367/integration/build-reader-package-proof.json",
+      "sha256": "968a893920ba7448fe8fc8f96c921390963cea7b982a2e66e6e2a5d24091e3a9",
+      "result": {
+        "passed": true,
+        "archive_sha256": "da58dde95cb77233e6e2e752018e8cffa12cf38c918e1b23dc42662d37778a39",
+        "reader_sha256": "f85d98cd3fd852f4c23e93937121da5a5e1368949abffe80cc43af2dd3327b57",
+        "controller_sha256": "9adc070b0d40d579edf07bf7d9343624780323fbd8b6e8492d25721565981ccc",
+        "verified_files": 614,
+        "baseline_changed_files": [
+          "Custom/carplay_mu1367_guidance_v3/payload-check.sh",
+          "Custom/carplay_mu1367_map_only/payload-check.sh",
+          "Custom/carplay_mu1367_refinements/payload-check.sh",
+          "FILES_SHA256.json",
+          "README.md",
+          "Toolbox/GEM/carplay-maps-vc.esd"
+        ],
+        "added_files": [
+          "Custom/carplay_mu1367_reader_recovery/VERSION",
+          "Custom/carplay_mu1367_reader_recovery/control.sh",
+          "Custom/carplay_mu1367_reader_recovery/guard",
+          "Custom/carplay_mu1367_reader_recovery/rgi-observer",
+          "Custom/carplay_mu1367_reader_recovery/verify",
+          "READER-RECOVERY.md",
+          "Toolbox/scripts/cpmap_reader_install.sh",
+          "Toolbox/scripts/cpmap_reader_recover.sh",
+          "Toolbox/scripts/cpmap_reader_status.sh",
+          "Toolbox/scripts/cpmap_reader_uninstall.sh"
+        ],
+        "transaction_scenarios": 15,
+        "baseline_runtime_payloads_unchanged": true,
+        "on_unit_validated": false
+      }
+    }
+  },
+  "limits": {
+    "replacements_per_reader_lifetime": 3,
+    "backoff_ms": [
+      1000,
+      2000,
+      4000
+    ],
+    "requires_confirmed_reap": true,
+    "new_mailbox_instance_per_replacement": true,
+    "fresh_event_after_baseline": true,
+    "first_failure_bytes_max": 1024
+  },
+  "validation_limits": [
+    "Synthetic host/QNX faults; original device interruption not reproduced",
+    "QNX transaction fixture substitutes a small JXE fingerprint and mocks mount; one rename failure is injected",
+    "No vehicle endurance result"
+  ],
+  "host_jdk": "Complete Zulu 8.78.0.19 / OpenJDK 8u412 in /tmp; incomplete cached JDK was replaced for host tests"
+}

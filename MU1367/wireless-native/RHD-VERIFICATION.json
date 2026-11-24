@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "receiver_sha256": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+  "hardware_opened": false,
+  "log_sha256": "c7a249f954330424adffc1a035bdd2b972d48c9e633ef6150f5321e7e43b76ff",
+  "checks": 3,
+  "actual_receiver_code_executed": true,
+  "config_parser_virtual_address": "0x524a0",
+  "config_lookup_virtual_address": "0x520ac",
+  "right_hand_drive_key_virtual_address": "0x3eaf2",
+  "reviewed": "2026-11-18",
+  "oem_source": "MU1367 stock ASLHandler.sendStartService: ServiceManager.configManagerDiag.getDriverSide() == 2 -> ServiceConfiguration.useRightHandDrive = true",
+  "format": "binary plist; canonical boolean rightHandDrive",
+  "automatic_application_integrated": false,
+  "on_vehicle_validated": false
+}

@@ -1,0 +1,26 @@
+{
+  "firmware": "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318",
+  "jxe_size": 55840541,
+  "jxe_sha256": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a",
+  "stock_content_sha256": "37bb839fb026bd1d5c0cb5066d189bd58bbde93f5d355eac8473809799f10a48",
+  "classes": {
+    "de/vw/mib/bap/mqbab2/navsd/functions/ManeuverDescriptor.class": "b323c89ea163da087a8ba7308b7136a5ae2e2351520332b3b57b40cdac346007",
+    "de/vw/mib/bap/mqbab2/navsd/functions/DistanceToNextManeuver.class": "8222aa0d2bd086b15b17942bb935a081c028041c788c785ea11dd3c99cfa9e6d",
+    "de/vw/mib/bap/mqbab2/navsd/functions/RGStatus.class": "fa83a46b89b56f6fa98e83a2f7fe9861da161191bc9ae5e878daeb81b58c6573",
+    "de/vw/mib/bap/mqbab2/navsd/functions/LaneGuidance.class": "964db01a83e534a353e25e9a5710fe1e58f8528239a2211d590550df65044e94",
+    "de/vw/mib/bap/mqbab2/navsd/functions/DistanceToDestination.class": "ca5388a1cb25b176669d9f9f4c9bcc89562daf100080a1c8768cb5f35409b8c0",
+    "de/vw/mib/bap/mqbab2/navsd/functions/TimeToDestination.class": "8d307c132b00d74828562429b10dc3058fbb0f93fb5e53f084e77504905fe8aa",
+    "de/vw/mib/asl/internal/carplay/target/HsmTarget.class": "aa0af288a8670f977093f3415f3effdc24617d54f1a43193b85e9cbad77a9ea8",
+    "de/vw/mib/bap/mqbab2/audiosd/functions/CurrentStationInfo.class": "1dda7c3a59f4202edf2b252d2487ea1b486629390ea86490ebf56663a170f1de"
+  },
+  "driver_sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+  "config_sha256": "88a4d24f5c50b181d73429fb585ad6b38d10daca67c5b5a9798ef17f84208bbe",
+  "libairplay_sha256": "193a4fd9101ec2aa05e7159cfa307b96500810d379ca74a194f172adc13a46b5",
+  "nav_ignore_classes": {
+    "de/esolutions/fw/comm/dsi/carplay/impl/DSICarplayProxy.class": "41c7cf17e764eeccbff2914d7f0362d8549597b72a2e9e015a1d6c7541fac5bf",
+    "de/vw/mib/asl/internal/carplay/common/CarPlayModeHandling.class": "b080911ab3ba6dc7ab49315eaa5913ba29664dd39a4eb9ff62ca7c9d01295e54",
+    "de/vw/mib/asl/internal/navigation/api/impl/ASLNavigationServices.class": "5292886b63ddf1b9c4e8fb39847b14a0d8202e2cc5103ffa4edb2ac383c73bda",
+    "de/vw/mib/asl/internal/androidauto/target/NavigationListener.class": "118252ed031428efaa894afa7e1908f35d0c601f17bdd04b6b3113bc03e25428",
+    "de/vw/mib/asl/internal/androidauto/target/RequestHandler.class": "0e7d872a851377664d981ad59d9d879213978de8d2ddc5ce41511b503ac21008"
+  }
+}

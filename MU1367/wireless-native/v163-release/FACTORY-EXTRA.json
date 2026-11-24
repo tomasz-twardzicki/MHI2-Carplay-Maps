@@ -1,0 +1,90 @@
+{
+  "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318/50": {
+    "eso/bin/apps/btstack": {
+      "sha256": "dd80ce8f6d95589cc4db6674150a595b8412d132e2d9e689fbfe9f72e5789251",
+      "mode": "0o777"
+    },
+    "eso/bin/apps/connectionmanager": {
+      "sha256": "61069e02053104e93f06ee81b26ade79ac0bd1c50907b930ed3b6441a6e533d1",
+      "mode": "0o777"
+    },
+    "eso/hmi/lsd/config/bundles.properties": {
+      "sha256": "cc4f753e6a367cc0974e8f3fedde03c3c58d2e940e72880385a819a3fbd9157d",
+      "mode": "0o777"
+    },
+    "armle/usr/sbin/mm-ipod": {
+      "sha256": "de99a7f4dd941589c6d5173b7601856275c4ea615229058ec84b8e3efa748d27",
+      "mode": "0o777"
+    },
+    "eso/bin/apps/gal": {
+      "sha256": "f84722179cbfb3c0bb92589e0fc58ffcfc3cc0860fabcdf426955e58d900daa0",
+      "mode": "0o777"
+    }
+  },
+  "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318/70": {
+    "eso/bin/apps/btstack": {
+      "sha256": "dd80ce8f6d95589cc4db6674150a595b8412d132e2d9e689fbfe9f72e5789251",
+      "mode": "0o777"
+    },
+    "eso/bin/apps/connectionmanager": {
+      "sha256": "61069e02053104e93f06ee81b26ade79ac0bd1c50907b930ed3b6441a6e533d1",
+      "mode": "0o777"
+    },
+    "eso/hmi/lsd/config/bundles.properties": {
+      "sha256": "cc4f753e6a367cc0974e8f3fedde03c3c58d2e940e72880385a819a3fbd9157d",
+      "mode": "0o777"
+    },
+    "armle/usr/sbin/mm-ipod": {
+      "sha256": "de99a7f4dd941589c6d5173b7601856275c4ea615229058ec84b8e3efa748d27",
+      "mode": "0o777"
+    },
+    "eso/bin/apps/gal": {
+      "sha256": "f84722179cbfb3c0bb92589e0fc58ffcfc3cc0860fabcdf426955e58d900daa0",
+      "mode": "0o777"
+    }
+  },
+  "MHI2_ER_VWG13_P4521_MU1367/50": {
+    "eso/bin/apps/btstack": {
+      "sha256": "dd80ce8f6d95589cc4db6674150a595b8412d132e2d9e689fbfe9f72e5789251",
+      "mode": "0o777"
+    },
+    "eso/bin/apps/connectionmanager": {
+      "sha256": "61069e02053104e93f06ee81b26ade79ac0bd1c50907b930ed3b6441a6e533d1",
+      "mode": "0o777"
+    },
+    "eso/hmi/lsd/config/bundles.properties": {
+      "sha256": "cc4f753e6a367cc0974e8f3fedde03c3c58d2e940e72880385a819a3fbd9157d",
+      "mode": "0o777"
+    },
+    "armle/usr/sbin/mm-ipod": {
+      "sha256": "de99a7f4dd941589c6d5173b7601856275c4ea615229058ec84b8e3efa748d27",
+      "mode": "0o777"
+    },
+    "eso/bin/apps/gal": {
+      "sha256": "f84722179cbfb3c0bb92589e0fc58ffcfc3cc0860fabcdf426955e58d900daa0",
+      "mode": "0o777"
+    }
+  },
+  "MHI2_ER_VWG13_P4521_MU1367/70": {
+    "eso/bin/apps/btstack": {
+      "sha256": "dd80ce8f6d95589cc4db6674150a595b8412d132e2d9e689fbfe9f72e5789251",
+      "mode": "0o777"
+    },
+    "eso/bin/apps/connectionmanager": {
+      "sha256": "61069e02053104e93f06ee81b26ade79ac0bd1c50907b930ed3b6441a6e533d1",
+      "mode": "0o777"
+    },
+    "eso/hmi/lsd/config/bundles.properties": {
+      "sha256": "cc4f753e6a367cc0974e8f3fedde03c3c58d2e940e72880385a819a3fbd9157d",
+      "mode": "0o777"
+    },
+    "armle/usr/sbin/mm-ipod": {
+      "sha256": "de99a7f4dd941589c6d5173b7601856275c4ea615229058ec84b8e3efa748d27",
+      "mode": "0o777"
+    },
+    "eso/bin/apps/gal": {
+      "sha256": "f84722179cbfb3c0bb92589e0fc58ffcfc3cc0860fabcdf426955e58d900daa0",
+      "mode": "0o777"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "tests": 36,
+  "controller_sha256": "979cbeffe2a197b80171b1243984db542901407636fc88579cfb7e32f143d759",
+  "test_sha256": "d5a4ab48fb86af2e3b40e4eb506f3b0deb47539071b34ec171059874ea03d377",
+  "read_only_mount_order_enforced": true,
+  "on_unit_validated": false
+}

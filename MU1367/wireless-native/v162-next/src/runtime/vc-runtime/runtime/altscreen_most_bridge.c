@@ -1,0 +1,1952 @@
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
+#ifndef ALTSCREEN_BRIDGE_FILE_OUTPUT
+#include <devctl.h>
+#endif
+#include <errno.h>
+#include <fcntl.h>
+#include <netinet/in.h>
+#include <pthread.h>
+#include <signal.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <time.h>
+#include <unistd.h>
+
+#include "altscreen_frame_protocol.h"
+#include "cpmap_resources.h"
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+#define CPMAP_ROOT_PREFIX ""
+#include "wireless_session.h"
+#include "wcp_timing.h"
+#include "wcp_settings.h"
+#include "wcp_smoothing.h"
+#include "wcp_capture_clock.h"
+#endif
+#include "cpmap_intro_policy.h"
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+/* v1.5.3-e: the startup clip is built in; the bridge is already a pinned
+ * transaction payload, so no new file is installed on the unit. Android
+ * Auto sends one IDR per session and cannot answer the IDR request that
+ * ends the clip, so its bridge build has no intro at all. */
+#include "cpmap_intro_clip.h"
+#endif
+#ifdef __QNX__
+#include <sched.h>
+#endif
+
+#define MLB_DEVCTL_QUEUE_FLUSH ((int)0x40040506u)
+#define MLB_DEVCTL_START ((int)0x80040509u)
+#define MLB_DEVCTL_GET_PACKET_SIZE ((int)0x4004050cu)
+#define MLB_DEVCTL_GET_BLOCK_COUNT ((int)0x4004050du)
+#define MLB_DEVCTL_GET_QUEUE_SIZE ((int)0x40040510u)
+
+#define TS_SIZE 188U
+#define TS_BLOCK_PACKETS 64U
+#define TS_BLOCK_SIZE (TS_SIZE * TS_BLOCK_PACKETS)
+#ifndef TS_QUEUE_PACKETS
+#define TS_QUEUE_PACKETS 65536U
+#endif
+/* 2048 packets are about 250 ms at the measured 32-byte/48-kHz isoTX2
+ * allocation (12.288 Mbit/s). Never preserve a larger real-time backlog:
+ * stale predictive video is worse than briefly waiting for a fresh IDR.
+ * v1.5.2-e: raised from 1024 (about 125 ms). At 27/5 a detailed map sends
+ * frames up to 145 KB (about 790 packets); a key frame landing on the
+ * previous one peaked at 1377 queued packets, triggering a reset and a
+ * blocky recovery although the MOST link was healthy. */
+#ifndef TS_LOW_LATENCY_LIMIT_PACKETS
+#define TS_LOW_LATENCY_LIMIT_PACKETS 2048U
+#endif
+#define RECOVERY_FAST_WRITE_LIMIT_US 30000ULL
+#define RECOVERY_FAST_WRITES_REQUIRED 1U
+#define VIDEO_PID 0x0011U
+#define PMT_PID 0x0010U
+#define PCR_PID 0x1000U
+/* 12.288 Mbit/s / (188 * 8) = 8170.212765... TS packets/s.
+ * 327 packets are 40.02 ms.  The working 3GD920790 vectors repeat PAT, PMT
+ * and a dedicated PCR packet at approximately this cadence. */
+#define TRANSPORT_INTERVAL_PACKETS 327ULL
+/* At 12.288 Mbit/s one 188-byte packet advances the 90-kHz clock by
+ * exactly 705/64 ticks. */
+#define TRANSPORT_TICKS_NUMERATOR 705ULL
+#define TRANSPORT_TICKS_DENOMINATOR 64ULL
+#define TRANSPORT_PCR_ORIGIN_90K 45000ULL
+#define PTS_TARGET_LEAD_90K 9000ULL
+#define PTS_MIN_LEAD_90K 4500ULL
+#define MAX_MESSAGE (8U * 1024U * 1024U)
+/* v1.5.3-e: the nav renderer threads (MR_JobManager, MR_OpenGL, ADAS::HP)
+ * run at priority 10, the default the bridge inherited. With the reverse
+ * camera on, the CPU reaches 98-100% for seconds; a bridge reader that gets
+ * no CPU for 64 frames overruns the ring (the CarPlay receive threads run at
+ * 17-19 and keep producing). QNX resource managers serve a write at the
+ * client's priority, so devp-iso-mmx (16) handled our writes at 10 as well.
+ * 14 is above every nav thread seen in the heartbeat logs (MapPositioning
+ * 13) and below the MOST driver and the CarPlay receive threads. The bridge
+ * does little work per frame and blocks otherwise. */
+#ifndef ALTSCREEN_BRIDGE_PRIORITY
+#define ALTSCREEN_BRIDGE_PRIORITY 14
+#endif
+#ifndef INTRO_ONCE_PATH
+#define INTRO_ONCE_PATH "/ramdisk/carplay-v725-intro-played"
+#endif
+/* v1.5.1-e boot-time MOST reclaim. While the unit boots, the factory video
+ * encoder (NvVideoStreamEncoder + TsMux) opens isoTX2 by itself about 15 s
+ * after the bridge took it, flushes and restarts the driver queue, and the
+ * bridge's next write fails with ENOMEM. The encoder keeps running until the
+ * display context is released to the cluster map again (dmdt dc 72 + sc 4 72,
+ * the supervisor's release). Instead of exiting into the supervisor's full
+ * fallback/restart cycle, re-assert that release, reopen and restart isoTX2,
+ * then resync the picture. Only within the boot window and a bounded number of
+ * times; anything else keeps the previous exit path. */
+#ifndef ALTSCREEN_BRIDGE_RECLAIM_WINDOW_US
+#define ALTSCREEN_BRIDGE_RECLAIM_WINDOW_US 180000000ULL /* CLOCK_MONOTONIC = time since boot */
+#endif
+#ifndef ALTSCREEN_BRIDGE_RECLAIM_MAX
+#define ALTSCREEN_BRIDGE_RECLAIM_MAX 3U
+#endif
+#ifndef ALTSCREEN_BRIDGE_RECLAIM_SETTLE_US
+#define ALTSCREEN_BRIDGE_RECLAIM_SETTLE_US 500000U
+#endif
+#ifndef ALTSCREEN_BRIDGE_DMDT_PATH
+#define ALTSCREEN_BRIDGE_DMDT_PATH "/eso/bin/apps/dmdt"
+#endif
+#define DMDT_TIMEOUT_POLLS 300U /* 10 ms each: dmdt has taken up to ~1 s on the car */
+
+typedef struct PacketQueue {
+    uint8_t *data;
+    size_t read_index;
+    size_t write_index;
+    size_t count;
+    size_t high_water_total;
+    size_t high_water_window;
+    int stopping;
+    pthread_mutex_t mutex;
+} PacketQueue;
+
+typedef struct AvcConfig {
+    uint8_t *sps;
+    size_t sps_size;
+    uint8_t *pps;
+    size_t pps_size;
+    unsigned int length_size;
+    int valid;
+} AvcConfig;
+
+typedef struct Reassembly {
+    uint8_t *data;
+    size_t capacity;
+    uint32_t sequence;
+    uint32_t total_size;
+    uint32_t received;
+    uint32_t flags;
+    uint64_t media_timestamp_ns;
+    uint16_t type;
+    int active;
+    uint32_t last_completed_sequence;
+    uint16_t last_completed_type;
+    int have_last_completed;
+} Reassembly;
+
+static volatile sig_atomic_t g_stop;
+/* Closing the MOST descriptor from the signal handler interrupts a QNX
+ * MsgSend/REPLY-blocked write. Without this, SIGTERM can leave the writer
+ * permanently holding /dev/mlb/isoTX2 and prevent a clean OEM-map fallback. */
+static volatile sig_atomic_t g_most_fd = -1;
+static PacketQueue g_queue;
+static unsigned int g_cc_pat;
+static unsigned int g_cc_pmt;
+static unsigned int g_cc_video;
+static unsigned int g_cc_null;
+/* Updated once per 64-packet MediaLB block by the single writer thread.
+ * A 32-bit value is atomic on the target ARM platform and spans more than
+ * thirteen hours at 90 kHz, longer than one bridge process session. */
+static volatile uint32_t g_transport_clock_90k =
+    (uint32_t)TRANSPORT_PCR_ORIGIN_90K;
+static unsigned long g_pts_clock_rebases;
+static unsigned long g_pts_monotonic_clamps;
+static unsigned long g_avcc_updates;
+static unsigned long g_frames;
+static unsigned long g_keyframes;
+static unsigned long g_dropped_messages;
+static uint64_t g_media_origin_ntp;
+static uint64_t g_local_origin_us;
+static uint64_t g_pts_origin_value = 90000ULL;
+static uint64_t g_last_pts;
+static uint32_t g_last_sequence;
+static unsigned long long g_input_bytes_total;
+static unsigned long long g_ts_packets_total;
+static size_t g_max_frame_total;
+static size_t g_max_keyframe_total;
+static uint64_t g_diag_window_start_us;
+static unsigned long long g_diag_window_bytes;
+static unsigned long g_diag_window_frames;
+static unsigned long long g_diag_ts_packets_origin;
+static size_t g_diag_max_frame;
+static size_t g_diag_max_keyframe;
+static uint64_t g_diag_max_pts_step;
+static uint64_t g_max_write_us;
+static unsigned long g_slow_writes;
+static int g_waiting_for_keyframe;
+static int g_discontinuity_pending;
+static unsigned long g_latency_resets;
+static unsigned long long g_latency_packets_discarded;
+static unsigned long g_latency_frames_discarded;
+static uint64_t g_latency_wait_start_us;
+static volatile unsigned long g_writer_blocks_completed;
+static volatile unsigned long g_writer_fast_streak;
+static unsigned long g_recovery_writer_generation;
+static int g_recovery_idr_requested;
+/* Diagnostic histograms: write latency per 12032-byte block, microseconds. */
+#define WRITE_HIST_BUCKETS 6U
+static unsigned long g_write_hist[WRITE_HIST_BUCKETS];
+static const uint64_t g_write_hist_limits[WRITE_HIST_BUCKETS - 1U] = {
+    5000ULL, 10000ULL, 30000ULL, 50000ULL, 100000ULL
+};
+/* Input burst tracking: rolling 100 ms window. */
+static uint64_t g_burst_window_start_us;
+static unsigned long long g_burst_window_bytes;
+static unsigned long g_burst_window_frames;
+static unsigned long long g_burst_max_bytes;
+static unsigned long g_burst_max_frames;
+static size_t g_slow_write_queue_depth;
+static unsigned long g_intro_frames;
+static int g_intro_waiting_live_idr;
+/* Written by the writer thread after a successful reclaim; the input thread
+ * resyncs the picture when it sees a new value. */
+static volatile unsigned long g_most_reclaims;
+static unsigned long g_most_reclaims_handled;
+static uint64_t g_summary_started_us,g_summary_max_pts_step;
+#ifndef CPMAP_WIRELESS_SUMMARY_PATH
+#define CPMAP_WIRELESS_SUMMARY_PATH "/ramdisk/cpmap-wireless-summary.log"
+#endif
+static void log_session_summary(uint64_t now_us,const char *event);
+
+static uint64_t next_transport_pts_origin(void);
+
+static uint64_t monotonic_us(void)
+{
+    struct timespec value;
+    if (clock_gettime(CLOCK_MONOTONIC, &value) != 0) return 0;
+    return (uint64_t)value.tv_sec * 1000000ULL +
+           (uint64_t)value.tv_nsec / 1000ULL;
+}
+
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+static struct wcp_timing_ring *g_wireless_timing=MAP_FAILED;
+static uint32_t g_wireless_timing_pid,g_wireless_timing_session,g_wireless_timing_sequence;
+static struct wcp_smoothing g_smoothing;
+static struct wcp_capture_clock g_capture_clock;
+static uint32_t g_timing_accepted_pid;
+static unsigned long g_smoothing_matches,g_smoothing_misses;
+enum wcp_timing_miss { WCP_MISS_NONE, WCP_MISS_MAP, WCP_MISS_OWNER,
+    WCP_MISS_SETTINGS, WCP_MISS_PAYLOAD, WCP_MISS_CHANGED, WCP_MISS_IDENTITY,
+    WCP_MISS_AGE, WCP_MISS_COUNT };
+static unsigned long g_timing_miss_reason[WCP_MISS_COUNT];
+static size_t g_timing_miss_max_bytes;
+static enum wcp_timing_miss g_timing_last_reason;
+static uint64_t wireless_timestamp_miss(enum wcp_timing_miss reason,size_t size) {
+    g_timing_last_reason=reason;g_timing_miss_reason[reason]++;
+    if(size>g_timing_miss_max_bytes)g_timing_miss_max_bytes=size;
+    if((g_smoothing_misses++%120)==0)cpmap_log_fprintf(stderr,CPMAP_BRIDGE_LOG_LIMIT,
+        "bridge: wireless timestamp miss t_us=%llu matches=%lu misses=%lu reason=%u size=%lu timing_seq=%u consumed=%u capture_fallback=1\n",
+        (unsigned long long)monotonic_us(),g_smoothing_matches,g_smoothing_misses,
+        (unsigned)reason,(unsigned long)size,
+        g_wireless_timing==MAP_FAILED?0:g_wireless_timing->sequence,g_wireless_timing_sequence);
+    return 0;
+}
+static AltFrameRing *g_wireless_input_ring;
+static uint32_t g_wireless_input_sequence,g_wireless_skip_sequence;
+static int g_wireless_chain_skip_pending;
+static uint64_t wireless_capture_time(const AvcConfig *config,const uint8_t *data,size_t size,uint64_t now) {
+    struct wcp_fingerprint fingerprint; uint32_t available,first,i,session,pid;
+    pid_t accepted;int expired=0;
+    g_timing_last_reason=WCP_MISS_NONE;
+    g_timing_accepted_pid=0;
+    if(access("/dev/ipod0",F_OK)==0 || (accepted=wireless_session_pid())<=1)return 0;
+    g_timing_accepted_pid=(uint32_t)accepted;
+    /* A new receiver publishes a new inode; never remain mapped to the
+     * previous receiver's timing ring after its accepted PID changes. */
+    if(g_wireless_timing!=MAP_FAILED && g_wireless_timing->pid!=(uint32_t)accepted) {
+        munmap(g_wireless_timing,sizeof(*g_wireless_timing));g_wireless_timing=MAP_FAILED;
+    }
+    if(g_wireless_timing==MAP_FAILED) {
+        int fd=open(WCP_TIMING_PATH,O_RDONLY);struct stat st;
+        if(fd<0)return wireless_timestamp_miss(WCP_MISS_MAP,size);
+        if(!fstat(fd,&st) && S_ISREG(st.st_mode) && st.st_size==(off_t)sizeof(*g_wireless_timing))
+            g_wireless_timing=mmap(0,sizeof(*g_wireless_timing),PROT_READ,MAP_SHARED,fd,0);
+        close(fd);if(g_wireless_timing==MAP_FAILED)return wireless_timestamp_miss(WCP_MISS_MAP,size);
+    }
+    if(g_wireless_timing->magic!=WCP_TIMING_MAGIC || g_wireless_timing->version!=1 || g_wireless_timing->pid!=(uint32_t)accepted)return wireless_timestamp_miss(WCP_MISS_OWNER,size);
+    __sync_synchronize();pid=g_wireless_timing->pid;session=g_wireless_timing->session;
+    if(pid!=g_wireless_timing_pid || session!=g_wireless_timing_session) {
+        struct wcp_settings settings;
+        if(wcp_settings_read(WCP_SETTINGS_PATH,&settings))return wireless_timestamp_miss(WCP_MISS_SETTINGS,size);
+        wcp_smoothing_init(&g_smoothing,settings.smoothing);
+        g_wireless_timing_pid=pid;g_wireless_timing_session=session;g_wireless_timing_sequence=0;
+        cpmap_log_fprintf(stderr,CPMAP_BRIDGE_LOG_LIMIT,"bridge: wireless smoothing_base_ms=%u cap_ms=250 phone_timestamps=1\n",settings.smoothing);
+    }
+    if(!wcp_fingerprint_avcc(&fingerprint,data,size,config->length_size))return wireless_timestamp_miss(WCP_MISS_PAYLOAD,size);
+    available=g_wireless_timing->sequence;
+    first=available>=WCP_TIMING_COUNT?available-WCP_TIMING_COUNT+1:1;
+    if(first<=g_wireless_timing_sequence)first=g_wireless_timing_sequence+1;
+    for(i=first;i && i<=available;i++) {
+        const struct wcp_timing_event *event=&g_wireless_timing->events[(i-1)%WCP_TIMING_COUNT];
+        struct wcp_fingerprint copy;uint64_t timestamp;
+        if(event->committed!=i)continue;
+        __sync_synchronize();copy=event->fingerprint;
+        timestamp=((uint64_t)event->timestamp_hi<<32)|event->timestamp_lo;
+        __sync_synchronize();
+        if(event->committed!=i || g_wireless_timing->pid!=pid || g_wireless_timing->session!=session || g_wireless_timing->magic!=WCP_TIMING_MAGIC)return wireless_timestamp_miss(WCP_MISS_CHANGED,size);
+        if(wcp_fingerprint_equal(&fingerprint,&copy)) {
+            if(timestamp && timestamp<=now+250000 && (timestamp>=now || now-timestamp<2000000)) {
+                g_wireless_timing_sequence=i;g_smoothing_matches++;return timestamp;
+            }
+            expired=1;
+        }
+    }
+    return wireless_timestamp_miss(expired?WCP_MISS_AGE:WCP_MISS_IDENTITY,size);
+}
+static uint64_t wireless_playout(const AvcConfig *config,const uint8_t *data,size_t size,uint64_t fallback) {
+    uint64_t now=monotonic_us(),capture=wireless_capture_time(config,data,size,now),slot,presentation,repairs;
+    if(!g_timing_accepted_pid) {
+        wcp_capture_clock_clear(&g_capture_clock);return fallback;
+    }
+    wcp_capture_clock_bind(&g_capture_clock,g_timing_accepted_pid,
+        g_wireless_timing_pid==g_timing_accepted_pid?g_wireless_timing_session:0);
+    if(g_smoothing.base && capture+g_smoothing.delay<now && g_wireless_input_ring) {
+        /* A newer IDR is an independent decode boundary. Never discard a
+         * reference P frame and then feed its dependent P frames. */
+        uint32_t skip=wcp_smoothing_newer_idr(g_wireless_input_ring,g_wireless_input_sequence);
+        if(skip) {
+            g_wireless_skip_sequence=skip;g_wireless_chain_skip_pending=1;
+            cpmap_log_fprintf(stderr,CPMAP_BRIDGE_LOG_LIMIT,"bridge: wireless late skip_to_idr from=%u to=%u\n",g_wireless_input_sequence,skip);
+            return fallback;
+        }
+    }
+    repairs=g_capture_clock.repairs;
+    presentation=wcp_capture_clock_step(&g_capture_clock,capture,wcp_ntp_us(fallback),&capture);
+    if(g_capture_clock.repairs!=repairs)
+        cpmap_log_fprintf(stderr,CPMAP_BRIDGE_LOG_LIMIT,"bridge: wireless timestamp continuity t_us=%llu repairs=%lu capture=%llu presentation=%llu size=%lu reason=%u\n",
+            (unsigned long long)now,g_capture_clock.repairs,(unsigned long long)capture,
+            (unsigned long long)presentation,(unsigned long)size,(unsigned)g_timing_last_reason);
+    /* An estimate may be too old to hold, or an untrusted arrival may be in
+     * the future. Continuity repairs never become extra wall-clock buffering. */
+    slot=capture && capture<=now+250000?wcp_smoothing_slot(&g_smoothing,capture,now):now;
+    /* Holds occur before TS muxing: they never enter the latency-reset queue. */
+    while(!g_stop && slot>now) {
+        uint64_t wait=slot-now;if(wait>5000)wait=5000;
+        usleep((unsigned)wait);now=monotonic_us();
+    }
+    if((g_smoothing_matches%120)==1)cpmap_log_fprintf(stderr,CPMAP_BRIDGE_LOG_LIMIT,"bridge: wireless timing matches=%lu misses=%lu delay_ms=%u age_us=%llu\n",g_smoothing_matches,g_smoothing_misses,(unsigned)(g_smoothing.delay/1000),(unsigned long long)(now>capture?now-capture:0));
+    return wcp_us_ntp(presentation);
+}
+#endif
+
+/* A separate bounded RAM log retains low-volume drive history even when the
+ * detailed bridge log wraps. Only the input thread writes these summaries. */
+static void log_session_summary(uint64_t now_us,const char *event)
+{
+    FILE *file=cpmap_log_open(CPMAP_WIRELESS_SUMMARY_PATH,CPMAP_VIDEO_LOG_LIMIT);
+    if(!file)return;
+    fprintf(file,"t_us=%llu bridge_pid=%ld event=%s frames=%lu keys=%lu drops=%lu queue_hi_total=%lu frame_max=%lu pts_step_max=%llu pts_clamps=%lu pts_rebases=%lu latency_resets=%lu slow_writes=%lu avcc_updates=%lu",
+        (unsigned long long)now_us,(long)getpid(),event,g_frames,g_keyframes,g_dropped_messages,
+        (unsigned long)g_queue.high_water_total,(unsigned long)g_max_frame_total,
+        (unsigned long long)g_summary_max_pts_step,g_pts_monotonic_clamps,
+        g_pts_clock_rebases,g_latency_resets,g_slow_writes,g_avcc_updates);
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+    fprintf(file," receiver_pid=%u session=%u timing_matches=%lu timing_misses=%lu delay_ms=%u miss_max_bytes=%lu miss_map=%lu miss_owner=%lu miss_settings=%lu miss_payload=%lu miss_changed=%lu miss_identity=%lu miss_age=%lu",
+        g_wireless_timing_pid,g_wireless_timing_session,g_smoothing_matches,g_smoothing_misses,
+        (unsigned)(g_smoothing.delay/1000),(unsigned long)g_timing_miss_max_bytes,
+        g_timing_miss_reason[WCP_MISS_MAP],g_timing_miss_reason[WCP_MISS_OWNER],
+        g_timing_miss_reason[WCP_MISS_SETTINGS],g_timing_miss_reason[WCP_MISS_PAYLOAD],
+        g_timing_miss_reason[WCP_MISS_CHANGED],g_timing_miss_reason[WCP_MISS_IDENTITY],
+        g_timing_miss_reason[WCP_MISS_AGE]);
+    fprintf(file," timestamp_fallbacks=%lu timestamp_repairs=%lu timestamp_epochs=%lu",
+        g_capture_clock.fallbacks,g_capture_clock.repairs,g_capture_clock.epochs);
+#endif
+    fputc('\n',file);cpmap_log_close(file,CPMAP_VIDEO_LOG_LIMIT);
+    g_summary_started_us=now_us;g_summary_max_pts_step=0;
+}
+
+static void record_write_latency(uint64_t write_us)
+{
+    unsigned int i;
+    for (i = 0; i < WRITE_HIST_BUCKETS - 1U; ++i) {
+        if (write_us < g_write_hist_limits[i]) {
+            ++g_write_hist[i];
+            return;
+        }
+    }
+    ++g_write_hist[WRITE_HIST_BUCKETS - 1U];
+}
+
+static void reset_write_histogram(void)
+{
+    unsigned int i;
+    for (i = 0; i < WRITE_HIST_BUCKETS; ++i) g_write_hist[i] = 0;
+}
+
+static uint64_t bucket_limit_for_display(unsigned int bucket)
+{
+    if (bucket < WRITE_HIST_BUCKETS - 1U) return g_write_hist_limits[bucket];
+    return 0;
+}
+
+/* AirPlayScreenHeader.params[0] is a synchronized NTP timestamp in unsigned
+ * 32.32 fixed-point seconds, not nanoseconds. Convert only a session-local
+ * delta so the result stays well inside 64 bits. */
+static uint64_t ntp_delta_to_90khz(uint64_t delta)
+{
+    uint64_t whole_seconds = delta >> 32;
+    uint64_t fraction = delta & 0xffffffffULL;
+    return whole_seconds * 90000ULL +
+           ((fraction * 90000ULL + 0x80000000ULL) >> 32);
+}
+
+static void on_signal(int signal_number)
+{
+    int fd;
+    (void)signal_number;
+    g_stop = 1;
+    g_queue.stopping = 1;
+    fd = (int)g_most_fd;
+    g_most_fd = -1;
+    if (fd >= 0) close(fd);
+}
+
+static uint32_t mpeg_crc32(const uint8_t *data, size_t size)
+{
+    uint32_t crc = 0xffffffffU;
+    size_t i;
+    for (i = 0; i < size; ++i) {
+        unsigned int bit;
+        crc ^= (uint32_t)data[i] << 24;
+        for (bit = 0; bit < 8; ++bit)
+            crc = (crc & 0x80000000U) ?
+                (crc << 1) ^ 0x04c11db7U : crc << 1;
+    }
+    return crc;
+}
+
+static int queue_init(PacketQueue *queue)
+{
+    memset(queue, 0, sizeof(*queue));
+    queue->data = (uint8_t *)malloc(TS_QUEUE_PACKETS * TS_SIZE);
+    if (!queue->data) return -1;
+    return pthread_mutex_init(&queue->mutex, NULL);
+}
+
+static void queue_destroy(PacketQueue *queue)
+{
+    pthread_mutex_destroy(&queue->mutex);
+    free(queue->data);
+    memset(queue, 0, sizeof(*queue));
+}
+
+static int queue_push(PacketQueue *queue, const uint8_t packet[TS_SIZE])
+{
+    for (;;) {
+        pthread_mutex_lock(&queue->mutex);
+        if (queue->stopping || g_stop) {
+            pthread_mutex_unlock(&queue->mutex);
+            return -1;
+        }
+        if (queue->count < TS_QUEUE_PACKETS) {
+            memcpy(queue->data + queue->write_index * TS_SIZE,
+                   packet, TS_SIZE);
+            queue->write_index =
+                (queue->write_index + 1U) % TS_QUEUE_PACKETS;
+            ++queue->count;
+            if (queue->count > queue->high_water_total)
+                queue->high_water_total = queue->count;
+            if (queue->count > queue->high_water_window)
+                queue->high_water_window = queue->count;
+            pthread_mutex_unlock(&queue->mutex);
+            return 0;
+        }
+        pthread_mutex_unlock(&queue->mutex);
+        usleep(1000);
+    }
+}
+
+static int queue_push_batch(PacketQueue *queue, const uint8_t *packets,
+                            size_t packet_count)
+{
+    size_t i;
+    if (!packets || packet_count == 0 || packet_count > TS_QUEUE_PACKETS)
+        return -1;
+    for (;;) {
+        pthread_mutex_lock(&queue->mutex);
+        if (queue->stopping || g_stop) {
+            pthread_mutex_unlock(&queue->mutex);
+            return -1;
+        }
+        if (packet_count <= TS_QUEUE_PACKETS - queue->count) {
+            for (i = 0; i < packet_count; ++i) {
+                memcpy(queue->data + queue->write_index * TS_SIZE,
+                       packets + i * TS_SIZE, TS_SIZE);
+                queue->write_index =
+                    (queue->write_index + 1U) % TS_QUEUE_PACKETS;
+            }
+            queue->count += packet_count;
+            if (queue->count > queue->high_water_total)
+                queue->high_water_total = queue->count;
+            if (queue->count > queue->high_water_window)
+                queue->high_water_window = queue->count;
+            pthread_mutex_unlock(&queue->mutex);
+            return 0;
+        }
+        pthread_mutex_unlock(&queue->mutex);
+        usleep(1000);
+    }
+}
+
+static int queue_pop(PacketQueue *queue, uint8_t packet[TS_SIZE])
+{
+    int result = 0;
+    pthread_mutex_lock(&queue->mutex);
+    if (queue->count > 0) {
+        memcpy(packet, queue->data + queue->read_index * TS_SIZE, TS_SIZE);
+        queue->read_index = (queue->read_index + 1U) % TS_QUEUE_PACKETS;
+        --queue->count;
+        result = 1;
+    }
+    pthread_mutex_unlock(&queue->mutex);
+    return result;
+}
+
+static size_t queue_count(PacketQueue *queue)
+{
+    size_t count;
+    pthread_mutex_lock(&queue->mutex);
+    count = queue->count;
+    pthread_mutex_unlock(&queue->mutex);
+    return count;
+}
+
+static size_t queue_discard_all(PacketQueue *queue)
+{
+    size_t discarded,keep=0;
+    pthread_mutex_lock(&queue->mutex);
+    /* The writer may already hold the beginning of this AU in its 64-packet
+     * block. Finish its queued tail; drop only complete later AUs. A video
+     * PES start is the boundary, not a PSI packet's unrelated PUSI bit. */
+    while(keep<queue->count) {
+        const uint8_t *packet=queue->data+((queue->read_index+keep)%TS_QUEUE_PACKETS)*TS_SIZE;
+        unsigned pid=((unsigned)(packet[1]&0x1f)<<8)|packet[2];
+        if(pid==VIDEO_PID && (packet[1]&0x40))break;
+        ++keep;
+    }
+    discarded = queue->count-keep;
+    queue->write_index=(queue->read_index+keep)%TS_QUEUE_PACKETS;
+    queue->count=keep;
+    queue->high_water_window = 0;
+    pthread_mutex_unlock(&queue->mutex);
+    return discarded;
+}
+
+static int request_fresh_idr(void)
+{
+    int fd = open(ALT_FRAME_FORCE_IDR_PATH,
+                  O_WRONLY | O_CREAT | O_TRUNC, 0666);
+    if (fd < 0) return -1;
+    close(fd);
+    return 0;
+}
+
+#ifdef ALTSCREEN_AA_SINGLE_IDR
+/* Android Auto build (v1.5.0-e): the phone sends one IDR per connection and cannot be asked for another
+ * without breaking its session, so waiting for a keyframe freezes the cluster map until a reconnect.
+ * The feeder paces its input below the MOST rate; a gap or backlog is counted and logged, frames keep flowing. */
+static unsigned long g_aa_gaps, g_aa_backlogs;
+#endif
+
+static void enter_low_latency_recovery(size_t queued_packets,
+                                       uint32_t sequence,
+                                       uint64_t now_us)
+{
+    size_t discarded = queue_discard_all(&g_queue);
+    g_waiting_for_keyframe = 1;
+    g_discontinuity_pending = 1;
+    g_latency_wait_start_us = now_us;
+    g_recovery_writer_generation = g_writer_blocks_completed;
+    g_recovery_idr_requested = 0;
+    ++g_latency_resets;
+    g_latency_packets_discarded += discarded;
+    /* An IDR sent while the MediaLB writer is still blocked is immediately
+     * buried behind another backlog. Defer the request until the writer has
+     * completed a healthy block after this reset. A complete incoming IDR
+     * can already provide the independent recovery boundary. */
+    unlink(ALT_FRAME_FORCE_IDR_PATH);
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+            "bridge: latency-reset sequence=%u queued=%lu discarded=%lu "
+            "limit=%u idr_request_deferred=1 resets=%lu\n",
+            sequence, (unsigned long)queued_packets,
+            (unsigned long)discarded,
+            (unsigned)TS_LOW_LATENCY_LIMIT_PACKETS,
+            g_latency_resets);
+}
+
+static int writer_recovered_after_reset(void)
+{
+    unsigned long blocks = g_writer_blocks_completed;
+    unsigned long streak = g_writer_fast_streak;
+    return (unsigned long)(blocks - g_recovery_writer_generation) >=
+               RECOVERY_FAST_WRITES_REQUIRED &&
+           streak >= RECOVERY_FAST_WRITES_REQUIRED;
+}
+
+static void queue_metric_snapshot(PacketQueue *queue, size_t *current,
+                                  size_t *window_high, size_t *total_high)
+{
+    pthread_mutex_lock(&queue->mutex);
+    *current = queue->count;
+    *window_high = queue->high_water_window;
+    *total_high = queue->high_water_total;
+    queue->high_water_window = queue->count;
+    pthread_mutex_unlock(&queue->mutex);
+}
+
+static void log_input_metrics(uint64_t now_us, size_t frame_size,
+                              int keyframe, uint64_t pts_step)
+{
+    uint64_t elapsed;
+    unsigned long long input_bps;
+    unsigned long long ts_bps;
+    unsigned long long fps_milli;
+    unsigned long long ts_packets;
+    size_t queue_current;
+    size_t queue_high_window;
+    size_t queue_high_total;
+
+    g_input_bytes_total += (unsigned long long)frame_size;
+    g_diag_window_bytes += (unsigned long long)frame_size;
+    ++g_diag_window_frames;
+    if (frame_size > g_max_frame_total) g_max_frame_total = frame_size;
+    if (frame_size > g_diag_max_frame) g_diag_max_frame = frame_size;
+    if (keyframe && frame_size > g_max_keyframe_total)
+        g_max_keyframe_total = frame_size;
+    if (keyframe && frame_size > g_diag_max_keyframe)
+        g_diag_max_keyframe = frame_size;
+    if (pts_step > g_diag_max_pts_step) g_diag_max_pts_step = pts_step;
+    if(pts_step>g_summary_max_pts_step)g_summary_max_pts_step=pts_step;
+    if(!g_summary_started_us || now_us<g_summary_started_us || now_us-g_summary_started_us>=60000000ULL)
+        log_session_summary(now_us,g_summary_started_us?"minute":"start");
+    /* Rolling 100 ms input-burst window. */
+    if (g_burst_window_start_us == 0 ||
+        now_us - g_burst_window_start_us >= 100000ULL) {
+        if (g_burst_window_bytes > g_burst_max_bytes)
+            g_burst_max_bytes = g_burst_window_bytes;
+        if (g_burst_window_frames > g_burst_max_frames)
+            g_burst_max_frames = g_burst_window_frames;
+        g_burst_window_start_us = now_us;
+        g_burst_window_bytes = 0;
+        g_burst_window_frames = 0;
+    }
+    g_burst_window_bytes += (unsigned long long)frame_size;
+    ++g_burst_window_frames;
+    if (g_diag_window_start_us == 0) {
+        g_diag_window_start_us = now_us;
+        g_diag_ts_packets_origin = 0;
+        return;
+    }
+    elapsed = now_us - g_diag_window_start_us;
+    if (elapsed < 1000000ULL) return;
+    ts_packets = g_ts_packets_total - g_diag_ts_packets_origin;
+    input_bps = (g_diag_window_bytes * 8ULL * 1000000ULL) / elapsed;
+    ts_bps = (ts_packets * TS_SIZE * 8ULL * 1000000ULL) / elapsed;
+    fps_milli = ((unsigned long long)g_diag_window_frames *
+                 1000000000ULL) / elapsed;
+    queue_metric_snapshot(&g_queue, &queue_current, &queue_high_window,
+                          &queue_high_total);
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+            "bridge: metrics input_bps=%llu ts_bps=%llu fps_milli=%llu "
+            "frame_max=%lu idr_max=%lu queue=%lu queue_hi=%lu "
+            "queue_hi_total=%lu pts_step_max=%llu\n",
+            input_bps, ts_bps, fps_milli,
+            (unsigned long)g_diag_max_frame,
+            (unsigned long)g_diag_max_keyframe,
+            (unsigned long)queue_current,
+            (unsigned long)queue_high_window,
+            (unsigned long)queue_high_total,
+            (unsigned long long)g_diag_max_pts_step);
+    g_diag_window_start_us = now_us;
+    g_diag_window_bytes = 0;
+    g_diag_window_frames = 0;
+    g_diag_ts_packets_origin = g_ts_packets_total;
+    g_diag_max_frame = 0;
+    g_diag_max_keyframe = 0;
+    g_diag_max_pts_step = 0;
+}
+
+static void make_null_packet(uint8_t packet[TS_SIZE])
+{
+    packet[0] = 0x47;
+    packet[1] = 0x1f;
+    packet[2] = 0xff;
+    packet[3] = (uint8_t)(0x10U | (g_cc_null++ & 0x0fU));
+    memset(packet + 4, 0xff, TS_SIZE - 4U);
+}
+
+static int make_psi_packet(uint8_t packet[TS_SIZE], uint16_t pid,
+                           unsigned int *continuity,
+                           const uint8_t *section, size_t section_size)
+{
+    if (section_size + 5U > TS_SIZE) return -1;
+    memset(packet, 0xff, TS_SIZE);
+    packet[0] = 0x47;
+    packet[1] = (uint8_t)(0x40U | ((pid >> 8) & 0x1fU));
+    packet[2] = (uint8_t)pid;
+    packet[3] = (uint8_t)(0x10U | ((*continuity)++ & 0x0fU));
+    packet[4] = 0; /* pointer_field */
+    memcpy(packet + 5, section, section_size);
+    return 0;
+}
+
+static int make_pat_packet(uint8_t packet[TS_SIZE])
+{
+    uint8_t pat[16] = {
+        0x00, 0xb0, 0x0d, 0x00, 0x01, 0xc1, 0x00, 0x00,
+        0x00, 0x01, 0xe0, 0x10, 0, 0, 0, 0
+    };
+    uint32_t crc = mpeg_crc32(pat, 12);
+    pat[12] = (uint8_t)(crc >> 24);
+    pat[13] = (uint8_t)(crc >> 16);
+    pat[14] = (uint8_t)(crc >> 8);
+    pat[15] = (uint8_t)crc;
+    return make_psi_packet(packet, 0, &g_cc_pat, pat, sizeof(pat));
+}
+
+static int make_pmt_packet(uint8_t packet[TS_SIZE])
+{
+    uint8_t pmt[21] = {
+        0x02, 0xb0, 0x12, 0x00, 0x01, 0xc1, 0x00, 0x00,
+        0xf0, 0x00, 0xf0, 0x00, 0x1b, 0xe0, 0x11, 0xf0,
+        0x00, 0, 0, 0, 0
+    };
+    uint32_t crc = mpeg_crc32(pmt, 17);
+    pmt[17] = (uint8_t)(crc >> 24);
+    pmt[18] = (uint8_t)(crc >> 16);
+    pmt[19] = (uint8_t)(crc >> 8);
+    pmt[20] = (uint8_t)crc;
+    return make_psi_packet(packet, PMT_PID, &g_cc_pmt, pmt, sizeof(pmt));
+}
+
+static void encode_pts(uint8_t target[5], uint64_t pts)
+{
+    pts &= 0x1ffffffffULL;
+    target[0] = (uint8_t)(0x20U | (((pts >> 30) & 7U) << 1) | 1U);
+    target[1] = (uint8_t)(pts >> 22);
+    target[2] = (uint8_t)((((pts >> 15) & 0x7fU) << 1) | 1U);
+    target[3] = (uint8_t)(pts >> 7);
+    target[4] = (uint8_t)(((pts & 0x7fU) << 1) | 1U);
+}
+
+static void encode_pcr(uint8_t target[6], uint64_t base)
+{
+    base &= 0x1ffffffffULL;
+    target[0] = (uint8_t)(base >> 25);
+    target[1] = (uint8_t)(base >> 17);
+    target[2] = (uint8_t)(base >> 9);
+    target[3] = (uint8_t)(base >> 1);
+    target[4] = (uint8_t)(((base & 1U) << 7) | 0x7eU);
+    target[5] = 0;
+}
+
+static void make_pcr_packet(uint8_t packet[TS_SIZE], uint64_t base)
+{
+    memset(packet, 0xff, TS_SIZE);
+    packet[0] = 0x47;
+    packet[1] = (uint8_t)((PCR_PID >> 8) & 0x1fU);
+    packet[2] = (uint8_t)PCR_PID;
+    /* Adaptation-only PCR packets in the captured OEM stream keep CC at 0. */
+    packet[3] = 0x20;
+    packet[4] = 183;
+    packet[5] = 0x10;
+    encode_pcr(packet + 6, base);
+}
+
+static int enqueue_pes(const uint8_t *annexb, size_t annexb_size,
+                       uint64_t pts, int keyframe)
+{
+    uint8_t *pes;
+    uint8_t *packets;
+    size_t pes_size = 14U + annexb_size;
+    size_t packet_capacity = (pes_size + 175U) / 176U;
+    size_t packet_count = 0;
+    size_t offset = 0;
+    int first = 1;
+    int result;
+    pes = (uint8_t *)malloc(pes_size);
+    if (!pes) return -1;
+    packets = (uint8_t *)malloc(packet_capacity * TS_SIZE);
+    if (!packets) {
+        free(pes);
+        return -1;
+    }
+    pes[0] = 0x00; pes[1] = 0x00; pes[2] = 0x01; pes[3] = 0xe0;
+    pes[4] = 0x00; pes[5] = 0x00; /* unbounded video PES */
+    pes[6] = 0x80; pes[7] = 0x80; pes[8] = 0x05;
+    encode_pts(pes + 9, pts);
+    memcpy(pes + 14, annexb, annexb_size);
+
+    while (offset < pes_size) {
+        uint8_t *packet = packets + packet_count * TS_SIZE;
+        size_t remaining = pes_size - offset;
+        /* The PCR is carried on its own OEM PID.  The first video packet only
+         * needs an adaptation flags byte for random-access/discontinuity. */
+        size_t min_adaptation = first ? 2U : 0U;
+        size_t max_payload = 184U - min_adaptation;
+        size_t payload = remaining < max_payload ? remaining : max_payload;
+        size_t adaptation = 184U - payload;
+        size_t payload_offset = 4U;
+        memset(packet, 0xff, TS_SIZE);
+        packet[0] = 0x47;
+        packet[1] = (uint8_t)((first ? 0x40U : 0U) |
+                              ((VIDEO_PID >> 8) & 0x1fU));
+        packet[2] = (uint8_t)VIDEO_PID;
+        packet[3] = (uint8_t)(((adaptation ? 3U : 1U) << 4) |
+                              (g_cc_video++ & 0x0fU));
+        if (adaptation) {
+            packet[4] = (uint8_t)(adaptation - 1U);
+            payload_offset += adaptation;
+            if (adaptation > 1U) {
+                packet[5] = first ?
+                    (uint8_t)((keyframe ? 0x40U : 0U) |
+                              (g_discontinuity_pending ? 0x80U : 0U)) : 0;
+            }
+        }
+        memcpy(packet + payload_offset, pes + offset, payload);
+        offset += payload;
+        ++packet_count;
+        first = 0;
+    }
+    result = queue_push_batch(&g_queue, packets, packet_count);
+    if (result == 0) {
+        g_ts_packets_total += packet_count;
+        if (g_discontinuity_pending) g_discontinuity_pending = 0;
+    }
+    free(packets);
+    free(pes);
+    return result;
+}
+
+static size_t annexb_start_code_size(const uint8_t *data, size_t size,
+                                     size_t offset)
+{
+    if (offset + 4U <= size && data[offset] == 0 && data[offset + 1U] == 0 &&
+        data[offset + 2U] == 0 && data[offset + 3U] == 1) return 4U;
+    if (offset + 3U <= size && data[offset] == 0 && data[offset + 1U] == 0 &&
+        data[offset + 2U] == 1) return 3U;
+    return 0;
+}
+
+static size_t find_annexb_aud(const uint8_t *data, size_t size, size_t from)
+{
+    size_t i;
+    for (i = from; i + 4U <= size; ++i) {
+        size_t prefix = annexb_start_code_size(data, size, i);
+        if (prefix && i + prefix < size &&
+            (data[i + prefix] & 0x1fU) == 9U) return i;
+    }
+    return size;
+}
+
+static int annexb_has_idr(const uint8_t *data, size_t size)
+{
+    size_t i;
+    for (i = 0; i + 4U <= size; ++i) {
+        size_t prefix = annexb_start_code_size(data, size, i);
+        if (prefix && i + prefix < size &&
+            (data[i + prefix] & 0x1fU) == 5U) return 1;
+    }
+    return 0;
+}
+
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+/* Play the built-in Annex-B clip directly through the existing TS/MOST
+ * muxer. The clip has one AUD NAL per access unit. No decode or re-encode
+ * occurs on the head unit. Returns 1 after the clip, 0 if it did not play,
+ * -1 on stop or a muxer failure. */
+static int play_intro_clip(CpmapIntroPolicy policy)
+{
+    const uint8_t *data = cpmap_intro_clip;
+    const size_t size = sizeof(cpmap_intro_clip);
+    const unsigned int fps = CPMAP_INTRO_CLIP_FPS;
+    int intro_marked = 0;
+    unsigned long played = 0;
+    size_t frame_start;
+    uint64_t pts;
+    uint64_t pts_step;
+
+    if (policy == CPMAP_INTRO_OFF) return 0;
+    frame_start = find_annexb_aud(data, size, 0);
+    if (frame_start == size) {
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro clip contains no AUD\n");
+        return 0;
+    }
+
+    g_discontinuity_pending = 1;
+    pts = next_transport_pts_origin();
+    pts_step = 90000ULL / fps;
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro-start bytes=%lu frames=%u fps=%u policy=%s pts=%llu\n",
+            (unsigned long)size, (unsigned)CPMAP_INTRO_CLIP_FRAMES, fps,
+            policy == CPMAP_INTRO_EVERY_CONNECT ? "every-connect" : "once-per-boot",
+            (unsigned long long)pts);
+    while (!g_stop && frame_start < size) {
+        size_t next = find_annexb_aud(data, size, frame_start + 4U);
+        size_t frame_size = next - frame_start;
+        int keyframe = annexb_has_idr(data + frame_start, frame_size);
+        if (frame_size == 0 ||
+            enqueue_pes(data + frame_start, frame_size, pts, keyframe) != 0) {
+            cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                    "bridge: intro enqueue failed frame=%lu bytes=%lu queue=%lu\n",
+                    played + 1U, (unsigned long)frame_size,
+                    (unsigned long)queue_count(&g_queue));
+            return -1;
+        }
+        if (!intro_marked && policy == CPMAP_INTRO_ONCE_PER_BOOT) {
+            /* The first frame has entered the output queue.  From this point
+             * onward the animation has started in this boot, even if a phone
+             * disconnect interrupts the rest of this playback. */
+            int marker = open(INTRO_ONCE_PATH,
+                              O_WRONLY | O_CREAT | O_EXCL, 0600);
+            if (marker >= 0) close(marker);
+            else cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro-once marker failed: %s\n",
+                         strerror(errno));
+            intro_marked = 1;
+        }
+        ++played;
+        ++g_intro_frames;
+        g_last_pts = pts;
+        pts += pts_step;
+        frame_start = next;
+        usleep(1000000U / fps);
+    }
+    if (g_stop) return -1;
+
+    /* Ignore every live frame accumulated behind the animation.  The caller
+     * records the ring head and only then asks the hook for a fresh
+     * config+IDR pair (intro_skip_and_request_idr), so the answer is never
+     * inside the skipped range. The clip ends on its full logo frame and
+     * switches directly on that IDR. */
+    g_intro_waiting_live_idr = 1;
+    g_last_sequence = 0;
+    g_media_origin_ntp = 0;
+    g_local_origin_us = 0;
+    g_pts_origin_value = next_transport_pts_origin();
+    g_discontinuity_pending = 1;
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro-complete frames=%lu next_pts=%llu\n",
+            played, (unsigned long long)g_pts_origin_value);
+    return 1;
+}
+
+/* v1.5.3: skip the frames that arrived during the clip, then request the IDR.
+ * The ring head is read first, so an answer to the request always has a
+ * higher sequence and is never skipped. Returns the next sequence to read. */
+static uint32_t intro_skip_and_request_idr(AltFrameRing *ring, const char *what)
+{
+    uint32_t next_sequence;
+    __sync_synchronize();
+    next_sequence = ring->write_sequence + 1U;
+    if (next_sequence == 0) next_sequence = 1U;
+    __sync_synchronize();
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+            "bridge: %sintro skipped stale ring through sequence=%u\n", what,
+            next_sequence - 1U);
+    if (request_fresh_idr() != 0)
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro IDR request failed: %s\n",
+                strerror(errno));
+    return next_sequence;
+}
+#endif
+
+static void raise_bridge_priority(const char *thread_name)
+{
+#ifdef __QNX__
+    struct sched_param param;
+    int policy;
+    int before;
+    int status;
+    if (pthread_getschedparam(pthread_self(), &policy, &param) != 0) {
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: priority read failed thread=%s\n", thread_name);
+        return;
+    }
+    before = param.sched_priority;
+    status = 0;
+    /* Never lower a priority that something else raised. */
+    if (before < ALTSCREEN_BRIDGE_PRIORITY) {
+        param.sched_priority = ALTSCREEN_BRIDGE_PRIORITY;
+        status = pthread_setschedparam(pthread_self(), policy, &param);
+    }
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: priority thread=%s before=%d target=%d status=%d\n",
+            thread_name, before, ALTSCREEN_BRIDGE_PRIORITY, status);
+#else
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: priority thread=%s unchanged (host build) target=%d\n",
+            thread_name, ALTSCREEN_BRIDGE_PRIORITY);
+#endif
+}
+
+static void free_config(AvcConfig *config)
+{
+    free(config->sps);
+    free(config->pps);
+    memset(config, 0, sizeof(*config));
+}
+
+static uint16_t read_be16(const uint8_t *data)
+{
+    return (uint16_t)(((uint16_t)data[0] << 8) | data[1]);
+}
+
+static int copy_unit(uint8_t **target, size_t *target_size,
+                     const uint8_t *source, size_t size)
+{
+    uint8_t *copy = (uint8_t *)malloc(size ? size : 1U);
+    if (!copy) return -1;
+    memcpy(copy, source, size);
+    free(*target);
+    *target = copy;
+    *target_size = size;
+    return 0;
+}
+
+static int parse_avcc_config(AvcConfig *config, const uint8_t *data,
+                             size_t size)
+{
+    AvcConfig next;
+    size_t offset;
+    unsigned int count;
+    unsigned int i;
+    memset(&next, 0, sizeof(next));
+    if (size < 7U || data[0] != 1U) return -1;
+    next.length_size = (data[4] & 3U) + 1U;
+    count = data[5] & 0x1fU;
+    offset = 6;
+    for (i = 0; i < count; ++i) {
+        uint16_t unit_size;
+        if (offset + 2U > size) goto failed;
+        unit_size = read_be16(data + offset);
+        offset += 2;
+        if (unit_size == 0 || offset + unit_size > size) goto failed;
+        if (!next.sps && copy_unit(&next.sps, &next.sps_size,
+                                   data + offset, unit_size) != 0) goto failed;
+        offset += unit_size;
+    }
+    if (offset + 1U > size) goto failed;
+    count = data[offset++];
+    for (i = 0; i < count; ++i) {
+        uint16_t unit_size;
+        if (offset + 2U > size) goto failed;
+        unit_size = read_be16(data + offset);
+        offset += 2;
+        if (unit_size == 0 || offset + unit_size > size) goto failed;
+        if (!next.pps && copy_unit(&next.pps, &next.pps_size,
+                                   data + offset, unit_size) != 0) goto failed;
+        offset += unit_size;
+    }
+    if (!next.sps || !next.pps || next.length_size < 1U ||
+        next.length_size > 4U) goto failed;
+    next.valid = 1;
+    if(config->valid && config->length_size==next.length_size &&
+       config->sps_size==next.sps_size && config->pps_size==next.pps_size &&
+       !memcmp(config->sps,next.sps,next.sps_size) && !memcmp(config->pps,next.pps,next.pps_size)) {
+        free_config(&next);return 0;
+    }
+    free_config(config);
+    *config = next;
+    ++g_avcc_updates;
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: avcC ready length=%u sps=%u pps=%u\n",
+            config->length_size, (unsigned)config->sps_size,
+            (unsigned)config->pps_size);
+    return 0;
+failed:
+    free_config(&next);
+    return -1;
+}
+
+static uint32_t read_nal_size(const uint8_t *data, unsigned int length_size)
+{
+    uint32_t value = 0;
+    unsigned int i;
+    for (i = 0; i < length_size; ++i) value = (value << 8) | data[i];
+    return value;
+}
+
+static int avcc_to_annexb(const AvcConfig *config, const uint8_t *frame,
+                          size_t frame_size, int keyframe,
+                          uint8_t **out_data, size_t *out_size)
+{
+    static const uint8_t start_code[4] = {0, 0, 0, 1};
+    static const uint8_t aud[2] = {0x09, 0xf0};
+    uint8_t *output;
+    size_t capacity = frame_size + config->sps_size + config->pps_size + 64U;
+    size_t written = 0;
+    size_t offset = 0;
+    int has_idr = 0;
+    if (!config->valid) return -1;
+    output = (uint8_t *)malloc(capacity);
+    if (!output) return -1;
+    memcpy(output + written, start_code, 4); written += 4;
+    memcpy(output + written, aud, sizeof(aud)); written += sizeof(aud);
+    while (offset + config->length_size <= frame_size) {
+        uint32_t nal_size = read_nal_size(frame + offset, config->length_size);
+        offset += config->length_size;
+        if (nal_size == 0 || nal_size > frame_size - offset) goto failed;
+        if ((frame[offset] & 0x1fU) == 5U) has_idr = 1;
+        offset += nal_size;
+    }
+    if (offset != frame_size) goto failed;
+    if (keyframe || has_idr) {
+        memcpy(output + written, start_code, 4); written += 4;
+        memcpy(output + written, config->sps, config->sps_size);
+        written += config->sps_size;
+        memcpy(output + written, start_code, 4); written += 4;
+        memcpy(output + written, config->pps, config->pps_size);
+        written += config->pps_size;
+    }
+    offset = 0;
+    while (offset + config->length_size <= frame_size) {
+        uint32_t nal_size = read_nal_size(frame + offset, config->length_size);
+        offset += config->length_size;
+        memcpy(output + written, start_code, 4); written += 4;
+        memcpy(output + written, frame + offset, nal_size); written += nal_size;
+        offset += nal_size;
+    }
+    *out_data = output;
+    *out_size = written;
+    return has_idr ? 1 : 0;
+failed:
+    free(output);
+    return -1;
+}
+
+static int write_full(int fd, const uint8_t *data, size_t size)
+{
+    size_t offset = 0;
+    while (offset < size && !g_stop) {
+        ssize_t count = write(fd, data + offset, size - offset);
+        if (count > 0) offset += (size_t)count;
+        else if (count < 0 && errno == EINTR) continue;
+        else if (count < 0 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
+            usleep(1000);
+            continue;
+        }
+        else return -1;
+    }
+    return offset == size ? 0 : -1;
+}
+
+/* Open the MOST output and start its queue; returns the descriptor or -1.
+ * reopen keeps a file-output validation stream instead of truncating it. */
+static int most_open(const char *device, int reopen)
+{
+    uint32_t blocks = TS_BLOCK_PACKETS;
+    uint32_t value = 0;
+    int fd;
+    int status;
+#ifdef ALTSCREEN_BRIDGE_FILE_OUTPUT
+    fd = open(device, reopen ? (O_WRONLY | O_APPEND) : (O_WRONLY | O_CREAT | O_TRUNC), 0644);
+#else
+    (void)reopen;
+    fd = open64(device, O_WRONLY | O_NONBLOCK);
+#endif
+    if (fd < 0) {
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: open %s failed: %s\n", device, strerror(errno));
+        return -1;
+    }
+    g_most_fd = fd;
+#ifndef ALTSCREEN_BRIDGE_FILE_OUTPUT
+    status = devctl(fd, MLB_DEVCTL_GET_PACKET_SIZE, &value, sizeof(value), NULL);
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: interface status=%d value=%u\n", status, value);
+    status = devctl(fd, MLB_DEVCTL_GET_BLOCK_COUNT, &value, sizeof(value), NULL);
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: packet-size status=%d value=%u\n", status, value);
+    status = devctl(fd, MLB_DEVCTL_GET_QUEUE_SIZE, &value, sizeof(value), NULL);
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: block-count status=%d value=%u\n", status, value);
+    status = devctl(fd, MLB_DEVCTL_QUEUE_FLUSH, NULL, 0, NULL);
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: queue-flush status=%d\n", status);
+    status = devctl(fd, MLB_DEVCTL_START, &blocks, sizeof(blocks), NULL);
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: start status=%d packets=%u\n", status, blocks);
+    if (status != 0) {
+        if ((int)g_most_fd == fd) {
+            g_most_fd = -1;
+            close(fd);
+        }
+        return -1;
+    }
+#else
+    (void)blocks;
+    (void)value;
+    (void)status;
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: portable file-output validation mode\n");
+#endif
+    return fd;
+}
+
+static void most_close(int fd)
+{
+    /* The signal handler may have closed it already (SIGTERM unblocks a write). */
+    if (fd >= 0 && (int)g_most_fd == fd) {
+        g_most_fd = -1;
+        close(fd);
+    }
+}
+
+extern char **environ;
+
+/* Run dmdt with the supervisor's arguments; returns its exit status, or a
+ * negative value (-1 spawn, -2 abnormal exit, -3 timeout). The environment is
+ * built before fork: the bridge is multi-threaded. */
+static int run_dmdt(const char *a, const char *b, const char *c)
+{
+    static char ipl[] = "IPL_CONFIG_DIR=/etc/eso/production";
+    static char lib[] = "LD_LIBRARY_PATH=/mnt/app/root/lib-target:/eso/lib:/mnt/app/usr/lib:"
+                        "/mnt/app/armle/lib:/mnt/app/armle/lib/dll:/mnt/app/armle/usr/lib";
+    char *argv[5];
+    char **envp;
+    size_t count = 0;
+    size_t used = 0;
+    size_t i;
+    unsigned int poll;
+    int null_fd;
+    int status;
+    pid_t child;
+    argv[0] = (char *)ALTSCREEN_BRIDGE_DMDT_PATH;
+    argv[1] = (char *)a;
+    argv[2] = (char *)b;
+    argv[3] = (char *)c;
+    argv[4] = NULL;
+    while (environ != NULL && environ[count] != NULL) ++count;
+    envp = (char **)calloc(count + 3U, sizeof(*envp));
+    if (envp == NULL) return -1;
+    for (i = 0; i < count; ++i) {
+        if (strncmp(environ[i], "LD_PRELOAD=", 11) == 0 ||
+            strncmp(environ[i], "IPL_CONFIG_DIR=", 15) == 0 ||
+            strncmp(environ[i], "LD_LIBRARY_PATH=", 16) == 0) continue;
+        envp[used++] = environ[i];
+    }
+    envp[used++] = ipl;
+    envp[used++] = lib;
+    envp[used] = NULL;
+    null_fd = open("/dev/null", O_RDWR);
+    child = fork();
+    if (child < 0) {
+        if (null_fd >= 0) close(null_fd);
+        free(envp);
+        return -1;
+    }
+    if (child == 0) {
+        if (null_fd >= 0) {
+            dup2(null_fd, 0);
+            dup2(null_fd, 1);
+            dup2(null_fd, 2);
+        }
+        execve(argv[0], argv, envp);
+        _exit(127);
+    }
+    if (null_fd >= 0) close(null_fd);
+    free(envp);
+    for (poll = 0; poll < DMDT_TIMEOUT_POLLS; ++poll) {
+        pid_t result = waitpid(child, &status, WNOHANG);
+        if (result == child) return WIFEXITED(status) ? WEXITSTATUS(status) : -2;
+        if (result < 0 && errno != EINTR) return -1;
+        usleep(10000);
+    }
+    kill(child, SIGKILL);
+    (void)waitpid(child, &status, 0);
+    return -3;
+}
+
+/* Boot-time reclaim of isoTX2 after the factory encoder took it (see
+ * ALTSCREEN_BRIDGE_RECLAIM_WINDOW_US). Returns the new descriptor or -1. */
+static int most_reclaim(const char *device, int fd, unsigned int attempt)
+{
+    int dc_status;
+    int sc_status = -1;
+    most_close(fd);
+    dc_status = run_dmdt("dc", "72", NULL);
+    if (dc_status == 0) sc_status = run_dmdt("sc", "4", "72");
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+            "bridge: most-reclaim attempt=%u uptime_ms=%llu dmdt=%d/%d\n",
+            attempt, (unsigned long long)(monotonic_us() / 1000ULL),
+            dc_status, sc_status);
+    if (g_stop) return -1;
+    usleep(ALTSCREEN_BRIDGE_RECLAIM_SETTLE_US);
+    if (g_stop) return -1;
+    fd = most_open(device, 1);
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+            "bridge: most-reclaim attempt=%u reopen=%s\n",
+            attempt, fd >= 0 ? "ok" : "failed");
+    return fd;
+}
+
+#ifdef ALTSCREEN_BRIDGE_TEST_ENOMEM_AT_BLOCKS
+#ifndef ALTSCREEN_BRIDGE_TEST_ENOMEM_REPEAT
+#define ALTSCREEN_BRIDGE_TEST_ENOMEM_REPEAT 0U /* 0: once; N: again every N written blocks */
+#endif
+/* Host tests: report the driver's ENOMEM (after the factory encoder's flush)
+ * once the given number of blocks has been written. */
+static int test_inject_enomem(unsigned long written_blocks)
+{
+    static unsigned long next = ALTSCREEN_BRIDGE_TEST_ENOMEM_AT_BLOCKS;
+    if (next == 0UL || written_blocks < next) return 0;
+    next = ALTSCREEN_BRIDGE_TEST_ENOMEM_REPEAT != 0U ?
+        written_blocks + ALTSCREEN_BRIDGE_TEST_ENOMEM_REPEAT : 0UL;
+    errno = ENOMEM;
+    return 1;
+}
+#endif
+
+static void *most_writer_thread(void *context)
+{
+    const char *device = (const char *)context;
+    uint8_t block[TS_BLOCK_SIZE];
+    unsigned long written_blocks = 0;
+    unsigned long report_blocks = 0;
+    uint64_t report_start_us = monotonic_us();
+    uint64_t output_packets = 0;
+    uint64_t next_psi_packet = 0;
+    uint64_t next_pcr_packet = 2;
+    int pmt_pending = 0;
+    unsigned int reclaims = 0;
+    int fd;
+    raise_bridge_priority("writer");
+    fd = most_open(device, 0);
+    if (fd < 0) {
+        g_stop = 1;
+        return NULL;
+    }
+    while (!g_stop) {
+        unsigned int i;
+        uint64_t write_start_us;
+        uint64_t write_elapsed_us;
+#ifdef ALTSCREEN_BRIDGE_TEST_STALL_AFTER_BLOCKS
+        if (written_blocks == ALTSCREEN_BRIDGE_TEST_STALL_AFTER_BLOCKS) {
+            cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: test-writer-stall blocks=%lu us=%u\n",
+                    written_blocks, (unsigned)ALTSCREEN_BRIDGE_TEST_STALL_US);
+            usleep(ALTSCREEN_BRIDGE_TEST_STALL_US);
+        }
+#endif
+        for (i = 0; i < TS_BLOCK_PACKETS; ++i) {
+            uint8_t *packet = block + i * TS_SIZE;
+            uint64_t pcr_base = TRANSPORT_PCR_ORIGIN_90K +
+                (output_packets * TRANSPORT_TICKS_NUMERATOR) /
+                TRANSPORT_TICKS_DENOMINATOR;
+            if (pmt_pending) {
+                if (make_pmt_packet(packet) != 0) make_null_packet(packet);
+                pmt_pending = 0;
+            } else if (output_packets >= next_psi_packet) {
+                if (make_pat_packet(packet) != 0) make_null_packet(packet);
+                pmt_pending = 1;
+                next_psi_packet += TRANSPORT_INTERVAL_PACKETS;
+            } else if (output_packets >= next_pcr_packet) {
+                make_pcr_packet(packet, pcr_base);
+                next_pcr_packet += TRANSPORT_INTERVAL_PACKETS;
+            } else if (!queue_pop(&g_queue, packet)) {
+                make_null_packet(packet);
+            }
+            ++output_packets;
+        }
+        g_transport_clock_90k = (uint32_t)(TRANSPORT_PCR_ORIGIN_90K +
+            (output_packets * TRANSPORT_TICKS_NUMERATOR) /
+            TRANSPORT_TICKS_DENOMINATOR);
+        write_start_us = monotonic_us();
+        if (write_full(fd, block, sizeof(block)) != 0
+#ifdef ALTSCREEN_BRIDGE_TEST_ENOMEM_AT_BLOCKS
+            || test_inject_enomem(written_blocks)
+#endif
+            ) {
+            int write_errno = errno;
+            uint64_t uptime_us = monotonic_us();
+            cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: MOST write failed: %s\n", strerror(write_errno));
+            if (g_stop) break;
+            if (write_errno == ENOMEM && reclaims < ALTSCREEN_BRIDGE_RECLAIM_MAX &&
+                uptime_us < ALTSCREEN_BRIDGE_RECLAIM_WINDOW_US) {
+                ++reclaims;
+                fd = most_reclaim(device, fd, reclaims);
+                if (fd >= 0) {
+                    /* The failed block is gone; restart the transport with PAT/PMT
+                     * and let the input side resync the picture. */
+                    pmt_pending = 0;
+                    next_psi_packet = output_packets;
+                    g_writer_fast_streak = 0;
+                    g_most_reclaims = reclaims;
+                    continue;
+                }
+            } else if (write_errno == ENOMEM) {
+                cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                        "bridge: most-reclaim not-attempted reclaims=%u max=%u uptime_ms=%llu\n",
+                        reclaims, (unsigned)ALTSCREEN_BRIDGE_RECLAIM_MAX,
+                        (unsigned long long)(uptime_us / 1000ULL));
+            }
+            g_stop = 1;
+            break;
+        }
+        write_elapsed_us = monotonic_us() - write_start_us;
+        if (write_elapsed_us > g_max_write_us)
+            g_max_write_us = write_elapsed_us;
+        record_write_latency(write_elapsed_us);
+        if (write_elapsed_us >= 50000ULL) {
+            ++g_slow_writes;
+            g_slow_write_queue_depth = queue_count(&g_queue);
+        }
+        if (write_elapsed_us <= RECOVERY_FAST_WRITE_LIMIT_US)
+            ++g_writer_fast_streak;
+        else
+            g_writer_fast_streak = 0;
+#ifdef ALTSCREEN_BRIDGE_FILE_OUTPUT
+        usleep(10000);
+#endif
+        ++written_blocks;
+        g_writer_blocks_completed = written_blocks;
+        if ((written_blocks % 100U) == 0U) {
+            uint64_t report_now_us = monotonic_us();
+            uint64_t report_elapsed_us = report_now_us - report_start_us;
+            unsigned long long output_bps = report_elapsed_us ?
+                ((unsigned long long)(written_blocks - report_blocks) *
+                 TS_BLOCK_SIZE * 8ULL * 1000000ULL) / report_elapsed_us : 0;
+            cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                    "bridge: blocks=%lu output_bps=%llu queue=%u frames=%lu "
+                    "keys=%lu drops=%lu write_us=%llu write_us_max=%llu "
+                    "slow_writes=%lu\n",
+                    written_blocks, output_bps,
+                    (unsigned)queue_count(&g_queue), g_frames,
+                    g_keyframes, g_dropped_messages,
+                    (unsigned long long)write_elapsed_us,
+                    (unsigned long long)g_max_write_us, g_slow_writes);
+            cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                    "bridge: hist_write_us="
+                    "%lu,%lu,%lu,%lu,%lu,%lu "
+                    "burst_100ms_max_bytes=%llu burst_100ms_max_frames=%lu "
+                    "slow_write_queue=%lu\n",
+                    g_write_hist[0], g_write_hist[1], g_write_hist[2],
+                    g_write_hist[3], g_write_hist[4], g_write_hist[5],
+                    g_burst_max_bytes, g_burst_max_frames,
+                    (unsigned long)g_slow_write_queue_depth);
+            reset_write_histogram();
+            g_burst_max_bytes = 0;
+            g_burst_max_frames = 0;
+            g_slow_write_queue_depth = 0;
+            report_blocks = written_blocks;
+            report_start_us = report_now_us;
+        }
+    }
+    most_close(fd);
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: writer stopped blocks=%lu reclaims=%u\n",
+            written_blocks, reclaims);
+    return NULL;
+}
+
+static uint64_t next_transport_pts_origin(void)
+{
+    uint64_t value = (uint64_t)g_transport_clock_90k + PTS_TARGET_LEAD_90K;
+    if (value <= g_last_pts) value = g_last_pts + 1ULL;
+    return value;
+}
+
+static uint64_t g_config_idr_retry_us;
+static void recover_missing_avcc(int valid,size_t size,uint64_t now)
+{
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+    if(!valid && size) {
+        if(!g_config_idr_retry_us || now<g_config_idr_retry_us || now-g_config_idr_retry_us>=1000000) {
+            int status=request_fresh_idr();g_config_idr_retry_us=now?now:1;
+            cpmap_log_fprintf(stderr,CPMAP_BRIDGE_LOG_LIMIT,"bridge: missing avcC, requesting IDR status=%d\n",status);
+        }
+    } else if(valid)g_config_idr_retry_us=0;
+#else
+    (void)valid;(void)size;(void)now;
+#endif
+}
+static int process_frame(AvcConfig *config, const uint8_t *data, size_t size,
+                         uint32_t flags, uint32_t sequence,
+                         uint64_t media_timestamp_ntp)
+{
+    uint8_t *annexb = NULL;
+    size_t annexb_size = 0;
+    int result;
+    /* A bridge starting after the phone's initial IDR has no SPS/PPS yet.
+     * Request recovery through the existing input path, including when the
+     * receiver-side cadence is unavailable. Bound retries to once a second. */
+    recover_missing_avcc(config->valid,size,monotonic_us());
+    result = avcc_to_annexb(config, data, size,
+                                (flags & ALT_FRAME_FLAG_KEYFRAME) != 0,
+                                &annexb, &annexb_size);
+    int keyframe;
+    int sequence_restart;
+    int sequence_gap;
+    uint64_t now_us;
+    uint64_t pts;
+    uint64_t pts_step;
+    size_t queued_packets;
+    if (result < 0) return -1;
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+    media_timestamp_ntp=wireless_playout(config,data,size,media_timestamp_ntp);
+    if(g_wireless_skip_sequence) {free(annexb);return 1;}
+    if(g_wireless_chain_skip_pending && (result>0 || (flags&ALT_FRAME_FLAG_KEYFRAME))) {
+        g_last_sequence=sequence-1;g_discontinuity_pending=1;g_wireless_chain_skip_pending=0;
+    }
+#endif
+    keyframe = result > 0 || (flags & ALT_FRAME_FLAG_KEYFRAME) != 0;
+    now_us = monotonic_us();
+    if (g_intro_waiting_live_idr) {
+        if (!keyframe) {
+            free(annexb);
+            return 1;
+        }
+        g_intro_waiting_live_idr = 0;
+        g_media_origin_ntp = media_timestamp_ntp;
+        g_local_origin_us = now_us;
+        g_pts_origin_value = next_transport_pts_origin();
+        g_last_sequence = 0;
+        g_discontinuity_pending = 1;
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                "bridge: intro-live-resume-idr sequence=%u pts_origin=%llu\n",
+                sequence, (unsigned long long)g_pts_origin_value);
+    }
+    queued_packets = queue_count(&g_queue);
+    sequence_restart = sequence <= 2U && g_last_sequence > 100U;
+    sequence_gap = g_last_sequence != 0U && !sequence_restart &&
+                   sequence != g_last_sequence + 1U;
+    if (g_most_reclaims != g_most_reclaims_handled) {
+        /* The writer reclaimed isoTX2: the driver dropped what it had queued. */
+        g_most_reclaims_handled = g_most_reclaims;
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                "bridge: most-reclaim-resync sequence=%u queued=%lu reclaims=%lu\n",
+                sequence, (unsigned long)queued_packets, g_most_reclaims_handled);
+#ifdef ALTSCREEN_AA_SINGLE_IDR
+        /* No second IDR from an Android phone: mark the break and keep going. */
+        g_discontinuity_pending = 1;
+#else
+        if (!g_waiting_for_keyframe) {
+            enter_low_latency_recovery(queued_packets, sequence, now_us);
+            queued_packets = 0;
+        }
+#endif
+    }
+#ifdef ALTSCREEN_AA_SINGLE_IDR
+    if (sequence_restart || sequence_gap) {
+        ++g_aa_gaps;
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                "bridge: aa-chain-gap-kept previous=%u current=%u restart=%d gaps=%lu\n",
+                g_last_sequence, sequence, sequence_restart, g_aa_gaps);
+    }
+    if (queued_packets > TS_LOW_LATENCY_LIMIT_PACKETS && (g_aa_backlogs++ % 30U) == 0U)
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                "bridge: aa-backlog-kept sequence=%u queued=%lu limit=%u backlogs=%lu\n",
+                sequence, (unsigned long)queued_packets,
+                (unsigned)TS_LOW_LATENCY_LIMIT_PACKETS, g_aa_backlogs);
+#else
+    if (!g_waiting_for_keyframe && (sequence_restart || sequence_gap)) {
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                "bridge: predictive-chain-gap previous=%u current=%u restart=%d\n",
+                g_last_sequence, sequence, sequence_restart);
+        enter_low_latency_recovery(queued_packets, sequence, now_us);
+        queued_packets = 0;
+    }
+    if (!g_waiting_for_keyframe &&
+        queued_packets > TS_LOW_LATENCY_LIMIT_PACKETS) {
+        enter_low_latency_recovery(queued_packets, sequence, now_us);
+    }
+#endif
+    if (g_waiting_for_keyframe && !keyframe && !writer_recovered_after_reset()) {
+        ++g_latency_frames_discarded;
+        g_last_sequence = sequence;
+        free(annexb);
+        if ((g_latency_frames_discarded % 30U) == 1U)
+            cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                    "bridge: latency-wait-writer sequence=%u "
+                    "dropped_frames=%lu wait_us=%llu blocks=%lu streak=%lu\n",
+                    sequence, g_latency_frames_discarded,
+                    (unsigned long long)(now_us - g_latency_wait_start_us),
+                    g_writer_blocks_completed, g_writer_fast_streak);
+        return 1;
+    }
+    if (g_waiting_for_keyframe && !keyframe) {
+        int marker_status = 1;
+        if (!g_recovery_idr_requested) {
+            marker_status = request_fresh_idr();
+            if (marker_status == 0) g_recovery_idr_requested = 1;
+            cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                    "bridge: latency-request-idr sequence=%u status=%d "
+                    "wait_us=%llu blocks=%lu streak=%lu\n",
+                    sequence, marker_status,
+                    (unsigned long long)(now_us - g_latency_wait_start_us),
+                    g_writer_blocks_completed, g_writer_fast_streak);
+        }
+        ++g_latency_frames_discarded;
+        g_last_sequence = sequence;
+        free(annexb);
+        return 1;
+    }
+    if (g_waiting_for_keyframe && keyframe) {
+        size_t discarded = queue_discard_all(&g_queue);
+        uint64_t waited_us = now_us - g_latency_wait_start_us;
+        g_latency_packets_discarded += discarded;
+        /* Start a continuous, current PTS epoch instead of exposing the
+         * decoder to the wall-clock gap occupied by discarded stale frames. */
+        g_media_origin_ntp = media_timestamp_ntp;
+        g_local_origin_us = now_us;
+        g_pts_origin_value = next_transport_pts_origin();
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                "bridge: latency-resume-idr sequence=%u wait_us=%llu "
+                "extra_discarded=%lu blocks=%lu streak=%lu\n",
+                sequence, (unsigned long long)waited_us,
+                (unsigned long)discarded,
+                g_writer_blocks_completed, g_writer_fast_streak);
+        g_waiting_for_keyframe = 0;
+        g_recovery_idr_requested = 0;
+    }
+    if ((sequence <= 2U && g_last_sequence > 100U) ||
+        (media_timestamp_ntp && g_media_origin_ntp &&
+         media_timestamp_ntp < g_media_origin_ntp)) {
+        g_media_origin_ntp = 0;
+        g_local_origin_us = 0;
+        g_pts_origin_value = next_transport_pts_origin();
+    }
+    if (media_timestamp_ntp) {
+        if (g_media_origin_ntp == 0) {
+            g_media_origin_ntp = media_timestamp_ntp;
+            g_pts_origin_value = next_transport_pts_origin();
+        }
+        pts = g_pts_origin_value +
+              ntp_delta_to_90khz(media_timestamp_ntp - g_media_origin_ntp);
+    } else {
+        if (g_local_origin_us == 0 || now_us < g_local_origin_us) {
+            g_local_origin_us = now_us;
+            g_pts_origin_value = next_transport_pts_origin();
+        }
+        pts = g_pts_origin_value +
+              ((now_us - g_local_origin_us) * 90ULL) / 1000ULL;
+    }
+    /* The MediaLB clock keeps running even while CarPlay is idle.  Rebase a
+     * burst or a late first frame so every access unit remains safely ahead
+     * of the dedicated PCR instead of arriving with a timestamp in the past. */
+    if (pts < (uint64_t)g_transport_clock_90k + PTS_MIN_LEAD_90K) {
+        uint64_t target = next_transport_pts_origin();
+        uint64_t shift = target > pts ? target - pts : 0;
+        g_pts_origin_value += shift;
+        pts += shift;
+        ++g_pts_clock_rebases;
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                "bridge: pts-rebase sequence=%u shift=%llu pcr=%u pts=%llu "
+                "count=%lu\n",
+                sequence, (unsigned long long)shift,
+                (unsigned)g_transport_clock_90k,
+                (unsigned long long)pts, g_pts_clock_rebases);
+    }
+    if (pts <= g_last_pts) {pts = g_last_pts + 1ULL;++g_pts_monotonic_clamps;}
+    pts_step = g_last_pts ? pts - g_last_pts : 0;
+    if (g_frames == 0 || (g_frames % 60U) == 0U)
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                "bridge: clock frame=%lu ntp=%llu pts=%llu step=%llu\n",
+                g_frames + 1U,
+                (unsigned long long)media_timestamp_ntp,
+                (unsigned long long)pts,
+                (unsigned long long)(g_last_pts ? pts - g_last_pts : 0));
+    result = enqueue_pes(annexb, annexb_size, pts, keyframe);
+    free(annexb);
+    if (result != 0) return -1;
+    ++g_frames;
+    if (keyframe) ++g_keyframes;
+    log_input_metrics(now_us, size, keyframe, pts_step);
+    g_last_pts = pts;
+    g_last_sequence = sequence;
+    return 0;
+}
+
+static int accept_fragment(Reassembly *assembly,
+                           const AltFrameDatagramHeader *header,
+                           const uint8_t *payload, AvcConfig *config)
+{
+    if (header->total_size == 0 || header->total_size > MAX_MESSAGE ||
+        header->chunk_size == 0 ||
+        header->offset + header->chunk_size > header->total_size)
+        return -1;
+    if (assembly->active && assembly->sequence == header->sequence &&
+        assembly->type == header->type &&
+        assembly->total_size == header->total_size &&
+        header->offset < assembly->received) {
+        if (header->offset + header->chunk_size <= assembly->received &&
+            memcmp(assembly->data + header->offset, payload,
+                   header->chunk_size) == 0)
+            return 0; /* duplicate fragment */
+        return -1;
+    }
+    if (!assembly->active && assembly->have_last_completed &&
+        assembly->last_completed_sequence == header->sequence &&
+        assembly->last_completed_type == header->type)
+        return 0; /* duplicate of the final fragment */
+    if (!assembly->active || header->offset == 0 ||
+        assembly->sequence != header->sequence ||
+        assembly->type != header->type ||
+        assembly->total_size != header->total_size) {
+        if (header->offset != 0) return -1;
+        if (header->total_size > assembly->capacity) {
+            uint8_t *grown = (uint8_t *)realloc(assembly->data,
+                                                header->total_size);
+            if (!grown) return -1;
+            assembly->data = grown;
+            assembly->capacity = header->total_size;
+        }
+        assembly->active = 1;
+        assembly->sequence = header->sequence;
+        assembly->type = header->type;
+        assembly->total_size = header->total_size;
+        assembly->received = 0;
+        assembly->flags = header->flags;
+        assembly->media_timestamp_ns =
+            ((uint64_t)header->media_timestamp_hi << 32) |
+            header->media_timestamp_lo;
+    }
+    if (header->offset != assembly->received) return -1;
+    memcpy(assembly->data + header->offset, payload, header->chunk_size);
+    assembly->received += header->chunk_size;
+    if (assembly->received == assembly->total_size) {
+        int result;
+        if (assembly->type == ALT_FRAME_TYPE_CONFIG)
+            result = parse_avcc_config(config, assembly->data,
+                                       assembly->total_size);
+        else if (assembly->type == ALT_FRAME_TYPE_VIDEO)
+            result = process_frame(config, assembly->data,
+                                   assembly->total_size, assembly->flags,
+                                   assembly->sequence,
+                                   assembly->media_timestamp_ns);
+        else result = -1;
+        assembly->last_completed_sequence = assembly->sequence;
+        assembly->last_completed_type = assembly->type;
+        assembly->have_last_completed = 1;
+        assembly->active = 0;
+        return result;
+    }
+    return 0;
+}
+
+int main(int argc, char **argv)
+{
+    const char *device = argc > 1 ? argv[1] : "/dev/mlb/isoTX2";
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+    CpmapIntroPolicy intro_policy = cpmap_intro_read_policy(INTRO_POLICY_PATH);
+#endif
+    AltFrameRing *ring = MAP_FAILED;
+    uint8_t *message = NULL;
+    AvcConfig config;
+    pthread_t writer;
+    int fd = -1;
+    int writer_started = 0;
+    int cache_leased = 0;
+    int result = 1;
+    uint32_t generation = 0;
+    uint32_t next_sequence = 1;
+    unsigned int i;
+    memset(&config, 0, sizeof(config));
+    signal(SIGINT, on_signal);
+    signal(SIGTERM, on_signal);
+    signal(SIGPIPE, SIG_IGN);
+    raise_bridge_priority("input");
+    if (queue_init(&g_queue) != 0) {
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: queue allocation failed\n");
+        goto done;
+    }
+    if (cpmap_cache_acquire() != 0) goto done;
+    cache_leased = 1;
+    fd = open(ALT_FRAME_RING_PATH, O_RDWR | O_CREAT, 0666);
+    if (fd < 0 || ftruncate(fd, (off_t)sizeof(*ring)) != 0) {
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: open ring %s failed: %s\n",
+                ALT_FRAME_RING_PATH, strerror(errno));
+        goto done;
+    }
+    ring = (AltFrameRing *)mmap(NULL, sizeof(*ring), PROT_READ | PROT_WRITE,
+                               MAP_SHARED, fd, 0);
+    close(fd);
+    fd = -1;
+    if (ring == MAP_FAILED) {
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: mmap ring failed: %s\n", strerror(errno));
+        goto done;
+    }
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+    g_wireless_input_ring=ring;
+#endif
+    generation = (ring->magic == ALT_FRAME_RING_MAGIC &&
+                  ring->version == ALT_FRAME_RING_VERSION) ?
+                 ring->generation + 1U : 1U;
+    ring->magic = 0;
+    __sync_synchronize();
+    ring->version = ALT_FRAME_RING_VERSION;
+    ring->generation = generation ? generation : 1U;
+    ring->write_sequence = 0;
+    for (i = 0; i < ALT_FRAME_RING_SLOT_COUNT; ++i)
+        ring->slots[i].committed_sequence = 0;
+    __sync_synchronize();
+    ring->magic = ALT_FRAME_RING_MAGIC;
+    generation = ring->generation;
+    message = (uint8_t *)malloc(ALT_FRAME_RING_SLOT_DATA_MAX);
+    if (!message) goto done;
+    if (pthread_create(&writer, NULL, most_writer_thread, (void *)device) != 0) {
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: writer thread failed\n");
+        goto done;
+    }
+    writer_started = 1;
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: shared ring %s bytes=%u slots=%u -> %s\n",
+            ALT_FRAME_RING_PATH, (unsigned)sizeof(*ring),
+            ALT_FRAME_RING_SLOT_COUNT, device);
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: latency-limit packets=%u reclaim-window-s=%u\n",
+            (unsigned)TS_LOW_LATENCY_LIMIT_PACKETS,
+            (unsigned)(ALTSCREEN_BRIDGE_RECLAIM_WINDOW_US / 1000000ULL));
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro-policy=%s\n",
+            intro_policy == CPMAP_INTRO_OFF ? "off" : intro_policy == CPMAP_INTRO_EVERY_CONNECT ? "every-connect" : "once-per-boot");
+    /* v1.5.3-e: when the clip does not play (off, or already played in this
+     * boot) the bridge starts exactly as v1.5.2 did: from the first ring
+     * entry, the session's config and IDR, with no IDR request. */
+    if (cpmap_intro_should_play(intro_policy, INTRO_ONCE_PATH)) {
+        int intro_status = play_intro_clip(intro_policy);
+        if (intro_status > 0) next_sequence = intro_skip_and_request_idr(ring, "");
+    } else {
+        cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: intro not played (%s)\n",
+                intro_policy == CPMAP_INTRO_OFF ? "off" : "already played in this boot");
+    }
+#endif
+    while (!g_stop) {
+        uint32_t available;
+        if (ring->magic != ALT_FRAME_RING_MAGIC ||
+            ring->version != ALT_FRAME_RING_VERSION) {
+            usleep(1000);
+            continue;
+        }
+        if (ring->generation != generation) {
+            generation = ring->generation;
+            log_session_summary(monotonic_us(),"ring-generation");
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+            /* A saved menu change applies on the next phone connection. */
+            intro_policy = cpmap_intro_read_policy(INTRO_POLICY_PATH);
+#endif
+            next_sequence = 1;
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+            g_wireless_skip_sequence=0;g_wireless_chain_skip_pending=0;
+            wcp_capture_clock_clear(&g_capture_clock);
+#endif
+            /* A fast unplug/replug can create a new AltScreen listener before
+             * the supervisor has shut this bridge down.  Do not continue the
+             * previous stream's predictive chain or timestamps. */
+            queue_discard_all(&g_queue);
+            g_intro_waiting_live_idr = 1;
+            g_last_sequence = 0;
+            g_media_origin_ntp = 0;
+            g_local_origin_us = 0;
+            g_discontinuity_pending = 1;
+            if (request_fresh_idr() != 0)
+                cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: reconnect IDR request failed: %s\n",
+                        strerror(errno));
+            cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT, "bridge: ring generation=%u; waiting for fresh IDR\n",
+                    generation);
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+            if (cpmap_intro_should_play(intro_policy,INTRO_ONCE_PATH)) {
+                /* The producer increments generation once per accepted phone
+                 * video connection. Replay even if a quick reconnect kept this
+                 * bridge alive; never keep video buffered behind the logo. */
+                int intro_status = play_intro_clip(intro_policy);
+                if (intro_status > 0) next_sequence = intro_skip_and_request_idr(ring, "reconnect ");
+            }
+#endif
+        }
+        __sync_synchronize();
+        available = ring->write_sequence;
+        while (!g_stop && next_sequence != 0 &&
+               next_sequence <= available) {
+            AltFrameRingSlot *slot =
+                &ring->slots[(next_sequence - 1U) % ALT_FRAME_RING_SLOT_COUNT];
+            uint32_t committed = slot->committed_sequence;
+            uint32_t size;
+            uint32_t type;
+            uint32_t flags;
+            uint32_t source_sequence;
+            uint64_t media_timestamp_ns;
+            int status;
+            if (committed != next_sequence) {
+                if (committed > next_sequence) {
+                    g_dropped_messages += committed - next_sequence;
+                    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+                            "bridge: ring overrun wanted=%u found=%u drops=%lu\n",
+                            next_sequence, committed, g_dropped_messages);
+                    next_sequence = committed;
+                    continue;
+                }
+                break;
+            }
+            __sync_synchronize();
+            size = slot->size;
+            type = slot->type;
+            flags = slot->flags;
+            source_sequence = slot->source_sequence;
+            media_timestamp_ns =
+                ((uint64_t)slot->media_timestamp_hi << 32) |
+                slot->media_timestamp_lo;
+            if (size == 0 || size > ALT_FRAME_RING_SLOT_DATA_MAX) {
+                ++g_dropped_messages;
+                ++next_sequence;
+                continue;
+            }
+            memcpy(message, slot->data, size);
+            __sync_synchronize();
+            if (slot->committed_sequence != next_sequence) continue;
+            if (type == ALT_FRAME_TYPE_CONFIG)
+                status = parse_avcc_config(&config, message, size);
+            else if (type == ALT_FRAME_TYPE_VIDEO) {
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+                g_wireless_input_sequence=next_sequence;g_wireless_skip_sequence=0;
+#endif
+                status = process_frame(&config, message, size, flags,source_sequence,media_timestamp_ns);
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+                if(g_wireless_skip_sequence) {next_sequence=g_wireless_skip_sequence;g_wireless_skip_sequence=0;continue;}
+#endif
+            }
+            else status = -1;
+            if (status != 0 && !(type == ALT_FRAME_TYPE_VIDEO && status == 1))
+                ++g_dropped_messages;
+            ++next_sequence;
+        }
+        usleep(1000);
+    }
+    result = 0;
+done:
+    g_stop = 1;
+    g_queue.stopping = 1;
+    if (fd >= 0) close(fd);
+    if (writer_started) pthread_join(writer, NULL);
+    log_session_summary(monotonic_us(),"stop");
+    cpmap_log_fprintf(stderr, CPMAP_BRIDGE_LOG_LIMIT,
+            "bridge: complete frames=%lu keys=%lu drops=%lu input_bytes=%llu "
+            "ts_packets=%llu frame_max=%lu idr_max=%lu queue_hi=%lu "
+            "write_us_max=%llu slow_writes=%lu latency_resets=%lu "
+            "latency_packets_discarded=%llu latency_frames_discarded=%lu "
+            "pts_rebases=%lu intro_frames=%lu\n",
+            g_frames, g_keyframes, g_dropped_messages,
+            g_input_bytes_total, g_ts_packets_total,
+            (unsigned long)g_max_frame_total,
+            (unsigned long)g_max_keyframe_total,
+            (unsigned long)g_queue.high_water_total,
+            (unsigned long long)g_max_write_us, g_slow_writes,
+            g_latency_resets, g_latency_packets_discarded,
+            g_latency_frames_discarded, g_pts_clock_rebases,
+            g_intro_frames);
+    free(message);
+    if (ring != MAP_FAILED) munmap(ring, sizeof(*ring));
+#ifndef ALTSCREEN_AA_SINGLE_IDR
+    if(g_wireless_timing!=MAP_FAILED)munmap(g_wireless_timing,sizeof(*g_wireless_timing));
+#endif
+    if (cache_leased) cpmap_cache_release();
+    free_config(&config);
+    if (g_queue.data) queue_destroy(&g_queue);
+    return result;
+}

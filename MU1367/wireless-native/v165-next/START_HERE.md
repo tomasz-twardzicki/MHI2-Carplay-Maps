@@ -1,0 +1,25 @@
+# v1.6.5-e-test1: install and compare
+
+This complete local test package targets the exact supported MU1367 K4525/P4521 firmware. Keep the whole SD package and recovery snapshots. Do not copy individual runtime files into an existing installation.
+
+1. Extract the complete ZIP to the SD root and use the included GEM **release installer**. It recognizes supported v1.5.3/v1.5.4 installations, stable v1.6.1 and earlier managed wireless candidates through v1.6.4. When it restores an older layer or installs the base, perform the requested full MU reboot and run the same installer again until the release reports installed. An older recovery root or changed file is not permission to delete its snapshot.
+2. Test wired and wireless MU/AID maps, native guidance, ETA/arrival display, RHD layout, track text, artwork, reverse return and reconnects. Keep **40 fps / IDR 8 / smoothing 150 ms** for comparison. These tune the alternate/AID stream; the native main-screen demand remains 30.
+3. After wireless CarPlay is fully established, switch **only Bluetooth** off on the phone while Wi-Fi stays on. Check that CarPlay stays active and audio/navigation continue. Restore Bluetooth, switch **only Wi-Fi** off, check teardown, then reconnect. Finish with a cold-start test. Export diagnostics after each failure. The guard starts conservatively: accepted-session behavior does not fix pre-acceptance phone selection or establish that every bootstrap resend is unnecessary.
+4. In GEM → CarPlay Maps VC → Wireless, choose **Dial road label: next**. It applies without a reboot on wired and wireless; **current** restores the prior behavior and **off** blanks the dial label. Test manoeuvre advance, reroute, route stop, exits and roundabouts. Compare Google Maps, Apple Maps and Waze. Missing/stale upcoming-road data should produce a blank label, not the previous turn's road. Current remains the default for a fresh installation.
+5. For artwork, test track skips, delayed covers, MU/AID independently, reconnects and source switches. Report whether text or the picture is absent on each display. The new server-replacement retry is a specific fix; complete end-to-end artwork delivery still requires vehicle confirmation.
+6. For the **main-display startup freeze**, record approximately when it starts/ends and whether audio and touch continue. Export the normal base diagnostics promptly while the session is active. New `cpmap-main-screen.log[.1]` records wall/ASL clocks and ownership state; `cpmap-native-launch.log` records monotonic launch timestamps. Decode counters alone do not prove image presentation. No forced foreground action was added.
+7. Use the normal base diagnostics export for the complete capture. The separate GEM wireless collector remains available. Both collect new BT status, media events, artwork publishing status, launch/ownership traces, GPS health/probe data and road-label preference, alongside retained wireless timing/session evidence. Pairing stores remain excluded. Location/route/media snapshots can contain personal trip or track data.
+
+## GPS limitation and status
+
+Leave **Vehicle location feed (experimental)** off for the comparison. The v1.6.4 wireless-only process snapshots have no DIO, so its passive NMEA source cannot start. Enabling the option and rebooting does not create a qualified wireless source. This candidate improves diagnosis rather than claiming that architecture is fixed.
+
+The GEM **Vehicle location feed (experimental): status** now distinguishes the option from a running source: source PID/liveness, fresh heartbeat, valid-fix age, UTC readiness and receiver `advertised` / `requested` / `sent` counts. Missing receiver state is explicit. `sent` means native sender calls, not phone acknowledgements. `cpmap-gps-launch.log` records a DIO claim only if that launcher actually runs; no log is not proof of a particular claim failure.
+
+The separate **GPS diagnostics probe: on/off/status** can collect read-only OEM position and clock observations without enabling forwarding. It changes within about a second. Map-matched positions and unqualified bootstrap clocks are labelled; the probe never turns them into phone GPS input. A raw GNSS/UTC source is still needed. Wired OEM GPS is retained.
+
+## Recovery
+
+Use this package's **Remove wireless and restore v1.5.4 (reboot)** to remove its wireless layer. Use the included release installer afterward to follow any further previous-layer/reboot steps. To return to OEM, use this package's **complete OEM restore** and repeat after every required reboot until complete. It restores recognized managed snapshots and archives this layer's GPS/probe/road-label preferences. It refuses unknown changed controllers/files. It is not a general remover for an arbitrary third-party installation. Keep this newer toolbox: older toolboxes do not know its recovery root.
+
+Bench verification is included in `VERIFICATION.json`; radio/MFi, physical MOST/audio, actual HMI picture presentation and phone location receipt require car testing. This package is experimental and has not been publicly uploaded.

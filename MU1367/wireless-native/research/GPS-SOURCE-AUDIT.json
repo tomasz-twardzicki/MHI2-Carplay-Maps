@@ -1,0 +1,69 @@
+{
+  "date": "2026-11-19",
+  "scope": "MU1367 OEM wired versus current pinned native wireless receiver",
+  "wireless_receiver_sha256": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+  "actual_receiver_identification": {
+    "message": "0x1d01",
+    "parameter_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      12,
+      13,
+      24
+    ],
+    "location_component_22_advertised": false,
+    "messages_sent": [
+      "0xaa01",
+      "0xaa03",
+      "0x5000",
+      "0x5002",
+      "0x5200",
+      "0x5203"
+    ],
+    "messages_received": [
+      "0xaa00",
+      "0xaa02",
+      "0xaa04",
+      "0xaa05",
+      "0x5001",
+      "0x5201",
+      "0x5202"
+    ],
+    "source": "build-gps-identification-r1/qemu.log",
+    "qemu_log_sha256": "4281167547805d3f6aca36935d45380f8f59baaab5ce0a8223ff140334afa302",
+    "execution": "Actual unmodified receiver parser at 0xec5ec before hardware main in an isolated QNX fixture. Default identification values; static message lists are shared with the packaged configuration."
+  },
+  "wired": {
+    "location_enabled": true,
+    "nmea_types": [
+      "GPGGA",
+      "GPRMC"
+    ],
+    "iap2_driver_sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+    "driver_identification_parameter": {
+      "id": 22,
+      "name": "LocationInformationComponent",
+      "table": "params_id_info at 0x28208; 16-byte rows"
+    },
+    "functions": {
+      "gps_info_send": "0x94b4",
+      "gps_stop_recv": "0x995c",
+      "gps_start_recv": "0x9990"
+    },
+    "oem_service": "dio_manager contains CNMEAProvider and CIpodAP2Service NMEA-sentence/GPS-send handling"
+  },
+  "limits": [
+    "This proves the current wireless capability gap and the OEM wired location path.",
+    "Existing drive exports do not prove live wired NMEA transmission rates or iOS sensor-fusion weights.",
+    "This audit does not modify the already sealed v1.6.2-e-test1 archive."
+  ],
+  "apple_reference": "https://developer.apple.com/videos/play/wwdc2016/722/?time=774"
+}

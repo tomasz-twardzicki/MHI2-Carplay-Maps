@@ -1,0 +1,986 @@
+{
+  "review_date": "2026-11-23",
+  "package_sha256": "e2149b66f5dc7f6c26890d8b6ecad5961a99ec2da6b66096785f3a8d9e116dd4",
+  "bt_elf": {
+    "sha256": "95a75391792c7266eb8c759c20f3b35745d2cd890b74fad45e2c36a5406e9d4e",
+    "bind_now": false,
+    "slots": {
+      "write": {
+        "offset": "0x47860",
+        "relocation": 22,
+        "initial_word": "0x272f0"
+      },
+      "open": {
+        "offset": "0x47878",
+        "relocation": 22,
+        "initial_word": "0x272f0"
+      }
+    },
+    "contract_words": {
+      "0x13770": "0xe92d4c70",
+      "0x1c4c4": "0xeb002bad",
+      "0x22e90": "0xeb00113a",
+      "0x23c30": "0xeb000dd2"
+    },
+    "live_failure_stage_known": false,
+    "lazy_binding_explanation": "Consistent with pinned ELF and current libc-only slot check; no live slot values were exported."
+  },
+  "drives": [
+    {
+      "label": "gps_off",
+      "standard": "cpmap-diag-29999199",
+      "wireless": "wireless-diag-31596639",
+      "archives": {
+        "cpmap-diag-29999199": "8fa1183bb85c1f0bcdc03c29e8489bce139d5fc6a610817e7711bf8b5509821e",
+        "wireless-diag-31596639": "b231485aa42d6fc047c675628011796c55d5f76e4c44afbea552b76eceed1ed9"
+      },
+      "package_runtime_fingerprints_match": true,
+      "stream": {
+        "summary_records": 31,
+        "last": {
+          "t_us": 1874628000,
+          "bridge_pid": 5357702,
+          "event": "minute",
+          "frames": 40650,
+          "keys": 5090,
+          "drops": 1,
+          "queue_hi_total": 257,
+          "frame_max": 47191,
+          "pts_step_max": 12750,
+          "pts_clamps": 0,
+          "pts_rebases": 0,
+          "latency_resets": 0,
+          "slow_writes": 0,
+          "avcc_updates": 1,
+          "receiver_pid": 2093164,
+          "session": 1,
+          "timing_matches": 40650,
+          "timing_misses": 0,
+          "delay_ms": 179,
+          "miss_max_bytes": 0,
+          "miss_map": 0,
+          "miss_owner": 0,
+          "miss_settings": 0,
+          "miss_payload": 0,
+          "miss_changed": 0,
+          "miss_identity": 0,
+          "miss_age": 0,
+          "timestamp_fallbacks": 0,
+          "timestamp_repairs": 2,
+          "timestamp_epochs": 1
+        },
+        "first_minute_pts_step_ms": 224.98888888888888,
+        "subsequent_max_pts_step_ms": 225.0,
+        "smoothing_sample_median_ms": 160.5,
+        "smoothing_sample_max_ms": 239,
+        "retained_main_fps_median": 22.2,
+        "retained_alt_fps_median": 22.8
+      },
+      "audio": {
+        "retained_samples": 43,
+        "from_us": 1437711000,
+        "to_us": 1908651000,
+        "output_matches_mpl5": true,
+        "inactive_max": 0,
+        "errors_max": 0
+      },
+      "bt": {
+        "status": {
+          "t_ms": 9304,
+          "installed": 0,
+          "live": 0,
+          "pid": 0,
+          "nonce": 0,
+          "session": 0,
+          "counter": 0,
+          "age_ms": 0,
+          "bt_preserved": 0,
+          "rc_paused": 0,
+          "resend_guarded": 0
+        },
+        "attach_log": "BTSESSION t_ms=9297 pid=0 session=0 event=not-installed-contract-or-library-mismatch",
+        "carplay_start_count": 3,
+        "cp_watch_established_ms": 9261,
+        "resends": 2,
+        "cold_acl_failure": true,
+        "oem_acl_reuse": true
+      },
+      "gps": {
+        "enabled": false,
+        "probe_enabled": false,
+        "dio_seen": false,
+        "attempt_present": false,
+        "source_present": false,
+        "receiver": {},
+        "probe": {},
+        "retained_position_rows": 0,
+        "map_matched_rows": 0,
+        "reliability_histogram": {},
+        "position_states": [],
+        "validities": []
+      },
+      "artwork": {
+        "status": {
+          "format": 1,
+          "artwork": 1,
+          "enabled": 1,
+          "handle": -1,
+          "attempts": 5,
+          "errors": 0,
+          "fetches": 5,
+          "misses": 0,
+          "hmi_errors": 0,
+          "responses": 0,
+          "clears": 5,
+          "error_seq": 0,
+          "error_t_ms": 0,
+          "error_class": "none",
+          "error_phase": "none",
+          "epoch": 1,
+          "source": 1,
+          "source_flag": 1,
+          "source_epoch": 1,
+          "connected": 1,
+          "source_live": 1,
+          "keep": 0,
+          "usb": 0,
+          "wireless": 1,
+          "session": 1,
+          "generation": 35,
+          "uid_known": 0,
+          "uid_nonzero": 0,
+          "art": 161,
+          "cover": 0,
+          "cover_bytes": 0,
+          "metadata": 0,
+          "text_match": 0,
+          "model_revision": 39
+        },
+        "trace": {
+          "events": {
+            "gate": 40,
+            "decoded": 6
+          },
+          "gates": 40,
+          "no_uid": 18,
+          "metadata_absent": 34,
+          "no_cover": 31,
+          "text_not_matching": 34,
+          "keep_true": 6
+        }
+      },
+      "media": {
+        "route": "asl-dsi-proxy",
+        "ready": 1,
+        "active": 1,
+        "usb": 0,
+        "polls": 9055,
+        "queued_tracks": 38,
+        "queued_playback": 2,
+        "queued_positions": 3534,
+        "queued_covers": 67,
+        "delivered_tracks": 38,
+        "delivered_covers": 67,
+        "errors": 0
+      },
+      "guidance": {
+        "retained_events": 16,
+        "event_kinds": {
+          "0x5201": 8,
+          "0x5202": 6,
+          "0x5204": 2
+        },
+        "maneuvers": 6,
+        "after_road_nonempty": 6,
+        "rows": [
+          {
+            "index": 0,
+            "parameter_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              8,
+              9
+            ],
+            "after_road_nonempty": true,
+            "after_road_bytes": 13
+          },
+          {
+            "index": 1,
+            "parameter_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              8,
+              9
+            ],
+            "after_road_nonempty": true,
+            "after_road_bytes": 4
+          },
+          {
+            "index": 2,
+            "parameter_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              8,
+              9,
+              11
+            ],
+            "after_road_nonempty": true,
+            "after_road_bytes": 4
+          },
+          {
+            "index": 3,
+            "parameter_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              8,
+              9
+            ],
+            "after_road_nonempty": true,
+            "after_road_bytes": 5
+          },
+          {
+            "index": 4,
+            "parameter_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              8,
+              9
+            ],
+            "after_road_nonempty": true,
+            "after_road_bytes": 5
+          },
+          {
+            "index": 5,
+            "parameter_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              8,
+              9
+            ],
+            "after_road_nonempty": true,
+            "after_road_bytes": 2
+          }
+        ],
+        "recognized_route_sources": [
+          "Google"
+        ]
+      },
+      "mu_canvas_events": [
+        "71827 | canvas | visible (hmi shows carplay)",
+        "1836373 | canvas | hidden (hmi left carplay)"
+      ],
+      "snapshot_note": "Artwork counters are from the standard export; event history is from the slightly later standalone export. Do not treat them as simultaneous.",
+      "file_fingerprints": {
+        "logs/btwcp.log": {
+          "bytes": 33621,
+          "sha256": "5d21cdf5090796264a9917b486a7def60935a0ed5cb8b6c89fa9a263071f9c6c"
+        },
+        "logs/omonob-phone.log": {
+          "bytes": 127,
+          "sha256": "f8b662c9f86bf3935cc958687d22b6a0aa018efbccbf8cfb5d5696395b24f35d"
+        },
+        "logs/ramdisk-altscreen-most-bridge.log": {
+          "bytes": 102752,
+          "sha256": "7ebd80c24ebc6ab5294ff174b0be2eedcb078c94da4a144751a7e8e1dbe0135d"
+        },
+        "logs/ramdisk-carplay-cluster-supervisor.log": {
+          "bytes": 405,
+          "sha256": "6829a7dbbb7713f2250202051d37aa90c21298fc153232ab435546bded35a505"
+        },
+        "logs/ramdisk-cpmap-artwork.log": {
+          "bytes": 12105,
+          "sha256": "aef2037c8b15d7183bbecfe13fd8f07c158dd115100fa7a25899f846bb64f80e"
+        },
+        "logs/ramdisk-cpmap-bt-session.log": {
+          "bytes": 85,
+          "sha256": "71fdc0abce837ce94259e720cd61800694d14f80dd7878b3d6a63008052c227d"
+        },
+        "logs/ramdisk-cpmap-wireless-summary.log": {
+          "bytes": 14261,
+          "sha256": "8d4672d8e775a1ac27262d54c578df5ee6cca1a4132809f4cb5a7d78d700fd3a"
+        },
+        "logs/ramdisk-omonob-791-input.log": {
+          "bytes": 357,
+          "sha256": "6a174140751509e708cbe7deb54c36ec9c9ee9dfc2a1b6a2fa3c2dbb4f1d4472"
+        },
+        "logs/wcp.log": {
+          "bytes": 679749,
+          "sha256": "af80c7f06a4b15b818603b4b2d21a9a9e0872e96d4b338e7f3d3c50fdb90158c"
+        },
+        "logs/wcp.log.1": {
+          "bytes": 1065507,
+          "sha256": "dd355d1d40e569a5adcea16378f677e17b47e2629d6d5900b588d0fa4b707ed3"
+        },
+        "logs/wcp_autostart.log": {
+          "bytes": 1041,
+          "sha256": "944df1f0577cc60212d8510b8210d1a70df7288a4d33b0fb8b16fe539283ede5"
+        },
+        "logs/wcp_cp.log": {
+          "bytes": 6977,
+          "sha256": "791526fb127b4f229713e09563b4997271701c79f98134db915e462240fb5970"
+        },
+        "logs/wcp_video.log": {
+          "bytes": 70610,
+          "sha256": "39b447e8fcbc0dec77fba1d68d94a0514d6d5f52c828e6720d4d6cb28f2ae590"
+        },
+        "network.txt": {
+          "bytes": 14013,
+          "sha256": "cd5f93c0b61b6da7b36f04d0f3f617776db3d5cb89ee39d5867c0905a260f0ec"
+        },
+        "preferences/settings.previous": {
+          "bytes": 90,
+          "sha256": "cbbb3920b056a72653c406504c141e3bb104d9fdc397da89538fb9be6a561e31"
+        },
+        "preferences/settings.state": {
+          "bytes": 90,
+          "sha256": "17b89d05e8538e061d2af236cd88afda9f1c4757678cb0939dbc893acdec164c"
+        },
+        "preferences/wireless-carplay.previous": {
+          "bytes": 47,
+          "sha256": "08325afab15f4ecbf6c8eb3bce719ef6e34afb5deba567e94aeba0d85abdbdec"
+        },
+        "preferences/wireless-carplay.state": {
+          "bytes": 47,
+          "sha256": "6282fc5391d4d080e44a6be41658369e0db7bb48902fd82b9c063e2c0ad0931e"
+        },
+        "scopes/.v75-native-001ff06c0000000f207c0a4000000000/cluster-feed.state": {
+          "bytes": 22,
+          "sha256": "4d324ae4c34299234602bc1bce5aa5e3fece3c9ae94b6ad33ec67c31cda317e6"
+        },
+        "scopes/.v75-native-001ff06c0000000f207c0a4000000000/cluster-session.accepted": {
+          "bytes": 21,
+          "sha256": "c1d027b024f92ff2954ff0c43e5fa2bb86b82a68756b9209175931ae8c457c9c"
+        },
+        "state/carplay-altstream.ready": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "state/carplay-cluster-supervisor.pid": {
+          "bytes": 8,
+          "sha256": "bf6e301ce8c28c39cd20e2431466cdd811ada9abc095085aee2614a743786713"
+        },
+        "state/carplay-dio-manager.pid": {
+          "bytes": 8,
+          "sha256": "d2a54e9439762d4c6f83e3abc8e4f90ff106d2c3963812ee40d48580916a7b6a"
+        },
+        "state/carplay-route-guidance/adapter-status.txt": {
+          "bytes": 807,
+          "sha256": "a15cf6a1bd3dc05679fb78f30cc49ce02eae3d5bd20300dfcf8dd9a8d783626d"
+        },
+        "state/carplay-route-guidance/guidance-evidence.txt": {
+          "bytes": 432,
+          "sha256": "ae26d0c51eed251fc774c9275a04afc0b8b103bedf13ea95fe73340a9d4e1be9"
+        },
+        "state/carplay-route-guidance/lane-evidence.txt": {
+          "bytes": 571,
+          "sha256": "c84e245436a9fe7a6749c30a0fef1f88a9f09a0d739eef57e2170a626fe61818"
+        },
+        "state/carplay-route-guidance/reader-failure-first.txt": {
+          "bytes": 309,
+          "sha256": "5ec33ef50a3670cc622d696c09da603985a7783b7ae7b712fd02e1c2dcaacbd1"
+        },
+        "state/cpmap-bt-session.status": {
+          "bytes": 127,
+          "sha256": "3606ee359262ec1e9db91765877bd4e24c8fde614a3d9d22086da50c6fea44d7"
+        },
+        "state/cpmap-driver-side.cached.state": {
+          "bytes": 8,
+          "sha256": "f3916eef6bff6d2622673a95ddafd781ad08a63c3e660274c069378e4c6e21a2"
+        },
+        "state/cpmap-driver-side.state": {
+          "bytes": 8,
+          "sha256": "f3916eef6bff6d2622673a95ddafd781ad08a63c3e660274c069378e4c6e21a2"
+        },
+        "state/omonob-791-input.pid": {
+          "bytes": 8,
+          "sha256": "d2a54e9439762d4c6f83e3abc8e4f90ff106d2c3963812ee40d48580916a7b6a"
+        },
+        "state/v75-wireless-native.owner": {
+          "bytes": 74,
+          "sha256": "40dd688fc7bc509b12631f5f015c7abf4fb47ee2cc8c4ec085aa71dff3864552"
+        },
+        "state/wcp-now-playing.status": {
+          "bytes": 187,
+          "sha256": "298fe9eab937dddb23c458e8e9e316d7ef5645b33d34f035b83f7b8b144718f2"
+        },
+        "state/wcp-pf.ready": {
+          "bytes": 37,
+          "sha256": "29846799fbeb26c7025a16e5389779858f78f13f9d98a75187e72ceffad3ede5"
+        },
+        "state/wcp-rg-adapter-status.txt": {
+          "bytes": 924,
+          "sha256": "6a4e978df18eb18662e86362f4b339a4f8765cda568183df2bb7cd697b685207"
+        },
+        "state/wcp-rg-cover.bin": {
+          "bytes": 211494,
+          "sha256": "a34bb488e4037cab653797ebdb5344a99f9b4026c7dd764d2ee3a7116554d733"
+        },
+        "state/wcp-rg-idr.state": {
+          "bytes": 29,
+          "sha256": "439ef96031746b02b274c35442a361037f1baff07c8ebe589e39771e9b9f45c4"
+        },
+        "state/wcp-rg-latest.bin": {
+          "bytes": 1644,
+          "sha256": "4344346900fa791f0479c65e39247ff43c4d12a4f1c085ad1759b10cf773a43d"
+        },
+        "state/wcp-rg-nowplaying.bin": {
+          "bytes": 222,
+          "sha256": "b040de20c4066ef34c75d578488dc5d960eb7ad5fa0c418aa2d00b6e976da33a"
+        },
+        "state/wcp-rg-session.state": {
+          "bytes": 35,
+          "sha256": "e92cdc684fc646173c46edced3d93fcf7ebc01a4187c15804e74e7ea1f07638d"
+        },
+        "state/wcp-rg-source-status.txt": {
+          "bytes": 132,
+          "sha256": "707fa5f654230393b4b9d2106a6e771d810ec19381d4aa4c196480035ab143b1"
+        },
+        "state/wcp-video-timing.bin": {
+          "bytes": 7188,
+          "sha256": "8f03e33d6860986942c91906cd68805c1d59dfba658c4f60b0256ea11e3bfee2"
+        },
+        "state/wcp_alt_probe": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "state/wcp_cp_session": {
+          "bytes": 1,
+          "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        },
+        "state/wcp_receiver.pid": {
+          "bytes": 8,
+          "sha256": "d82f76ba77041ec37b2e55268598ae7622dd65094c3ff10db03c9857bf2c26c9"
+        },
+        "state/wcp_video.pid": {
+          "bytes": 8,
+          "sha256": "7e4500aebed1b24035d87577ff9bec0c5458bd033ec5b77e090c51775091cbac"
+        },
+        "summary.txt": {
+          "bytes": 5373,
+          "sha256": "3d26842b701c2a65491eb33940a5df59130767bd6e481a1b05bb44f8603ff157"
+        }
+      }
+    },
+    {
+      "label": "gps_on",
+      "standard": "cpmap-diag-27807836",
+      "wireless": "wireless-diag-29409375",
+      "archives": {
+        "cpmap-diag-27807836": "5e68a5f3314530bbc8927943ff5e3a7065b5a6ee6e00294402ab79c9a7d75ef3",
+        "wireless-diag-29409375": "633a5f6971fa4d801077e98e3f030f54c8f3190403e1ca1ba289f4ad213ef1be"
+      },
+      "package_runtime_fingerprints_match": true,
+      "stream": {
+        "summary_records": 29,
+        "last": {
+          "t_us": 1719531000,
+          "bridge_pid": 3559545,
+          "event": "minute",
+          "frames": 38827,
+          "keys": 4857,
+          "drops": 1,
+          "queue_hi_total": 1782,
+          "frame_max": 43044,
+          "pts_step_max": 11249,
+          "pts_clamps": 0,
+          "pts_rebases": 0,
+          "latency_resets": 1,
+          "slow_writes": 0,
+          "avcc_updates": 1,
+          "receiver_pid": 2228336,
+          "session": 2,
+          "timing_matches": 38829,
+          "timing_misses": 0,
+          "delay_ms": 213,
+          "miss_max_bytes": 0,
+          "miss_map": 0,
+          "miss_owner": 0,
+          "miss_settings": 0,
+          "miss_payload": 0,
+          "miss_changed": 0,
+          "miss_identity": 0,
+          "miss_age": 0,
+          "timestamp_fallbacks": 0,
+          "timestamp_repairs": 3,
+          "timestamp_epochs": 1
+        },
+        "first_minute_pts_step_ms": 250.0,
+        "subsequent_max_pts_step_ms": 149.98888888888888,
+        "smoothing_sample_median_ms": 165.5,
+        "smoothing_sample_max_ms": 250,
+        "retained_main_fps_median": 21.4,
+        "retained_alt_fps_median": 23.1
+      },
+      "audio": {
+        "retained_samples": 27,
+        "from_us": 1440155000,
+        "to_us": 1720715000,
+        "output_matches_mpl5": true,
+        "inactive_max": 0,
+        "errors_max": 0
+      },
+      "bt": {
+        "status": {
+          "t_ms": 8715,
+          "installed": 0,
+          "live": 0,
+          "pid": 0,
+          "nonce": 0,
+          "session": 0,
+          "counter": 0,
+          "age_ms": 0,
+          "bt_preserved": 0,
+          "rc_paused": 0,
+          "resend_guarded": 0
+        },
+        "attach_log": "BTSESSION t_ms=8711 pid=0 session=0 event=not-installed-contract-or-library-mismatch",
+        "carplay_start_count": 3,
+        "cp_watch_established_ms": 5196,
+        "resends": 2,
+        "cold_acl_failure": false,
+        "oem_acl_reuse": true
+      },
+      "gps": {
+        "enabled": true,
+        "probe_enabled": true,
+        "dio_seen": false,
+        "attempt_present": false,
+        "source_present": false,
+        "receiver": {
+          "pid": 2228336,
+          "source": 0,
+          "source_pid": 0,
+          "source_matches": 0,
+          "epoch": 1,
+          "advertised": 0,
+          "requested": 0,
+          "accepted": 1,
+          "queued": 1,
+          "sent": 0,
+          "invalid": 0
+        },
+        "probe": {
+          "observe_only": 1,
+          "forwarding": 0,
+          "t": 1731889,
+          "revision": 1425,
+          "positions": 1424,
+          "clocks": 0,
+          "sources": 0,
+          "demos": 0,
+          "failures": 0
+        },
+        "retained_position_rows": 32,
+        "map_matched_rows": 10,
+        "reliability_histogram": {
+          "44544": 10,
+          "43520": 22
+        },
+        "position_states": [
+          2
+        ],
+        "validities": [
+          1
+        ]
+      },
+      "artwork": {
+        "status": {
+          "format": 1,
+          "artwork": 1,
+          "enabled": 1,
+          "handle": 7,
+          "attempts": 7,
+          "errors": 0,
+          "fetches": 7,
+          "misses": 0,
+          "hmi_errors": 0,
+          "responses": 0,
+          "clears": 6,
+          "error_seq": 0,
+          "error_t_ms": 0,
+          "error_class": "none",
+          "error_phase": "none",
+          "epoch": 1,
+          "source": 1,
+          "source_flag": 1,
+          "source_epoch": 1,
+          "connected": 1,
+          "source_live": 1,
+          "keep": 1,
+          "usb": 0,
+          "wireless": 1,
+          "session": 2,
+          "generation": 17,
+          "uid_known": 1,
+          "uid_nonzero": 1,
+          "art": 143,
+          "cover": 9,
+          "cover_bytes": 85363,
+          "metadata": 1,
+          "text_match": 1,
+          "model_revision": 26
+        },
+        "trace": {
+          "events": {
+            "gate": 24,
+            "decoded": 7
+          },
+          "gates": 24,
+          "no_uid": 11,
+          "metadata_absent": 17,
+          "no_cover": 17,
+          "text_not_matching": 17,
+          "keep_true": 7
+        }
+      },
+      "media": {
+        "route": "asl-dsi-proxy",
+        "ready": 1,
+        "active": 1,
+        "usb": 0,
+        "polls": 8318,
+        "queued_tracks": 20,
+        "queued_playback": 4,
+        "queued_positions": 3041,
+        "queued_covers": 38,
+        "delivered_tracks": 21,
+        "delivered_covers": 39,
+        "errors": 0
+      },
+      "guidance": {
+        "retained_events": 16,
+        "event_kinds": {
+          "0x5201": 7,
+          "0x5202": 6,
+          "0x5204": 3
+        },
+        "maneuvers": 6,
+        "after_road_nonempty": 6,
+        "rows": [
+          {
+            "index": 0,
+            "parameter_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              8,
+              9
+            ],
+            "after_road_nonempty": true,
+            "after_road_bytes": 12
+          },
+          {
+            "index": 1,
+            "parameter_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              8,
+              9
+            ],
+            "after_road_nonempty": true,
+            "after_road_bytes": 12
+          },
+          {
+            "index": 2,
+            "parameter_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              8,
+              9
+            ],
+            "after_road_nonempty": true,
+            "after_road_bytes": 9
+          },
+          {
+            "index": 3,
+            "parameter_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              8,
+              9
+            ],
+            "after_road_nonempty": true,
+            "after_road_bytes": 4
+          },
+          {
+            "index": 4,
+            "parameter_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              8,
+              9
+            ],
+            "after_road_nonempty": true,
+            "after_road_bytes": 4
+          },
+          {
+            "index": 5,
+            "parameter_ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              8,
+              9
+            ],
+            "after_road_nonempty": true,
+            "after_road_bytes": 5
+          }
+        ],
+        "recognized_route_sources": [
+          "Google"
+        ]
+      },
+      "mu_canvas_events": [
+        "38184 | canvas | visible (hmi shows carplay)",
+        "40316 | canvas | hidden (hmi left carplay)",
+        "127875 | canvas | visible (hmi shows carplay)",
+        "593268 | canvas | hidden (hmi left carplay)",
+        "617098 | canvas | visible (hmi shows carplay)",
+        "1673276 | canvas | hidden (hmi left carplay)"
+      ],
+      "snapshot_note": "Artwork counters are from the standard export; event history is from the slightly later standalone export. Do not treat them as simultaneous.",
+      "file_fingerprints": {
+        "logs/btwcp.log": {
+          "bytes": 34278,
+          "sha256": "c6e663df7f413ee43ea8e4e8d24ea76f339e5357a49b18a152bf39190c2e4dff"
+        },
+        "logs/omonob-phone.log": {
+          "bytes": 127,
+          "sha256": "f8b662c9f86bf3935cc958687d22b6a0aa018efbccbf8cfb5d5696395b24f35d"
+        },
+        "logs/ramdisk-altscreen-most-bridge.log": {
+          "bytes": 34605,
+          "sha256": "01487412e594de581463b1bae83561b0d23e16f40d39e69baf1644d4f95329c5"
+        },
+        "logs/ramdisk-carplay-cluster-supervisor.log": {
+          "bytes": 405,
+          "sha256": "a339b28e3874c0c69431030220f2938d9b71256a89ce5434c48cc9dee3848a5b"
+        },
+        "logs/ramdisk-cpmap-artwork.log": {
+          "bytes": 8226,
+          "sha256": "8eaf1f91e6935acbd754ba53c73b069f15884f6071ffdc3213451488b0eda67d"
+        },
+        "logs/ramdisk-cpmap-bt-session.log": {
+          "bytes": 85,
+          "sha256": "4913bc6d19f2f8282dbbe941745926521d031534c4f303760b4ef1c562e97b62"
+        },
+        "logs/ramdisk-cpmap-wireless-summary.log": {
+          "bytes": 13356,
+          "sha256": "ef05b8d861e816cb5db5be855d85bc9f940162d8237f1d2fc5edffd3c8d46132"
+        },
+        "logs/ramdisk-omonob-791-input.log": {
+          "bytes": 357,
+          "sha256": "65b8fc6c1ae99fa6497008beefb94953252e53e9fba4fa1471887ef664dc014f"
+        },
+        "logs/wcp.log": {
+          "bytes": 50992,
+          "sha256": "1258d3e61de72fa021c085559de0f220b9d3309e65a8bec362759fadc21f97c0"
+        },
+        "logs/wcp.log.1": {
+          "bytes": 1048856,
+          "sha256": "038f1b8ee4c26a390d2ebefbbca0bad674d9ffb98a88512c6442a51cd28c2b27"
+        },
+        "logs/wcp_autostart.log": {
+          "bytes": 1114,
+          "sha256": "696e514642b800559db8fd64ba4b79dcf773eba67e27c8223f6abce54072b2cb"
+        },
+        "logs/wcp_cp.log": {
+          "bytes": 4639,
+          "sha256": "2c595034eaba5d8274aed21718f8573fed68463f23b4a8510193b3d919e8a6d2"
+        },
+        "logs/wcp_video.log": {
+          "bytes": 61822,
+          "sha256": "3fa948f9701b25e95b0c6cb79290ef147062c99d9c9b41e443bbc495c97587b1"
+        },
+        "network.txt": {
+          "bytes": 14013,
+          "sha256": "77ccbbb17b9e28fe73d19932a40d7eaaffe42851f4855adf53642a2bfcce6d37"
+        },
+        "preferences/gps-probe.enabled": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "preferences/gps.enabled": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "preferences/settings.previous": {
+          "bytes": 90,
+          "sha256": "cbbb3920b056a72653c406504c141e3bb104d9fdc397da89538fb9be6a561e31"
+        },
+        "preferences/settings.state": {
+          "bytes": 90,
+          "sha256": "17b89d05e8538e061d2af236cd88afda9f1c4757678cb0939dbc893acdec164c"
+        },
+        "preferences/wireless-carplay.previous": {
+          "bytes": 47,
+          "sha256": "08325afab15f4ecbf6c8eb3bce719ef6e34afb5deba567e94aeba0d85abdbdec"
+        },
+        "preferences/wireless-carplay.state": {
+          "bytes": 47,
+          "sha256": "6282fc5391d4d080e44a6be41658369e0db7bb48902fd82b9c063e2c0ad0931e"
+        },
+        "scopes/.v75-native-002200700000000f2d1ee74000000000/cluster-feed.state": {
+          "bytes": 22,
+          "sha256": "f10c2d24e9d31c92bd42c2cbb5bffc1683cc0c26968fd93fcc4ccd3d1693ba0a"
+        },
+        "scopes/.v75-native-002200700000000f2d1ee74000000000/cluster-session.accepted": {
+          "bytes": 21,
+          "sha256": "574d75ac5469a7dac7529900611b4a57baeb9649a295f9a524dbb6782961fbfc"
+        },
+        "state/carplay-altstream.ready": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "state/carplay-cluster-supervisor.pid": {
+          "bytes": 8,
+          "sha256": "e762c2655f68986d831a27e33bce5baf50b783e6f80658f580fd90bff107445f"
+        },
+        "state/carplay-dio-manager.pid": {
+          "bytes": 8,
+          "sha256": "591bf0937d78d37120bf153b4247b0c09a30a73a87b72c461dabc37bd0b22128"
+        },
+        "state/carplay-route-guidance/adapter-status.txt": {
+          "bytes": 806,
+          "sha256": "48540cd5f29334c7eba09c870ee4a4543558a10e0253155dacf00faa1416e086"
+        },
+        "state/carplay-route-guidance/guidance-evidence.txt": {
+          "bytes": 444,
+          "sha256": "fa9852cb6a7811a7314c91e26bd040131dbb2fa930de47fb9bfb64ec6eea852a"
+        },
+        "state/carplay-route-guidance/lane-evidence.txt": {
+          "bytes": 494,
+          "sha256": "71447863c71993f5a0a0fb6b0b1a4c62a1f0a32e79a05a3bcdc1f54cf692d181"
+        },
+        "state/cpmap-bt-session.status": {
+          "bytes": 127,
+          "sha256": "c59b1d6148f389603b8ec8f8e9e054d3aa291eb62d351ac9591871299faec20a"
+        },
+        "state/cpmap-driver-side.cached.state": {
+          "bytes": 8,
+          "sha256": "f3916eef6bff6d2622673a95ddafd781ad08a63c3e660274c069378e4c6e21a2"
+        },
+        "state/cpmap-driver-side.state": {
+          "bytes": 8,
+          "sha256": "f3916eef6bff6d2622673a95ddafd781ad08a63c3e660274c069378e4c6e21a2"
+        },
+        "state/cpmap-gps-probe.txt": {
+          "bytes": 7881,
+          "sha256": "b324c925243cedf777b01819e006c073564440572ff0b5bef3f904fbc53dbb47"
+        },
+        "state/omonob-791-input.pid": {
+          "bytes": 8,
+          "sha256": "591bf0937d78d37120bf153b4247b0c09a30a73a87b72c461dabc37bd0b22128"
+        },
+        "state/v75-wireless-native.owner": {
+          "bytes": 74,
+          "sha256": "2ec3dfd98c0bae12ee92f21c7c94a7689386d6f3e8ffa995195fb9eba187ea61"
+        },
+        "state/wcp-now-playing.status": {
+          "bytes": 187,
+          "sha256": "fd3d516f16f8b61a148b155a28f77808a36bdc376cb4f201332707e34a6b6906"
+        },
+        "state/wcp-pf.ready": {
+          "bytes": 37,
+          "sha256": "dda1d5fcc8ed2751ef96aa0635732896322a43b2497c6e353d570b744b8654e8"
+        },
+        "state/wcp-rg-adapter-status.txt": {
+          "bytes": 873,
+          "sha256": "65012bf9227d74fb30b7315e156aef01f8ee5db575a3ac56e19ef95040757a95"
+        },
+        "state/wcp-rg-cover.bin": {
+          "bytes": 85427,
+          "sha256": "c0bc010b79488fc47ee253e8d1428459617b58a3e0bcc4b948df71b49f3677de"
+        },
+        "state/wcp-rg-idr.state": {
+          "bytes": 29,
+          "sha256": "6c9067e333de37e3ab15e5532829111cfe87cd00458532390470a01e78259fdb"
+        },
+        "state/wcp-rg-latest.bin": {
+          "bytes": 1572,
+          "sha256": "058338fc81fc221320afd241f40a394c6382ab425941692d38abe263be5eaf57"
+        },
+        "state/wcp-rg-location.status": {
+          "bytes": 136,
+          "sha256": "a40239494730fb759972f5573bc4958248e9add0c1b5d33b243f8eecd9db6463"
+        },
+        "state/wcp-rg-nowplaying.bin": {
+          "bytes": 226,
+          "sha256": "439dcfa565c3046963b4d75d4d7dd6dc942ec2b5dbde9894806ebe1f29f9f42b"
+        },
+        "state/wcp-rg-session.state": {
+          "bytes": 35,
+          "sha256": "cd49887a85366a47cfd708dc479882e7fef735003e0fef6c0e29f25845054e04"
+        },
+        "state/wcp-rg-source-status.txt": {
+          "bytes": 131,
+          "sha256": "ad0aa1360526208e30e54ea501094ead0a2bef6cd1ffa6d7a80a677203330d9e"
+        },
+        "state/wcp-video-timing.bin": {
+          "bytes": 7188,
+          "sha256": "0f5d823b558899526a068a080b0b3cd7891cb12a6a2aa8f7498a92c13a34f1cd"
+        },
+        "state/wcp_alt_probe": {
+          "bytes": 2,
+          "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+        },
+        "state/wcp_cp_session": {
+          "bytes": 1,
+          "sha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+        },
+        "state/wcp_receiver.pid": {
+          "bytes": 8,
+          "sha256": "c0763f2c7477a2c0d8167d7e4cbc75554c701c14d924c0bae3c79bad5feb989b"
+        },
+        "state/wcp_video.pid": {
+          "bytes": 8,
+          "sha256": "bb4e2593647fb60fc89a28c4cf61ec020715350079408b001f214ed09ee1fc0a"
+        },
+        "summary.txt": {
+          "bytes": 5194,
+          "sha256": "6507c8211a16853d14b0a15106511dbb32a7ea1c7f855902170c7b1a7f9cfa8a"
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Only retained tail records are available for audio, main video and detailed bridge logs.",
+    "Minute pts_step_max is a PTS interval, not proof of a wall-clock freeze; delay_ms is sampled smoothing demand, not end-to-end latency.",
+    "Artwork responses=0 needs HMI publish/handle instrumentation; successful decode does not prove display.",
+    "Position reliability is map-matched. Repeating its last value with invented UTC would not establish a new GNSS fix."
+  ]
+}

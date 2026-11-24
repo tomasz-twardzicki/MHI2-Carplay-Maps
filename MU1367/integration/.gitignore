@@ -1,0 +1,19 @@
+/build-*
+__pycache__/
+*.pyc
+/tests/revisions/**/verify
+
+/toolbox/.gitattributes
+
+# Generated/bundled binaries come from the pinned release seed or build.
+/toolbox/Toolbox/apps/
+/toolbox/Toolbox/scripts/sbin/
+/toolbox/Custom/**/verify
+/toolbox/Custom/**/altscreen-most-bridge
+/toolbox/Custom/**/carplay-cluster-supervisor
+/toolbox/Custom/**/carplay-pairing-helper
+/toolbox/Custom/**/artwork-capture
+/toolbox/Custom/**/artwork-fetch
+/toolbox/Custom/**/rgi-observer
+/toolbox/Custom/**/cpvc-mirror-canvas-791
+/toolbox/Custom/carplay_mu1367_oem_reset/payload/

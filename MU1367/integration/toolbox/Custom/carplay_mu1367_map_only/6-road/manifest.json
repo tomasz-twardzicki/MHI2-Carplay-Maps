@@ -1,0 +1,17 @@
+{
+  "build_id": "mu1367-map-only-c085329e3c83",
+  "before": {
+    "core": "b66c5e2c2fe909fb99177e76cb25cea57435e340c60b0c5ed4195662996fafa9",
+    "guidance": "30eb75f748a33e0fbd150a0f17785cc97dd50edadc34e5d672d0b0eeb277579e",
+    "menu": "e3a33efc3fa579a6228cbf53908bfd739b0ec9a005e96948c16de94776d93287",
+    "parent": "ec3f5826ee1426aa9f3d2dead0f7a744aa272b94eb174dfe4f86b92f69f89617"
+  },
+  "files": {
+    "core": "79900f4c7d271da1ed295ac757c09b9e470c09fa454c5f425704aadf3a00506e",
+    "guidance": "1fc3f8dc82a00d68f90c3b6f6388a5379b8e010f2f45e7729b266f514020224e",
+    "menu": "9108e0ea8e98c6b5a5238d18ce7fb8bda8d0149d67a073bfcba34f8b1f82d6d3"
+  },
+  "parent": "carplay-mu1367-refinements",
+  "variant": "6-road",
+  "on_unit_validated": false
+}

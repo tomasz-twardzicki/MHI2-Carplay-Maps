@@ -1,0 +1,15 @@
+{
+  "build_id": "MU1367-refinements-10e8fae60fd4",
+  "variant": "6",
+  "before": {
+    "core": "eb824f9520c6c03b1295776e3ca3986cccd89c46907eb1dd746b80d6b82360a3",
+    "guidance": "be458ca5336b32255bbc3827bdb7e137950fa3efbf3eefff14729085247d7748",
+    "parent": "8513843e9adb65c2517840e2469dfccb670adbe9fe9663b4a4205acbc3ed53fe"
+  },
+  "files": {
+    "core": "b66c5e2c2fe909fb99177e76cb25cea57435e340c60b0c5ed4195662996fafa9",
+    "guidance": "30eb75f748a33e0fbd150a0f17785cc97dd50edadc34e5d672d0b0eeb277579e"
+  },
+  "immediate_parent": "artwork",
+  "on_unit_validated": false
+}

@@ -1,0 +1,32 @@
+{
+  "factory_classes_sha256": {
+    "de/vw/mib/bap/mqbab2/navsd/functions/CurrentPositionInfo.class": "604a2d928f6305bb299cc9a2963ab9a0fa0f1b2d615ddb95d5e33223963dac5e",
+    "de/vw/mib/bap/mqbab2/generated/navsd/serializer/CurrentPositionInfo_Status.class": "680c55d59e2ae6ec88aa430f178b4a35ba94ab08ffb2f46465a52911129bcaed",
+    "de/vw/mib/bap/mqbab2/navsd/functions/TurnToInfo.class": "7cfee871de95fb35732fb278ada65035700d40a551e9807f3e53c6278b087430",
+    "de/vw/mib/bap/mqbab2/generated/navsd/serializer/TurnToInfo_Status.class": "9ace434523767bfdd8b54fe8bc3241239685ba884bcbd17681910cb450721c60"
+  },
+  "fields": {
+    "current_position": {
+      "function_id": 19,
+      "field": "positionInfo",
+      "capacity_bytes_including_length": 97,
+      "stock_setter": "setCurrentPositionInfoStatusData",
+      "source": "NavigationService.getCurrentPositionInfo"
+    },
+    "turn_to": {
+      "function_id": 20,
+      "field": "turnToInfo",
+      "capacity_bytes_including_length": 76,
+      "source": "NavigationTurnToInfo.getTurnToInfoStreet"
+    }
+  },
+  "cluster_consumer_field_selection_proven": false,
+  "libc": {
+    "sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+    "open": "0x1ae18",
+    "write": "0x1d1a4",
+    "dladdr": "0x43d18",
+    "dlopen": "0x44e64",
+    "dlsym": "0x4604c"
+  }
+}

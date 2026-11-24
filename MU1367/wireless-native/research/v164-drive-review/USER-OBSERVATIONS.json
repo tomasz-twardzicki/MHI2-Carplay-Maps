@@ -1,0 +1,11 @@
+{
+  "clarified_on": "2026-11-23",
+  "startup_freeze": {
+    "affected_display": "main infotainment screen only",
+    "aid_affected": false,
+    "duration_seconds": null,
+    "audio_during_freeze": null,
+    "touch_during_freeze": null,
+    "source": "User reply to startup-freeze clarification"
+  }
+}

@@ -1,0 +1,48 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later. Factory-QNX synthetic end-to-end probe. */
+package com.cpmap.audio;
+import java.io.*;
+import org.dsi.ifc.carplay.TrackData;
+public final class TestCoverWorker {
+    static final byte[] PNG={@PNG@};
+    static int checks;
+    static void check(boolean ok)throws Exception{checks++;if(!ok)throw new Exception("Artwork worker/capacity");}
+    static void put(byte[] b,int at,int v){b[at]=(byte)v;b[at+1]=(byte)(v>>8);b[at+2]=(byte)(v>>16);b[at+3]=(byte)(v>>24);}
+    static void write(String path,byte[] b)throws Exception{
+        File tmp=new File(new StringBuffer(path).append(".new").toString());FileOutputStream out=new FileOutputStream(tmp);try{out.write(b);}finally{out.close();}
+        if(!tmp.renameTo(new File(path)))throw new IOException("Fixture publish");
+    }
+    static void track(int id)throws Exception{
+        byte[] b=new byte[128+PNG.length];b[0]='N';b[1]='4';b[2]='A';b[3]='R';put(b,4,1);put(b,8,128);put(b,12,id);put(b,20,PNG.length);put(b,24,1);
+        put(b,28,id);put(b,36,2);put(b,40,7);put(b,44,1);put(b,48,id);put(b,64,2);put(b,68,1);put(b,72,123);put(b,76,456);System.arraycopy(PNG,0,b,128,PNG.length);
+        write("/ramdisk/artwork-frame",b);
+        String title=new StringBuffer("Title").append(id).toString();
+        String hex=Integer.toHexString(id);String uid=new StringBuffer("0000000000000000".substring(hex.length())).append(hex).toString();
+        String meta=new StringBuffer("@nowplaying\nMediaItemPersistentIdentifier::").append(uid).append("\nMediaItemArtworkFileTransferIdentifier::7\nMediaItemArtworkSize::").append(PNG.length).append("\nMediaItemTitle::").append(title).append("\nMediaItemArtist::Artist\nMediaItemAlbumTitle::Album\nPlaybackStatus::Playing\n").toString();
+        write("/ramdisk/pps/iap2/nowplaying",meta.getBytes("UTF8"));TextBridge.MODEL.track(new TrackData(title,1,"Album","Artist","",""),1);
+    }
+    static void capacity()throws Exception{
+        File[] files=new File(CoverBridge.DIR).listFiles();int count=0;long bytes=0;
+        for(int i=0;files!=null&&i<files.length;i++)if(files[i].getName().startsWith(CoverBridge.PREFIX)){count++;bytes+=files[i].length();}
+        check(count<=8&&bytes<=1600000);
+    }
+    public static void main(String[] args)throws Exception{
+        new File("/ramdisk/artwork-cache").mkdirs();new File("/ramdisk/pps/iap2").mkdirs();
+        CoverBridge.stage=null;CoverBridge.picture=null;CoverBridge.heartbeat=-1;CoverBridge.started=true;
+        TextBridge.INSTANCE.connected=true;TextBridge.epoch=99;TextBridge.source=new TextBridge.Source(null,99);
+        track(1);Thread worker=new Thread(CoverBridge.INSTANCE,"ArtworkWorkerProbe");worker.setDaemon(true);worker.start();
+        int previous=0;
+        try{
+            for(int id=1;id<=10;id++){
+                if(id>1)track(id);CoverBridge.Picture p=null;
+                for(int n=0;n<50;n++){TestCover.clock+=100;Thread.sleep(100);p=CoverBridge.current(TestCover.clock);if(p!=null&&p.meta.uid==id)break;}
+                check(p!=null&&p.meta.uid==id&&p.handle>previous);previous=p.handle;
+                File f=new File(p.path);check(f.isFile()&&f.length()>190000&&f.length()<200000);capacity();
+            }
+            // Missing metadata clears the image; retained files stay bounded.
+            check(new File("/ramdisk/pps/iap2/nowplaying").delete());
+            for(int n=0;n<30&&CoverBridge.picture!=null;n++){TestCover.clock+=100;Thread.sleep(100);}
+            check(CoverBridge.picture==null);capacity();
+        }finally{TextBridge.source.live=false;worker.interrupt();worker.join(2000);}
+        check(!worker.isAlive());System.out.println(new StringBuffer("ARTWORK_WORKER_PASS tracks=10 cache_files=8 checks=").append(checks).toString());
+    }
+}

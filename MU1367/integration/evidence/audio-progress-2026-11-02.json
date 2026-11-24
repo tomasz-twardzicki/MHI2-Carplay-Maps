@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-02",
+  "source": "/Users/tomasz/Documents/github/personal/Logs/AudioProgress/cpmap-diag-4350086",
+  "source_sha256": {
+    "summary.txt": "e05b5ac41644cd333d85d14a14ef33409c07eaf36b83ab444006fa4f2baecccd",
+    "sloginfo.txt": "1c6c01bee0e7b2af6de1c1858927d661873edd952fc4cf5966c4d218cc6e80b8",
+    "ramdisk/carplay-now-playing-n1.status": "6bbd1a63648a5cfad59fc6ba3589aa2afbd2a2a3e2fc64b318cdcd13e3f2a128",
+    "ramdisk/cpmap-artwork.status": "d3046b932cb40b12bd0767b7a3a57a45de17dd2b762dc56effcffb0e6024e5da"
+  },
+  "user_observation": {
+    "adapter": "Ottocast",
+    "apps": [
+      "Apple Music",
+      "Spotify"
+    ],
+    "native_playback_time_visible": false,
+    "artwork_delay_seconds": true,
+    "requested_scope": "Native display only; no time appended to metadata"
+  },
+  "audio_status": "format=1 build=MU1367-audio-progress-2cba4d5cfd48 text_output=1 epoch=1 connected=1 context=1 ticks=708 fills=53 accepted=11 rejected=49 failures=0 attach_failures=0 tracks=12 covers=0 io_failures=0 writes=123\n positions=199 playbacks=3 progress_sends=186 progress_errors=0",
+  "artwork_status": "format=1 artwork=1 enabled=1 handle=7 attempts=37 errors=0 fetches=7 misses=30 hmi_errors=0 responses=0 clears=6",
+  "findings": [
+    "Input position callbacks are present; native DSI payload values were not exported in R1.",
+    "progress_sends counts local attempts, not native acknowledgements or AID rendering.",
+    "progress_errors excludes the R1 stage indication-error callback. Zero does not prove native acceptance.",
+    "Seven successful fetches and 30 aggregate misses; R1 has no per-stage timing or miss-reason breakdown.",
+    "responses=0 counts explicit artwork indication callbacks, not proactive picture pushes."
+  ],
+  "unresolved": [
+    "Native stack acceptance/capability of function 0x34 and physical AID rendering",
+    "Artwork time spent in metadata matching, fetch subprocess and picture publication"
+  ],
+  "next_probe": "AUDIO-NATIVE-R2.md"
+}

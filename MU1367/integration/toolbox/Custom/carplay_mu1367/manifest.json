@@ -1,0 +1,401 @@
+{
+  "build_id": "MU1367-integration-7262b3242a11",
+  "firmware": "MU1367",
+  "cluster": "791",
+  "on_unit_validated": false,
+  "artwork_enabled_by_default": false,
+  "cluster_picture_output": false,
+  "hmi": {
+    "firmware": "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318",
+    "jxe_sha256": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a",
+    "converted_content_sha256": "37bb839fb026bd1d5c0cb5066d189bd58bbde93f5d355eac8473809799f10a48",
+    "class_major": 46,
+    "features": {
+      "guidance": {
+        "build_id": "MU1367-guidance-cfcca07f7b0f",
+        "jar": "CarPlayMU1367Guidance.jar",
+        "sha256": "8ced153de465e84d12f2545915b91d7564b80ac1f738700493d1f502b4f9483f",
+        "size": 33422,
+        "host": {
+          "factory_integration_assertions": 123
+        }
+      },
+      "audio": {
+        "build_id": "MU1367-audio-e03e0d605623",
+        "jar": "CarPlayMU1367Audio.jar",
+        "sha256": "fb670fb6c5a824eb656eb69b3e2e9774f2469db6755088078f95f53364f2b3ab",
+        "size": 21383,
+        "host": {
+          "text_assertions": 41
+        }
+      },
+      "navignore": {
+        "jar": "CarPlayMU1367NavIgnore.jar",
+        "sha256": "de2590556b726fb67077cf12cda40bdef41968e7cbdba1d503998dbcde9933d0",
+        "size": 13000,
+        "stock_pattern_assertions_passed": true,
+        "stream_state_override": false
+      }
+    },
+    "sources": {
+      "MU1427/route-guidance/bridge/LiveModel.java": "54f7b09eb8b86ca2a92ddc048d5dfbe4d477a0f1eae40f53b5c878e0fd660df5",
+      "MU1427/route-guidance/bridge/JournalReader.java": "7dd3ecf803558dd637cd3a4f6a3186dfbe3707b554ed4dddd6c9cb7e81214b63",
+      "MU1427/route-guidance/bridge/MailboxReader.java": "fb6e28aa0f420be94550e68b30411a4d18d67dd64db6911f1f859c0eea43baf3",
+      "MU1427/route-guidance/bridge/LiveBridge.java": "2803b5748792ebf8d9405c3505fa837265d676493461cac1298b8bcba53c4ef7",
+      "MU1427/route-guidance/bridge/PatchLive.java": "ff9c5ccfb8ab252151dd0db6519c3e9950c679c5f0519063c06770d28a8b359f",
+      "MU1427/route-guidance/bridge/TestLive.java": "7668ca90552b237ead05bef3df728b7734ddf9af2072fbc7cd9ad4306d4ecb6b",
+      "MU1427/now-playing/n1/java/TextModel.java": "bf175428cac8c61aa829b9a6cb604b8f220b58fd84e97f88a4755c131cdd3a66",
+      "MU1427/now-playing/n1/java/TextBridge.java": "54feab74b4bbf84c0705597c51caddf82f446a85bf8d736781e635f98002c6af",
+      "MU1427/now-playing/java/PatchObserver.java": "06d34764b06d518f314adabc1fbbd91e0811f00c1e8639457dcc1a6fd3199f5c",
+      "MU1427/now-playing/n1/java/PatchText.java": "ef91ce8d771024e7236ce64e629b733208774be7b5c957db1c02e5893cf8e720",
+      "MU1427/now-playing/n1/java/TestText.java": "08a0003f840fb32721bd456d7537b2cae2400f75fd086d6619be0637c0cb630c",
+      "MU1427/NavActiveIgnore/src/de/vw/mib/navactiveignore/NavActiveIgnore.java": "1d0f77fbd8e0c37de208cdf2a7651588a6912083d9f59733d0876b35af5f616d",
+      "MU1427/NavActiveIgnore/patcher/Patch.java": "3abb1b3ba1ca70659ef00c60106e57452f3bbdedbcfe716b1b5e756e84ea2832"
+    },
+    "factory_j9_verified": false,
+    "on_unit_validated": false
+  },
+  "native": {
+    "firmware": "MU1367",
+    "libc_sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+    "toolchain_commit": "baa45224f18ae6b13c2e9c77c6663bb8181eb6a1",
+    "image_id": "sha256:93b565ff63ba51c470c1a1e70a6d16607d36df502dfb20ae63a69911f8529bea",
+    "binaries": {
+      "rgi-observer": {
+        "sha256": "b683cef78828bfab2b8cdf43e4ea82e5d7c16d0d47730936d936e82af6ee08ac",
+        "size": 16606,
+        "imports_verified": [
+          "__get_errno_ptr",
+          "_exit",
+          "_fini_array",
+          "_init_array",
+          "_init_libc",
+          "_preinit_array",
+          "access",
+          "atexit",
+          "chdir",
+          "clock_gettime",
+          "close",
+          "dup2",
+          "exit",
+          "fclose",
+          "fcntl",
+          "fgets",
+          "fopen",
+          "fork",
+          "fprintf",
+          "fputs",
+          "kill",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "mkdir",
+          "nanosleep",
+          "open",
+          "perror",
+          "pipe",
+          "puts",
+          "read",
+          "rename",
+          "select",
+          "setsid",
+          "signal",
+          "strcmp",
+          "strncmp",
+          "strtoul",
+          "umask",
+          "unlink",
+          "waitpid",
+          "write"
+        ],
+        "source_sha256": "fa4b4ed62ab1969a9b32cdbeb78cdb01292b8c68d5f3ea7008b1a54d8cf2bc8d"
+      },
+      "artwork-capture": {
+        "sha256": "bcc47cc2798992162eea36f7ea732084548bd5fab7c802ee8475b4224e6612bc",
+        "size": 74364,
+        "imports_verified": [
+          "__aeabi_idiv",
+          "__aeabi_idivmod",
+          "__aeabi_uidiv",
+          "__assert",
+          "__get_errno_ptr",
+          "_exit",
+          "_fini_array",
+          "_init_array",
+          "_init_libc",
+          "_preinit_array",
+          "atexit",
+          "clock_gettime",
+          "close",
+          "exit",
+          "fork",
+          "free",
+          "kill",
+          "lstat",
+          "malloc",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "mkdir",
+          "nanosleep",
+          "open",
+          "pipe",
+          "printf",
+          "puts",
+          "read",
+          "rmdir",
+          "select",
+          "signal",
+          "snprintf",
+          "waitpid",
+          "write"
+        ],
+        "source_sha256": "8136d9354f3b4f69e7d23079cca02a4478b2b0d96d40f60efbd33621d5996202"
+      },
+      "verify": {
+        "sha256": "0512b28bd589336fe8a32f8e514f90b2646e2117064454160a660daff48f9a7a",
+        "size": 8624,
+        "imports_verified": [
+          "_fini_array",
+          "_init_array",
+          "_init_libc",
+          "_preinit_array",
+          "atexit",
+          "exit",
+          "fclose",
+          "ferror",
+          "fopen",
+          "fread",
+          "memset",
+          "puts",
+          "sprintf",
+          "stat",
+          "strcmp",
+          "strlen"
+        ],
+        "source_sha256": "5e4cfeeac7e1eb46210fe2f20c82bc804dc825f28ca34cce6770da02ae3f0861"
+      }
+    },
+    "on_unit_validated": false
+  },
+  "qnx": {
+    "passed": true,
+    "factory_jxe_sha256": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a",
+    "factory_libc_sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+    "guidance_checks_per_mode": 13,
+    "audio_checks_per_mode": 12,
+    "verified_and_noverify": true,
+    "class49_negative_rejected": true,
+    "nav_ignore_factory_classes": 5,
+    "nav_ignore_filter_checks": 3,
+    "sha256_verifier_qnx": true,
+    "reader_foreground_and_daemon": true,
+    "hmi": {
+      "guidance": {
+        "build_id": "MU1367-guidance-cfcca07f7b0f",
+        "jar": "CarPlayMU1367Guidance.jar",
+        "sha256": "8ced153de465e84d12f2545915b91d7564b80ac1f738700493d1f502b4f9483f",
+        "size": 33422,
+        "host": {
+          "factory_integration_assertions": 123
+        }
+      },
+      "audio": {
+        "build_id": "MU1367-audio-e03e0d605623",
+        "jar": "CarPlayMU1367Audio.jar",
+        "sha256": "fb670fb6c5a824eb656eb69b3e2e9774f2469db6755088078f95f53364f2b3ab",
+        "size": 21383,
+        "host": {
+          "text_assertions": 41
+        }
+      },
+      "navignore": {
+        "jar": "CarPlayMU1367NavIgnore.jar",
+        "sha256": "de2590556b726fb67077cf12cda40bdef41968e7cbdba1d503998dbcde9933d0",
+        "size": 13000,
+        "stock_pattern_assertions_passed": true,
+        "stream_state_override": false
+      }
+    },
+    "native": {
+      "rgi-observer": {
+        "sha256": "b683cef78828bfab2b8cdf43e4ea82e5d7c16d0d47730936d936e82af6ee08ac",
+        "size": 16606,
+        "imports_verified": [
+          "__get_errno_ptr",
+          "_exit",
+          "_fini_array",
+          "_init_array",
+          "_init_libc",
+          "_preinit_array",
+          "access",
+          "atexit",
+          "chdir",
+          "clock_gettime",
+          "close",
+          "dup2",
+          "exit",
+          "fclose",
+          "fcntl",
+          "fgets",
+          "fopen",
+          "fork",
+          "fprintf",
+          "fputs",
+          "kill",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "mkdir",
+          "nanosleep",
+          "open",
+          "perror",
+          "pipe",
+          "puts",
+          "read",
+          "rename",
+          "select",
+          "setsid",
+          "signal",
+          "strcmp",
+          "strncmp",
+          "strtoul",
+          "umask",
+          "unlink",
+          "waitpid",
+          "write"
+        ],
+        "source_sha256": "fa4b4ed62ab1969a9b32cdbeb78cdb01292b8c68d5f3ea7008b1a54d8cf2bc8d"
+      },
+      "artwork-capture": {
+        "sha256": "bcc47cc2798992162eea36f7ea732084548bd5fab7c802ee8475b4224e6612bc",
+        "size": 74364,
+        "imports_verified": [
+          "__aeabi_idiv",
+          "__aeabi_idivmod",
+          "__aeabi_uidiv",
+          "__assert",
+          "__get_errno_ptr",
+          "_exit",
+          "_fini_array",
+          "_init_array",
+          "_init_libc",
+          "_preinit_array",
+          "atexit",
+          "clock_gettime",
+          "close",
+          "exit",
+          "fork",
+          "free",
+          "kill",
+          "lstat",
+          "malloc",
+          "memcmp",
+          "memcpy",
+          "memset",
+          "mkdir",
+          "nanosleep",
+          "open",
+          "pipe",
+          "printf",
+          "puts",
+          "read",
+          "rmdir",
+          "select",
+          "signal",
+          "snprintf",
+          "waitpid",
+          "write"
+        ],
+        "source_sha256": "8136d9354f3b4f69e7d23079cca02a4478b2b0d96d40f60efbd33621d5996202"
+      },
+      "verify": {
+        "sha256": "0512b28bd589336fe8a32f8e514f90b2646e2117064454160a660daff48f9a7a",
+        "size": 8624,
+        "imports_verified": [
+          "_fini_array",
+          "_init_array",
+          "_init_libc",
+          "_preinit_array",
+          "atexit",
+          "exit",
+          "fclose",
+          "ferror",
+          "fopen",
+          "fread",
+          "memset",
+          "puts",
+          "sprintf",
+          "stat",
+          "strcmp",
+          "strlen"
+        ],
+        "source_sha256": "5e4cfeeac7e1eb46210fe2f20c82bc804dc825f28ca34cce6770da02ae3f0861"
+      }
+    },
+    "harness_sha256": "3136b965290481d8fb0ea8144ecc345cfe89ce7b77ae8b1ed7aef5693eace037",
+    "on_unit_validated": false
+  },
+  "firmware_inputs": {
+    "50": {
+      "jxe_sha256": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a",
+      "stage2_sha256": "67cc22460d3f65fc39bd1055293b9fdd2404dfa21b428aec77cfb86dab4970b6",
+      "driver": {
+        "sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+        "size": 739925
+      },
+      "libairplay": {
+        "sha256": "193a4fd9101ec2aa05e7159cfa307b96500810d379ca74a194f172adc13a46b5",
+        "size": 703688
+      },
+      "boot": {
+        "sha256": "fe4f9cc8bd68282238546605c53b36ca0add985eafc8a100a477a7f827f4a731",
+        "size": 16567
+      },
+      "dio": {
+        "sha256": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+        "size": 684305
+      },
+      "config": {
+        "sha256": "88a4d24f5c50b181d73429fb585ad6b38d10daca67c5b5a9798ef17f84208bbe",
+        "size": 5951
+      }
+    },
+    "70": {
+      "jxe_sha256": "09167f1d0ae5340e992821bf92a56bcc5d45965b1dc24af3e4cc9d096a07507a",
+      "stage2_sha256": "67cc22460d3f65fc39bd1055293b9fdd2404dfa21b428aec77cfb86dab4970b6",
+      "driver": {
+        "sha256": "7149a3e75b1b19e89021841759f420a6eced456b6c697a3dd1f0e436abea0b8c",
+        "size": 739925
+      },
+      "libairplay": {
+        "sha256": "193a4fd9101ec2aa05e7159cfa307b96500810d379ca74a194f172adc13a46b5",
+        "size": 703688
+      },
+      "boot": {
+        "sha256": "fe4f9cc8bd68282238546605c53b36ca0add985eafc8a100a477a7f827f4a731",
+        "size": 16567
+      },
+      "dio": {
+        "sha256": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+        "size": 684305
+      },
+      "config": {
+        "sha256": "88a4d24f5c50b181d73429fb585ad6b38d10daca67c5b5a9798ef17f84208bbe",
+        "size": 5951
+      }
+    },
+    "libc_sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc"
+  },
+  "display": {
+    "791/default": "53c6b094867fecf72caf890a694cba4833f645543dcfe43ba54afb8ac50de562",
+    "791/wide-card": "36fcc12b8aa7eeda6c3a9256d2c6a00984f01cbd2ca4d839c4f2efefef5b2e1b",
+    "791/no-card": "7737c75068e1dbefd61a97b6f06f1bff26a2d4529daf48aa123bc550d9e73519",
+    "791/stock-40fps": "00b48a8fe876e6ff405124b87ed9eace1bcb079220ff7f02b866f42676477a4a",
+    "790/default": "a9bfe34f20721a1d35093b0f1628d1cc824af41ab174a88f73710e44f27563ef",
+    "790/wide-card": "a4fe197e68ddcb5c3ccaebe0562bd572f3947bcb0dd06f2468eeceffa2cc7104",
+    "790/low-card": "ceea20c5a60c66470c1220f62fbe183257ca1ff9d47d3915e4e661ef314ac2cb",
+    "790/no-card": "7486c65e256b3e7fb0fd37fa9231aec753ccb31880e4d7997a545ce1609b8710",
+    "790/stock-40fps": "a4bb6ce6e9e63a05cc1b6be20c5257983fb4dcbdf89f55528438acbd8edba8ee"
+  }
+}

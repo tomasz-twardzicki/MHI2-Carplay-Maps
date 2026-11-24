@@ -1,0 +1,137 @@
+{
+  "review_date": "2026-11-20",
+  "input_directory": "/Users/tomasz/Documents/github/personal/Logs/wireless/v1.6.3-e-test1",
+  "installed_version": "1.6.2-e-test1",
+  "single_boot_single_session": true,
+  "exports": [
+    {
+      "export": "cpmap-diag-13590664",
+      "files": {
+        "wireless/summary.txt": {
+          "sha256": "689de03b804867104e4e97ddc23c1d7f3c040262960cb8db0c79397dc8601305",
+          "size": 4769
+        },
+        "wireless/state/wcp-video-timing.bin": {
+          "sha256": "02f4110a3c2dd99d42c35ce9d444c5cb561e2516f2164254a30fbb2209d0e26a",
+          "size": 7188
+        },
+        "wireless/state/wcp-rg-source-status.txt": {
+          "sha256": "c7d35bd124e831ae51dac02a273073a3bfe9b3aaa473d2e452ae0ee50857d8cd",
+          "size": 127
+        },
+        "wireless/logs/wcp_cp.log": {
+          "sha256": "9d504533f21ee74929ecc808545c739485a221481b6ac76f6087e464add4f617",
+          "size": 3292
+        },
+        "wireless/state/wcp-now-playing.status": {
+          "sha256": "34d7d210845a428c2c3b46448c883201d18625deb705edbc7ec883439af1ef84",
+          "size": 103
+        }
+      },
+      "timing_header_le_u32": [
+        0,
+        1,
+        1757290,
+        0,
+        0
+      ]
+    },
+    {
+      "export": "cpmap-diag-19353674",
+      "files": {
+        "wireless/summary.txt": {
+          "sha256": "689de03b804867104e4e97ddc23c1d7f3c040262960cb8db0c79397dc8601305",
+          "size": 4769
+        },
+        "wireless/state/wcp-video-timing.bin": {
+          "sha256": "02f4110a3c2dd99d42c35ce9d444c5cb561e2516f2164254a30fbb2209d0e26a",
+          "size": 7188
+        },
+        "wireless/state/wcp-rg-source-status.txt": {
+          "sha256": "fdc7525fe91b78c17147da6b9c00837fc607ac7936cb1dbfe6cc39c13e1844ea",
+          "size": 128
+        },
+        "wireless/logs/wcp_cp.log": {
+          "sha256": "289f657621fb42fd69b030b43d3b9bb837c3d1459a6585e1bb7b1604d62de692",
+          "size": 4486
+        },
+        "wireless/state/wcp-now-playing.status": {
+          "sha256": "04804405ebbd359ddc1d12bc951e60694509da595b86a485b4232ae193bf8124",
+          "size": 104
+        }
+      },
+      "timing_header_le_u32": [
+        0,
+        1,
+        1757290,
+        0,
+        0
+      ]
+    },
+    {
+      "export": "cpmap-diag-21704778",
+      "files": {
+        "wireless/summary.txt": {
+          "sha256": "689de03b804867104e4e97ddc23c1d7f3c040262960cb8db0c79397dc8601305",
+          "size": 4769
+        },
+        "wireless/state/wcp-video-timing.bin": {
+          "sha256": "02f4110a3c2dd99d42c35ce9d444c5cb561e2516f2164254a30fbb2209d0e26a",
+          "size": 7188
+        },
+        "wireless/state/wcp-rg-source-status.txt": {
+          "sha256": "b9f8b19e874f650072e90c714851161528b8676e09833e8fb5bed5ba27367c81",
+          "size": 130
+        },
+        "wireless/logs/wcp_cp.log": {
+          "sha256": "41962a02cdb3dc126785bc92a7507053823fddf6cf7239ff496bc68b497d6fba",
+          "size": 4974
+        },
+        "wireless/state/wcp-now-playing.status": {
+          "sha256": "a5af5282548f8f25af6e55c9973b0745ffcc407a03627fb86ede832dda37edde",
+          "size": 104
+        }
+      },
+      "timing_header_le_u32": [
+        0,
+        1,
+        1757290,
+        0,
+        0
+      ]
+    },
+    {
+      "export": "cpmap-diag-24047690",
+      "files": {
+        "wireless/summary.txt": {
+          "sha256": "689de03b804867104e4e97ddc23c1d7f3c040262960cb8db0c79397dc8601305",
+          "size": 4769
+        },
+        "wireless/state/wcp-video-timing.bin": {
+          "sha256": "02f4110a3c2dd99d42c35ce9d444c5cb561e2516f2164254a30fbb2209d0e26a",
+          "size": 7188
+        },
+        "wireless/state/wcp-rg-source-status.txt": {
+          "sha256": "b293227c980a34d31d99dac0804b6755ebb755094b0eb565763ec0021a813588",
+          "size": 130
+        },
+        "wireless/logs/wcp_cp.log": {
+          "sha256": "bb8f1fba2b6c3efa76a1f8ec046a8a23a071630322420936618b982e89a337fa",
+          "size": 8622
+        },
+        "wireless/state/wcp-now-playing.status": {
+          "sha256": "b264a90f11f6656d79b551311742821d9aee2ddd34245ad16d2a1d8a09a61597",
+          "size": 104
+        }
+      },
+      "timing_header_le_u32": [
+        0,
+        1,
+        1757290,
+        0,
+        0
+      ]
+    }
+  ],
+  "development_component_manifest_sha256": "d8861c06582956e1f374dfbd015ca50bd0e6f3683b2d495e4b77641624203684"
+}

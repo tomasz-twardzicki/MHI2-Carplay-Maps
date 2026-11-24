@@ -1,0 +1,22 @@
+{
+  "source": "Logs/wireless/v4",
+  "wcp_log_sha256": "6fc381312868d552eebaee15261cef6f606ef31134e2b09734e3bdd02ecb3e67",
+  "nowplaying_packets": 465,
+  "payload_lengths": {
+    "9": 1,
+    "12": 463,
+    "155": 1
+  },
+  "parsed_track_updates": 1,
+  "completed_covers": [
+    {
+      "format": "jpg",
+      "bytes": 196527
+    }
+  ],
+  "main_findings": [
+    "Media reaches the receiver but does not reach the existing HMI text/picture adapters.",
+    "Receiver scheduling includes unnamed threads at priority 10 and native screen threads at 60; the fix selects only the alternate sender and dedicated 9997 adapter and preserves existing higher priorities.",
+    "Reverse-load freeze timing is vehicle feedback; reduction has not been verified in the vehicle."
+  ]
+}

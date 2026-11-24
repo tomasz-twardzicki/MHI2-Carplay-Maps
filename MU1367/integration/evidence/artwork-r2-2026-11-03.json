@@ -1,0 +1,75 @@
+{
+  "date": "2026-11-03",
+  "source_directory": "/Users/tomasz/Documents/github/personal/Logs/AudioProgress/cpmap-diag-4100230",
+  "user_observations": {
+    "native_progress": "No progress displayed on this AID with OEM Bluetooth/CD; defer CarPlay native progress.",
+    "artwork": "Track-change artwork still takes seconds."
+  },
+  "files": {
+    "ramdisk/cpmap-artwork-timing.status": "769a50ebed1a699935615dee1c24d3eabc501c5c505ce3a6536294da90bf6e2d",
+    "ramdisk/cpmap-artwork.status": "45ba609a1b593caadf3472a4e11b063ecbce6fc067ce22a90ee258dbd304a2a6",
+    "ramdisk/carplay-now-playing-n1.status": "15b180a24d853618ba9d1921593a79dde3d47883b49cb0c2e4d19dd137ce0b52",
+    "summary.txt": "17c65c957866ae0b9f1fb659b831868cb50af1cf33be4ff881cd72fa6d8a5220"
+  },
+  "artwork_rows": [
+    {
+      "handle": 1,
+      "attempts": 1,
+      "text_to_ready_ms": 252,
+      "pps_to_match_ms": 0,
+      "pps_to_ready_ms": 200,
+      "match_to_ready_ms": 200,
+      "last_fetch_process_ms": 199,
+      "ready_to_handle_ms": 113,
+      "ready_to_push_ms": 112,
+      "text_to_usable_pps_ms": 52,
+      "text_to_push_ms": 364
+    },
+    {
+      "handle": 2,
+      "attempts": 1,
+      "text_to_ready_ms": 995,
+      "pps_to_match_ms": 0,
+      "pps_to_ready_ms": 196,
+      "match_to_ready_ms": 196,
+      "last_fetch_process_ms": 194,
+      "ready_to_handle_ms": 35,
+      "ready_to_push_ms": 35,
+      "text_to_usable_pps_ms": 799,
+      "text_to_push_ms": 1030
+    },
+    {
+      "handle": 3,
+      "attempts": 1,
+      "text_to_ready_ms": 868,
+      "pps_to_match_ms": 0,
+      "pps_to_ready_ms": 170,
+      "match_to_ready_ms": 170,
+      "last_fetch_process_ms": 169,
+      "ready_to_handle_ms": 18,
+      "ready_to_push_ms": 18,
+      "text_to_usable_pps_ms": 698,
+      "text_to_push_ms": 886
+    },
+    {
+      "handle": 4,
+      "attempts": 1,
+      "text_to_ready_ms": 1308,
+      "pps_to_match_ms": 0,
+      "pps_to_ready_ms": 177,
+      "match_to_ready_ms": 177,
+      "last_fetch_process_ms": 176,
+      "ready_to_handle_ms": 98,
+      "ready_to_push_ms": 97,
+      "text_to_usable_pps_ms": 1131,
+      "text_to_push_ms": 1405
+    }
+  ],
+  "interpretation": [
+    "Successful fetch process times 169\u2013199 ms; usable-PPS observation to ready 170\u2013200 ms.",
+    "Last three text changes precede usable-PPS observation by 698\u20131131 ms; that interval does not isolate adapter transfer.",
+    "Ready-to-push 18\u2013112 ms; physical cluster loading/rendering after push is unmeasured.",
+    "Progress native calls/returns 96/96, native acknowledgements 97, native errors 0; display feature deferred by user."
+  ],
+  "runtime_changes_validated_on_unit": false
+}

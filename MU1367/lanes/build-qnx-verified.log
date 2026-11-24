@@ -1,0 +1,25 @@
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+arm-unknown-nto-qnx6.5.0eabi-ld: Warning: /w/core-check.o: Unknown EABI object attribute 34
+/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lanes/build-qnx-verified/run/combined/CombinedProbe.java:144: error: cannot access StringBuilder
+  if(written.toString().indexOf("pushByte:-64,")<0||written.toString().indexOf("pushBits:4,2,")<0)throw new Exception("Factory lane serialization "+written);
+                                                                                                                                                   ^
+  class file for java.lang.StringBuilder not found
+Traceback (most recent call last):
+  File "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lanes/test-qnx.py", line 57, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lanes/test-qnx.py", line 50, in main
+    try:env['main']()
+        ~~~~~~~~~~~^^
+  File "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/settings-v2/test-qnx.py", line 109, in main
+  File "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/port/test-qnx.py", line 127, in main
+    raise RuntimeError('guidance factory J9 checks failed')
+       ^^^^^^^^^^^^^
+  File "/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1427/now-playing/test-observer-qnx.py", line 85, in main
+    with zipfile.ZipFile(work / 'probe.jar', 'w') as z:
+        for f in (work / 'probe').rglob('*.class'):
+            data = bytearray(f.read_bytes())
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/private/tmp/zulu8.78.0.19-ca-jdk8.0.412-macosx_aarch64/zulu-8.jdk/Contents/Home/bin/javac', '-source', '7', '-target', '7', '-Xlint:-options', '-bootclasspath', '/private/tmp/mu1367-firmware/stock.jar', '-cp', '/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lanes/build-qnx-verified/run/combined/combined.jar', '-d', '/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lanes/build-qnx-verified/run/j9/probe', '/Users/tomasz/Documents/github/personal/MHI2-Carplay-Maps-rg/MU1367/lanes/build-qnx-verified/run/combined/CombinedProbe.java']' returned non-zero exit status 4.
