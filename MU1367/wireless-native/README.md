@@ -1,12 +1,14 @@
 # MU1367 wireless CarPlay development
 
-Current experimental release: [v1.6.6-e, AID 790/791](v166-release/README.md). Use the [published package guide](../../releases/MU1367/v1.6.6-e/START_HERE.md) and [release notes](v166-release/RELEASE-NOTES.md). The 790 profile source is [overlay-v166](overlay-v166/README.md).
+Current experimental release: [v1.6.7-e, test2 baseline with AID 790/791](v167/README.md). Use the [package guide](../../releases/MU1367/v1.6.7-e/START_HERE.md) and [release notes](v167/RELEASE-NOTES.md). Both profiles keep test2 input. The optional 790 child retains its tested video/metadata backend and centred wireless safe area; GPS stays off by default. v1.6.6-e was withdrawn and its shared runtime changes are excluded.
+
+GPS follow-up: [exact OEM service binding and independent-source work](gps-provider/README.md). The four-profile firmware audit identifies `EsoPosProviderFull` and corrects the old DIO capture: it hooked the ASI-version callback rather than NMEA data. The new WGPS source core passes consumer tests; the independent ASI transport is not yet implemented. Published GPS defaults remain Off.
 
 The following earlier notes and sealed test directories are retained for evidence and recovery.
 
 > **Current stable release: [v1.6.1](stable/README.md).** [Install/update/OEM restore](stable/START_HERE.md). Stable promotes the vehicle-confirmed test2 runtime with a unified reboot-aware installer and combined diagnostics; earlier experimental evidence remains below.
 
-> **Next vehicle-test candidate: [v1.6.5-e-test2](v165-test2/README.md).** Explicit-libc BT resolution and independent current-road/turn-to fields. [Test/recovery instructions](v165-test2/START_HERE.md). Managed migration/OEM restore and component bench checks pass; physical BT-off survival and cluster field selection require a car test. Artwork and stream binaries retain the test1 bytes that worked on the car.
+> **Vehicle-tested runtime baseline: [v1.6.5-e-test2](v165-test2/README.md).** Explicit-libc BT resolution and independent current-road/turn-to fields. [Test/recovery instructions](v165-test2/START_HERE.md). Managed migration/OEM restore and component bench checks pass; BT-off survival and artwork were subsequently confirmed on the car; road-field selection remains under investigation. Artwork and stream binaries retain the test1 bytes that worked on the car.
 
 > **Latest drive review:** [v1.6.5-e-test1 evidence and worklist](research/v165-drive-review/REVIEW.md), [current progress and limits](v165-test2/PROGRESS.md). Startup MOST recovery, pre-acceptance stale-phone paging and wireless-only GPS remain open. Earlier sealed packages remain available.
 

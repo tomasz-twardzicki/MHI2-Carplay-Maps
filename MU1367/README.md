@@ -1,8 +1,8 @@
 # MU1367 profiles and integrated releases
 
-The current experimental release is **[v1.6.6-e for AID 790/791](../releases/MU1367/v1.6.6-e/README.md)**. Follow its [complete installer/recovery guide](../releases/MU1367/v1.6.6-e/START_HERE.md). The 790 selection retains the tested overlay backend, adds the shared OEM touch and guarded call/media preference, and corrects wireless navigation centring. Fresh turn-card defaults are Off. See [release notes](../releases/MU1367/v1.6.6-e/RELEASE-NOTES.md) for the feature differences and remaining experimental limits.
+The current experimental release is **[v1.6.7-e for AID 790/791](../releases/MU1367/v1.6.7-e/README.md)**. It restores the exact vehicle-tested v1.6.5-e-test2 runtime and input handling on both profiles, with an optional tested 790 backend and centred wireless safe area. Fresh turn cards default to Off; GPS remains off by default. Follow the [installer/recovery guide](../releases/MU1367/v1.6.7-e/START_HERE.md) and [release notes](../releases/MU1367/v1.6.7-e/RELEASE-NOTES.md).
 
-[Stable v1.6.1 for 791](../releases/MU1367/v1.6.1/README.md) and all historical packages remain unchanged. New wireless release sources are in [wireless-native/v166-release](wireless-native/v166-release/README.md); [integration](integration/README.md) retains the wired base sources and recovery history.
+v1.6.6-e was withdrawn after reported Keep/disconnect failures, lag and MU freezes. Its shared runtime changes are excluded. [Stable v1.6.1 for 791](../releases/MU1367/v1.6.1/README.md) remains available. New package sources are in [wireless-native/v167](wireless-native/v167/README.md); [integration](integration/README.md) retains wired base sources and recovery history.
 
 Exact firmware identity: `/ifs/lsd.jxe` = **55,840,541 bytes**.
 

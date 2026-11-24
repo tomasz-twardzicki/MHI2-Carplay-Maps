@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "scope": "Source core plus actual unchanged WGPS/iAP2 protocol consumer; no ASI transport or target daemon.",
+  "result": "GPS_PROVIDER_CONSUMER_PASS checks=50051 malformed=50000 unchanged_consumer=1 utc_not_synthesized=1 transport_bound=0",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "consumer_sha256": {
+    "wcp_location.c": "a29eae670083d3f06e5c3a709333b78864b45a4a697d8c9c8b44a090c7b4bac4",
+    "wcp_location.h": "d558ad6f16a1c8fcf8531ecd63102a2a9909b25bb5270c12827817245af15bef",
+    "wcp_location_source.h": "7f6fca14368d3b080830341615fc6556c2dcc8cdc98b7bd21b43d58f4ecce8d1"
+  },
+  "source_core_sha256": "fa68f9556c34fff6519cecb811516fa75a91534f8b9bd7d24cb875447952e5fc",
+  "test_sha256": "6f9be5907c6510e7c67d55297c65b8ca04244088393cab8cc70d8f76711cb794",
+  "independent_client_implemented": false,
+  "on_unit_validated": false
+}

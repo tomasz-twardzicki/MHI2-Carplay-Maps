@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "version": "1.6.7-e",
+  "experimental": true,
+  "on_unit_validated": false,
+  "archive": "CarPlay_Maps_VC_MU1367_790_791_v1.6.7-e.zip",
+  "archive_sha256": "c262dd53523e2bd812c4769eeda139540c4ee3a84fc41bf5aee5dd3dcdb887f5",
+  "files": 1107,
+  "all_zip_entries_verified": true,
+  "parent_assets_byte_identical": 54,
+  "profile_targets": 14
+}

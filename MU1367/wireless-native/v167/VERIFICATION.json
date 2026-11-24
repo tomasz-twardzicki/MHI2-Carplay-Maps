@@ -1,0 +1,1092 @@
+{
+  "version": "1.6.7-e",
+  "passed": true,
+  "experimental": true,
+  "prerelease": true,
+  "on_unit_validated": false,
+  "runtime_baseline": "1.6.5-e-test2",
+  "runtime_build_id": "MU1367-wireless-native-v165t2-8ebe482b1961",
+  "runtime_recovery_root": "/mnt/app/carplay-mu1367-wireless-native-v165t2",
+  "baseline_zip_sha256": "e9b815eb0be0e1b9cf45564278e15b12ddbe4d0436553a40177e54324882fcae",
+  "tested_790_zip_sha256": "202ab34e7339324ca204e6ea64ef754d94a1174f76e9d139c41d59bfc28d3359",
+  "parent_assets_byte_identical": [
+    "Custom/carplay_mu1367_wireless_native/UPSTREAM-CREDITS.md",
+    "Custom/carplay_mu1367_wireless_native/UPSTREAM-LICENSE",
+    "Custom/carplay_mu1367_wireless_native/VERSION",
+    "Custom/carplay_mu1367_wireless_native/config-patch",
+    "Custom/carplay_mu1367_wireless_native/control.sh",
+    "Custom/carplay_mu1367_wireless_native/gps-preference.sh",
+    "Custom/carplay_mu1367_wireless_native/manifest.json",
+    "Custom/carplay_mu1367_wireless_native/merge-wireless.sh",
+    "Custom/carplay_mu1367_wireless_native/payload-check.sh",
+    "Custom/carplay_mu1367_wireless_native/payload/CarPlayMU1367Audio.jar",
+    "Custom/carplay_mu1367_wireless_native/payload/CarPlayMU1367Guidance.jar",
+    "Custom/carplay_mu1367_wireless_native/payload/CarPlayWireless-CP-55915411.jar",
+    "Custom/carplay_mu1367_wireless_native/payload/CarPlayWireless-SI-55915411.jar",
+    "Custom/carplay_mu1367_wireless_native/payload/CarPlayWireless-Touch-55915411.jar",
+    "Custom/carplay_mu1367_wireless_native/payload/MU1367WirelessPhone.jar",
+    "Custom/carplay_mu1367_wireless_native/payload/WirelessMapsBootstrap.jar",
+    "Custom/carplay_mu1367_wireless_native/payload/altscreen-most-bridge",
+    "Custom/carplay_mu1367_wireless_native/payload/boot",
+    "Custom/carplay_mu1367_wireless_native/payload/btstack_wrap.sh",
+    "Custom/carplay_mu1367_wireless_native/payload/btwcp_enable",
+    "Custom/carplay_mu1367_wireless_native/payload/btwcp_present_target",
+    "Custom/carplay_mu1367_wireless_native/payload/bundles",
+    "Custom/carplay_mu1367_wireless_native/payload/carplay-cluster-supervisor",
+    "Custom/carplay_mu1367_wireless_native/payload/cluster-profile",
+    "Custom/carplay_mu1367_wireless_native/payload/connectivity",
+    "Custom/carplay_mu1367_wireless_native/payload/dio_manager.wrapper.sh",
+    "Custom/carplay_mu1367_wireless_native/payload/libbtwcp.so",
+    "Custom/carplay_mu1367_wireless_native/payload/libcpmap-bt-session.so",
+    "Custom/carplay_mu1367_wireless_native/payload/libcpmap-gps-source.so",
+    "Custom/carplay_mu1367_wireless_native/payload/libcpmap-wcp-tap.so",
+    "Custom/carplay_mu1367_wireless_native/payload/libomonob-wireless-maps.so",
+    "Custom/carplay_mu1367_wireless_native/payload/libv75-transport.so",
+    "Custom/carplay_mu1367_wireless_native/payload/libv75-wireless-video-tap.so",
+    "Custom/carplay_mu1367_wireless_native/payload/off",
+    "Custom/carplay_mu1367_wireless_native/payload/si",
+    "Custom/carplay_mu1367_wireless_native/payload/start-wireless-maps.sh",
+    "Custom/carplay_mu1367_wireless_native/payload/v75-wireless-display.conf",
+    "Custom/carplay_mu1367_wireless_native/payload/wcp_autostart",
+    "Custom/carplay_mu1367_wireless_native/payload/wcp_autostart.sh",
+    "Custom/carplay_mu1367_wireless_native/payload/wcp_chansync.sh",
+    "Custom/carplay_mu1367_wireless_native/payload/wcp_cp_stage",
+    "Custom/carplay_mu1367_wireless_native/payload/wcp_ctl.sh",
+    "Custom/carplay_mu1367_wireless_native/payload/wcp_pf.sh",
+    "Custom/carplay_mu1367_wireless_native/payload/wcp_pfwatch.sh",
+    "Custom/carplay_mu1367_wireless_native/payload/wcp_receiver",
+    "Custom/carplay_mu1367_wireless_native/payload/wcp_video",
+    "Custom/carplay_mu1367_wireless_native/payload/wcp_video_stock",
+    "Custom/carplay_mu1367_wireless_native/payload/wcp_video_tap",
+    "Custom/carplay_mu1367_wireless_native/payload/wireless-artwork-fetch",
+    "Custom/carplay_mu1367_wireless_native/payload/wireless-entry",
+    "Custom/carplay_mu1367_wireless_native/payload/wireless-receiver-exec",
+    "Custom/carplay_mu1367_wireless_native/payload/wireless-tune",
+    "Custom/carplay_mu1367_wireless_native/payload/wireless-video-exec",
+    "Custom/carplay_mu1367_wireless_native/verify"
+  ],
+  "other_custom_assets_byte_identical_count": 335,
+  "allowed_custom_exceptions": [
+    "Custom/carplay_mu1367_guidance_v3/payload-check.sh",
+    "Custom/carplay_mu1367_map_only/payload-check.sh",
+    "Custom/carplay_mu1367_oem_reset/control.sh",
+    "Custom/carplay_mu1367_oem_reset/manifest.json",
+    "Custom/carplay_mu1367_refinements/payload-check.sh",
+    "Custom/carplay_mu1367_release/payload-check.sh"
+  ],
+  "unchanged_tested_790_components": [
+    "wcp_receiver",
+    "wireless-entry",
+    "libomonob-wireless-maps.so",
+    "v75-wireless-display.conf",
+    "cluster-profile",
+    "altscreen.geom",
+    "core.so",
+    "altscreen-most-bridge",
+    "carplay-cluster-supervisor",
+    "libcpmap-wcp-media790.so"
+  ],
+  "profiles": {
+    "790": {
+      "build_id": "MU1367-input-profile-790-05f05a75b4c2",
+      "recovery_root": "carplay-mu1367-profile-790-v167",
+      "controller_sha256": "f53937fbb834617e5ad4ade3fdb53cf2aed424bb96068e14f37c67746df07ec6",
+      "rows": [
+        {
+          "key": "k00",
+          "source": "wcp_receiver",
+          "target": "/mnt/ota/wcp_receiver",
+          "mode": "755",
+          "before": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+          "sha256": "396c73bcd7674483245776d0493552832f7ebbcefed399d7b9dd1182a5336c90"
+        },
+        {
+          "key": "k01",
+          "source": "wireless-entry",
+          "target": "/mnt/app/carplaymaps/wireless-entry",
+          "mode": "755",
+          "before": "54c765fc74b00ee06e9d740384817b8c39740a96c1b012a3057d990878a614e8",
+          "sha256": "99a4e2da5c3b087aec504f38f936a5e5c4987db9b15b9e134572f7c97162d533"
+        },
+        {
+          "key": "k02",
+          "source": "wireless-receiver-exec",
+          "target": "/mnt/app/carplaymaps/wireless-receiver-exec",
+          "mode": "755",
+          "before": "219a469ab1bd2371c9919c28025597e240659a44b8b4eb71cd0d77327cce764d",
+          "sha256": "fad67c96aca0e0796d1d82813eb6e193184f1d8003f34ba9c15e15621e415938"
+        },
+        {
+          "key": "k03",
+          "source": "libomonob-wireless-maps.so",
+          "target": "/mnt/app/carplaymaps/libomonob-wireless-maps.so",
+          "mode": "644",
+          "before": "b40e381e0d8b9c56b55b797570fcafe8861b2f026b3125feb9efeceeadfa1fa7",
+          "sha256": "160d43f227dcdda27a11e4b8a8623c68a0aabe488ae18cc9766992fcd6dc5cfa"
+        },
+        {
+          "key": "k04",
+          "source": "v75-wireless-display.conf",
+          "target": "/mnt/persist/v75-wireless-display.conf",
+          "mode": "644",
+          "before": "155295796e9b0f8e6ac8cbdeb35fecb8ce8ffb3f10db5264fc46f5f51b21a938",
+          "sha256": "441fd97351987bdae520ef5bfda85ab3b98d602b4cdbdaf8b0f817df295cc350"
+        },
+        {
+          "key": "k05",
+          "source": "cluster-profile",
+          "target": "/mnt/persist/omonob-phone/cluster-profile",
+          "mode": "644",
+          "before": "9b37fb694665082cfc6a0d7c4984e822cfec093f4ec63719810db117184e5593",
+          "sha256": "90d75b0127c1a659159e4848167b5a76d370fc572cd6fc0a25917ab2b7a6782b"
+        },
+        {
+          "key": "k06",
+          "source": "altscreen.conf",
+          "target": "/mnt/persist/altscreen.conf",
+          "mode": "644",
+          "before": "optional",
+          "sha256": "2124375bcbd5f8759036d336f4651bda9524b2b9c9d4a3017b0fcacf2e513d98"
+        },
+        {
+          "key": "k07",
+          "source": "altscreen.geom",
+          "target": "/mnt/persist/altscreen.geom",
+          "mode": "644",
+          "before": "optional",
+          "sha256": "653999c0902be63c6bc7c88a44bc1187fc4ee69c98136646dddbde5f578d4777"
+        },
+        {
+          "key": "k08",
+          "source": "core.so",
+          "target": "/mnt/app/carplaymaps/core.so",
+          "mode": "644",
+          "before": "core",
+          "sha256": "97ccb829f996b74305099ca54e6f4a693a17381b391d170c1227f44e49ff0769"
+        },
+        {
+          "key": "k09",
+          "source": "altscreen-most-bridge",
+          "target": "/mnt/app/carplaymaps/altscreen-most-bridge",
+          "mode": "755",
+          "before": "f1e7cefc1db3b34e92bbf1cdb54125a712ac569cd71d7db084c8a67ca62238ad",
+          "sha256": "6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35"
+        },
+        {
+          "key": "k10",
+          "source": "carplay-cluster-supervisor",
+          "target": "/mnt/app/carplaymaps/carplay-cluster-supervisor",
+          "mode": "755",
+          "before": "e525fb5bdd4aec959ba2f5619e5ecf0ce653190807acbaac85d5cb66ab2e52f2",
+          "sha256": "d078bd323892de96b225472357486cb83bab64d731ec06ff8f628993d3d81244"
+        },
+        {
+          "key": "k11",
+          "source": "PROFILE",
+          "target": "/mnt/app/carplaymaps/PROFILE",
+          "mode": "644",
+          "before": "cf6e2b536ff72d8fe339b4d3da708166211ee17f8bb7d92669e39380529c5e49",
+          "sha256": "05e9f5b94f1f0ad7014a24a83e325b3641dd8727a8c69acf29f02d38e63fcf38"
+        },
+        {
+          "key": "k12",
+          "source": "start-wireless-maps.sh",
+          "target": "/mnt/app/carplaymaps/start-wireless-maps.sh",
+          "mode": "755",
+          "before": "1d3f66d3dd54702f2e57207ba7b83d31752b252fe592171f92f60763d98b7352",
+          "sha256": "3de1483b4a266ad63a93e8dbcae0ccd0b7a6ce857fcb756ff35b6fb15238fe67"
+        },
+        {
+          "key": "k13",
+          "source": "libcpmap-wcp-media790.so",
+          "target": "/mnt/app/carplaymaps/libcpmap-wcp-media790.so",
+          "mode": "644",
+          "before": "absent",
+          "sha256": "3d0f639b517a010ad6a10d456498d37f3e0f464eb246978ab94ec4c256366962"
+        }
+      ],
+      "mutable_geometry_key": "k06"
+    }
+  },
+  "reports": {
+    "host": {
+      "passed": true,
+      "tests": 8,
+      "variants": [
+        "6",
+        "7",
+        "6-road",
+        "7-road"
+      ],
+      "failures": 0,
+      "errors": 0,
+      "scope": "Actual release/base/legacy/AA/OEM shell controllers; host SHA verifier; config-patch replays exact outputs captured and hash-verified from the pinned native QNX helper; mounts/sync mocked; reboot RAM markers cleared by fixture.",
+      "config_replay": {
+        "native_helper_sha256": "00201913a82b00183ee6694a6723b816837cefc1c146e725710fa940eaa8fe26",
+        "actual_qnx_output_sha256": {
+          "connectivity": "95bd36543e4ad2dbe72e72cdb95b2561f573a27ec2787bf0c4e0d27c1d9a2358",
+          "si": "f46349a50b688a8fc441cbe14ce5aa1aabab4e258717d683f005f39f68da77b9"
+        },
+        "source_log_sha256": "f18f04a62946ca87207dc8e6e288c40ec2ca74ae38138c3c89039017be0d26cb"
+      },
+      "version": "1.6.7-e",
+      "controller_sha256": "ad09e8055c370467420d6be7b56e5f31fd8837d219409f6bf1c1619ecb13696f"
+    },
+    "profiles_qnx": {
+      "passed": true,
+      "receiver_sha256": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+      "hardware_opened": false,
+      "log_sha256": "e66d03d3ce7f48493886c63e3ba4ef5fac644d197166a573c234f58bdd9b7bb9",
+      "scope": "Actual profile controllers, selector, tuning, rollback, interruption and collecting-state recovery; verified installed-parent file seeds; JXE gate wrapped and mounts inert; no receiver/radio/MOST execution.",
+      "legacy_migration": false,
+      "controllers": {
+        "790": {
+          "build_id": "MU1367-input-profile-790-05f05a75b4c2",
+          "recovery_root": "carplay-mu1367-profile-790-v167",
+          "controller_sha256": "f53937fbb834617e5ad4ade3fdb53cf2aed424bb96068e14f37c67746df07ec6",
+          "rows": [
+            {
+              "key": "k00",
+              "source": "wcp_receiver",
+              "target": "/mnt/ota/wcp_receiver",
+              "mode": "755",
+              "before": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+              "sha256": "396c73bcd7674483245776d0493552832f7ebbcefed399d7b9dd1182a5336c90"
+            },
+            {
+              "key": "k01",
+              "source": "wireless-entry",
+              "target": "/mnt/app/carplaymaps/wireless-entry",
+              "mode": "755",
+              "before": "54c765fc74b00ee06e9d740384817b8c39740a96c1b012a3057d990878a614e8",
+              "sha256": "99a4e2da5c3b087aec504f38f936a5e5c4987db9b15b9e134572f7c97162d533"
+            },
+            {
+              "key": "k02",
+              "source": "wireless-receiver-exec",
+              "target": "/mnt/app/carplaymaps/wireless-receiver-exec",
+              "mode": "755",
+              "before": "219a469ab1bd2371c9919c28025597e240659a44b8b4eb71cd0d77327cce764d",
+              "sha256": "fad67c96aca0e0796d1d82813eb6e193184f1d8003f34ba9c15e15621e415938"
+            },
+            {
+              "key": "k03",
+              "source": "libomonob-wireless-maps.so",
+              "target": "/mnt/app/carplaymaps/libomonob-wireless-maps.so",
+              "mode": "644",
+              "before": "b40e381e0d8b9c56b55b797570fcafe8861b2f026b3125feb9efeceeadfa1fa7",
+              "sha256": "160d43f227dcdda27a11e4b8a8623c68a0aabe488ae18cc9766992fcd6dc5cfa"
+            },
+            {
+              "key": "k04",
+              "source": "v75-wireless-display.conf",
+              "target": "/mnt/persist/v75-wireless-display.conf",
+              "mode": "644",
+              "before": "155295796e9b0f8e6ac8cbdeb35fecb8ce8ffb3f10db5264fc46f5f51b21a938",
+              "sha256": "441fd97351987bdae520ef5bfda85ab3b98d602b4cdbdaf8b0f817df295cc350"
+            },
+            {
+              "key": "k05",
+              "source": "cluster-profile",
+              "target": "/mnt/persist/omonob-phone/cluster-profile",
+              "mode": "644",
+              "before": "9b37fb694665082cfc6a0d7c4984e822cfec093f4ec63719810db117184e5593",
+              "sha256": "90d75b0127c1a659159e4848167b5a76d370fc572cd6fc0a25917ab2b7a6782b"
+            },
+            {
+              "key": "k06",
+              "source": "altscreen.conf",
+              "target": "/mnt/persist/altscreen.conf",
+              "mode": "644",
+              "before": "optional",
+              "sha256": "2124375bcbd5f8759036d336f4651bda9524b2b9c9d4a3017b0fcacf2e513d98"
+            },
+            {
+              "key": "k07",
+              "source": "altscreen.geom",
+              "target": "/mnt/persist/altscreen.geom",
+              "mode": "644",
+              "before": "optional",
+              "sha256": "653999c0902be63c6bc7c88a44bc1187fc4ee69c98136646dddbde5f578d4777"
+            },
+            {
+              "key": "k08",
+              "source": "core.so",
+              "target": "/mnt/app/carplaymaps/core.so",
+              "mode": "644",
+              "before": "core",
+              "sha256": "97ccb829f996b74305099ca54e6f4a693a17381b391d170c1227f44e49ff0769"
+            },
+            {
+              "key": "k09",
+              "source": "altscreen-most-bridge",
+              "target": "/mnt/app/carplaymaps/altscreen-most-bridge",
+              "mode": "755",
+              "before": "f1e7cefc1db3b34e92bbf1cdb54125a712ac569cd71d7db084c8a67ca62238ad",
+              "sha256": "6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35"
+            },
+            {
+              "key": "k10",
+              "source": "carplay-cluster-supervisor",
+              "target": "/mnt/app/carplaymaps/carplay-cluster-supervisor",
+              "mode": "755",
+              "before": "e525fb5bdd4aec959ba2f5619e5ecf0ce653190807acbaac85d5cb66ab2e52f2",
+              "sha256": "d078bd323892de96b225472357486cb83bab64d731ec06ff8f628993d3d81244"
+            },
+            {
+              "key": "k11",
+              "source": "PROFILE",
+              "target": "/mnt/app/carplaymaps/PROFILE",
+              "mode": "644",
+              "before": "cf6e2b536ff72d8fe339b4d3da708166211ee17f8bb7d92669e39380529c5e49",
+              "sha256": "05e9f5b94f1f0ad7014a24a83e325b3641dd8727a8c69acf29f02d38e63fcf38"
+            },
+            {
+              "key": "k12",
+              "source": "start-wireless-maps.sh",
+              "target": "/mnt/app/carplaymaps/start-wireless-maps.sh",
+              "mode": "755",
+              "before": "1d3f66d3dd54702f2e57207ba7b83d31752b252fe592171f92f60763d98b7352",
+              "sha256": "3de1483b4a266ad63a93e8dbcae0ccd0b7a6ce857fcb756ff35b6fb15238fe67"
+            },
+            {
+              "key": "k13",
+              "source": "libcpmap-wcp-media790.so",
+              "target": "/mnt/app/carplaymaps/libcpmap-wcp-media790.so",
+              "mode": "644",
+              "before": "absent",
+              "sha256": "3d0f639b517a010ad6a10d456498d37f3e0f464eb246978ab94ec4c256366962"
+            }
+          ],
+          "mutable_geometry_key": "k06"
+        }
+      }
+    },
+    "launcher_qnx": {
+      "passed": true,
+      "receiver_sha256": "f195665b0e9fb8a592618e64b7201ddfc536a9b082c6dd35db214b99d5e01de1",
+      "hardware_opened": false,
+      "log_sha256": "711b5d0739689c6a871468fc3bf54052cc805f9d9c249dfcf91706b43a012562",
+      "scope": "Actual 790 bootstrap CLI and test2 BT wrapper; final btstack exec only replaced by readback; receiver/radio not executed.",
+      "components": {
+        "wireless-receiver-exec": "fad67c96aca0e0796d1d82813eb6e193184f1d8003f34ba9c15e15621e415938",
+        "libcpmap-wcp-media790.so": "3d0f639b517a010ad6a10d456498d37f3e0f464eb246978ab94ec4c256366962"
+      },
+      "bt_wrapper_sha256": "8d94a49ef0b0a3d6d678897fb5cfad5cef73f6d74598bd945aff2782dd514608",
+      "bt_guard_sha256": "fd8f39c21bf52253bb1a8d222fee7f850fe39a96b3bf16723f9c96cc698c8acc"
+    },
+    "oem_qnx": {
+      "passed": true,
+      "controller_sha256": "24ba0b8c52003a5b5a4986c89728193e24a3d6af524911ba7aed26b53863f0d9",
+      "fixture_controller_sha256": "5b407f72e9a40f394ff2acbe02130c638a74199fffcd76546c2b2f1044efdc9f",
+      "fixture_only_change": "JXE_SHA constant for small RAM-disk fixture; host tests use full real JXE",
+      "verifier_sha256": "0512b28bd589336fe8a32f8e514f90b2646e2117064454160a660daff48f9a7a",
+      "factory_libc_sha256": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+      "actual_qnx_ksh": true,
+      "mounts_mocked": true,
+      "on_unit_validated": false,
+      "factory_utilities_sha256": {
+        "ksh": "11288c35bdb7a5e31e361d8301258fdda6546cd357dde68d721868eec819d3f9",
+        "cat": "04495daaf52a86fbff8897d885961959982b8c400514526fabeb5990491aa02e",
+        "cp": "b2f2839de260165a85a29c64dbd460d1a59556ecb4b2c199ce43c2d8b116ce1c",
+        "mv": "5478f1ccb35395107d93bca389178537079baf5550b7b4ce141ce1f1d96e5771",
+        "rm": "b4935f2b45300d9f3ac5168a5de969751735d51c90967bd5a46fa5642c48eae3",
+        "mkdir": "55cbb03fa6195782df31a7e7a4564fd5ec59dfe6a0a6b5706100193b4444fdf7",
+        "chmod": "896cd46394bb3c8200359ff364205a2fa41830f3a8efcddf977f5308b139578c",
+        "sync": "4ae64a41e79173a6dbe324dd07ba7a52325f9cf76b3ec67a4c8344694aca8bdf",
+        "mount": "a6fd3a6c168b80cc1838d93fecf302736a76bd8c632c1a1734b1fb673fc5f957",
+        "on": "c6479282b46b248b03780cb3fb15846d239946505220134798b04bc3e699b166",
+        "df": "784d003440972ca859d2a6dc7ff19f70dbdaac3e4295311c295823bac017301c",
+        "slay": "330538235b0f67cfb65d48caf4a220118b3d934e6d9ed654184101c699699fdc"
+      },
+      "sdk_utilities_injected": false,
+      "rmdir_absent_factory_gawk_present": true,
+      "lock_cleanup_verified": true,
+      "qemu_log_sha256": "fba5be16a226048c1e9fd190edbf7739bef3206a231a967e72c9e0769591a825",
+      "test_sha256": "87df42ae82a558cf298312f969b49561fa86f41ebdb4cc006169b57e9079f983",
+      "archived_recovery_roots": [
+        "carplaymaps",
+        "carplay-mu1367",
+        "carplay-mu1367-settings",
+        "carplay-mu1367-lanes",
+        "carplay-mu1367-wireless",
+        "carplay-mu1367-artwork",
+        "carplay-mu1367-card-scene",
+        "carplay-mu1367-road-name",
+        "carplay-mu1367-refinements",
+        "carplay-mu1367-map-only",
+        "carplay-mu1367-turn-cards",
+        "carplay-mu1367-guidance-v3",
+        "carplay-mu1367-wireless-native",
+        "carplay-mu1367-wireless-native-v161",
+        "carplay-mu1367-wireless-native-v161t2",
+        "carplay-mu1367-wireless-native-v162",
+        "carplay-mu1367-wireless-native-v163t2",
+        "carplay-mu1367-wireless-native-v163t3",
+        "carplay-mu1367-wireless-native-v164t1",
+        "carplay-mu1367-wireless-native-v165t1",
+        "carplay-mu1367-wireless-native-v165t2",
+        "carplay-mu1367-profile-790-test3",
+        "carplay-mu1367-overlay-touch-test",
+        "carplay-mu1367-profile-790-v166",
+        "carplay-mu1367-overlay-touch-v166",
+        "carplay-mu1367-wireless-native-v166",
+        "carplay-mu1367-profile-790-test",
+        "carplay-mu1367-profile-790-test2",
+        "carplay-mu1367-profile-790-v167"
+      ],
+      "archive_marker_note": "Inherited console marker says archives=12; actual generated assertions cover every listed recovery root."
+    },
+    "firmware_imports": {
+      "passed": true,
+      "scope": "ELF strong-import resolution only; no receiver, radio, decode or MOST hardware execution.",
+      "profiles": {
+        "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318/50": {
+          "passed": true,
+          "modules": {
+            "core.so": {
+              "sha256": "97ccb829f996b74305099ca54e6f4a693a17381b391d170c1227f44e49ff0769",
+              "needed": [],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "wcp_receiver": {
+              "sha256": "396c73bcd7674483245776d0493552832f7ebbcefed399d7b9dd1182a5336c90",
+              "needed": [
+                "libsocket.so.3",
+                "libm.so.2",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libm.so.2",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [
+                "libv75-transport.so",
+                "libomonob-wireless-maps.so"
+              ],
+              "missing": []
+            },
+            "wireless-entry": {
+              "sha256": "99a4e2da5c3b087aec504f38f936a5e5c4987db9b15b9e134572f7c97162d533",
+              "needed": [
+                "libsocket.so.3",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "wireless-receiver-exec": {
+              "sha256": "fad67c96aca0e0796d1d82813eb6e193184f1d8003f34ba9c15e15621e415938",
+              "needed": [
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "libomonob-wireless-maps.so": {
+              "sha256": "160d43f227dcdda27a11e4b8a8623c68a0aabe488ae18cc9766992fcd6dc5cfa",
+              "needed": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "altscreen-most-bridge": {
+              "sha256": "6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35",
+              "needed": [
+                "libsocket.so.3",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "carplay-cluster-supervisor": {
+              "sha256": "d078bd323892de96b225472357486cb83bab64d731ec06ff8f628993d3d81244",
+              "needed": [
+                "libsocket.so.3",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "libcpmap-wcp-media790.so": {
+              "sha256": "3d0f639b517a010ad6a10d456498d37f3e0f464eb246978ab94ec4c256366962",
+              "needed": [
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "libv75-transport.so": {
+              "sha256": "46a46b9bf2b60cba84c6d9ebeaac39ed56db8abe3b761a5d3c71f75458abbf3b",
+              "needed": [
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            }
+          },
+          "factory_sha256": {
+            "libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+            "libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+            "libm.so.2": "715ba06e022f7f9f2d9e2cf6b94a03bf619e034f41f8d832601507cc5073cd83"
+          }
+        },
+        "MHI2_ER_VWG13_K4525_1_AIO_MU1367_20230318/70": {
+          "passed": true,
+          "modules": {
+            "core.so": {
+              "sha256": "97ccb829f996b74305099ca54e6f4a693a17381b391d170c1227f44e49ff0769",
+              "needed": [],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "wcp_receiver": {
+              "sha256": "396c73bcd7674483245776d0493552832f7ebbcefed399d7b9dd1182a5336c90",
+              "needed": [
+                "libsocket.so.3",
+                "libm.so.2",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libm.so.2",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [
+                "libv75-transport.so",
+                "libomonob-wireless-maps.so"
+              ],
+              "missing": []
+            },
+            "wireless-entry": {
+              "sha256": "99a4e2da5c3b087aec504f38f936a5e5c4987db9b15b9e134572f7c97162d533",
+              "needed": [
+                "libsocket.so.3",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "wireless-receiver-exec": {
+              "sha256": "fad67c96aca0e0796d1d82813eb6e193184f1d8003f34ba9c15e15621e415938",
+              "needed": [
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "libomonob-wireless-maps.so": {
+              "sha256": "160d43f227dcdda27a11e4b8a8623c68a0aabe488ae18cc9766992fcd6dc5cfa",
+              "needed": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "altscreen-most-bridge": {
+              "sha256": "6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35",
+              "needed": [
+                "libsocket.so.3",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "carplay-cluster-supervisor": {
+              "sha256": "d078bd323892de96b225472357486cb83bab64d731ec06ff8f628993d3d81244",
+              "needed": [
+                "libsocket.so.3",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "libcpmap-wcp-media790.so": {
+              "sha256": "3d0f639b517a010ad6a10d456498d37f3e0f464eb246978ab94ec4c256366962",
+              "needed": [
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "libv75-transport.so": {
+              "sha256": "46a46b9bf2b60cba84c6d9ebeaac39ed56db8abe3b761a5d3c71f75458abbf3b",
+              "needed": [
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            }
+          },
+          "factory_sha256": {
+            "libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+            "libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+            "libm.so.2": "715ba06e022f7f9f2d9e2cf6b94a03bf619e034f41f8d832601507cc5073cd83"
+          }
+        },
+        "MHI2_ER_VWG13_P4521_MU1367/50": {
+          "passed": true,
+          "modules": {
+            "core.so": {
+              "sha256": "97ccb829f996b74305099ca54e6f4a693a17381b391d170c1227f44e49ff0769",
+              "needed": [],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "wcp_receiver": {
+              "sha256": "396c73bcd7674483245776d0493552832f7ebbcefed399d7b9dd1182a5336c90",
+              "needed": [
+                "libsocket.so.3",
+                "libm.so.2",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libm.so.2",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [
+                "libv75-transport.so",
+                "libomonob-wireless-maps.so"
+              ],
+              "missing": []
+            },
+            "wireless-entry": {
+              "sha256": "99a4e2da5c3b087aec504f38f936a5e5c4987db9b15b9e134572f7c97162d533",
+              "needed": [
+                "libsocket.so.3",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "wireless-receiver-exec": {
+              "sha256": "fad67c96aca0e0796d1d82813eb6e193184f1d8003f34ba9c15e15621e415938",
+              "needed": [
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "libomonob-wireless-maps.so": {
+              "sha256": "160d43f227dcdda27a11e4b8a8623c68a0aabe488ae18cc9766992fcd6dc5cfa",
+              "needed": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "altscreen-most-bridge": {
+              "sha256": "6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35",
+              "needed": [
+                "libsocket.so.3",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "carplay-cluster-supervisor": {
+              "sha256": "d078bd323892de96b225472357486cb83bab64d731ec06ff8f628993d3d81244",
+              "needed": [
+                "libsocket.so.3",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "libcpmap-wcp-media790.so": {
+              "sha256": "3d0f639b517a010ad6a10d456498d37f3e0f464eb246978ab94ec4c256366962",
+              "needed": [
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "libv75-transport.so": {
+              "sha256": "46a46b9bf2b60cba84c6d9ebeaac39ed56db8abe3b761a5d3c71f75458abbf3b",
+              "needed": [
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            }
+          },
+          "factory_sha256": {
+            "libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+            "libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+            "libm.so.2": "715ba06e022f7f9f2d9e2cf6b94a03bf619e034f41f8d832601507cc5073cd83"
+          }
+        },
+        "MHI2_ER_VWG13_P4521_MU1367/70": {
+          "passed": true,
+          "modules": {
+            "core.so": {
+              "sha256": "97ccb829f996b74305099ca54e6f4a693a17381b391d170c1227f44e49ff0769",
+              "needed": [],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "wcp_receiver": {
+              "sha256": "396c73bcd7674483245776d0493552832f7ebbcefed399d7b9dd1182a5336c90",
+              "needed": [
+                "libsocket.so.3",
+                "libm.so.2",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libm.so.2",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [
+                "libv75-transport.so",
+                "libomonob-wireless-maps.so"
+              ],
+              "missing": []
+            },
+            "wireless-entry": {
+              "sha256": "99a4e2da5c3b087aec504f38f936a5e5c4987db9b15b9e134572f7c97162d533",
+              "needed": [
+                "libsocket.so.3",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "wireless-receiver-exec": {
+              "sha256": "fad67c96aca0e0796d1d82813eb6e193184f1d8003f34ba9c15e15621e415938",
+              "needed": [
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "libomonob-wireless-maps.so": {
+              "sha256": "160d43f227dcdda27a11e4b8a8623c68a0aabe488ae18cc9766992fcd6dc5cfa",
+              "needed": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "altscreen-most-bridge": {
+              "sha256": "6c5210cac43699caf027b1f217dc39f4fe87c8b2aee3fa6366c20856772f9c35",
+              "needed": [
+                "libsocket.so.3",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "carplay-cluster-supervisor": {
+              "sha256": "d078bd323892de96b225472357486cb83bab64d731ec06ff8f628993d3d81244",
+              "needed": [
+                "libsocket.so.3",
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3",
+                "libsocket.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "libcpmap-wcp-media790.so": {
+              "sha256": "3d0f639b517a010ad6a10d456498d37f3e0f464eb246978ab94ec4c256366962",
+              "needed": [
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            },
+            "libv75-transport.so": {
+              "sha256": "46a46b9bf2b60cba84c6d9ebeaac39ed56db8abe3b761a5d3c71f75458abbf3b",
+              "needed": [
+                "libc.so.3"
+              ],
+              "host_providers": [
+                "libc.so.3"
+              ],
+              "preload_providers": [],
+              "missing": []
+            }
+          },
+          "factory_sha256": {
+            "libsocket.so.3": "36a062617f078d20d8cf53fb879667bd41d49b5d6b8ffb69375f4ca44eeff2d4",
+            "libc.so.3": "485e2a5061f3e8d7cc9b7de54cb1f4387fe20ade5e0179ecefbbeebaf91be6bc",
+            "libm.so.2": "715ba06e022f7f9f2d9e2cf6b94a03bf619e034f41f8d832601507cc5073cd83"
+          }
+        }
+      }
+    },
+    "defaults": {
+      "passed": true,
+      "variants": {
+        "6": {
+          "result": "CARD_OFF_DEFAULT_PASS explicit_on_off_persisted=1",
+          "menu_sha256": "6388e8bc33f26647f61db5662063370d6c7d1b7b0f88d20d4973cc6305c9ac0b"
+        },
+        "7": {
+          "result": "CARD_OFF_DEFAULT_PASS explicit_on_off_persisted=1",
+          "menu_sha256": "6388e8bc33f26647f61db5662063370d6c7d1b7b0f88d20d4973cc6305c9ac0b"
+        },
+        "6-road": {
+          "result": "CARD_OFF_DEFAULT_PASS explicit_on_off_persisted=1",
+          "menu_sha256": "6388e8bc33f26647f61db5662063370d6c7d1b7b0f88d20d4973cc6305c9ac0b"
+        },
+        "7-road": {
+          "result": "CARD_OFF_DEFAULT_PASS explicit_on_off_persisted=1",
+          "menu_sha256": "6388e8bc33f26647f61db5662063370d6c7d1b7b0f88d20d4973cc6305c9ac0b"
+        }
+      },
+      "default": "Off",
+      "saved_choices_preserved": true,
+      "runtime_modified": false
+    },
+    "sd_evidence": {
+      "passed": true,
+      "scope": "Host execution of read-only SD collectors; comparison of final stage against native/host-tested stage.",
+      "delta": [
+        "Custom/carplay_mu1367_guidance_v3/payload-check.sh",
+        "Custom/carplay_mu1367_map_only/payload-check.sh",
+        "Custom/carplay_mu1367_oem_reset/manifest.json",
+        "Custom/carplay_mu1367_refinements/payload-check.sh",
+        "Custom/carplay_mu1367_release/payload-check.sh",
+        "Toolbox/GEM/carplay-maps-vc-experimental.esd",
+        "Toolbox/GEM/carplay-maps-vc-wireless.esd",
+        "Toolbox/GEM/carplay-maps-vc.esd",
+        "Toolbox/scripts/cpmap_wireless_collect_data.sh",
+        "collect-wireless.sh"
+      ],
+      "collectors": [
+        {
+          "path": "collect-wireless.sh",
+          "sha256": "60ca1ab7b8827598d9a53f75057bd8b716e25b26080e509b2fc9e54379f224b2",
+          "passed": true
+        },
+        {
+          "path": "Toolbox/scripts/cpmap_wireless_collect_data.sh",
+          "sha256": "60ca1ab7b8827598d9a53f75057bd8b716e25b26080e509b2fc9e54379f224b2",
+          "passed": true
+        }
+      ],
+      "pairing_exported": false,
+      "runtime_unchanged": true
+    },
+    "launcher_build": {
+      "passed": true,
+      "scope": "790 bootstrap build only; baseline 791 runtime and JARs untouched.",
+      "files": {
+        "wireless-receiver-exec": "fad67c96aca0e0796d1d82813eb6e193184f1d8003f34ba9c15e15621e415938",
+        "libcpmap-wcp-media790.so": "3d0f639b517a010ad6a10d456498d37f3e0f464eb246978ab94ec4c256366962"
+      },
+      "bt_guard_sha256": "fd8f39c21bf52253bb1a8d222fee7f850fe39a96b3bf16723f9c96cc698c8acc",
+      "source_sha256": "37d8e954c0fcb8e5419dc2670fc14918a2ad542cd4b09a8ac769352e2de66daf",
+      "header_sha256": "427f5d1e5c872e86520c6d5c98776bed7eb8b51a0c390bda2be832048b0c9af9"
+    }
+  },
+  "report_files": {
+    "host": {
+      "path": "build-v167-profiles-host-r2/result.json",
+      "sha256": "8e3417f6d222479643c06ee1a67ea3883e9a8e34d918dc557f8261bc9fd84e3f"
+    },
+    "profiles_qnx": {
+      "path": "build-v167-profiles-qnx-r1/result.json",
+      "sha256": "0ea5aaf40a2ecaff0cb971037f00e0311cbb2705b1f24ef0dcfd37a80cbe03f0"
+    },
+    "launcher_qnx": {
+      "path": "build-v167-launcher-qnx-r1/result.json",
+      "sha256": "d1dd70281e924ef1382a2169a93f5bc18a1f50893f42712a25cd7dd13c862b9f"
+    },
+    "oem_qnx": {
+      "path": "build-v167-oem-qnx-r1/result.json",
+      "sha256": "96ad293e6d5d22cadbbefb567e38a2275c149d0d09934cdb17a7995f9205e59d"
+    },
+    "firmware_imports": {
+      "path": "build-v167-imports-r1.json",
+      "sha256": "920a442474acfa7ebbd6fa852c475b465395efe9e452fdb6f4fa258453f3dc78"
+    },
+    "defaults": {
+      "path": "build-v167-defaults-r1/result.json",
+      "sha256": "966199a71b8ad7579db6163ee4a55f13891932b9a4c9419be29a8618fbb79b93"
+    },
+    "sd_evidence": {
+      "path": "build-v167-sd-evidence-r2.json",
+      "sha256": "15dc01ba3066419c04ccb5398dd2737faf7cae73409f13fbd4eee0f8a3120821"
+    },
+    "launcher_build": {
+      "path": "build-v167-launcher-r1/VERIFICATION.json",
+      "sha256": "bb5f5611523364da5bb051b25093167cd95a6478484beacca965249d8e9fe34f"
+    }
+  },
+  "sources_sha256": {
+    "PROGRESS.md": "7f664ab06408fd9ca759efba625a98cec2e2a2718ebd108ab32b23d2934e67fa",
+    "README.md": "75af08efed2d2f4cbfdd8797574478682e89399339245e5f44ff9ee97496dd52",
+    "RELEASE-NOTES.md": "f360102a880464bd52b30d31780ba050d7884285c41bb8df11ceed7d52d7a9f9",
+    "START_HERE.md": "b07760a1bc01b0249cd044552270ac50f9e9c6b84bdf9e5d6a681dc41ed181a5",
+    "assemble.py": "7fa00f889b08dfd0ad78761efde607c0baafc9604b6ec7c58096f6867b709399",
+    "build-launcher.py": "10c4c9eff8505a9c3db1e7fa86ebee1baabb2a6cf0139f3e6f229a729ef50116",
+    "seal.py": "730b2344a4c3541a96e6876865ac99047b58973bdd42fdcf385ea546e3c5a3a8",
+    "src/actions.sh": "be49e93327237bcbf228f5ff71063c371a63f4d513cf5f0514fb529a95f8826b",
+    "src/geometry.sh": "3f383c36ab595d2a81dc5cd0f4446ddfa4e2de61d270917e2bc9782ac77adde5",
+    "src/receiver_exec790.c": "37d8e954c0fcb8e5419dc2670fc14918a2ad542cd4b09a8ac769352e2de66daf",
+    "src/tune.sh": "84a7efc601bad06ec11bfda4f277db180a2e171aaf9ea7910632c0c26cf92b60",
+    "tests/launcher-qnx.py": "611833aa7d27d5604cc0f650547dbeb709f69a95b127ec7dff1f88440f281218",
+    "tests/native-audit.py": "8b57f380805da6de672648f76b8752b141491842d6112f7321edea009b85273f",
+    "tests/oem-qnx.py": "490e9924ab4c810c47f03ce11f3d621b416dc37095bcb2db94aa7df25bb06e1b",
+    "tests/sd-evidence.py": "83e04a6e1cda84f1248b6dc4bc23260d03215e831121a12b01134be70fff81b7",
+    "tests/test-profiles.py": "c9d61d2fc9a0f0dbb7f13c18f2e617d347793569d37242accef5f2f605d63b56",
+    "tests/test-qnx.py": "73ec9ba51ddcaddc4b96eeee67df852866c41be512a4e9426ccd306423c84ebe"
+  },
+  "dependencies_sha256": {
+    "v161/control.sh": "8dbeb9e5cba6f4a35471398739adf6dde715d716b781ade275d2eeaeed3d74d2",
+    "v162-next/src/native/wcp_sha.h": "427f5d1e5c872e86520c6d5c98776bed7eb8b51a0c390bda2be832048b0c9af9",
+    "stable/test-host.py": "f2d594dc7acb2e43419ab4c3722783c86675b6e9c52358fa411ca096606a061d",
+    "tests/receiver-alt-gate.py": "26ce764d572cc6dc8f7b31c2fc6d2258041f49994c2aebaa64191c0c1f49dfb6",
+    "v163-release/test-defaults.py": "caa229e050ca2f06ccd80d6806cebe83b690f9e5da7c6b563bafce714968a4fd",
+    "v163-release/TestCardDefault.java": "1bfe37908bfa1ce647e1083482121a4dbbbaef5958a74c92a7c9d9f5e58f3450"
+  },
+  "reused_evidence": {
+    "baseline": {
+      "passed": true,
+      "scope": "Reused only for byte-identical runtime components; original tests were not rerun."
+    },
+    "tested_790": {
+      "passed": true,
+      "scope": "Reused only for byte-identical runtime components; original tests were not rerun."
+    }
+  },
+  "input_jars_unchanged_both_profiles": true,
+  "gps_enabled": false,
+  "guard_references_verified": 1714,
+  "shell_syntax_checked": 256,
+  "limits": [
+    "Physical MU/AID/touch/call/reconnect acceptance remains pending for this assembly; the 790/test2-input combination is new.",
+    "Host migration uses a host SHA verifier, native-output config replay, inert mounts/sync and simulated reboots.",
+    "QNX profile and OEM fixtures use small firmware-gate substitutes and inert mounts; launcher CLI tests do not start radio hardware.",
+    "The 790 backend retains its own 30 fps map path and older observer; it does not acquire the custom 791 accepted-session/guidance/timing/IDR/GPS hooks.",
+    "Test2 runtime is preserved including its open startup-freeze and pre-acceptance stale-address paging issues; no v166 fixes are imported.",
+    "GPS remains off by default; the standalone raw GNSS/UTC ASI listener is unimplemented.",
+    "OEM restoration is scoped to managed baseline layers; arbitrary third-party installations require their own removal procedure."
+  ],
+  "retained_failed_fixture": {
+    "path": "build-v167-profiles-host-r1/result.json",
+    "reason": "Fixture assumed an mmipod payload absent from the unchanged test2 OEM reset. Removed that fixture-only assumption; all eight groups pass in r2."
+  }
+}

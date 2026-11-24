@@ -1,0 +1,271 @@
+{
+  "schema": 1,
+  "passed": true,
+  "date": "2026-11-24",
+  "scope": "Static binary/IDL contract; not a running independent client.",
+  "profiles": {
+    "K4525-HW50": {
+      "passed": true,
+      "sha256": {
+        "eso/bin/apps/dio_manager": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+        "eso/bin/apps/esoposprovider": "a3e4d7dec7edc6083458109c441107b546fd98c832c3520ae676bde237016eaf",
+        "eso/lib/factories/libasimmxesoposproviderfullproxy.so": "4e95c32c9be86b11dfffe2bc62ceaee1d8ba46ac106f00193b3a921fcb299439",
+        "eso/lib/factories/libasimmxesoposproviderproxy.so": "d2b6ae0b2924b6ecd5dbfaef6504a50e3155f4e1fd5325fbb632225748276fba",
+        "eso/lib/libcomm.so": "a1be938a6a7e4f27db16d76bfef2981fc0b31f0b7869a37042fca2f1c91c0972",
+        "eso/lib/libutil.so": "b9f4e0c7618737859095fb28bae3cd72e9b89c259b382d0b90545c3c884d7106",
+        "eso/lib/libosal.so": "f4a23a6d508ff28720b930f49ab80daf74631b6eaea026613110f924e54dbc83",
+        "eso/lib/libiplcommon.so": "b7be363bce6441010e940a106725bfb8324e9b3d30e32497acfca9c62e176b56"
+      },
+      "anchors": {
+        "dio_proxy_identity": {
+          "start": "0x164304",
+          "end": "0x164898",
+          "sha256": "90e5f953b56200a895be0546bd57d37aefeff43b075978639f91dd935bfdd1bb"
+        },
+        "dio_client_config": {
+          "start": "0x163b18",
+          "end": "0x163d04",
+          "sha256": "c4fdb92e3d82e22c74e4fcb1c7fe4744b264f39444b0b3da88aa2338012969ac"
+        },
+        "dio_data_callback": {
+          "start": "0x163918",
+          "end": "0x163a88",
+          "sha256": "d0d069f27b59aa19d5bfc5d27dc6164d9c282119e2568b1524ac9157a5e57604"
+        },
+        "dio_wrong_old_hook": {
+          "start": "0x1649b8",
+          "end": "0x164b14",
+          "sha256": "5117248ac088ed5c16360ad2001d0b5676874830f9cb31c432d612b45c731ab0"
+        },
+        "provider_config_per_client": {
+          "start": "0x121950",
+          "end": "0x121bf0",
+          "sha256": "b2f560fa9cca24580fb30e7a92adbbda7036a5326d9d3c859b80eb10f3c71b59"
+        },
+        "provider_client_output": {
+          "start": "0x111f44",
+          "end": "0x112218",
+          "sha256": "13fd688a7194feb6151ca9cd2819ef7bc450ce041f2db53bfed268956fc36b7d"
+        },
+        "asi_config_serializer": {
+          "start": "0x7748",
+          "end": "0x7bdc",
+          "sha256": "515206069ba67a410942f1d41f75085fd2afba8b4fdec8c95dae10a83cf02693"
+        },
+        "asi_data_deserializer": {
+          "start": "0xcdf8",
+          "end": "0xdc64",
+          "sha256": "ff613873aa299371f322a075b1ec02d01b0e077a6797fed55e939b9d696532d5"
+        }
+      }
+    },
+    "K4525-HW70": {
+      "passed": true,
+      "sha256": {
+        "eso/bin/apps/dio_manager": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+        "eso/bin/apps/esoposprovider": "a3e4d7dec7edc6083458109c441107b546fd98c832c3520ae676bde237016eaf",
+        "eso/lib/factories/libasimmxesoposproviderfullproxy.so": "4e95c32c9be86b11dfffe2bc62ceaee1d8ba46ac106f00193b3a921fcb299439",
+        "eso/lib/factories/libasimmxesoposproviderproxy.so": "d2b6ae0b2924b6ecd5dbfaef6504a50e3155f4e1fd5325fbb632225748276fba",
+        "eso/lib/libcomm.so": "a1be938a6a7e4f27db16d76bfef2981fc0b31f0b7869a37042fca2f1c91c0972",
+        "eso/lib/libutil.so": "b9f4e0c7618737859095fb28bae3cd72e9b89c259b382d0b90545c3c884d7106",
+        "eso/lib/libosal.so": "f4a23a6d508ff28720b930f49ab80daf74631b6eaea026613110f924e54dbc83",
+        "eso/lib/libiplcommon.so": "b7be363bce6441010e940a106725bfb8324e9b3d30e32497acfca9c62e176b56"
+      },
+      "anchors": {
+        "dio_proxy_identity": {
+          "start": "0x164304",
+          "end": "0x164898",
+          "sha256": "90e5f953b56200a895be0546bd57d37aefeff43b075978639f91dd935bfdd1bb"
+        },
+        "dio_client_config": {
+          "start": "0x163b18",
+          "end": "0x163d04",
+          "sha256": "c4fdb92e3d82e22c74e4fcb1c7fe4744b264f39444b0b3da88aa2338012969ac"
+        },
+        "dio_data_callback": {
+          "start": "0x163918",
+          "end": "0x163a88",
+          "sha256": "d0d069f27b59aa19d5bfc5d27dc6164d9c282119e2568b1524ac9157a5e57604"
+        },
+        "dio_wrong_old_hook": {
+          "start": "0x1649b8",
+          "end": "0x164b14",
+          "sha256": "5117248ac088ed5c16360ad2001d0b5676874830f9cb31c432d612b45c731ab0"
+        },
+        "provider_config_per_client": {
+          "start": "0x121950",
+          "end": "0x121bf0",
+          "sha256": "b2f560fa9cca24580fb30e7a92adbbda7036a5326d9d3c859b80eb10f3c71b59"
+        },
+        "provider_client_output": {
+          "start": "0x111f44",
+          "end": "0x112218",
+          "sha256": "13fd688a7194feb6151ca9cd2819ef7bc450ce041f2db53bfed268956fc36b7d"
+        },
+        "asi_config_serializer": {
+          "start": "0x7748",
+          "end": "0x7bdc",
+          "sha256": "515206069ba67a410942f1d41f75085fd2afba8b4fdec8c95dae10a83cf02693"
+        },
+        "asi_data_deserializer": {
+          "start": "0xcdf8",
+          "end": "0xdc64",
+          "sha256": "ff613873aa299371f322a075b1ec02d01b0e077a6797fed55e939b9d696532d5"
+        }
+      }
+    },
+    "P4521-HW50": {
+      "passed": true,
+      "sha256": {
+        "eso/bin/apps/dio_manager": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+        "eso/bin/apps/esoposprovider": "a3e4d7dec7edc6083458109c441107b546fd98c832c3520ae676bde237016eaf",
+        "eso/lib/factories/libasimmxesoposproviderfullproxy.so": "4e95c32c9be86b11dfffe2bc62ceaee1d8ba46ac106f00193b3a921fcb299439",
+        "eso/lib/factories/libasimmxesoposproviderproxy.so": "d2b6ae0b2924b6ecd5dbfaef6504a50e3155f4e1fd5325fbb632225748276fba",
+        "eso/lib/libcomm.so": "a1be938a6a7e4f27db16d76bfef2981fc0b31f0b7869a37042fca2f1c91c0972",
+        "eso/lib/libutil.so": "b9f4e0c7618737859095fb28bae3cd72e9b89c259b382d0b90545c3c884d7106",
+        "eso/lib/libosal.so": "f4a23a6d508ff28720b930f49ab80daf74631b6eaea026613110f924e54dbc83",
+        "eso/lib/libiplcommon.so": "b7be363bce6441010e940a106725bfb8324e9b3d30e32497acfca9c62e176b56"
+      },
+      "anchors": {
+        "dio_proxy_identity": {
+          "start": "0x164304",
+          "end": "0x164898",
+          "sha256": "90e5f953b56200a895be0546bd57d37aefeff43b075978639f91dd935bfdd1bb"
+        },
+        "dio_client_config": {
+          "start": "0x163b18",
+          "end": "0x163d04",
+          "sha256": "c4fdb92e3d82e22c74e4fcb1c7fe4744b264f39444b0b3da88aa2338012969ac"
+        },
+        "dio_data_callback": {
+          "start": "0x163918",
+          "end": "0x163a88",
+          "sha256": "d0d069f27b59aa19d5bfc5d27dc6164d9c282119e2568b1524ac9157a5e57604"
+        },
+        "dio_wrong_old_hook": {
+          "start": "0x1649b8",
+          "end": "0x164b14",
+          "sha256": "5117248ac088ed5c16360ad2001d0b5676874830f9cb31c432d612b45c731ab0"
+        },
+        "provider_config_per_client": {
+          "start": "0x121950",
+          "end": "0x121bf0",
+          "sha256": "b2f560fa9cca24580fb30e7a92adbbda7036a5326d9d3c859b80eb10f3c71b59"
+        },
+        "provider_client_output": {
+          "start": "0x111f44",
+          "end": "0x112218",
+          "sha256": "13fd688a7194feb6151ca9cd2819ef7bc450ce041f2db53bfed268956fc36b7d"
+        },
+        "asi_config_serializer": {
+          "start": "0x7748",
+          "end": "0x7bdc",
+          "sha256": "515206069ba67a410942f1d41f75085fd2afba8b4fdec8c95dae10a83cf02693"
+        },
+        "asi_data_deserializer": {
+          "start": "0xcdf8",
+          "end": "0xdc64",
+          "sha256": "ff613873aa299371f322a075b1ec02d01b0e077a6797fed55e939b9d696532d5"
+        }
+      }
+    },
+    "P4521-HW70": {
+      "passed": true,
+      "sha256": {
+        "eso/bin/apps/dio_manager": "ead570d45071bb4dafe4a4667003bb9f82a72f58178f30dc86a08f11ce62a3ae",
+        "eso/bin/apps/esoposprovider": "a3e4d7dec7edc6083458109c441107b546fd98c832c3520ae676bde237016eaf",
+        "eso/lib/factories/libasimmxesoposproviderfullproxy.so": "4e95c32c9be86b11dfffe2bc62ceaee1d8ba46ac106f00193b3a921fcb299439",
+        "eso/lib/factories/libasimmxesoposproviderproxy.so": "d2b6ae0b2924b6ecd5dbfaef6504a50e3155f4e1fd5325fbb632225748276fba",
+        "eso/lib/libcomm.so": "a1be938a6a7e4f27db16d76bfef2981fc0b31f0b7869a37042fca2f1c91c0972",
+        "eso/lib/libutil.so": "b9f4e0c7618737859095fb28bae3cd72e9b89c259b382d0b90545c3c884d7106",
+        "eso/lib/libosal.so": "f4a23a6d508ff28720b930f49ab80daf74631b6eaea026613110f924e54dbc83",
+        "eso/lib/libiplcommon.so": "b7be363bce6441010e940a106725bfb8324e9b3d30e32497acfca9c62e176b56"
+      },
+      "anchors": {
+        "dio_proxy_identity": {
+          "start": "0x164304",
+          "end": "0x164898",
+          "sha256": "90e5f953b56200a895be0546bd57d37aefeff43b075978639f91dd935bfdd1bb"
+        },
+        "dio_client_config": {
+          "start": "0x163b18",
+          "end": "0x163d04",
+          "sha256": "c4fdb92e3d82e22c74e4fcb1c7fe4744b264f39444b0b3da88aa2338012969ac"
+        },
+        "dio_data_callback": {
+          "start": "0x163918",
+          "end": "0x163a88",
+          "sha256": "d0d069f27b59aa19d5bfc5d27dc6164d9c282119e2568b1524ac9157a5e57604"
+        },
+        "dio_wrong_old_hook": {
+          "start": "0x1649b8",
+          "end": "0x164b14",
+          "sha256": "5117248ac088ed5c16360ad2001d0b5676874830f9cb31c432d612b45c731ab0"
+        },
+        "provider_config_per_client": {
+          "start": "0x121950",
+          "end": "0x121bf0",
+          "sha256": "b2f560fa9cca24580fb30e7a92adbbda7036a5326d9d3c859b80eb10f3c71b59"
+        },
+        "provider_client_output": {
+          "start": "0x111f44",
+          "end": "0x112218",
+          "sha256": "13fd688a7194feb6151ca9cd2819ef7bc450ce041f2db53bfed268956fc36b7d"
+        },
+        "asi_config_serializer": {
+          "start": "0x7748",
+          "end": "0x7bdc",
+          "sha256": "515206069ba67a410942f1d41f75085fd2afba8b4fdec8c95dae10a83cf02693"
+        },
+        "asi_data_deserializer": {
+          "start": "0xcdf8",
+          "end": "0xdc64",
+          "sha256": "ff613873aa299371f322a075b1ec02d01b0e077a6797fed55e939b9d696532d5"
+        }
+      }
+    }
+  },
+  "service": {
+    "name": "asi.navigation.esoposproviderfull.EsoPosProviderFull",
+    "reply": "asi.navigation.esoposproviderfull.EsoPosProviderFullReply",
+    "instance": "3a8ac390-4251-11e3-9434-000c29e68a4a",
+    "interface": "995a4140-c7f3-5205-8335-d13059867b08",
+    "reply_interface": "2c5da29e-82ab-5b99-8f06-68cfdd97c847",
+    "transport": "OEM ASI/COMM proxy-stub RPC; not a raw NMEA socket",
+    "set_config_method": 15,
+    "update_position_method": 25,
+    "update_position_fields": [
+      "optional vector<CIPtr<CIString>> NMEA sentences",
+      "optional sPosition",
+      "optional vector<CIPtr<sPosition>> predictions"
+    ]
+  },
+  "old_dio_capture": {
+    "correct": false,
+    "callback": "updateASIVersion",
+    "data_callback": "updatePosition",
+    "old_primary": "0x1649c0",
+    "actual_data": "0x163920"
+  },
+  "raw_gnss_candidate_config": {
+    "update_period_ms": 1000,
+    "pred_length": 0,
+    "pred_duration": 0,
+    "dead_reckoning": false,
+    "map_positioning": false,
+    "offset12": 0,
+    "offset24": 1,
+    "offset28": 0
+  },
+  "receiver": {
+    "wgps_version": 1,
+    "sentences": [
+      "GPGGA",
+      "GPRMC"
+    ],
+    "estimated_fixes_accepted": false,
+    "source_required_before_identification": true
+  },
+  "independent_client_implemented": false,
+  "on_unit_validated": false
+}
